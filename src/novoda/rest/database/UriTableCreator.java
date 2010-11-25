@@ -1,8 +1,6 @@
 
 package novoda.rest.database;
 
-import novoda.rest.parsers.Node;
-
 import android.net.Uri;
 
 import java.util.ArrayList;
@@ -139,23 +137,6 @@ public class UriTableCreator implements SQLiteTableCreator {
         return utc;
     }
 
-    public static SQLiteTableCreator fromNode(final Node<?> node) {
-        if (node.getOptions().insertUri == null) {
-            throw new IllegalStateException("can not create a table without a URI attach to a node");
-        }
-        return new UriTableCreator(node.getOptions().insertUri) {
-            @Override
-            public String[] getTableFields() {
-                return node.getColumns();
-            }
-        };
-    }
-
-    public String createAlterStatement(Node<?> node) {
-        throw new UnsupportedOperationException("not implemented");
-    }
-
-    // TODO?
     @Override
     public String[] getTableFields() {
         return new String[] {

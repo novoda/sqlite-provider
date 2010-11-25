@@ -1,7 +1,9 @@
 
-package novoda.rest.database;
+package novoda.lib.sqliteprovider.sqlite;
 
 import novoda.lib.sqliteprovider.util.DatabaseUtils;
+import novoda.rest.database.SQLiteTableCreator;
+import novoda.rest.database.SQLiteType;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,15 +11,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
+public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
 
-    private static final String TAG = ModularSQLiteOpenHelper.class.getSimpleName();
+    private static final String TAG = ExtendedSQLiteOpenHelper.class.getSimpleName();
 
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
 
@@ -27,7 +35,7 @@ public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static int dbVersion = 3;
 
-    public ModularSQLiteOpenHelper(Context context) {
+    public ExtendedSQLiteOpenHelper(Context context) {
         super(context, new StringBuilder(context.getApplicationInfo().packageName).append(".db")
                 .toString(), null, dbVersion);
         init();
@@ -107,4 +115,32 @@ public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
         return createdTable.contains(tableName);
     }
 
+    public List<String> getTables() {
+        return null;
+    }
+
+    /* package */void executeForeignKeyTrigger() {
+        try {
+
+            String[] cmd = {
+                    "sqlite3", getWritableDatabase().getPath(), ".genfkey --exec"
+            };
+
+            Process process = Runtime.getRuntime().exec(cmd);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    process.getErrorStream()));
+            BufferedReader reader2 = new BufferedReader(new InputStreamReader(
+                    process.getInputStream()));
+
+            Log.i(TAG, "c: " + process.waitFor());
+            Log.i(TAG, "e " + reader.readLine());
+            Log.i(TAG, "i " + reader2.readLine());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
