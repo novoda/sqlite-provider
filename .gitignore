@@ -6,4 +6,4 @@ bin/
 gen/
 *.class
 *.apk
-
+tmp/

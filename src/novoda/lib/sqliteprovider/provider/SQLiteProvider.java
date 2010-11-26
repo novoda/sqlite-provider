@@ -4,6 +4,7 @@ import android.content.ContentProvider;
 import android.net.Uri;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 
 public class SQLiteProvider extends ContentProvider {
 	public static final Uri CONTENT_URI = Uri
@@ -51,7 +52,7 @@ public class SQLiteProvider extends ContentProvider {
 	@Override
     public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-        return null;
+        return new MatrixCursor(null);
 	}
 
 	/**
