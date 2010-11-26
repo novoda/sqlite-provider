@@ -21,8 +21,8 @@ public class SQLiteProviderTest extends ProviderTestCase2<SQLiteProviderImpl> {
     }
 
     public void testQueryShouldSelectTableFromURI() throws Exception {
-//        assertNotNull(getSingleTable().query(Uri.parse("content://uri/test"), null, null, null,
-//                null));
+        assertNotNull(getSingleTable().query(Uri.parse("content://uri/test"), null, null, null,
+                null));
     }
 
     private ContentResolver getSingleTable() throws IllegalAccessException, InstantiationException {
