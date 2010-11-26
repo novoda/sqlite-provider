@@ -1,33 +1,42 @@
 
 package novoda.lib.sqliteprovider.provider;
 
-import android.content.ContentResolver;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.verify;
+
+import com.xtremelabs.robolectric.RobolectricTestRunner;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.test.ProviderTestCase2;
 
-public class SQLiteProviderTest extends ProviderTestCase2<SQLiteProviderImpl> {
+@RunWith(RobolectricTestRunner.class)
+public class SQLiteProviderTest {
 
-    public SQLiteProviderTest(Class<SQLiteProviderImpl> providerClass, String providerAuthority) {
-        super(providerClass, providerAuthority);
+    @Before
+    public void init(){
+       MockitoAnnotations.initMocks(this);
+    }
+    
+    @Mock
+    SQLiteDatabase db;
+
+    @Test
+    public void testRootNotNull() throws Exception {
+        SQLiteProviderImpl o = new SQLiteProviderImpl();
+        o.query(Uri.parse("content://test.com/test"), null, null, null, null);
+        verify(db).query("test2", null, null, null, null, null, null);
     }
 
-    public SQLiteProviderTest() {
-        super(SQLiteProviderImpl.class, "novoda.lib.sqliteprovider.provider");
-    }
-
-    @Override
-    public void testAndroidTestCaseSetupProperly() {
-        super.testAndroidTestCaseSetupProperly();
-    }
-
-    public void testQueryShouldSelectTableFromURI() throws Exception {
-        assertNotNull(getSingleTable().query(Uri.parse("content://uri/test"), null, null, null,
-                null));
-    }
-
-    private ContentResolver getSingleTable() throws IllegalAccessException, InstantiationException {
-        return newResolverWithContentProviderFromSql(getContext(), "test",
-                SQLiteProviderImpl.class, "uri", "novoda.lib.sqliteprovider.db", 1,
-                "CREATE TABLE test(_id integer);");
+    public class SQLiteProviderImpl extends SQLiteProvider {
+        @Override
+        protected SQLiteDatabase getReadableDatabase() {
+            return db;
+        }
     }
 }
