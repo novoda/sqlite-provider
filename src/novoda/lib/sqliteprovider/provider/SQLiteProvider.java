@@ -8,6 +8,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 public class SQLiteProvider extends ContentProvider {
@@ -53,9 +54,17 @@ public class SQLiteProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
             String sortOrder) {
+
+        final SQLiteQueryBuilder builder = getSQLiteQueryBuilder();
         final String tableName = UriUtils.getTableName(uri);
-        return getReadableDatabase().query(tableName, projection, selection, selectionArgs, null, null,
-                sortOrder);
+        builder.setTables(tableName);
+        
+        if (UriUtils.isItem(uri)) {
+            builder.appendWhere("_id=" + uri.getLastPathSegment());
+        }
+        
+        return builder.query(getReadableDatabase(), projection, selection, selectionArgs, null,
+                null, sortOrder, null);
     }
 
     /**
@@ -68,5 +77,10 @@ public class SQLiteProvider extends ContentProvider {
 
     protected SQLiteDatabase getReadableDatabase() {
         return db.getReadableDatabase();
+    }
+
+    // for testing
+    SQLiteQueryBuilder getSQLiteQueryBuilder() {
+        return new SQLiteQueryBuilder();
     }
 }
