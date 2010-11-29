@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest android:versionCode="1" android:versionName="1.0"
 	package="novoda.lib.sqliteprovider" xmlns:android="http://schemas.android.com/apk/res/android">
-	<application android:icon="@drawable/icon" android:label="@string/app_name">
-		
-		<provider android:authorities="novoda.lib.sqliteprovider.provider.sqliteprovider"
-			android:name="novoda.lib.sqliteprovider.provider.SQLiteProvider" />
-			
-	</application>
 </manifest>
