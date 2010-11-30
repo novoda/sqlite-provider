@@ -3,9 +3,17 @@ package novoda.lib.sqliteprovider.util;
 
 import android.net.Uri;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UriUtils {
+    
+    private Uri wrapped = null;
+    
+    private boolean isItem = false;
+    
+    private Map<String, String> mappedIds = new HashMap<String, String>();
 
     public static boolean isItem(final Uri uri) {
         return isItem("", uri);
@@ -39,5 +47,15 @@ public class UriUtils {
         } else {
             return uri.getLastPathSegment();
         }
+    }
+
+    public static UriUtils from(Uri uri) {
+        UriUtils utils = new UriUtils();
+        utils.wrapped = uri;
+        return utils;
+    }
+
+    public Map<String, String> getMappedIds() {
+        return mappedIds;
     }
 }
