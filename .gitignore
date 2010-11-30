@@ -7,3 +7,4 @@ gen/
 *.class
 *.apk
 tmp/
+.redcar/

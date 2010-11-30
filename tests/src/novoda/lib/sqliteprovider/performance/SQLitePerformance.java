@@ -16,11 +16,11 @@ import java.util.List;
 /*
  * Test case which will perform some tests against SQLite in order to define the best suited method for inserts/update/deletes etc...
  */
-public class SQLitePerformance extends AndroidTestCase implements PerformanceTestCase {
+public class SQLitePerformance extends AndroidTestCase{
 
     private SQLiteDatabase db;
 
-    private Intermediates mIntermediates;
+  //  private Intermediates mIntermediates;
 
     @Override
     protected void setUp() throws Exception {
@@ -39,16 +39,16 @@ public class SQLitePerformance extends AndroidTestCase implements PerformanceTes
         super.tearDown();
     }
 
-    @Override
-    public boolean isPerformanceOnly() {
-        return true;
-    }
-
-    // This is never called
-    @Override
-    public int startPerformance(Intermediates intermediates) {
-        return 0;
-    }
+//    @Override
+//    public boolean isPerformanceOnly() {
+//        return true;
+//    }
+//
+//    // This is never called
+//    @Override
+//    public int startPerformance(Intermediates intermediates) {
+//        return 0;
+//    }
 
     @LargeTest
     public void testWithoutPragmaSynchronous() throws Exception {
