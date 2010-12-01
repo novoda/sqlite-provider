@@ -1,7 +1,6 @@
 
 package novoda.lib.sqliteprovider.util;
 
-import novoda.lib.sqliteprovider.tests.R;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,17 +13,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import java.io.FileInputStream;
+
 @RunWith(RoboRunner.class)
 public class SQLFileTest extends AndroidTestCase {
 
-    String one = "CREATE TABLE 'parent' (_id INTEGER PRIMARY KEY AUTO INCREMENT, name TEXT, description TEXT, latitude REAL, longitude REAL, createdAt INTEGER);";
+    String one = "CREATE TABLE 'parent' (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, latitude REAL, longitude REAL, createdAt INTEGER);";
 
-    String two = "CREATE TABLE 'child' (_id INTEGER PRIMARY KEY AUTO INCREMENT, name TEXT, parent_id INTEGER NOT NULL, FOREIGN KEY(parent_id) REFERENCES parent(_id));";
+    String two = "CREATE TABLE 'child' (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, parent_id INTEGER NOT NULL, FOREIGN KEY(parent_id) REFERENCES parent(_id));";
 
     @Test
     public void testSimpleSQLFile() throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(getContext()
-                .getResources().openRawResource(R.raw.create)));
+      BufferedReader reader = new BufferedReader(       new InputStreamReader(getClass().getResourceAsStream("/create.sql")));
+        //new InputStreamReader(new FileInputStream("create.sql")));
         List<String> statements = SQLFile.statementsFrom(reader);
         List<String> expected = new ArrayList<String>();
         expected.add(one);

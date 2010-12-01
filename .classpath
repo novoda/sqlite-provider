@@ -1,7 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <classpath>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="output" path="bin"/>
+<classpathentry kind="src" path="tests/java" output="target/scala_2.8.1/test-classes" including="**/*.java" />
+<classpathentry kind="src" path="src" including="**/*.java" />
+<classpathentry kind="lib" path="libs/test/mockito-all-1.8.5.jar" />
+<classpathentry kind="lib" path="libs/test/junit-interface-0.5.jar" />
+<classpathentry kind="lib" path="libs/test/test-interface-0.5.jar" />
+<classpathentry kind="lib" path="libs/test/junit-4.8.2.jar" />
+<classpathentry kind="lib" path="libs/test/robolectric-0.9.2.jar" />
+<classpathentry kind="lib" path="libs/test/javassist-3.8.0.GA.jar" />
+<classpathentry kind="lib" path="libs/test/mockito-all-1.8.5.jar" />
+<classpathentry kind="lib" path="libs/test/junit-interface-0.5.jar" />
+<classpathentry kind="lib" path="libs/test/test-interface-0.5.jar" />
+<classpathentry kind="lib" path="libs/test/junit-4.8.2.jar" />
+<classpathentry kind="lib" path="libs/test/robolectric-0.9.2.jar" />
+<classpathentry kind="lib" path="libs/test/javassist-3.8.0.GA.jar" />
+<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER" />
+<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" />
+<classpathentry kind="output" path="target/scala_2.8.1/classes" />
 </classpath>
