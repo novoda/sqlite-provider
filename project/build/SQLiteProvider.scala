@@ -1,7 +1,9 @@
 import sbt._
+import de.element34.sbteclipsify._
 
-trait Defaults {
+trait Defaults extends Eclipsify {
   def androidPlatformName = "android-8"
+  //override lazy val eclipseProjectNature = ProjectNature.Java
 }
   
 class SQLiteProvider(info: ProjectInfo) extends ParentProject(info) {
@@ -14,6 +16,7 @@ class SQLiteProvider(info: ProjectInfo) extends ParentProject(info) {
   
   class MainProject(info: ProjectInfo) extends AndroidProject(info) with Defaults with Robolectric {        
     def googleMapLocation =  "/opt/android/add-ons/addon_google_apis_google_inc_8/libs/maps.jar"
+    
   }
       
   class TestProject(info: ProjectInfo) extends AndroidTestProject(info) with Defaults {
