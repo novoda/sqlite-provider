@@ -1,14 +1,11 @@
 
 package novoda.lib.sqliteprovider.util;
 
-import android.content.UriMatcher;
-import android.net.Uri;
-import android.util.Log;
-
-import java.nio.MappedByteBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import android.net.Uri;
 
 public class UriUtils {
     
@@ -29,9 +26,7 @@ public class UriUtils {
         
         for (int i=0;i<segs.size();i++){
         	String currentSeg = segs.get(i);
-        	
         	if(isNumeric(currentSeg)){
-        		System.out.println("Segment:" + currentSeg);
         		final int children = Integer.parseInt(currentSeg);
         		for(int l=0; l<children; l++){
         			mappedIds.put(parent, currentSeg);
@@ -40,7 +35,6 @@ public class UriUtils {
         		parent = currentSeg;
         	}
         }
-        
         return utils;
     }
     
