@@ -43,7 +43,7 @@ public class SQLiteProviderLocalTest {
     public void testSelectTableItemFromUri() throws Exception {
         // Single item against table test
         query("test.com/test/1");
-        verify(builder).setTables("test");
+        verify(builder).setTables("test"); 
         verify(builder).appendWhere("_id=1");
     }
 
@@ -54,7 +54,7 @@ public class SQLiteProviderLocalTest {
         verify(builder).setTables("children");
         verify(builder).appendWhereEscapeString("parent_id=1");
     }
-
+    
     private void query(String uri) {
         provider.query(Uri.parse("content://" + uri), null, null, null, null);
     }
