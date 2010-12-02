@@ -15,4 +15,6 @@ public class ShadowAndroidTestCase {
     public final Context getContext() {
         return Robolectric.application.getApplicationContext();
     }
+    
+    
 }
