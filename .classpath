@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry including="**/*.java" kind="src" output="bin/scala_2.8.1/test-classes" path="tests/java"/>
+	<classpathentry kind="src" path="tests/java"/>
 	<classpathentry including="**/*.java" kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="libs/test/robolectric-0.9.2.jar"/>
 	<classpathentry kind="lib" path="libs/test/mockito-all-1.8.5.jar"/>
+	<classpathentry kind="lib" path="libs/test/javassist-3.8.0.GA.jar"/>
 	<classpathentry kind="lib" path="libs/test/junit-4.8.2.jar"/>
-	<classpathentry kind="output" path="bin/scala_2.8.1/classes"/>
+	<classpathentry kind="output" path="target"/>
 </classpath>
