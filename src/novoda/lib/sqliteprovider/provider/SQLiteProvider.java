@@ -1,86 +1,107 @@
-
 package novoda.lib.sqliteprovider.provider;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.util.UriUtils;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 public class SQLiteProvider extends ContentProvider {
 
-    private ExtendedSQLiteOpenHelper db;
+	private ExtendedSQLiteOpenHelper db;
 
-    /**
-     * @see android.content.ContentProvider#delete(Uri,String,String[])
-     */
-    @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
-    }
+	/**
+	 * @see android.content.ContentProvider#delete(Uri,String,String[])
+	 */
+	@Override
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		return 0;
+	}
 
-    /**
-     * @see android.content.ContentProvider#getType(Uri)
-     */
-    @Override
-    public String getType(Uri uri) {
-        return null;
-    }
+	/**
+	 * @see android.content.ContentProvider#getType(Uri)
+	 */
+	@Override
+	public String getType(Uri uri) {
+		return null;
+	}
 
-    /**
-     * @see android.content.ContentProvider#insert(Uri,ContentValues)
-     */
-    @Override
-    public Uri insert(Uri uri, ContentValues values) {
-        return null;
-    }
+	/**
+	 * @see android.content.ContentProvider#insert(Uri,ContentValues)
+	 */
+	@Override
+	public Uri insert(Uri uri, ContentValues initialValues) {
+		ContentValues insertValues = (initialValues != null) ? new ContentValues(
+				initialValues)
+		: new ContentValues();
+				SQLiteDatabase database = getWritableDatabase();
+				System.out.println(UriUtils.getTableName(uri));
+				long rowId = database.insert(UriUtils.getTableName(uri), null,
+						insertValues);
+				if (rowId > 0) {
+					Uri newUri = ContentUris.withAppendedId(uri, rowId);
+					notifyUriChange(newUri);
+					return newUri;
+				}
+				throw new SQLException("Failed to insert row into " + uri);
+	}
 
-    /**
-     * @see android.content.ContentProvider#onCreate()
-     */
-    @Override
-    public boolean onCreate() {
-        db = new ExtendedSQLiteOpenHelper(getContext());
-        return true;
-    }
+	public void notifyUriChange(Uri uri) {
+		getContext().getContentResolver().notifyChange(uri, null);
+	}
 
-    /**
-     * @see android.content.ContentProvider#query(Uri,String[],String,String[],String)
-     */
-    @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-            String sortOrder) {
+	/**
+	 * @see android.content.ContentProvider#onCreate()
+	 */
+	@Override
+	public boolean onCreate() {
+		db = new ExtendedSQLiteOpenHelper(getContext());
+		return true;
+	}
 
-        final SQLiteQueryBuilder builder = getSQLiteQueryBuilder();
-        final String tableName = UriUtils.getTableName(uri);
-        builder.setTables(tableName);
-        
-        if (UriUtils.isItem(uri)) {
-            builder.appendWhere("_id=" + uri.getLastPathSegment());
-        }
-        
-        return builder.query(getReadableDatabase(), projection, selection, selectionArgs, null,
-                null, sortOrder, null);
-    }
+	/**
+	 * @see android.content.ContentProvider#query(Uri,String[],String,String[],String)
+	 */
+	@Override
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
+		final SQLiteQueryBuilder builder = getSQLiteQueryBuilder();
+		final String tableName = UriUtils.getTableName(uri);
+		builder.setTables(tableName);
+		if (UriUtils.isItem(uri)) {
+			builder.appendWhere("_id=" + uri.getLastPathSegment());
+		} else if (uri.getPathSegments().size() > 2){
+				builder.appendWhereEscapeString("parent_id="+uri.getPathSegments().get(uri.getPathSegments().size()-2));
+		}
+		return builder.query(getReadableDatabase(), projection, selection, 
+				selectionArgs, null, null, sortOrder, null);
+	}
 
-    /**
-     * @see android.content.ContentProvider#update(Uri,ContentValues,String,String[])
-     */
-    @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
-    }
+	/**
+	 * @see android.content.ContentProvider#update(Uri,ContentValues,String,String[])
+	 */
+	@Override
+	public int update(Uri uri, ContentValues values, String selection,
+			String[] selectionArgs) {
+		return 0;
+	}
 
-    protected SQLiteDatabase getReadableDatabase() {
-        return db.getReadableDatabase();
-    }
+	protected SQLiteDatabase getReadableDatabase() {
+		return db.getReadableDatabase();
+	}
 
-    // for testing
-    SQLiteQueryBuilder getSQLiteQueryBuilder() {
-        return new SQLiteQueryBuilder();
-    }
+	protected SQLiteDatabase getWritableDatabase() {
+		return db.getWritableDatabase();
+	}
+
+	// for testing
+	SQLiteQueryBuilder getSQLiteQueryBuilder() {
+		return new SQLiteQueryBuilder();
+	}
 }

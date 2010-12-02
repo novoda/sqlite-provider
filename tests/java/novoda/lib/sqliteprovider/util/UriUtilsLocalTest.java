@@ -46,7 +46,7 @@ public class UriUtilsLocalTest extends TestCase {
         
         uri = Uri.parse("content://test.com/parent/1");
         result = UriUtils.from(uri).getMappedIds();
-        assertTrue(result.size() == 1);
+        assertEquals(result.size(),1);
         assertTrue(result.containsKey("parent"));
         assertEquals("1", result.get("parent"));
         
