@@ -1,20 +1,52 @@
 
 package novoda.lib.sqliteprovider.util;
 
-import android.net.Uri;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.net.Uri;
+
 public class UriUtils {
     
-    private Uri wrapped = null;
+    private static final String TAG = UriUtils.class.getSimpleName();
+
+	private Uri wrapped = null;
     
     private boolean isItem = false;
     
-    private Map<String, String> mappedIds = new HashMap<String, String>();
-
+    private static Map<String, String> mappedIds = new HashMap<String, String>();
+    
+    public static UriUtils from(Uri uri) {
+        UriUtils utils = new UriUtils();
+        utils.wrapped = uri;
+        
+        final List<String> segs = uri.getPathSegments();
+        String parent = "";
+        
+        for (int i=0;i<segs.size();i++){
+        	String currentSeg = segs.get(i);
+        	if(isNumeric(currentSeg)){
+        		final int children = Integer.parseInt(currentSeg);
+        		for(int l=0; l<children; l++){
+        			mappedIds.put(parent, currentSeg);
+        		}
+        	}else{
+        		parent = currentSeg;
+        	}
+        }
+        return utils;
+    }
+    
+    public static boolean isNumeric(String NumericChar){
+        try{
+            Integer.parseInt(NumericChar);
+        } catch(NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    
     public static boolean isItem(final Uri uri) {
         return isItem("", uri);
     }
@@ -47,12 +79,6 @@ public class UriUtils {
         } else {
             return uri.getLastPathSegment();
         }
-    }
-
-    public static UriUtils from(Uri uri) {
-        UriUtils utils = new UriUtils();
-        utils.wrapped = uri;
-        return utils;
     }
 
     public Map<String, String> getMappedIds() {
