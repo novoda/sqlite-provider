@@ -26,7 +26,11 @@ public class SQLiteProvider extends ContentProvider {
 	 */
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		return 0;
+		SQLiteDatabase database = getWritableDatabase();
+        int count = database.delete(UriUtils.getItemDirID(uri), selection,
+                        selectionArgs);
+        notifyUriChange(uri);
+        return count;
 	}
 
 	/**
@@ -44,14 +48,12 @@ public class SQLiteProvider extends ContentProvider {
 	public Uri insert(Uri uri, ContentValues initialValues) {
 		ContentValues insertValues = (initialValues != null) ? new ContentValues(
 				initialValues)
-				: new ContentValues();
-				
+				: new ContentValues();				
 		if (UriUtils.hasParent(uri)){
 			if (!insertValues.containsKey(UriUtils.getParentName(uri)+"_id")){
 				insertValues.put(UriUtils.getParentName(uri)+"_id", UriUtils.getParentId(uri));
 			}
 		}
-
 		SQLiteDatabase database = getWritableDatabase();
 		long rowId = database.insert(UriUtils.getItemDirID(uri), null,
 				insertValues);
