@@ -2,7 +2,6 @@ package novoda.lib.sqliteprovider.provider;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.util.UriUtils;
-
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -15,7 +14,7 @@ import android.net.Uri;
 public class SQLiteProvider extends ContentProvider {
 
 	private ExtendedSQLiteOpenHelper db;
-	
+
 	private static final String ID = "_id";
 	private static final String GROUP_BY = "groupBy";
 	private static final String HAVING = "having";
@@ -27,10 +26,10 @@ public class SQLiteProvider extends ContentProvider {
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		SQLiteDatabase database = getWritableDatabase();
-        int count = database.delete(UriUtils.getItemDirID(uri), selection,
-                        selectionArgs);
-        notifyUriChange(uri);
-        return count;
+		int count = database.delete(UriUtils.getItemDirID(uri), selection,
+				selectionArgs);
+		notifyUriChange(uri);
+		return count;
 	}
 
 	/**
@@ -44,14 +43,15 @@ public class SQLiteProvider extends ContentProvider {
 	/**
 	 * @see android.content.ContentProvider#insert(Uri,ContentValues)
 	 */
-@Override
+	@Override
 	public Uri insert(Uri uri, ContentValues initialValues) {
 		ContentValues insertValues = (initialValues != null) ? new ContentValues(
 				initialValues)
-				: new ContentValues();				
-		if (UriUtils.hasParent(uri)){
-			if (!insertValues.containsKey(UriUtils.getParentId(uri)+"_id")){
-				insertValues.put(UriUtils.getParentColumnName(uri)+"_id", UriUtils.getParentId(uri));
+				: new ContentValues();
+		if (UriUtils.hasParent(uri)) {
+			if (!insertValues.containsKey(UriUtils.getParentId(uri) + "_id")) {
+				insertValues.put(UriUtils.getParentName(uri) + "_id", UriUtils
+						.getParentId(uri));
 			}
 		}
 		SQLiteDatabase database = getWritableDatabase();
@@ -94,7 +94,7 @@ public class SQLiteProvider extends ContentProvider {
 			builder.appendWhere(ID + "=" + uri.getLastPathSegment());
 		} else {
 			if (UriUtils.hasParent(uri)) {
-				builder.appendWhereEscapeString(UriUtils.getParentColumnName(uri)
+				builder.appendWhereEscapeString(UriUtils.getParentName(uri)
 						+ ID + "=" + UriUtils.getParentId(uri));
 			}
 		}
@@ -106,9 +106,19 @@ public class SQLiteProvider extends ContentProvider {
 	 * @see android.content.ContentProvider#update(Uri,ContentValues,String,String[])
 	 */
 	@Override
-	public int update(Uri uri, ContentValues values, String selection,
+	public int update(Uri uri, ContentValues initialValues, String selection,
 			String[] selectionArgs) {
-		return 0;
+		ContentValues insertValues = (initialValues != null) ? new ContentValues(
+				initialValues)
+				: new ContentValues();
+		SQLiteDatabase database = getWritableDatabase();
+		int rowId = database.update(UriUtils.getItemDirID(uri), insertValues,	selection, selectionArgs);
+		if (rowId > 0) {
+			Uri insertUri = ContentUris.withAppendedId(uri, rowId);
+			notifyUriChange(insertUri);
+			return rowId;
+		}
+		throw new SQLException("Failed to update row into " + uri);
 	}
 
 	protected SQLiteDatabase getReadableDatabase() {
