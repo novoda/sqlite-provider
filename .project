@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>novoda_lib_sqliteprovider</name>
+	<name>SQLiteProvider</name>
 	<comment>SQLiteProvider 1.0</comment>
 	<projects>
 	</projects>
