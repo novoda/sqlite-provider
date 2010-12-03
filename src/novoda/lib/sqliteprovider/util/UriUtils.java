@@ -82,14 +82,23 @@ public class UriUtils {
     }
     
     public static String getParentName(Uri uri){
-    	if (!isItem(uri)){
+    	if (isDir(uri)){
     		return uri.getPathSegments().get(uri.getPathSegments().size()-3);
     	}
     	return "";
     }
     
+    public static boolean hasParent(Uri uri){
+    	if (isDir(uri)){
+    		if (uri.getPathSegments().size()-3 >= 0){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
     public static String getParentId(Uri uri){
-    	if (!isItem(uri)){
+    	if (isDir(uri)){
     		return uri.getPathSegments().get(uri.getPathSegments().size()-2);
     	}
     	return "";
