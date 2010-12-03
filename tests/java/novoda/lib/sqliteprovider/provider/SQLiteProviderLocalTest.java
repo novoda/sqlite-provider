@@ -78,15 +78,13 @@ public class SQLiteProviderLocalTest {
     
     @Test
     public void testInsertAgainstOneToManyShouldInputCorrectParam() throws Exception {
-    	/*Robolectric.bindShadowClass(ShadowContentUris.class);
+    	Robolectric.bindShadowClass(ShadowContentUris.class);
     	when(db.insert(anyString(), anyString(), (ContentValues) anyObject())).thenReturn(2L);
     	ContentValues values = new ContentValues();
     	values.put("test", "test");
-    	insert("test.com/parent/1/children", values);  
-    	values.put("parent_id", "some_random_values");
-    	//verify(values).put("parent_id", "1");
-    	insert("test.com/parent/1/children", values);
-    	verify(db).insert(eq("table1"), anyString(), values);*/
+    	insert("test.com/parent/1/children", values); 
+    	values.put("parent_id", "1");    	
+    	verify(db).insert(eq("children"), anyString(), (ContentValues) anyObject());
     }
     
     @Implements(ContentUris.class)
