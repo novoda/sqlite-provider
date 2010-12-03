@@ -43,7 +43,6 @@ public class SQLiteProvider extends ContentProvider {
 				
 		if (UriUtils.hasParent(uri)){
 			if (!insertValues.containsKey(UriUtils.getParentName(uri)+"_id")){
-				System.out.println(UriUtils.getItemDirID(uri));
 				insertValues.put(UriUtils.getParentName(uri)+"_id", UriUtils.getParentId(uri));
 			}
 		}
@@ -80,6 +79,10 @@ public class SQLiteProvider extends ContentProvider {
 			String[] selectionArgs, String sortOrder) {
 		final SQLiteQueryBuilder builder = getSQLiteQueryBuilder();
 		final String tableName = UriUtils.getItemDirID(uri);
+		String groupBy=null;
+		if (uri.getEncodedQuery()!=null){
+			groupBy = uri.getEncodedQuery().split("=")[1];
+		}
 		builder.setTables(tableName);
 		if (UriUtils.isItem(uri)) {
 			builder.appendWhere("_id=" + uri.getLastPathSegment());
@@ -90,7 +93,7 @@ public class SQLiteProvider extends ContentProvider {
 			}
 		}
 		return builder.query(getReadableDatabase(), projection, selection,
-				selectionArgs, null, null, sortOrder, null);
+				selectionArgs, groupBy, null, sortOrder, null);
 	}
 
 	/**

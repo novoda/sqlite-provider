@@ -88,8 +88,7 @@ public class SQLiteProviderLocalTest {
     
     @Test
     public void testGroupByQuery() throws Exception {
-    	Uri.parse("content://test.com/table?orderBy=table");
-    	//query(uri)
+    	query("test.com/table?orderBy=table");
     	//verify(builder).query(db, projectionIn, selection, selectionArgs, "table", having, sortOrder);
     	
     	// having
