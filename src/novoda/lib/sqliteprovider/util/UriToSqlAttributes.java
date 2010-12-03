@@ -10,11 +10,10 @@ public class UriToSqlAttributes {
 	}
 	
 	public boolean hasWhereClauseInQuery() {
-		 if (uri.toString().split("\\?").length >0){
+		if (uri.toString().split("\\?").length >=2){
 			 return true;
-		 }else{
-			 return false;
 		 }
+		 return false;
 	}
 
 

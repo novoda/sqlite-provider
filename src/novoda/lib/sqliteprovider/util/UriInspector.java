@@ -8,8 +8,7 @@ public class UriInspector {
 	}
 
 	public UriToSqlAttributes parse(Uri uri) {
-		UriToSqlAttributes attrs = new UriToSqlAttributes(uri);
-		return attrs;
+		return new UriToSqlAttributes(uri);
 	}
 
 }
