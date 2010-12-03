@@ -3,7 +3,12 @@ package novoda.lib.sqliteprovider.provider;
 
 import static org.mockito.Mockito.verify;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.util.Implementation;
+import com.xtremelabs.robolectric.util.Implements;
+
+import novoda.lib.sqliteprovider.util.RoboRunner;
+import novoda.lib.sqliteprovider.util.ShadowSQLiteQueryBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,11 +16,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import android.content.ContentUris;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RoboRunner.class)
 public class SQLiteProviderLocalTest {
 
     SQLiteProviderImpl provider;
@@ -37,6 +43,23 @@ public class SQLiteProviderLocalTest {
         // Simple directory listing against table test
         query("test.com/test");
         verify(builder).setTables("test");
+        
+Robolectric.bindShadowClass(ShadowContentUris.class);
+    }
+    
+    @Implements(ContentUris.class)
+    public class ShadowContentUris {
+
+        @Implementation
+        public void appendWhere(CharSequence inWhere) {
+            System.out.println("TESTSGASD ");
+        }
+        
+        @Implementation
+        public void setTable(String inWhere) {
+            System.out.println("TESTSGASD ");
+        }
+
     }
     
     @Test
@@ -65,9 +88,9 @@ public class SQLiteProviderLocalTest {
             return db;
         }
 
-        @Override
-        SQLiteQueryBuilder getSQLiteQueryBuilder() {
-            return builder;
-        }
+//        @Override
+//        SQLiteQueryBuilder getSQLiteQueryBuilder() {
+//            return builder;
+//        }
     }
 }
