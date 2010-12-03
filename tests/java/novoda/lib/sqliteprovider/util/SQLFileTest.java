@@ -31,7 +31,7 @@ public class SQLFileTest extends AndroidTestCase {
 //        expected.add(one);
 //        expected.add(two);
 //        assertSameList(statements, expected);
-        assertNotNull(this.getContext().getAssets());
+//        assertNotNull(this.getContext().getAssets());
     }
 
     private void assertSameList(List<String> first, List<String> second) {

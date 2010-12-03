@@ -15,6 +15,11 @@ import android.net.Uri;
 public class SQLiteProvider extends ContentProvider {
 
 	private ExtendedSQLiteOpenHelper db;
+	
+	private static final String ID = "_id";
+	private static final String GROUP_BY = "groupBy";
+	private static final String HAVING = "having";
+	private static final String LIMIT = "limit";
 
 	/**
 	 * @see android.content.ContentProvider#delete(Uri,String,String[])
@@ -79,21 +84,20 @@ public class SQLiteProvider extends ContentProvider {
 			String[] selectionArgs, String sortOrder) {
 		final SQLiteQueryBuilder builder = getSQLiteQueryBuilder();
 		final String tableName = UriUtils.getItemDirID(uri);
-		String groupBy=null;
-		if (uri.getEncodedQuery()!=null){
-			groupBy = uri.getEncodedQuery().split("=")[1];
-		}
+		String groupBy = uri.getQueryParameter(GROUP_BY);
+		String having = uri.getQueryParameter(HAVING);
+		String limit = uri.getQueryParameter(LIMIT);
 		builder.setTables(tableName);
 		if (UriUtils.isItem(uri)) {
-			builder.appendWhere("_id=" + uri.getLastPathSegment());
+			builder.appendWhere(ID + "=" + uri.getLastPathSegment());
 		} else {
 			if (UriUtils.hasParent(uri)) {
 				builder.appendWhereEscapeString(UriUtils.getParentName(uri)
-						+ "_id=" + UriUtils.getParentId(uri));
+						+ ID + "=" + UriUtils.getParentId(uri));
 			}
 		}
 		return builder.query(getReadableDatabase(), projection, selection,
-				selectionArgs, groupBy, null, sortOrder, null);
+				selectionArgs, groupBy, having, sortOrder, limit);
 	}
 
 	/**
