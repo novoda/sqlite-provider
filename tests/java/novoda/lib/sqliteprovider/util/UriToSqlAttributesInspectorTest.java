@@ -34,12 +34,4 @@ public class UriToSqlAttributesInspectorTest extends TestCase{
     	assertTrue(attrs.hasWhereClauseInQuery());
     }
 	
-//	testIsParentRoot
-//	testIsChild
-//	testHasChildren
-//	testHasForeignKey
-//  testWhereClauseInQuery(){}
-//  testDefaultPrimaryKeyName
-    
-	
 }
