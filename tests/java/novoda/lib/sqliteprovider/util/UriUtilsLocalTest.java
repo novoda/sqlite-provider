@@ -61,4 +61,7 @@ public class UriUtilsLocalTest extends TestCase {
         assertEquals("1", result.get("parent"));
         assertEquals("6", result.get("child"));
     }
+    
+    void testGetParentId(){}
+    
 }
