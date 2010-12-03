@@ -12,7 +12,6 @@ import android.net.Uri;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 
-
 @RunWith(RobolectricTestRunner.class)
 public class UriToSqlAttributesInspectorTest {
 	
@@ -36,13 +35,4 @@ public class UriToSqlAttributesInspectorTest {
     	attrs = uriInspector.parse(Uri.parse("content://test.com/tableName?groupBy=col&having=value"));
     	assertTrue(attrs.hasWhereClauseInQuery());
     }
-	
-//	testIsParentRoot
-//	testIsChild
-//	testHasChildren
-//	testHasForeignKey
-//  testWhereClauseInQuery(){}
-//  testDefaultPrimaryKeyName
-    
-	
 }

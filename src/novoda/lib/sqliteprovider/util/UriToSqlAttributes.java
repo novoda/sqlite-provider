@@ -1,5 +1,7 @@
 package novoda.lib.sqliteprovider.util;
 
+import java.util.List;
+
 import android.net.Uri;
 
 public class UriToSqlAttributes {
@@ -15,6 +17,5 @@ public class UriToSqlAttributes {
 		 }
 		 return false;
 	}
-
 
 }
