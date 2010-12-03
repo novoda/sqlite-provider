@@ -50,8 +50,8 @@ public class SQLiteProvider extends ContentProvider {
 				initialValues)
 				: new ContentValues();				
 		if (UriUtils.hasParent(uri)){
-			if (!insertValues.containsKey(UriUtils.getParentName(uri)+"_id")){
-				insertValues.put(UriUtils.getParentName(uri)+"_id", UriUtils.getParentId(uri));
+			if (!insertValues.containsKey(UriUtils.getParentId(uri)+"_id")){
+				insertValues.put(UriUtils.getParentColumnName(uri)+"_id", UriUtils.getParentId(uri));
 			}
 		}
 		SQLiteDatabase database = getWritableDatabase();
@@ -94,7 +94,7 @@ public class SQLiteProvider extends ContentProvider {
 			builder.appendWhere(ID + "=" + uri.getLastPathSegment());
 		} else {
 			if (UriUtils.hasParent(uri)) {
-				builder.appendWhereEscapeString(UriUtils.getParentName(uri)
+				builder.appendWhereEscapeString(UriUtils.getParentColumnName(uri)
 						+ ID + "=" + UriUtils.getParentId(uri));
 			}
 		}
