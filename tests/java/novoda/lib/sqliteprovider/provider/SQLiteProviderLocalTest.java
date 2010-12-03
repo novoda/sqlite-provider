@@ -47,7 +47,6 @@ public class SQLiteProviderLocalTest {
         verify(builder).appendWhere("_id=1");
     }
 
-
     @Test
     public void testSelectTableForChildren() throws Exception {
         query("test.com/parent/1/children");
