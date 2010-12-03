@@ -87,6 +87,24 @@ public class SQLiteProviderLocalTest {
     }
     
     @Test
+    public void testDeleteFromSingleTable() throws Exception {
+    	Robolectric.bindShadowClass(ShadowContentUris.class);
+    	when(db.delete(anyString(), anyString(), (String[]) anyObject())).thenReturn(0);
+    	delete("test.com/parent", null, null);
+    	verify(db).delete(eq("parent"), anyString(), (String[])anyObject());
+    }
+    
+    @Test
+    public void testDeleteFromOneToManyTable() throws Exception {
+    	Robolectric.bindShadowClass(ShadowContentUris.class);
+    	when(db.delete(anyString(), anyString(), (String[]) anyObject())).thenReturn(0);
+    	delete("test.com/parent/1/child", null, null);
+    	verify(db).delete(eq("child"), anyString(), (String[])anyObject());
+    }
+    
+    
+    
+    @Test
     public void testGroupByQuery() throws Exception {
     	query("test.com/table?groupBy=table");
     	verify(builder).query((SQLiteDatabase) anyObject(), (String[])anyObject(), anyString(), (String[])anyObject(), eq("table"), anyString(), anyString(), anyString());   	 
@@ -111,6 +129,10 @@ public class SQLiteProviderLocalTest {
     	public static Uri withAppendedId(Uri uri, long id) {
     		return Uri.parse("content://test.com");
     	}
+    }
+    
+    private void delete(String uri, String where, String[] whereArgs){
+    	provider.delete(Uri.parse("content://" + uri), where, whereArgs);
     }
    
     
