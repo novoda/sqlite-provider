@@ -1,5 +1,9 @@
 package novoda.lib.sqliteprovider.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -7,10 +11,10 @@ import android.net.Uri;
 
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
-import junit.framework.TestCase;
+
 
 @RunWith(RobolectricTestRunner.class)
-public class UriToSqlAttributesInspectorTest extends TestCase{
+public class UriToSqlAttributesInspectorTest {
 	
 	private UriInspector uriInspector = new UriInspector();;
 	private UriToSqlAttributes attrs = null;
@@ -28,8 +32,7 @@ public class UriToSqlAttributesInspectorTest extends TestCase{
     @Test
 	public void testHasWhereClauseInQuery(){
     	attrs = uriInspector.parse(Uri.parse("content://test.com/item/1"));
-    	assertFalse(attrs.hasWhereClauseInQuery());
-    	
+		assertFalse(attrs.hasWhereClauseInQuery());
     	attrs = uriInspector.parse(Uri.parse("content://test.com/tableName?groupBy=col&having=value"));
     	assertTrue(attrs.hasWhereClauseInQuery());
     }
