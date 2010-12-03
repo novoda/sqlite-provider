@@ -17,5 +17,4 @@ public class UriToSqlAttributes {
 		 }
 		 return false;
 	}
-
 }
