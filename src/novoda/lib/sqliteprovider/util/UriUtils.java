@@ -84,6 +84,21 @@ public class UriUtils {
             return uri.getLastPathSegment();
         }
     }
+    
+    public static String getParentName(Uri uri){
+    	if (!isItem(uri)){
+    		return uri.getPathSegments().get(uri.getPathSegments().size()-3);
+    	}
+    	return "";
+    }
+    
+    public static String getParentId(Uri uri){
+    	if (!isItem(uri)){
+    		return uri.getPathSegments().get(uri.getPathSegments().size()-2);
+    	}
+    	return "";
+    }
+
 
     public Map<String, String> getMappedIds() {
         return mappedIds;

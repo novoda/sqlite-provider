@@ -75,8 +75,10 @@ public class SQLiteProvider extends ContentProvider {
 		builder.setTables(tableName);
 		if (UriUtils.isItem(uri)) {
 			builder.appendWhere("_id=" + uri.getLastPathSegment());
-		} else if (uri.getPathSegments().size() > 2){
-				builder.appendWhereEscapeString("parent_id="+uri.getPathSegments().get(uri.getPathSegments().size()-2));
+		} else {
+			if (uri.getPathSegments().size() > 2){
+				builder.appendWhereEscapeString(UriUtils.getParentName(uri)+"_id="+UriUtils.getParentId(uri));
+			}
 		}
 		return builder.query(getReadableDatabase(), projection, selection, 
 				selectionArgs, null, null, sortOrder, null);
