@@ -35,7 +35,7 @@ public class SQLiteProvider extends ContentProvider {
 	/**
 	 * @see android.content.ContentProvider#insert(Uri,ContentValues)
 	 */
-	@Override
+@Override
 	public Uri insert(Uri uri, ContentValues initialValues) {
 		ContentValues insertValues = (initialValues != null) ? new ContentValues(
 				initialValues)
@@ -79,7 +79,7 @@ public class SQLiteProvider extends ContentProvider {
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
 		final SQLiteQueryBuilder builder = getSQLiteQueryBuilder();
-		final String tableName = UriUtils.getTableName(uri);
+		final String tableName = UriUtils.getItemDirID(uri);
 		builder.setTables(tableName);
 		if (UriUtils.isItem(uri)) {
 			builder.appendWhere("_id=" + uri.getLastPathSegment());
