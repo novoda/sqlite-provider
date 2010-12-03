@@ -62,6 +62,8 @@ public class UriUtilsLocalTest extends TestCase {
         assertTrue(result.containsKey("parent") && result.containsKey("child"));
         assertEquals("1", result.get("parent"));
         assertEquals("2", result.get("child"));
+        
+        
 
     }
 }
