@@ -88,10 +88,20 @@ public class SQLiteProviderLocalTest {
     
     @Test
     public void testGroupByQuery() throws Exception {
-    	query("test.com/table?orderBy=table");
-    	//verify(builder).query(db, projectionIn, selection, selectionArgs, "table", having, sortOrder);
-    	
-    	// having
+    	query("test.com/table?groupBy=table");
+    	verify(builder).query((SQLiteDatabase) anyObject(), (String[])anyObject(), anyString(), (String[])anyObject(), eq("table"), anyString(), anyString(), anyString());   	 
+    }
+    
+    @Test
+    public void testHavingQuery() throws Exception {
+    	query("test.com/table?having=g");
+    	verify(builder).query((SQLiteDatabase) anyObject(), (String[])anyObject(), anyString(), (String[])anyObject(), anyString(), eq("g"), anyString(), anyString());
+    }
+    
+    @Test
+    public void testLimitQuery() throws Exception {
+    	query("test.com/table?limit=100");
+    	verify(builder).query((SQLiteDatabase) anyObject(), (String[])anyObject(), anyString(), (String[])anyObject(), anyString(), anyString(), anyString(), eq("100"));
     }
     
     @Implements(ContentUris.class)
