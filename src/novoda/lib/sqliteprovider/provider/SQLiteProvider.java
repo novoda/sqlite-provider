@@ -39,17 +39,24 @@ public class SQLiteProvider extends ContentProvider {
 	public Uri insert(Uri uri, ContentValues initialValues) {
 		ContentValues insertValues = (initialValues != null) ? new ContentValues(
 				initialValues)
-		: new ContentValues();
-				SQLiteDatabase database = getWritableDatabase();
+				: new ContentValues();
+				
+		if (UriUtils.hasParent(uri)){
+			if (!insertValues.containsKey(UriUtils.getParentName(uri)+"_id")){
 				System.out.println(UriUtils.getTableName(uri));
-				long rowId = database.insert(UriUtils.getTableName(uri), null,
-						insertValues);
-				if (rowId > 0) {
-					Uri newUri = ContentUris.withAppendedId(uri, rowId);
-					notifyUriChange(newUri);
-					return newUri;
-				}
-				throw new SQLException("Failed to insert row into " + uri);
+				insertValues.put(UriUtils.getParentName(uri)+"_id", UriUtils.getParentId(uri));
+			}
+		}
+
+		SQLiteDatabase database = getWritableDatabase();
+		long rowId = database.insert(UriUtils.getTableName(uri), null,
+				insertValues);
+		if (rowId > 0) {
+			Uri newUri = ContentUris.withAppendedId(uri, rowId);
+			notifyUriChange(newUri);
+			return newUri;
+		}
+		throw new SQLException("Failed to insert row into " + uri);
 	}
 
 	public void notifyUriChange(Uri uri) {
@@ -77,11 +84,12 @@ public class SQLiteProvider extends ContentProvider {
 		if (UriUtils.isItem(uri)) {
 			builder.appendWhere("_id=" + uri.getLastPathSegment());
 		} else {
-			if (uri.getPathSegments().size() > 2){
-				builder.appendWhereEscapeString(UriUtils.getParentName(uri)+"_id="+UriUtils.getParentId(uri));
+			if (UriUtils.hasParent(uri)) {
+				builder.appendWhereEscapeString(UriUtils.getParentName(uri)
+						+ "_id=" + UriUtils.getParentId(uri));
 			}
 		}
-		return builder.query(getReadableDatabase(), projection, selection, 
+		return builder.query(getReadableDatabase(), projection, selection,
 				selectionArgs, null, null, sortOrder, null);
 	}
 

@@ -81,10 +81,19 @@ public class SQLiteProviderLocalTest {
     	Robolectric.bindShadowClass(ShadowContentUris.class);
     	when(db.insert(anyString(), anyString(), (ContentValues) anyObject())).thenReturn(2L);
     	ContentValues values = new ContentValues();
-    	values.put("test", "test");
-    	insert("test.com/parent/1/children", values); 
-    	values.put("parent_id", "1");    	
+    	values.put("test", "test"); 
+    	values.put("parent_id", "1"); 
+    	insert("test.com/parent/1/children", values);
     	verify(db).insert(eq("children"), anyString(), (ContentValues) anyObject());
+    }
+    
+    @Test
+    public void testGroupByQuery() throws Exception {
+    	Uri.parse("content://test.com/table?orderBy=table");
+    	//query(uri)
+    	//verify(builder).query(db, projectionIn, selection, selectionArgs, "table", having, sortOrder);
+    	
+    	// having
     }
     
     @Implements(ContentUris.class)
