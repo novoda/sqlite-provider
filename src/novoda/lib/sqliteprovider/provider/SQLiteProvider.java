@@ -43,13 +43,13 @@ public class SQLiteProvider extends ContentProvider {
 				
 		if (UriUtils.hasParent(uri)){
 			if (!insertValues.containsKey(UriUtils.getParentName(uri)+"_id")){
-				System.out.println(UriUtils.getTableName(uri));
+				System.out.println(UriUtils.getItemDirID(uri));
 				insertValues.put(UriUtils.getParentName(uri)+"_id", UriUtils.getParentId(uri));
 			}
 		}
 
 		SQLiteDatabase database = getWritableDatabase();
-		long rowId = database.insert(UriUtils.getTableName(uri), null,
+		long rowId = database.insert(UriUtils.getItemDirID(uri), null,
 				insertValues);
 		if (rowId > 0) {
 			Uri newUri = ContentUris.withAppendedId(uri, rowId);
