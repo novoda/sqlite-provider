@@ -56,10 +56,10 @@ public class SQLiteProvider extends ContentProvider {
             String sortOrder) {
 
         final SQLiteQueryBuilder builder = getSQLiteQueryBuilder();
-        final String tableName = UriUtils.getTableName(uri);
+        final String tableName = UriUtils.getItemDirID(uri);
         builder.setTables(tableName);
         
-        if (UriUtils.isItem(uri)) {
+        if (UriUtils.isNumberedEntryWithinCollection(uri)) {
             builder.appendWhere("_id=" + uri.getLastPathSegment());
         }
         

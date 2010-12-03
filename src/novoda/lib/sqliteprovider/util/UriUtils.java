@@ -47,14 +47,16 @@ public class UriUtils {
         return true;
     }
     
-    public static boolean isItem(final Uri uri) {
-        return isItem("", uri);
+    public static boolean isNumberedEntryWithinCollection(final Uri uri) {
+        return isNumeric(uri.getLastPathSegment());
     }
 
     public static boolean isDir(final Uri uri) {
         return isDir("", uri);
     }
 
+    
+    
     public static boolean isItem(final String rootPath, final Uri uri) {
         final List<String> segments = uri.getPathSegments();
         if (rootPath != null && !rootPath.equals("")) {
@@ -68,11 +70,11 @@ public class UriUtils {
         return !isItem(rootPath, uri);
     };
 
-    public static String getTableName(final Uri uri) {
-        return getTableName("", uri);
+    public static String getItemDirID(final Uri uri) {
+    	return getItemParentID("", uri);
     }
-
-    public static String getTableName(final String rootPath, final Uri uri) {
+    
+    public static String getItemParentID(final String rootPath, final Uri uri) {
         final List<String> segments = uri.getPathSegments();
         if (isItem(rootPath, uri)) {
             return segments.get(segments.size() - 2);
@@ -84,4 +86,5 @@ public class UriUtils {
     public Map<String, String> getMappedIds() {
         return mappedIds;
     }
+
 }
