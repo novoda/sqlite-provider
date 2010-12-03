@@ -55,6 +55,14 @@ public class UriUtils {
 		return isDir("", uri);
 	}
 
+	public static boolean isDir(final String rootPath, final Uri uri) {
+		return !isItem(rootPath, uri);
+	}
+
+	public static boolean isItem(final Uri uri) {
+		return isItem("", uri);
+	}
+
 	public static boolean isItem(final String rootPath, final Uri uri) {
 		final List<String> segments = uri.getPathSegments();
 		if (rootPath != null && !rootPath.equals("")) {
@@ -62,15 +70,7 @@ public class UriUtils {
 		} else {
 			return ((segments.size() % 2) == 0);
 		}
-	};
-
-	public static boolean isItem(final Uri uri) {
-		return isItem("", uri);
 	}
-
-	public static boolean isDir(final String rootPath, final Uri uri) {
-		return !isItem(rootPath, uri);
-	};
 
 	public static String getItemDirID(final Uri uri) {
 		return getItemDirID("", uri);
@@ -105,7 +105,7 @@ public class UriUtils {
 
 
 
-	public static String getParentName(Uri uri){
+	public static String getParentColumnName(Uri uri){
 		if (hasParent(uri)){
 			if (!isNumberedEntryWithinCollection(uri)){
 				return uri.getPathSegments().get((uri.getPathSegments().size()-1)-2);
