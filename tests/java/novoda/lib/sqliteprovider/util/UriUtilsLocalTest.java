@@ -65,23 +65,23 @@ public class UriUtilsLocalTest extends TestCase {
     @Test
     public void testGettingParentDetails(){
     	Uri uri = Uri.parse("content://test.com");
-    	assertEquals("",UriUtils.getParentName(uri)); 
+    	assertEquals("",UriUtils.getParentColumnName(uri)); 
     	assertEquals("",UriUtils.getParentId(uri));
     	assertEquals(false,UriUtils.hasParent(uri));
     	uri = Uri.parse("content://test.com/parent/1/child");
-    	assertEquals("parent",UriUtils.getParentName(uri));
+    	assertEquals("parent",UriUtils.getParentColumnName(uri));
     	assertEquals("1",UriUtils.getParentId(uri));
     	assertEquals(true,UriUtils.hasParent(uri));
     	uri = Uri.parse("content://test.com/parent/1/child/6");
-    	assertEquals("parent",UriUtils.getParentName(uri));
+    	assertEquals("parent",UriUtils.getParentColumnName(uri));
     	assertEquals("1",UriUtils.getParentId(uri));
     	assertEquals(true,UriUtils.hasParent(uri));
     	uri = Uri.parse("content://test.com/parent/1/child/6/subchild");
-    	assertEquals("child",UriUtils.getParentName(uri));
+    	assertEquals("child",UriUtils.getParentColumnName(uri));
     	assertEquals("6",UriUtils.getParentId(uri));
     	assertEquals(true,UriUtils.hasParent(uri));
     	uri = Uri.parse("content://test.com/parent/1/child/6/subchild/3");
-    	assertEquals("child",UriUtils.getParentName(uri));
+    	assertEquals("child",UriUtils.getParentColumnName(uri));
     	assertEquals("6",UriUtils.getParentId(uri));
     	assertEquals(true,UriUtils.hasParent(uri));
     }
