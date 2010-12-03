@@ -43,6 +43,8 @@ public class RoboRunner extends RobolectricTestRunner {
     
     @Override public void beforeTest(Method method) {
         Robolectric.bindShadowClass(ShadowAndroidTestCase.class);
+        Robolectric.bindShadowClass(ShadowSQLiteQueryBuilder.class);
+
     }
 
 }
