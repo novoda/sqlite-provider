@@ -54,8 +54,6 @@ public class UriUtils {
     public static boolean isDir(final Uri uri) {
         return isDir("", uri);
     }
-
-    
     
     public static boolean isItem(final String rootPath, final Uri uri) {
         final List<String> segments = uri.getPathSegments();
@@ -65,16 +63,20 @@ public class UriUtils {
             return ((segments.size() % 2) == 0);
         }
     };
+    
+    public static boolean isItem(final Uri uri) {
+    	return isItem("", uri);
+    }
 
     public static boolean isDir(final String rootPath, final Uri uri) {
         return !isItem(rootPath, uri);
     };
 
     public static String getItemDirID(final Uri uri) {
-    	return getItemParentID("", uri);
+    	return getItemDirID("", uri);
     }
     
-    public static String getItemParentID(final String rootPath, final Uri uri) {
+    public static String getItemDirID(final String rootPath, final Uri uri) {
         final List<String> segments = uri.getPathSegments();
         if (isItem(rootPath, uri)) {
             return segments.get(segments.size() - 2);
