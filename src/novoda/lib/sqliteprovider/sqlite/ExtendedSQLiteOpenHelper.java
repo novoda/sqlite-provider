@@ -2,6 +2,7 @@
 package novoda.lib.sqliteprovider.sqlite;
 
 import novoda.lib.sqliteprovider.util.DatabaseUtils;
+import novoda.rest.database.SQLiteFileParser;
 import novoda.rest.database.SQLiteTableCreator;
 import novoda.rest.database.SQLiteType;
 
@@ -12,16 +13,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.meetup.R;
 
 public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
 
@@ -34,10 +34,13 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
     private Map<String, SQLiteTableCreator> createStatements = new HashMap<String, SQLiteTableCreator>();
 
     private static int dbVersion = 3;
+    
+    private Context context;
 
     public ExtendedSQLiteOpenHelper(Context context) {
         super(context, new StringBuilder(context.getApplicationInfo().packageName).append(".db")
                 .toString(), null, dbVersion);
+        this.context = context;
         init();
     }
 
@@ -132,7 +135,6 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
                     process.getErrorStream()));
             BufferedReader reader2 = new BufferedReader(new InputStreamReader(
                     process.getInputStream()));
-
             Log.i(TAG, "c: " + process.waitFor());
             Log.i(TAG, "e " + reader.readLine());
             Log.i(TAG, "i " + reader2.readLine());
@@ -142,5 +144,14 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void execSql(int rawId){
+    	SQLiteFileParser parser = new SQLiteFileParser(context.getResources()
+				.openRawResource(rawId));
+		while (parser.hasNext()) {
+			getWritableDatabase().execSQL(parser.next());
+		}
+		parser.close();
     }
 }
