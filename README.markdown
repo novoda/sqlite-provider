@@ -43,6 +43,11 @@ distinct support:
 	Uri: content://<authority>/tableName?distinct=true
 	Sql: select distinct * from tableName limit number
 
+join support (TODO):
+
+	Uri: content://<authority>/parent/1/child/2
+	Sql: select * from child inner join parent on parent._id=child.parent_id;
+
 
 ### Info Uri
 
