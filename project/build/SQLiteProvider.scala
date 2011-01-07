@@ -1,9 +1,7 @@
 import sbt._
-import de.element34.sbteclipsify._
 
-trait Defaults extends Eclipsify {
+trait Defaults {
   def androidPlatformName = "android-8"
-  //override lazy val eclipseProjectNature = ProjectNature.Java
 }
   
 class SQLiteProvider(info: ProjectInfo) extends ParentProject(info) {

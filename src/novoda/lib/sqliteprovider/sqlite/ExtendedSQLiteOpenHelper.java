@@ -1,6 +1,8 @@
 
 package novoda.lib.sqliteprovider.sqlite;
 
+import org.apache.http.MethodNotSupportedException;
+
 import novoda.lib.sqliteprovider.util.DatabaseUtils;
 import novoda.rest.database.SQLiteFileParser;
 import novoda.rest.database.SQLiteTableCreator;
@@ -21,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String TAG = ExtendedSQLiteOpenHelper.class.getSimpleName();
@@ -33,7 +34,7 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
     private Map<String, SQLiteTableCreator> createStatements = new HashMap<String, SQLiteTableCreator>();
 
     private static int dbVersion = 3;
-    
+
     private Context context;
 
     public ExtendedSQLiteOpenHelper(Context context) {
@@ -144,13 +145,17 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-    
-    public void execSql(int rawId){
-    	SQLiteFileParser parser = new SQLiteFileParser(context.getResources()
-				.openRawResource(rawId));
-		while (parser.hasNext()) {
-			getWritableDatabase().execSQL(parser.next());
-		}
-		parser.close();
+
+    public void execSql(int rawId) {
+        SQLiteFileParser parser = new SQLiteFileParser(context.getResources()
+                .openRawResource(rawId));
+        while (parser.hasNext()) {
+            getWritableDatabase().execSQL(parser.next());
+        }
+        parser.close();
+    }
+
+    public List<String> getForeignTables(String mainTable) {
+        throw new IllegalStateException("not implemented");
     }
 }
