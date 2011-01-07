@@ -9,10 +9,8 @@ import org.junit.runner.RunWith;
 
 import android.net.Uri;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 
-
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RoboRunner.class)
 public class UriToSqlAttributesInspectorTest {
 	
 	private UriInspector uriInspector = new UriInspector();;
