@@ -1,7 +1,6 @@
 
 package novoda.lib.sqliteprovider.util;
 
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -13,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import java.io.FileInputStream;
-
 @RunWith(RoboRunner.class)
 public class SQLFileTest extends AndroidTestCase {
 
@@ -24,8 +21,8 @@ public class SQLFileTest extends AndroidTestCase {
 
     @Test
     public void testSimpleSQLFile() throws Exception {
-    	BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/create.sql")));
-    	new InputStreamReader(new FileInputStream("create.sql"));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(getClass()
+                .getResourceAsStream("/create.sql")));
         List<String> statements = SQLFile.statementsFrom(reader);
         List<String> expected = new ArrayList<String>();
         expected.add(one);

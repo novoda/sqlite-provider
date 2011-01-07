@@ -1,8 +1,6 @@
 
 package novoda.lib.sqliteprovider.util;
 
-import com.xtremelabs.robolectric.RobolectricTestRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -12,7 +10,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RoboRunner.class)
 public class UriUtilsLocalTest extends TestCase {
 
     @Test
