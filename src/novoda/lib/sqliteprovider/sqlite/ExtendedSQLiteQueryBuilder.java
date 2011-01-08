@@ -113,10 +113,6 @@ public class ExtendedSQLiteQueryBuilder {
         delegate.setCursorFactory(factory);
     }
 
-    public void setStrictProjectionMap(boolean flag) {
-        delegate.setStrictProjectionMap(flag);
-    }
-
     public String toString() {
         return delegate.toString();
     }
