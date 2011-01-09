@@ -1,19 +1,27 @@
 
 package novoda.lib.sqliteprovider.migration;
 
+import static novoda.lib.sqliteprovider.util.Log.Migration.e;
+import static novoda.lib.sqliteprovider.util.Log.Migration.i;
+import static novoda.lib.sqliteprovider.util.Log.Migration.infoLoggingEnabled;
 import novoda.lib.sqliteprovider.util.SQLFile;
+
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class Migrations implements Iterable<String> {
+public class Migrations {
 
-    private SortedSet<File> migrations;
+    private SortedSet<String> migrations;
 
     private long startDate;
 
@@ -23,10 +31,10 @@ public class Migrations implements Iterable<String> {
 
     public Migrations(long startDate) {
         this.startDate = startDate;
-        migrations = new TreeSet<File>(comparator);
+        migrations = new TreeSet<String>(comparator);
     }
 
-    public boolean add(File migration) {
+    public boolean add(String migration) {
         if (shouldInsert(migration)) {
             return migrations.add(migration);
         } else {
@@ -34,46 +42,63 @@ public class Migrations implements Iterable<String> {
         }
     }
 
-    private boolean shouldInsert(File migration) {
+    private boolean shouldInsert(String migration) {
         return extractDate(migration) > startDate;
     }
 
-    private long extractDate(File migration) {
+    private long extractDate(String migration) {
         try {
-            return Long.parseLong(migration.getName().split("_", 0)[0]);
+            return Long.parseLong(migration.split("_", 0)[0]);
         } catch (NumberFormatException e) {
             // Log
             return -1;
         }
     }
 
-    public SortedSet<File> getMigrationsFiles() {
+    public SortedSet<String> getMigrationsFiles() {
         return migrations;
-    }
-
-    @Override
-    public Iterator<String> iterator() {
-        ArrayList<String> l = new ArrayList<String>();
-        try {
-            for (File file : migrations) {
-                l.addAll(SQLFile.statementsFrom(file));
-            }
-            return l.iterator();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**
      * Comparator against filename: <date>_create.sql vs <date2>_create.sql will
      * compare date with date2
      */
-    /* package */Comparator<File> comparator = new Comparator<File>() {
+    /* package */Comparator<String> comparator = new Comparator<String>() {
         @Override
-        public int compare(File file, File another) {
+        public int compare(String file, String another) {
             return new Long(extractDate(file)).compareTo(new Long(extractDate(another)));
         }
     };
 
+    public static void migrate(SQLiteDatabase db, Context context, String assetLocation)
+            throws IOException {
+        String[] sqls = context.getAssets().list(assetLocation);
+        Migrations migrations = new Migrations(db.getVersion());
+        for (String sqlfile : sqls) {
+            migrations.add(sqlfile);
+        }
+        for (String sql : migrations.getMigrationsFiles()) {
+            Reader reader = new InputStreamReader(context.getAssets().open(
+                    assetLocation + File.pathSeparator + sql, AssetManager.ACCESS_RANDOM));
+            if (infoLoggingEnabled()) {
+                i("executing SQL file: " + assetLocation + File.pathSeparator + sql);
+            }
+            try {
+                db.beginTransaction();
+                for (String insert : SQLFile.statementsFrom(reader)) {
+                    db.execSQL(insert);
+                }
+                db.endTransaction();
+            } catch (SQLException exception) {
+                e("error in migrate against file: " + sql);
+            } finally {
+                db.endTransaction();
+            }
+        }
+        long v = migrations.extractDate(migrations.getMigrationsFiles().last());
+        if (infoLoggingEnabled()) {
+            i("setting version of DB to: " + v);
+        }
+        db.setVersion((int) v);
+    }
 }
