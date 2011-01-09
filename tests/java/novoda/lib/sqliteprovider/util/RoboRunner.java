@@ -6,12 +6,13 @@ import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 import org.junit.runners.model.InitializationError;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 public class RoboRunner extends RobolectricTestRunner {
 
     public RoboRunner(Class<?> testClass) throws InitializationError {
-        super(testClass, "..");
+        super(testClass, new File(".."));
     }
 
     @Override

@@ -1,0 +1,22 @@
+
+package novoda.lib.sqliteprovider.sqlite;
+
+import java.util.List;
+import java.util.Map;
+
+public interface IDatabaseMetaInfo {
+
+    public enum SQLiteType {
+        NULL, INTEGER, REAL, TEXT, BLOB
+    }
+
+    Map<String, SQLiteType> getColumns(String table);
+
+    List<String> getTables();
+    
+    List<String> getForeignTables(String table);
+
+    int getVersion();
+
+    void setVersion(int version);
+}

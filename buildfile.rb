@@ -2,16 +2,16 @@ gem 'buildr-android', :version => '= 0.0.1'
 require 'buildr-android'
 
 define 'android_project' do
-  include Android
+  #include Android
   
-  puts version # will output from manifest
-  #eclipse :scala
+ # puts version # will output from manifest
+ # eclipse.natures :android
   
-  compile.with :android
-  test.with :robolectric
+  #compile.with :android
+  #test.with :robolectric
   
-  package(:apk).tap do |apk|
-    apk[:key] = "location"
-    apk[:password] = "" # if none will ask in the shell
-  end 
+  # package(:apk).tap do |apk|
+  #   apk[:key] = "location"
+  #   apk[:password] = "" # if none will ask in the shell
+  # end 
 end

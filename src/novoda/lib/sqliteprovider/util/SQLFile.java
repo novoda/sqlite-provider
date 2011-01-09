@@ -2,6 +2,8 @@
 package novoda.lib.sqliteprovider.util;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -53,6 +55,13 @@ public class SQLFile {
     }
 
     public static List<String> statementsFrom(Reader reader) throws IOException {
+        SQLFile file = new SQLFile();
+        file.parse(reader);
+        return file.getStatements();
+    }
+
+    public static List<String> statementsFrom(File sqlfile) throws IOException {
+        FileReader reader = new FileReader(sqlfile);
         SQLFile file = new SQLFile();
         file.parse(reader);
         return file.getStatements();
