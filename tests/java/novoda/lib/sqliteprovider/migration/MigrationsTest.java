@@ -5,11 +5,12 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.doReturn;
 import novoda.lib.sqliteprovider.util.RoboRunner;
 
 import org.junit.Before;
@@ -18,7 +19,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -76,19 +76,18 @@ public class MigrationsTest {
 
     @Test
     public void setDBVersion() throws IOException {
-        Context context = mock(Context.class);
+        String execute = "CREATE TABLE IF NOT EXIST test(id integer);";
+        when(db.getVersion()).thenReturn(0);
         AssetManager manager = mock(AssetManager.class);
-
-        when(context.getAssets()).thenReturn(manager);
         when(manager.list(anyString())).thenReturn(new String[] {
                 "1234_test.sql", "12345_test.sql", "123456_test.sql"
         });
+        when(manager.open(anyString(), anyInt())).thenReturn(
+                new ByteArrayInputStream(execute.getBytes("UTF-8")));
+
+        Migrations.migrate(db, manager, "sql");
         
-        when(manager.open(anyString())).thenReturn(
-                new ByteArrayInputStream("CREATE TABLE IF NOT EXIST test(id integer);"
-                        .getBytes("UTF-8")));
-        
-        Migrations.migrate(db, context, "sql");
+        verify(db, times(3)).execSQL(anyString());
         verify(db).setVersion(123456);
     }
 }

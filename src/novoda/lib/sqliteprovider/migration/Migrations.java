@@ -6,7 +6,6 @@ import static novoda.lib.sqliteprovider.util.Log.Migration.i;
 import static novoda.lib.sqliteprovider.util.Log.Migration.infoLoggingEnabled;
 import novoda.lib.sqliteprovider.util.SQLFile;
 
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -70,16 +69,19 @@ public class Migrations {
         }
     };
 
-    public static void migrate(SQLiteDatabase db, Context context, String assetLocation)
+    public static void migrate(SQLiteDatabase db, AssetManager manager, String assetLocation)
             throws IOException {
-        String[] sqls = context.getAssets().list(assetLocation);
+        String[] sqls = manager.list(assetLocation);
         Migrations migrations = new Migrations(db.getVersion());
+        Reader reader;
+        
         for (String sqlfile : sqls) {
             migrations.add(sqlfile);
         }
         for (String sql : migrations.getMigrationsFiles()) {
-            Reader reader = new InputStreamReader(context.getAssets().open(
-                    assetLocation + File.pathSeparator + sql, AssetManager.ACCESS_RANDOM));
+            reader = new InputStreamReader(manager.open(assetLocation + File.pathSeparator + sql,
+                    AssetManager.ACCESS_RANDOM));
+
             if (infoLoggingEnabled()) {
                 i("executing SQL file: " + assetLocation + File.pathSeparator + sql);
             }
@@ -88,13 +90,14 @@ public class Migrations {
                 for (String insert : SQLFile.statementsFrom(reader)) {
                     db.execSQL(insert);
                 }
-                db.endTransaction();
+                db.setTransactionSuccessful();
             } catch (SQLException exception) {
                 e("error in migrate against file: " + sql);
             } finally {
                 db.endTransaction();
             }
         }
+        
         long v = migrations.extractDate(migrations.getMigrationsFiles().last());
         if (infoLoggingEnabled()) {
             i("setting version of DB to: " + v);
