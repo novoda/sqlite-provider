@@ -10,8 +10,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.util.Implementation;
-import com.xtremelabs.robolectric.util.Implements;
+import com.xtremelabs.robolectric.internal.Implementation;
+import com.xtremelabs.robolectric.internal.Implements;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
 import novoda.lib.sqliteprovider.util.RoboRunner;

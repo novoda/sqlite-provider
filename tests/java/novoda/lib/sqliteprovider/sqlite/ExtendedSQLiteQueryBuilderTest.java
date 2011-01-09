@@ -1,6 +1,8 @@
 
 package novoda.lib.sqliteprovider.sqlite;
 
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.hasItems;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import novoda.lib.sqliteprovider.util.RoboRunner;
@@ -13,6 +15,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
+
+import java.util.List;
 
 @RunWith(RoboRunner.class)
 public class ExtendedSQLiteQueryBuilderTest {
@@ -45,5 +50,12 @@ public class ExtendedSQLiteQueryBuilderTest {
         ExtendedSQLiteQueryBuilder builder = new ExtendedSQLiteQueryBuilder(qb);
         builder.addInnerJoin("groups");
         verify(qb).setTables("test INNER JOIN groups ON test.group_id=groups._id");
+    }
+    
+    @Test
+    public void testUriParsing() throws Exception {
+        Uri uri = Uri.parse("content://test.com/?q=1&q=2");
+        List<String> p = uri.getQueryParameters("q");
+        assertThat(p, hasItems("1", "2"));
     }
 }
