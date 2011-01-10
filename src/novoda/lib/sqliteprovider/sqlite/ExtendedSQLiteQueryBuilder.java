@@ -12,8 +12,6 @@ import java.util.Set;
 
 public class ExtendedSQLiteQueryBuilder {
 
-    private Map<String, Map<String, String>> children;
-
     private SQLiteQueryBuilder delegate;
 
     public ExtendedSQLiteQueryBuilder() {
@@ -33,20 +31,11 @@ public class ExtendedSQLiteQueryBuilder {
         if (parent == null || TextUtils.isEmpty(parent)) {
             throw new IllegalStateException("You need to call setTable prior to call addInnerJoin");
         }
-
         final StringBuilder table = new StringBuilder(parent);
-        table.append(" INNER JOIN ");
         for (String c : children) {
-            table.append(c);
-            table.append(",");
+            table.append(String.format(" LEFT JOIN %1$s ON %2$s.%3$s_id=%1$s._id", c, parent,
+                    singularize(c)));
         }
-        table.deleteCharAt(table.length() - 1).append(" ON ");
-        for (String c : children) {
-            table.append(parent).append(".").append(singularize(c)).append("_id").append("=")
-                    .append(c).append("._id");
-            table.append(" AND ");
-        }
-        table.delete(table.length() - 5, table.length());
         delegate.setTables(table.toString());
     }
 
@@ -74,12 +63,14 @@ public class ExtendedSQLiteQueryBuilder {
 
     public Cursor query(SQLiteDatabase db, String[] projectionIn, String selection,
             String[] selectionArgs, String groupBy, String having, String sortOrder, String limit) {
+        
         return delegate.query(db, projectionIn, selection, selectionArgs, groupBy, having,
                 sortOrder, limit);
     }
 
     public String buildQuery(String[] projectionIn, String selection, String[] selectionArgs,
             String groupBy, String having, String sortOrder, String limit) {
+        
         return delegate.buildQuery(projectionIn, selection, selectionArgs, groupBy, having,
                 sortOrder, limit);
     }
@@ -88,6 +79,7 @@ public class ExtendedSQLiteQueryBuilder {
             Set<String> columnsPresentInTable, int computedColumnsOffset,
             String typeDiscriminatorValue, String selection, String[] selectionArgs,
             String groupBy, String having) {
+        
         return delegate.buildUnionSubQuery(typeDiscriminatorColumn, unionColumns,
                 columnsPresentInTable, computedColumnsOffset, typeDiscriminatorValue, selection,
                 selectionArgs, groupBy, having);

@@ -2,8 +2,13 @@
 package novoda.lib.sqliteprovider.util;
 
 public class Log {
+    
+    public static class Provider extends Migration {
+        public static final String TAG = "SQLiteProvider";
+    }
+
     public static class Migration {
-        public static final String TAG = "SQLiteProvider-Migration";
+        public static final String TAG = "SQLiteProvider-Mig";
 
         public static final boolean infoLoggingEnabled() {
             return android.util.Log.isLoggable(TAG, android.util.Log.INFO);
