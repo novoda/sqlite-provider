@@ -74,7 +74,7 @@ public class Migrations {
         String[] sqls = manager.list(assetLocation);
         Migrations migrations = new Migrations(db.getVersion());
         Reader reader;
-        
+
         for (String sqlfile : sqls) {
             migrations.add(sqlfile);
         }
@@ -97,11 +97,24 @@ public class Migrations {
                 db.endTransaction();
             }
         }
-        
+
         long v = migrations.extractDate(migrations.getMigrationsFiles().last());
         if (infoLoggingEnabled()) {
-            i("setting version of DB to: " + v);
+            i("setting version of DB to: " + v / 1000);
         }
-        db.setVersion((int) v);
+        db.setVersion((int) v / 1000);
+    }
+
+    public static int getVersion(AssetManager assets, String migrationsPath) throws IOException {
+        String[] sqls = assets.list(migrationsPath);
+        Migrations migrations = new Migrations(-1);
+        for (String sqlfile : sqls) {
+            migrations.add(sqlfile);
+        }
+        int version = (int) (migrations.extractDate(migrations.getMigrationsFiles().last()) / 1000);
+        if (infoLoggingEnabled()) {
+            i("version of DB is version: " + version);
+        }
+        return version;
     }
 }

@@ -35,14 +35,14 @@ public class ExtendedSQLiteQueryBuilderTest {
         ExtendedSQLiteQueryBuilder builder = new ExtendedSQLiteQueryBuilder(qb);
         when(qb.getTables()).thenReturn("test");
         builder.addInnerJoin("groups");
-        verify(qb).setTables("test INNER JOIN groups ON test.group_id=groups._id");
+        verify(qb).setTables("test LEFT JOIN groups ON test.group_id=groups._id");
 
         Mockito.reset(qb);
         when(qb.getTables()).thenReturn("test");
-        builder.addInnerJoin("groups", "another");
+        builder.addInnerJoin("groups", "anothers");
         verify(qb)
                 .setTables(
-                        "test INNER JOIN groups,another ON test.group_id=groups._id AND test.another_id=another._id");
+                        "test LEFT JOIN groups ON test.group_id=groups._id LEFT JOIN anothers ON test.another_id=anothers._id");
     }
 
     @Test(expected = IllegalStateException.class)
@@ -51,7 +51,7 @@ public class ExtendedSQLiteQueryBuilderTest {
         builder.addInnerJoin("groups");
         verify(qb).setTables("test INNER JOIN groups ON test.group_id=groups._id");
     }
-    
+
     @Test
     public void testUriParsing() throws Exception {
         Uri uri = Uri.parse("content://test.com/?q=1&q=2");

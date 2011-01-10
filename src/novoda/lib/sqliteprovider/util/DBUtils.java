@@ -1,18 +1,28 @@
 
 package novoda.lib.sqliteprovider.util;
 
+import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class DBUtils {
 
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
 
-    private static final String PRAGMA_TABLE = "PRAGMA table_info(\"$s\");";
+    private static final String PRAGMA_TABLE = "PRAGMA table_info(\"%1$s\");";
+
+    private static List<String> defaultTables = Arrays.asList(new String[] {
+        "android_metadata"
+    });
 
     static public List<String> getForeignTables(SQLiteDatabase db, String table) {
         final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
@@ -42,11 +52,48 @@ public class DBUtils {
     static public List<String> getTables(SQLiteDatabase db) {
         final Cursor cur = db.rawQuery(SELECT_TABLES_NAME, null);
         List<String> createdTable = new ArrayList<String>(cur.getCount());
+        String tableName;
         while (cur.moveToNext()) {
-            createdTable.add(cur.getString(0));
+            tableName = cur.getString(0);
+            if (!defaultTables.contains(tableName)) {
+                createdTable.add(tableName);
+            }
         }
         cur.close();
         return Collections.unmodifiableList(createdTable);
+    }
+
+    static public Map<String, String> getProjectionMap(SQLiteDatabase db, String parent,
+            String... foreignTables) {
+
+        Map<String, String> projection = new HashMap<String, String>();
+        projection.put("_id", parent + "._id AS _id");
+        for (Entry<String, SQLiteType> entry : getFields(db, parent).entrySet()) {
+            projection.put(parent + "_" + entry.getKey(), parent + "." + entry.getKey() + " AS "
+                    + parent + "_" + entry.getKey());
+        }
+
+        for (String ft : foreignTables) {
+            for (Entry<String, SQLiteType> entry : getFields(db, ft).entrySet()) {
+                projection.put(ft + "_" + entry.getKey(), ft + "." + entry.getKey() + " AS " + ft
+                        + "_" + entry.getKey());
+            }
+        }
+        return Collections.unmodifiableMap(projection);
+    }
+
+    static public Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
+        final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
+        Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cur.getCount());
+        String name;
+        String type;
+        while (cur.moveToNext()) {
+            name = cur.getString(cur.getColumnIndexOrThrow("name"));
+            type = cur.getString(cur.getColumnIndexOrThrow("type"));
+            fields.put(name, SQLiteType.valueOf(type.toUpperCase()));
+        }
+        cur.close();
+        return Collections.unmodifiableMap(fields);
     }
 
     /**
