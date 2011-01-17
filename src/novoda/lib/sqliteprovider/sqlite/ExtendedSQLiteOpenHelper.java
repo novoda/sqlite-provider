@@ -38,8 +38,8 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper {
     private Context context;
 
     public ExtendedSQLiteOpenHelper(Context context) {
-        super(context, new StringBuilder(context.getApplicationInfo().packageName).append(".db")
-                .toString(), null, dbVersion);
+        super(context, new StringBuilder(context.getPackageName()).append(".db").toString(), null,
+                dbVersion);
         this.context = context;
         init();
     }

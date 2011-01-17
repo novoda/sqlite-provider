@@ -21,8 +21,12 @@ public class ExtendedSQLiteOpenHelper2 extends SQLiteOpenHelper implements IData
     private Context context;
 
     public ExtendedSQLiteOpenHelper2(Context context) throws IOException {
-        this(context, context.getPackageName() + ".db", null, Migrations.getVersion(
-                context.getAssets(), MIGRATIONS_PATH));
+        
+        this(context,
+                context.getPackageName() + ".db",
+                null, 
+                Migrations.getVersion(context.getAssets(), MIGRATIONS_PATH));
+        
     }
 
     public ExtendedSQLiteOpenHelper2(Context context, String name, CursorFactory factory,

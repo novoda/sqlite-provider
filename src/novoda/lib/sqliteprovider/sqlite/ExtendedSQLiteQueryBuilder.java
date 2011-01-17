@@ -63,7 +63,6 @@ public class ExtendedSQLiteQueryBuilder {
 
     public Cursor query(SQLiteDatabase db, String[] projectionIn, String selection,
             String[] selectionArgs, String groupBy, String having, String sortOrder, String limit) {
-        
         return delegate.query(db, projectionIn, selection, selectionArgs, groupBy, having,
                 sortOrder, limit);
     }

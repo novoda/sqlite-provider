@@ -9,6 +9,7 @@ import novoda.lib.sqliteprovider.util.SQLFile;
 import android.content.res.AssetManager;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,13 +23,13 @@ public class Migrations {
 
     private SortedSet<String> migrations;
 
-    private long startDate;
+    private int startDate;
 
     public Migrations() {
         this(-1);
     }
 
-    public Migrations(long startDate) {
+    public Migrations(int startDate) {
         this.startDate = startDate;
         migrations = new TreeSet<String>(comparator);
     }
@@ -45,9 +46,9 @@ public class Migrations {
         return extractDate(migration) > startDate;
     }
 
-    private long extractDate(String migration) {
+    private int extractDate(String migration) {
         try {
-            return Long.parseLong(migration.split("_", 0)[0]);
+            return Integer.parseInt(migration.split("_", 0)[0]);
         } catch (NumberFormatException e) {
             // Log
             return -1;
@@ -65,12 +66,17 @@ public class Migrations {
     /* package */Comparator<String> comparator = new Comparator<String>() {
         @Override
         public int compare(String file, String another) {
-            return new Long(extractDate(file)).compareTo(new Long(extractDate(another)));
+            return new Integer(extractDate(file)).compareTo(new Integer(extractDate(another)));
         }
     };
 
     public static void migrate(SQLiteDatabase db, AssetManager manager, String assetLocation)
             throws IOException {
+        
+        if (infoLoggingEnabled()) {
+            i("current DB version is: " + db.getVersion());
+        }
+        
         String[] sqls = manager.list(assetLocation);
         Migrations migrations = new Migrations(db.getVersion());
         Reader reader;
@@ -79,30 +85,36 @@ public class Migrations {
             migrations.add(sqlfile);
         }
         for (String sql : migrations.getMigrationsFiles()) {
-            reader = new InputStreamReader(manager.open(assetLocation + File.pathSeparator + sql,
+            reader = new InputStreamReader(manager.open(assetLocation + File.separator + sql,
                     AssetManager.ACCESS_RANDOM));
-
             if (infoLoggingEnabled()) {
-                i("executing SQL file: " + assetLocation + File.pathSeparator + sql);
+                i("executing SQL file: " + assetLocation + File.separator + sql);
             }
             try {
+
                 db.beginTransaction();
                 for (String insert : SQLFile.statementsFrom(reader)) {
+                    if (TextUtils.isEmpty(insert.trim()))
+                        continue;
+                    if (infoLoggingEnabled()) {
+                        i("executing insert: " + insert);
+                    }
                     db.execSQL(insert);
                 }
                 db.setTransactionSuccessful();
+
             } catch (SQLException exception) {
-                e("error in migrate against file: " + sql);
+                e("error in migrate against file: " + sql, exception);
             } finally {
                 db.endTransaction();
             }
         }
 
-        long v = migrations.extractDate(migrations.getMigrationsFiles().last());
+        int v = migrations.extractDate(migrations.getMigrationsFiles().last());
         if (infoLoggingEnabled()) {
-            i("setting version of DB to: " + v / 1000);
+            i("setting version of DB to: " + v);
         }
-        db.setVersion((int) v / 1000);
+        db.setVersion(v);
     }
 
     public static int getVersion(AssetManager assets, String migrationsPath) throws IOException {
@@ -111,9 +123,9 @@ public class Migrations {
         for (String sqlfile : sqls) {
             migrations.add(sqlfile);
         }
-        int version = (int) (migrations.extractDate(migrations.getMigrationsFiles().last()) / 1000);
+        int version = (migrations.extractDate(migrations.getMigrationsFiles().last()));
         if (infoLoggingEnabled()) {
-            i("version of DB is version: " + version);
+            i("current migration file version is: " + version);
         }
         return version;
     }

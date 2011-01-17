@@ -14,6 +14,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.os.IBinder;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -109,6 +110,12 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
             String sortOrder) {
+
+        if (Provider.verboseLoggingEnabled()) {
+            Provider.v("==================== start of query =======================");
+            Provider.v("Uri: " + uri.toString());
+        }
+
         final ExtendedSQLiteQueryBuilder builder = getSQLiteQueryBuilder();
 
         final List<String> expands = uri.getQueryParameters(EXPAND);
@@ -129,24 +136,38 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
         }
 
         if (UriUtils.isItem(uri)) {
+            if (Provider.verboseLoggingEnabled()) {
+                Provider.v("Appending to where clause: " + ID + "=" + uri.getLastPathSegment());
+            }
             builder.appendWhere(ID + "=" + uri.getLastPathSegment());
         } else {
             if (UriUtils.hasParent(uri)) {
+                if (Provider.verboseLoggingEnabled()) {
+                    Provider.v("Appending to where clause: " + UriUtils.getParentColumnName(uri)
+                            + ID + "=" + UriUtils.getParentId(uri));
+                }
                 builder.appendWhereEscapeString(UriUtils.getParentColumnName(uri) + ID + "="
                         + UriUtils.getParentId(uri));
             }
         }
 
         if (Provider.verboseLoggingEnabled()) {
-            Provider.v("Querying the following:");
-            Provider.v("Uri:" + uri.toString());
-            Provider.v("table:" + builder.getTables());
-            Provider.v("projection:" + Arrays.toString(projection));
-            Provider.v("selection:" + selection + " with arguments "
-                    + Arrays.toString(selectionArgs));
-            Provider.v("extra args:" + groupBy + " ,having: " + having + " ,sort order: "
+            Provider.v("table: " + builder.getTables());
+
+            if (projection != null)
+                Provider.v("projection:" + Arrays.toString(projection));
+
+            if (selection != null)
+                Provider.v("selection: " + selection + " with arguments "
+                        + Arrays.toString(selectionArgs));
+
+            Provider.v("extra args: " + groupBy + " ,having: " + having + " ,sort order: "
                     + sortOrder + " ,limit: " + limit);
-            Provider.v("projectionAutomated:" + autoproj);
+
+            if (autoproj != null)
+                Provider.v("projectionAutomated: " + autoproj);
+
+            Provider.v("==================== end of query =======================");
         }
         return builder.query(getReadableDatabase(), projection, selection, selectionArgs, groupBy,
                 having, sortOrder, limit);
