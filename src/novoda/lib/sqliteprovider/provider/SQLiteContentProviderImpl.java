@@ -15,6 +15,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -47,13 +48,32 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     protected Uri insertInTransaction(Uri uri, ContentValues values) {
         ContentValues insertValues = (values != null) ? new ContentValues(values)
                 : new ContentValues();
+
         if (UriUtils.hasParent(uri)) {
             if (!insertValues.containsKey(UriUtils.getParentId(uri) + "_id")) {
                 insertValues.put(UriUtils.getParentColumnName(uri) + "_id",
                         UriUtils.getParentId(uri));
             }
         }
-        long rowId = getWritableDatabase().insert(UriUtils.getItemDirID(uri), null, insertValues);
+
+        int update = 0;
+        long rowId = 0;
+        if (values.containsKey("_id")) {
+            update = getWritableDatabase().update(UriUtils.getItemDirID(uri), values, "_id=?",
+                    new String[] {
+                        values.getAsString("_id")
+                    });
+        } else {
+            Log.w("SQL", "inserting without a _id could have wtf effect");
+        }
+
+        // Upsert
+        if (update == 0) {
+            rowId = getWritableDatabase().insert(UriUtils.getItemDirID(uri), null, insertValues);
+        } else {
+            rowId = values.getAsLong("_id");
+        }
+
         if (rowId > 0) {
             Uri newUri = ContentUris.withAppendedId(uri, rowId);
             notifyUriChange(newUri);
@@ -76,8 +96,10 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
         ContentValues insertValues = (values != null) ? new ContentValues(values)
                 : new ContentValues();
+
         int rowId = getWritableDatabase().update(UriUtils.getItemDirID(uri), insertValues,
                 selection, selectionArgs);
+
         if (rowId > 0) {
             Uri insertUri = ContentUris.withAppendedId(uri, rowId);
             notifyUriChange(insertUri);
