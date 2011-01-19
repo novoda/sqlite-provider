@@ -1,7 +1,8 @@
 
 package novoda.lib.sqliteprovider.provider;
 
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper2;
+import novoda.lib.sqliteprovider.provider.action.InsertHelper;
+import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
 import novoda.lib.sqliteprovider.util.Log.Provider;
 import novoda.lib.sqliteprovider.util.UriUtils;
@@ -10,12 +11,10 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -34,10 +33,19 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
     private static final String EXPAND = "expand";
 
+    private InsertHelper helper;
+
+    @Override
+    public boolean onCreate() {
+        super.onCreate();
+        helper = new InsertHelper((ExtendedSQLiteOpenHelper) getDatabaseHelper());
+        return true;
+    }
+
     @Override
     protected SQLiteOpenHelper getDatabaseHelper(Context context) {
         try {
-            return new ExtendedSQLiteOpenHelper2(context);
+            return new ExtendedSQLiteOpenHelper(context);
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalStateException(e.getMessage());
@@ -46,46 +54,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
     @Override
     protected Uri insertInTransaction(Uri uri, ContentValues values) {
-        ContentValues insertValues = (values != null) ? new ContentValues(values)
-                : new ContentValues();
-
-        if (UriUtils.hasParent(uri)) {
-            if (!insertValues.containsKey(UriUtils.getParentId(uri) + "_id")) {
-                insertValues.put(UriUtils.getParentColumnName(uri) + "_id",
-                        UriUtils.getParentId(uri));
-            }
-        }
-
-        int update = 0;
-        long rowId = 0;
-
-        if (values.containsKey("_id")) {
-            insertValues.remove("_id");
-            insertValues.put("_rid", values.getAsString("_id"));
-            update = getWritableDatabase().update(UriUtils.getItemDirID(uri), insertValues,
-                    "_rid=?", new String[] {
-                        values.getAsString("_id")
-                    });
-
-            if (update != 0) {
-                Cursor cur = getReadableDatabase().query(UriUtils.getItemDirID(uri), new String[] {
-                    "_id"
-                }, "_rid=?", new String[] {
-                    values.getAsString("_id")
-                }, null, null, null);
-                cur.moveToFirst();
-                rowId = cur.getLong(0);
-                cur.close();
-            }
-        } else {
-            Log.w("SQL", "inserting without a _id could have wtf effect for uri " + uri);
-        }
-
-        // Upsert
-        if (update == 0) {
-            rowId = getWritableDatabase().insert(UriUtils.getItemDirID(uri), null, insertValues);
-        }
-
+        long rowId = helper.insert(uri, values);
         if (rowId > 0) {
             Uri newUri = ContentUris.withAppendedId(uri, rowId);
             notifyUriChange(newUri);
@@ -163,7 +132,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
         if (expands.size() > 0) {
             builder.addInnerJoin(expands.toArray(new String[] {}));
-            ExtendedSQLiteOpenHelper2 helper = (ExtendedSQLiteOpenHelper2) getDatabaseHelper();
+            ExtendedSQLiteOpenHelper helper = (ExtendedSQLiteOpenHelper) getDatabaseHelper();
             autoproj = helper.getProjectionMap(tableName.toString(),
                     expands.toArray(new String[] {}));
             builder.setProjectionMap(autoproj);
