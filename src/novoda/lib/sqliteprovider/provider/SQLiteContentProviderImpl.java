@@ -10,11 +10,11 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.os.IBinder;
 import android.util.Log;
 
 import java.io.IOException;
@@ -58,20 +58,32 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
         int update = 0;
         long rowId = 0;
+
         if (values.containsKey("_id")) {
-            update = getWritableDatabase().update(UriUtils.getItemDirID(uri), values, "_id=?",
-                    new String[] {
+            insertValues.remove("_id");
+            insertValues.put("_rid", values.getAsString("_id"));
+            update = getWritableDatabase().update(UriUtils.getItemDirID(uri), insertValues,
+                    "_rid=?", new String[] {
                         values.getAsString("_id")
                     });
+
+            if (update != 0) {
+                Cursor cur = getReadableDatabase().query(UriUtils.getItemDirID(uri), new String[] {
+                    "_id"
+                }, "_rid=?", new String[] {
+                    values.getAsString("_id")
+                }, null, null, null);
+                cur.moveToFirst();
+                rowId = cur.getLong(0);
+                cur.close();
+            }
         } else {
-            Log.w("SQL", "inserting without a _id could have wtf effect");
+            Log.w("SQL", "inserting without a _id could have wtf effect for uri " + uri);
         }
 
         // Upsert
         if (update == 0) {
             rowId = getWritableDatabase().insert(UriUtils.getItemDirID(uri), null, insertValues);
-        } else {
-            rowId = values.getAsLong("_id");
         }
 
         if (rowId > 0) {
