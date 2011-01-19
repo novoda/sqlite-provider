@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,13 +21,14 @@ public class ExtendedSQLiteOpenHelper2 extends SQLiteOpenHelper implements IData
 
     private Context context;
 
+    /*
+     * We cache the constrains.
+     */
+    private Map<String, List<String>> constrains;
+
     public ExtendedSQLiteOpenHelper2(Context context) throws IOException {
-        
-        this(context,
-                context.getPackageName() + ".db",
-                null, 
-                Migrations.getVersion(context.getAssets(), MIGRATIONS_PATH));
-        
+        this(context, context.getPackageName() + ".db", null, Migrations.getVersion(
+                context.getAssets(), MIGRATIONS_PATH));
     }
 
     public ExtendedSQLiteOpenHelper2(Context context, String name, CursorFactory factory,
@@ -77,5 +79,16 @@ public class ExtendedSQLiteOpenHelper2 extends SQLiteOpenHelper implements IData
     @Override
     public Map<String, String> getProjectionMap(String parent, String... foreignTables) {
         return DBUtils.getProjectionMap(getReadableDatabase(), parent, foreignTables);
+    }
+
+    @Override
+    public List<String> getUniqueConstrains(String table) {
+        if (constrains == null) {
+            constrains = new HashMap<String, List<String>>();
+        }
+        if (!constrains.containsKey(table)) {
+            constrains.put(table, DBUtils.getUniqueConstrains(getReadableDatabase(), table));
+        }
+        return constrains.get(table);
     }
 }
