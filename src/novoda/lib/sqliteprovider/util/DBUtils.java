@@ -20,6 +20,10 @@ public class DBUtils {
 
     private static final String PRAGMA_TABLE = "PRAGMA table_info(\"%1$s\");";
 
+    private static final String PRGAMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
+
+    private static final String PRGAMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
+
     private static List<String> defaultTables = Arrays.asList(new String[] {
         "android_metadata"
     });
@@ -110,5 +114,23 @@ public class DBUtils {
         }
         cursor.close();
         return sqliteVersion;
+    }
+
+    public static List<String> getUniqueConstrains(SQLiteDatabase db, String table) {
+        List<String> constrains = new ArrayList<String>();
+        final Cursor pragmas = db.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
+        while (pragmas.moveToNext()) {
+            int isUnique = pragmas.getInt(2);
+            if (isUnique == 1) {
+                String name = pragmas.getString(1);
+                final Cursor pragmaInfo = db.rawQuery(String.format(PRGAMA_INDEX_INFO, name), null);
+                if (pragmaInfo.moveToFirst()) {
+                    constrains.add(pragmaInfo.getString(2));
+                }
+                pragmaInfo.close();
+            }
+        }
+        pragmas.close();
+        return constrains;
     }
 }
