@@ -19,6 +19,8 @@ public class DBUtilsTest extends AndroidTestCase {
 
     private static final String CREATE_2_TABLES_WITH_FOREIGN_KEY = "CREATE TABLE t(id INTEGER);\nCREATE TABLE t2(id INTEGER, t_id integer);\n";
 
+    private static final String CREATE_TABLE_WITH_CONSTRAIN = "CREATE TABLE t(id INTEGER, const TEXT UNIQUE NOT NULL);";
+
     public DBUtilsTest() {
     }
 
@@ -67,6 +69,21 @@ public class DBUtilsTest extends AndroidTestCase {
         Map<String, String> ft = DBUtils.getProjectionMap(db, "t", "t2");
         assertEquals("t.id", ft.get("id"));
         assertEquals("t2.id", ft.get("t2.id"));
+    }
 
+    public void testGettingUniqueConstrains() throws Exception {
+        DatabaseUtils.createDbFromSqlStatements(getContext(), "testing.db", 1,
+                CREATE_TABLE_WITH_CONSTRAIN);
+
+        SQLiteDatabase db = getContext().openOrCreateDatabase("testing.db", 0, null);
+        List<String> constrains = DBUtils.getUniqueConstrains(db, "t");
+        MoreAsserts.assertContentsInAnyOrder(constrains, "const");
+    }
+
+    public void testGettingUniqueConstrainsIsEmpty() throws Exception {
+        DatabaseUtils.createDbFromSqlStatements(getContext(), "testing.db", 1, CREATE_TABLES);
+        SQLiteDatabase db = getContext().openOrCreateDatabase("testing.db", 0, null);
+        List<String> constrains = DBUtils.getUniqueConstrains(db, "t");
+        MoreAsserts.assertEmpty(constrains);
     }
 }
