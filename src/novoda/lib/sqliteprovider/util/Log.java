@@ -1,6 +1,11 @@
 
 package novoda.lib.sqliteprovider.util;
 
+import android.content.ContentValues;
+import android.net.Uri;
+
+import java.util.Arrays;
+
 public class Log {
 
     public static class Provider {
@@ -112,6 +117,44 @@ public class Log {
 
         public static final void w(String msg) {
             android.util.Log.w(TAG, msg);
+        }
+    }
+
+    public static class ContentProvider {
+        public enum CPType {
+            INSERT, QUERY, DELETE, GET_TYPE, UPDATE
+        }
+
+        public static final void log(CPType type, String logTag, Uri uri, String[] projection,
+                String selection, String[] selectionArgs, String sortOrder, ContentValues values) {
+
+            StringBuilder builder = new StringBuilder("==== Content Provider Logger ====")
+                    .append('\n');
+            builder.append(type.name()).append(" request received").append('\n');
+            builder.append("Uri: ").append(uri.toString()).append('\n');
+
+            if (projection != null) {
+                builder.append("Projection: ").append(Arrays.toString(projection)).append('\n');
+            }
+
+            if (selection != null) {
+                builder.append("selection: ").append(selection).append('\n');
+            }
+
+            if (selectionArgs != null) {
+                builder.append("Selection Argument: ").append(Arrays.toString(selectionArgs))
+                        .append('\n');
+            }
+
+            if (sortOrder != null) {
+                builder.append("Sort Order: ").append(sortOrder).append('\n');
+            }
+
+            if (values != null) {
+                builder.append("content values:").append(values.toString()).append('\n');
+            }
+            builder.append("==== End Provider Logger ====").append('\n');
+            android.util.Log.i(logTag, builder.toString());
         }
     }
 }
