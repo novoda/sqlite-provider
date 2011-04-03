@@ -7,15 +7,17 @@
 
 <property name="tests.dir" value="tests"/>
 <property name="robolectric.dir" value="${tests.dir}/local"/>
+<property name="robolectric.dir.src" value="${robolectric.dir}"/>
 
 <import file="${sdk.dir}/tools/ant/pre_setup.xml" />
 
 <setup />
 
 <path id="classpath.test.robolectric">
-  <pathelement location="${external.libs.dir}/tests/junit-4.8.2.jar"/>
-  <pathelement path="${build.dir}"/>
-  <fileset dir="${external.libs.dir}/tests" includes="*.jar"/>
+  <pathelement location="${external.libs.dir}/junit-4.8.2.jar"/>
+  <pathelement path="${out.classes.absolute.dir}"/>
+  <fileset dir="${external.libs.dir}/test" includes="*.jar"/>
+  <pathelement location="${sdk.dir}/platforms/android-8/android.jar"/>
 </path>
 
 <target name="clean" description="clean up" >
@@ -32,7 +34,7 @@
 
 <target name="compile-test" depends="-resource-src, -aidl, -pre-compile"
                 description="Compiles project's .java files into .class files">
-                
+                <echo  message="${source.absolute.dir}" />
   <javac encoding="${java.encoding}"
                 source="${java.source}" target="${java.target}"
                 debug="true" extdirs=""
@@ -43,19 +45,25 @@
                 classpathref="android.libraries.jars">
             <src path="${source.absolute.dir}" />
             <src path="${gen.absolute.dir}" />
+            <src path="${robolectric.dir.src}" />
             <classpath>
                 <fileset dir="${external.libs.absolute.dir}" includes="*.jar" />
-                <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
+                <fileset dir="${external.libs.dir}/test" includes="*.jar" />
             </classpath>
         </javac>
-</target>
-
+      </target>
 
 <target name="test" depends="compile-test">
-  <junit>
-    <classpath refid="classpath.test.robolectric" />
+  <junit printsummary="yes" haltonfailure="no">
+    <classpath> 
+        <path refid="classpath.test.robolectric" />
+      </classpath>
     <formatter type="brief" usefile="false" />
-    <test name="TestExample" />
+    <batchtest fork="yes" todir="${reports.tests}">
+      <fileset dir="${robolectric.dir.src}">
+        <include name="**/*Test*.java"/>
+      </fileset>
+    </batchtest>
   </junit>
 </target>
 
