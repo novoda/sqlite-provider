@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 public class RoboRunner extends RobolectricTestRunner {
 
     public RoboRunner(Class<?> testClass) throws InitializationError {
-        super(testClass, new File(".."));
+        super(testClass, new File("../.."));
     }
 
     @Override
