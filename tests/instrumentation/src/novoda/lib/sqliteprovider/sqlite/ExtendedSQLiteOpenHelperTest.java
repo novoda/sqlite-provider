@@ -52,6 +52,6 @@ public class ExtendedSQLiteOpenHelperTest extends AndroidTestCase {
         db.execSQL("CREATE TABLE '" + childTable + "'(_id INTEGER PRIMARY KEY, " + parentTable
                 + "_id INTEGER, FOREIGN KEY(" + parentTable + "_id ) REFERENCES " + parentTable
                 + "(_id) );");
-        helper.executeForeignKeyTrigger();
+        //helper.executeForeignKeyTrigger();
     }
 }

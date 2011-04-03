@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SQLiteProvider" default="help">
+
+<property file="local.properties" />
+<property file="build.properties" />
+<property file="default.properties" />
+
+<property name="tests.dir" value="tests"/>
+<property name="robolectric.dir" value="${tests.dir}/local"/>
+
+<import file="${sdk.dir}/tools/ant/pre_setup.xml" />
+
+<setup />
+
+<path id="classpath.test.robolectric">
+  <pathelement location="${external.libs.dir}/tests/junit-4.8.2.jar"/>
+  <pathelement path="${build.dir}"/>
+  <fileset dir="${external.libs.dir}/tests" includes="*.jar"/>
+</path>
+
+<target name="clean" description="clean up" >
+  <delete dir="${build.dir}"/>
+  <delete dir="${test.output.dir}"/>
+  <delete file="${tests.dir}/tmp/cached-robolectric-classes.jar"/>
+</target>
+
+<path id="android.libraries.src">
+</path>
+
+<path id="android.libraries.jars">
+</path>
+
+<target name="compile-test" depends="-resource-src, -aidl, -pre-compile"
+                description="Compiles project's .java files into .class files">
+                
+  <javac encoding="${java.encoding}"
+                source="${java.source}" target="${java.target}"
+                debug="true" extdirs=""
+                destdir="${out.classes.absolute.dir}"
+                bootclasspathref="android.target.classpath"
+                verbose="${verbose}"
+                classpath="${extensible.classpath}"
+                classpathref="android.libraries.jars">
+            <src path="${source.absolute.dir}" />
+            <src path="${gen.absolute.dir}" />
+            <classpath>
+                <fileset dir="${external.libs.absolute.dir}" includes="*.jar" />
+                <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
+            </classpath>
+        </javac>
+</target>
+
+
+<target name="test" depends="compile-test">
+  <junit>
+    <classpath refid="classpath.test.robolectric" />
+    <formatter type="brief" usefile="false" />
+    <test name="TestExample" />
+  </junit>
+</target>
+
+</project>
