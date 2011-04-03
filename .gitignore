@@ -1,3 +1,4 @@
+project
 libs
 target/
 lib_managed/
@@ -11,3 +12,5 @@ tmp/
 .redcar/
 .project
 .classpath
+.gradle
+tests/tmp
