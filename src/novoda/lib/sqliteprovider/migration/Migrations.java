@@ -3,6 +3,7 @@ package novoda.lib.sqliteprovider.migration;
 
 import static novoda.lib.sqliteprovider.util.Log.Migration.e;
 import static novoda.lib.sqliteprovider.util.Log.Migration.i;
+import static novoda.lib.sqliteprovider.util.Log.Migration.w;
 import static novoda.lib.sqliteprovider.util.Log.Migration.infoLoggingEnabled;
 import novoda.lib.sqliteprovider.util.SQLFile;
 
@@ -70,20 +71,30 @@ public class Migrations {
         }
     };
 
+    public static void migrate(SQLiteDatabase db, String[] sqlFiles) throws IOException {
+    }
+
     public static void migrate(SQLiteDatabase db, AssetManager manager, String assetLocation)
             throws IOException {
-        
+
         if (infoLoggingEnabled()) {
             i("current DB version is: " + db.getVersion());
         }
-        
+
         String[] sqls = manager.list(assetLocation);
+        
+        if (sqls.length == 0) {
+            w("No SQL file found in asset folder");
+            return;
+        }
+        
         Migrations migrations = new Migrations(db.getVersion());
         Reader reader;
 
         for (String sqlfile : sqls) {
             migrations.add(sqlfile);
         }
+        
         for (String sql : migrations.getMigrationsFiles()) {
             reader = new InputStreamReader(manager.open(assetLocation + File.separator + sql,
                     AssetManager.ACCESS_RANDOM));
@@ -110,11 +121,13 @@ public class Migrations {
             }
         }
 
-        int v = migrations.extractDate(migrations.getMigrationsFiles().last());
-        if (infoLoggingEnabled()) {
-            i("setting version of DB to: " + v);
+        if (migrations.getMigrationsFiles().size() > 0) {
+            int v = migrations.extractDate(migrations.getMigrationsFiles().last());
+            db.setVersion(v);
+            if (infoLoggingEnabled()) {
+                i("setting version of DB to: " + v);
+            }
         }
-        db.setVersion(v);
     }
 
     public static int getVersion(AssetManager assets, String migrationsPath) throws IOException {

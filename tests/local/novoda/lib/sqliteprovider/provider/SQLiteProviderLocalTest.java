@@ -160,10 +160,10 @@ public class SQLiteProviderLocalTest {
         Uri uri = Uri.parse("content://test.com/?q=1&q=2");
         List<String> p = uri.getQueryParameters("q");
         assertThat(p, hasItems("1", "2"));
-        
+
         query("test.com/table?expand=childs");
         verify(builder).setTables("table");
-        //verify(builder).setTables("table INNER JOIN childs ON table.child_id=childs._id");
+        // verify(builder).setTables("table INNER JOIN childs ON table.child_id=childs._id");
     }
 
     @Implements(ContentUris.class)
@@ -191,7 +191,7 @@ public class SQLiteProviderLocalTest {
         provider.query(Uri.parse("content://" + uri), null, null, null, null);
     }
 
-    public class SQLiteProviderImpl extends SQLiteProvider {
+    public class SQLiteProviderImpl extends SQLiteContentProviderImpl {
         @Override
         protected SQLiteDatabase getReadableDatabase() {
             return db;
@@ -207,7 +207,7 @@ public class SQLiteProviderLocalTest {
         }
 
         @Override
-        ExtendedSQLiteQueryBuilder getSQLiteQueryBuilder() {
+        protected ExtendedSQLiteQueryBuilder getSQLiteQueryBuilder() {
             return builder;
         }
     }

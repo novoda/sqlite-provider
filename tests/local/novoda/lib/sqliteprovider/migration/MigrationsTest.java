@@ -43,7 +43,6 @@ public class MigrationsTest {
         assertTrue("a correct file name can be inserted", migration.add("121321313_test_teste.sql"));
         assertFalse("a file name without .sql can not be inserted", migration.add("12_test"));
         assertFalse("a file name without timestamp can not be inserted", migration.add("test.sql"));
-
         assertThat(migration.getMigrationsFiles().size(), equalTo(2));
     }
 
@@ -89,5 +88,14 @@ public class MigrationsTest {
         
         //verify(db, times(3)).execSQL(anyString());
         verify(db).setVersion(123456);
+    }
+    
+    @Test
+    public void testNoFiles() throws IOException {
+        when(db.getVersion()).thenReturn(0);
+        AssetManager manager = mock(AssetManager.class);
+        when(manager.list(anyString())).thenReturn(new String[] {          
+        });
+        Migrations.migrate(db, manager, "sql");
     }
 }

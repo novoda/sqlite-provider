@@ -176,7 +176,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
                 having, sortOrder, limit);
     }
 
-    private ExtendedSQLiteQueryBuilder getSQLiteQueryBuilder() {
+    protected ExtendedSQLiteQueryBuilder getSQLiteQueryBuilder() {
         return new ExtendedSQLiteQueryBuilder();
     }
 }
