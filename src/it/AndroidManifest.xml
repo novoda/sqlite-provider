@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	android:versionCode="1" android:versionName="1.0"
+	package="novoda.lib.sqliteprovider.tests">
+	<application>
+
+		<uses-library android:name="android.test.runner" />
+
+		<provider android:authorities="novoda.lib.sqliteprovider.provider.sqliteprovider"
+			android:name="novoda.lib.sqliteprovider.provider.SQLiteProvider" />
+
+		<provider android:authorities="novoda.lib.sqliteprovider.test"
+			android:name="novoda.lib.sqliteprovider.testproviders.TestProvider" />
+
+	</application>
+	<instrumentation android:name="android.test.InstrumentationTestRunner"
+		android:targetPackage="novoda.lib.sqliteprovider.tests" android:label="Tests for sqliteprovider" />
+</manifest>
