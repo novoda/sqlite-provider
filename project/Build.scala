@@ -8,17 +8,14 @@ object General {
   val settings = Defaults.defaultSettings ++ Seq(
     name := "SQLiteProvider",
     version := "0.0.1",
-    scalaVersion := "2.9.0-1",
+    scalaVersion := "2.9.1",
     platformName in Android := "android-10",
     fullClasspath in Test <<= (fullClasspath in Test, baseDirectory) map { (cp, bd) => cp sortWith ((x,y) => !x.data.getName.contains("android"))},
 
     libraryDependencies ++= Seq(
-      "com.google.android" % "android" % "2.3.3",
-      "org.specs2" %% "specs2" % "1.5" % "test",
-      "org.eclipse.jetty" % "jetty-websocket" % "7.5.0.RC1" % "test",
-      "org.eclipse.jetty" % "jetty-servlet" % "7.5.0.RC1" % "test",
-"com.novocode" % "junit-interface" % "0.7" % "test->default",
-      "com.github.jbrechtel" %% "robospecs" % "0.0.2-SNAPSHOT" % "test"
+	"com.novocode" % "junit-interface" % "0.7" % "test->default",
+	"com.pivotallabs" % "robolectric" % "1.0-RC1" % "test",
+	"org.mockito" % "mockito-all" % "1.9.0-rc1" % "test"
     ),
 
     resolvers ++= Seq(
@@ -39,10 +36,14 @@ object WSBuild extends Build {
     settings = General.settings  ++ AndroidBase.settings
   )
 
-  lazy val tests = Project(
-    "tests",
-    file("it"),
-    settings = General.settings ++ PlainJavaProject.settings
-  ) dependsOn main
-
+ lazy val tests = Project("instTest", file("."))
+      .configs( IntegrationTest )
+      .settings( Defaults.itSettings : _*)
+      .settings(General.settings : _*)
+      .settings( Defaults.itSettings : _*)
+      .settings( AndroidBase.settings : _*)
+      .settings(  AndroidInstall.settings : _*)
+      .settings( 
+	name := "SQLiteProviderTest"
+      ) dependsOn main
 }
