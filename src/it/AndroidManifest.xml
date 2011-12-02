@@ -5,9 +5,9 @@
 	<application>
 
 		<uses-library android:name="android.test.runner" />
-
+<!--
 		<provider android:authorities="novoda.lib.sqliteprovider.provider.sqliteprovider"
-			android:name="novoda.lib.sqliteprovider.provider.SQLiteProvider" />
+			android:name="novoda.lib.sqliteprovider.provider.SQLiteProvider" />-->
 
 		<provider android:authorities="novoda.lib.sqliteprovider.test"
 			android:name="novoda.lib.sqliteprovider.testproviders.TestProvider" />
