@@ -103,10 +103,10 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     }
 
     public void notifyUriChange(Uri uri) {
-        getContext().getContentResolver().notifyChange(uri, null, getNotificationSynToNetwork());
+        getContext().getContentResolver().notifyChange(uri, null, getNotificationSyncToNetwork());
     }
 
-    public boolean getNotificationSynToNetwork() {
+    public boolean getNotificationSyncToNetwork() {
         return false;
     }
 
