@@ -57,7 +57,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
         long rowId = helper.insert(uri, values);
         if (rowId > 0) {
             Uri newUri = ContentUris.withAppendedId(uri, rowId);
-            notifyUriChange(newUri, false);
+            notifyUriChange(newUri);
             return newUri;
         }
         throw new SQLException("Failed to insert row into " + uri);
@@ -83,7 +83,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
         if (rowId > 0) {
             Uri insertUri = ContentUris.withAppendedId(uri, rowId);
-            notifyUriChange(insertUri, false);
+            notifyUriChange(insertUri);
             return rowId;
         }
         throw new SQLException("Failed to update row into " + uri);
@@ -93,16 +93,21 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     protected int deleteInTransaction(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase database = getWritableDatabase();
         int count = database.delete(UriUtils.getItemDirID(uri), selection, selectionArgs);
-        notifyUriChange(uri, false);
+        notifyUriChange(uri);
         return count;
     }
 
     @Override
     protected void notifyChange() {
+
     }
 
-    public void notifyUriChange(Uri uri, boolean syncToNetwork) {
-        getContext().getContentResolver().notifyChange(uri, null, false);
+    public void notifyUriChange(Uri uri) {
+        getContext().getContentResolver().notifyChange(uri, null, getNotificationSynToNetwork());
+    }
+
+    public boolean getNotificationSynToNetwork() {
+        return false;
     }
 
     @Override
