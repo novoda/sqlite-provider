@@ -1,10 +1,7 @@
-
-import de.johoop.jacoco4sbt._
-import JacocoPlugin._
 import saab.Plugin._
 
-  import sbt._
-  import Keys._
+import sbt._
+import Keys._
 
 organization := "com.novoda"
 
@@ -22,8 +19,6 @@ libraryDependencies ++= Seq(
 )
 
 seq(Robolectric.settings : _*)
-
-seq(jacoco.settings : _*)
 
 seq(sbt.Defaults.itSettings : _*)
 
