@@ -172,8 +172,11 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
             Provider.v("==================== end of query =======================");
         }
-        return builder.query(getReadableDatabase(), projection, selection, selectionArgs, groupBy,
+        
+        Cursor cursor = builder.query(getReadableDatabase(), projection, selection, selectionArgs, groupBy,
                 having, sortOrder, limit);
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return cursor;
     }
 
     protected ExtendedSQLiteQueryBuilder getSQLiteQueryBuilder() {
