@@ -42,12 +42,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.android.maps</groupId>
-            <artifactId>maps</artifactId>
-            <version>15_r2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>1.9.0</version>
@@ -58,6 +52,12 @@
             <artifactId>android</artifactId>
             <version>4.0.1.2</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>com.google.android</groupId>
+          <artifactId>android-test</artifactId>
+          <version>4.0.1.2</version>
+          <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
