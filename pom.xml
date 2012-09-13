@@ -6,7 +6,7 @@
     <packaging>jar</packaging>
     <description>SQLiteProvider</description>
     <version>0.0.2-SNAPSHOT</version>
-    <name>typewriter</name>
+    <name>sqliteprovider</name>
     <organization>
         <name>com.novoda</name>
     </organization>
