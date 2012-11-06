@@ -99,10 +99,15 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
     @Override
     protected void notifyChange() {
+
     }
 
     public void notifyUriChange(Uri uri) {
-        getContext().getContentResolver().notifyChange(uri, null);
+        getContext().getContentResolver().notifyChange(uri, null, getNotificationSyncToNetwork());
+    }
+
+    public boolean getNotificationSyncToNetwork() {
+        return false;
     }
 
     @Override
