@@ -98,8 +98,9 @@ public class Migrations {
 
                 db.beginTransaction();
                 for (String insert : SQLFile.statementsFrom(reader)) {
-                    if (TextUtils.isEmpty(insert.trim()))
+                    if (TextUtils.isEmpty(insert.trim())){
                         continue;
+                    }
                     if (infoLoggingEnabled()) {
                         i("executing insert: " + insert);
                     }
