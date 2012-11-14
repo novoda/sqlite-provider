@@ -1,18 +1,15 @@
 
 package novoda.rest.database;
 
-import novoda.lib.sqliteprovider.util.DatabaseUtils;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import novoda.lib.sqliteprovider.util.DatabaseUtils;
+
+import java.util.*;
 import java.util.Map.Entry;
 
 public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
@@ -21,9 +18,9 @@ public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
 
-    private List<String> createdTable = new ArrayList<String>();
+    private final List<String> createdTable = new ArrayList<String>();
 
-    private Map<String, SQLiteTableCreator> createStatements = new HashMap<String, SQLiteTableCreator>();
+    private final Map<String, SQLiteTableCreator> createStatements = new HashMap<String, SQLiteTableCreator>();
 
     private static int dbVersion = 3;
 
