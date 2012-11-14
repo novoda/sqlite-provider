@@ -2,11 +2,11 @@ package novoda.rest.database;
 
 public interface SQLiteInserter {
 
-    static short CONTINUE = 0;
+    short CONTINUE = 0;
 
-    static short BREAK = 1;
+    short BREAK = 1;
 
-    static short ROLLBACK = 2;
+    short ROLLBACK = 2;
 
     int getCount();
 
