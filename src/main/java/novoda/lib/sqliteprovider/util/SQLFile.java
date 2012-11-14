@@ -1,11 +1,7 @@
 
 package novoda.lib.sqliteprovider.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +21,7 @@ public class SQLFile {
         statements = new ArrayList<String>();
         String line = null;
         while ((line = reader.readLine()) != null) {
-            line.trim();
+            line = line.trim();
             if (line.length() == 0) {
                 continue;
             }
