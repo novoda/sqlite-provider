@@ -27,7 +27,7 @@ public final class DBUtils {
     	// Util class
     }
     
-    static public List<String> getForeignTables(SQLiteDatabase db, String table) {
+    public static List<String> getForeignTables(SQLiteDatabase db, String table) {
         final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
         List<String> tables = getTables(db);
         List<String> foreignTables = new ArrayList<String>(5);
@@ -52,7 +52,7 @@ public final class DBUtils {
      * @param db the database to get meta information from
      * @return a list of tables
      */
-    static public List<String> getTables(SQLiteDatabase db) {
+    public static List<String> getTables(SQLiteDatabase db) {
         final Cursor cur = db.rawQuery(SELECT_TABLES_NAME, null);
         List<String> createdTable = new ArrayList<String>(cur.getCount());
         String tableName;
@@ -66,7 +66,7 @@ public final class DBUtils {
         return Collections.unmodifiableList(createdTable);
     }
 
-    static public Map<String, String> getProjectionMap(SQLiteDatabase db, String parent,
+    public static Map<String, String> getProjectionMap(SQLiteDatabase db, String parent,
             String... foreignTables) {
 
         Map<String, String> projection = new HashMap<String, String>();
@@ -85,7 +85,7 @@ public final class DBUtils {
         return Collections.unmodifiableMap(projection);
     }
 
-    static public Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
+    public static Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
         final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
         Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cur.getCount());
         String name;
