@@ -1,25 +1,21 @@
 
 package novoda.lib.sqliteprovider.provider;
 
-import novoda.lib.sqliteprovider.provider.action.InsertHelper;
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
-import novoda.lib.sqliteprovider.util.Log.Provider;
-import novoda.lib.sqliteprovider.util.UriUtils;
-
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
+import android.content.*;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import novoda.lib.sqliteprovider.provider.action.InsertHelper;
+import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
+import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
+import novoda.lib.sqliteprovider.util.*;
+import novoda.lib.sqliteprovider.util.Log.Provider;
+
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
@@ -47,7 +43,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
         try {
             return new ExtendedSQLiteOpenHelper(context);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.Provider.e(e);
             throw new IllegalStateException(e.getMessage());
         }
     }
