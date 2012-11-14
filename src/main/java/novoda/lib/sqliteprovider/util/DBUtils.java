@@ -36,7 +36,7 @@ public class DBUtils {
         while (cur.moveToNext()) {
             name = cur.getString(cur.getColumnIndexOrThrow("name"));
             if (name.endsWith("_id")) {
-                tableName = name.substring(0, name.lastIndexOf("_"));
+                tableName = name.substring(0, name.lastIndexOf('_'));
                 if (tables.contains(tableName + "s")) {
                     foreignTables.add(tableName + "s");
                 } else if (tables.contains(tableName)) {
