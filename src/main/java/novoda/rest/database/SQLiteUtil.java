@@ -10,6 +10,10 @@ public class SQLiteUtil {
 
     private static final short UPDATE = 2;
 
+    private SQLiteUtil() {
+		// Util Class
+	}
+    
     public static String[] getTriggers(final String parentTable, final String parentPKName,
             final String childTable, final String parentFKName) {
         return new String[] {

@@ -1,17 +1,12 @@
 
 package novoda.lib.sqliteprovider.util;
 
-import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
+
+import java.util.*;
 import java.util.Map.Entry;
 
 public class DBUtils {
@@ -28,6 +23,10 @@ public class DBUtils {
         "android_metadata"
     });
 
+    private DBUtils(){
+    	// Util class
+    }
+    
     static public List<String> getForeignTables(SQLiteDatabase db, String table) {
         final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
         List<String> tables = getTables(db);
