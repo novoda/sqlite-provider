@@ -13,35 +13,35 @@ public interface SQLiteTableCreator {
      * @return the primary key field within the cursor. If null, will use _id
      *         which auto increments
      */
-    public String getPrimaryKey();
+    String getPrimaryKey();
 
-    public boolean shouldPKAutoIncrement();
+    boolean shouldPKAutoIncrement();
 
-    public SQLiteType getType(final String field);
+    SQLiteType getType(final String field);
 
-    public boolean isNullAllowed(final String field);
+    boolean isNullAllowed(final String field);
 
-    public boolean isUnique(final String field);
+    boolean isUnique(final String field);
 
     // Could all this be put in a SQLiteTableCreator?
-    public boolean isOneToMany();
+    boolean isOneToMany();
     
-    public String getParentColumnName();
+    String getParentColumnName();
     
-    public SQLiteType getParentType();
+    SQLiteType getParentType();
     
-    public String getParentTableName();
+    String getParentTableName();
     
-    public String getParentPrimaryKey();
+    String getParentPrimaryKey();
     // End
 
-    public boolean shouldIndex(final String field);
+    boolean shouldIndex(final String field);
 
-    public SQLiteConflictClause onConflict(final String field);
+    SQLiteConflictClause onConflict(final String field);
 
-    public String getTableName();
+    String getTableName();
 
-    public String[] getTableFields();
+    String[] getTableFields();
     
-    public String[] getTriggers();
+    String[] getTriggers();
 }
