@@ -29,9 +29,9 @@ public class UriUtils {
 		return utils;
 	}
 
-	public static boolean isNumeric(String NumericChar){
+	public static boolean isNumeric(String numericChar){
 		try{
-			Integer.parseInt(NumericChar);
+			Integer.parseInt(numericChar);
 		} catch(NumberFormatException nfe) {
 			return false;
 		}
