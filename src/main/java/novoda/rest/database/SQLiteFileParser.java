@@ -1,9 +1,6 @@
 package novoda.rest.database;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Iterator;
 
 /*
@@ -12,7 +9,7 @@ import java.util.Iterator;
  */
 public class SQLiteFileParser implements Iterator<String>, Iterable<String> {
 
-	private BufferedReader br;
+	private final BufferedReader br;
 
 	private String currentLine = null;
 
@@ -32,11 +29,7 @@ public class SQLiteFileParser implements Iterator<String>, Iterable<String> {
 		try {
 			inHasNext  = true;
 			currentLine = getNextSQL();
-			if (currentLine != null) {
-				return true;
-			} else {
-				return false;
-			}
+			return currentLine != null;
 		} catch (IOException e) {
 			return false;
 		}
