@@ -1,31 +1,29 @@
 
 package novoda.lib.sqliteprovider.sqlite;
 
-import novoda.lib.sqliteprovider.migration.Migrations;
-import novoda.lib.sqliteprovider.util.DBUtils;
-
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.*;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteOpenHelper;
+
+import novoda.lib.sqliteprovider.migration.Migrations;
+import novoda.lib.sqliteprovider.util.DBUtils;
+import novoda.lib.sqliteprovider.util.Log;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // TODO caching?
 public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatabaseMetaInfo {
 
     private static final String MIGRATIONS_PATH = "migrations";
 
-    private Context context;
+    private final Context context;
 
     /*
      * We cache the constrains.
      */
-    private Map<String, List<String>> constrains = new HashMap<String, List<String>>();
+    private final Map<String, List<String>> constrains = new HashMap<String, List<String>>();
 
     public ExtendedSQLiteOpenHelper(Context context) throws IOException {
         this(context, context.getPackageName() + ".db", null, Migrations.getVersion(
@@ -68,7 +66,7 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
         try {
             Migrations.migrate(db, context.getAssets(), MIGRATIONS_PATH);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.Migration.e(e);
         }
     }
 
