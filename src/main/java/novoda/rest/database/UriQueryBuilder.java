@@ -21,10 +21,11 @@ public class UriQueryBuilder extends SQLiteQueryBuilder {
     }
 
     public String getTable() {
-        if (isDirectory())
+        if (isDirectory()){
             return pathSegments.get(pathSegments.size() - 1);
-        else
+        } else {
             return pathSegments.get(pathSegments.size() - 2);
+        }
     }
 
     public boolean isDirectory() {
