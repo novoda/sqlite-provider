@@ -2,7 +2,7 @@
 package novoda.rest.database;
 
 
-public class SQLiteUtil {
+public final class SQLiteUtil {
 
     private static final short DELETE = 0;
 

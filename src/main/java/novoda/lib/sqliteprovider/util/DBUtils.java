@@ -9,7 +9,7 @@ import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class DBUtils {
+public final class DBUtils {
 
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
 
