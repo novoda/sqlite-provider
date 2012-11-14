@@ -33,12 +33,12 @@ public class SQLFile {
                 continue;
             }
 
-            if (line.endsWith("*/") && inComment == true) {
+            if (line.endsWith("*/") && inComment) {
                 inComment = false;
                 continue;
             }
 
-            if (inComment == true)
+            if (inComment)
                 continue;
 
             statements.add(line);
