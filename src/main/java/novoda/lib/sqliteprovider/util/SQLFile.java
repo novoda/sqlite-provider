@@ -25,8 +25,9 @@ public class SQLFile {
             if (line.length() == 0) {
                 continue;
             }
-            if (line.startsWith("--"))
+            if (line.startsWith("--")){
                 continue;
+            }
 
             if (line.startsWith("/*")) {
                 inComment = true;
@@ -38,8 +39,9 @@ public class SQLFile {
                 continue;
             }
 
-            if (inComment)
+            if (inComment){
                 continue;
+            }
 
             statements.add(line);
         }
