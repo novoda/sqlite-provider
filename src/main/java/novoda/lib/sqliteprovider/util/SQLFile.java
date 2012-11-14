@@ -10,14 +10,12 @@ import java.util.List;
  */
 public class SQLFile {
 
-    private BufferedReader reader;
-
     private List<String> statements;
 
     private boolean inComment = false;
 
     public void parse(Reader in) throws IOException {
-        reader = new BufferedReader(in);
+    	BufferedReader reader = new BufferedReader(in);
         statements = new ArrayList<String>();
         String line = null;
         while ((line = reader.readLine()) != null) {
