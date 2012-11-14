@@ -16,15 +16,8 @@
 
 package novoda.lib.sqliteprovider.provider;
 
-import android.content.ContentProvider;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.OperationApplicationException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteTransactionListener;
+import android.content.*;
+import android.database.sqlite.*;
 import android.net.Uri;
 
 import java.util.ArrayList;
@@ -35,8 +28,6 @@ import java.util.ArrayList;
  */
 public abstract class SQLiteContentProvider extends ContentProvider implements
         SQLiteTransactionListener {
-
-    private static final String TAG = "SQLiteContentProvider";
 
     private SQLiteOpenHelper mOpenHelper;
 
@@ -215,15 +206,18 @@ public abstract class SQLiteContentProvider extends ContentProvider implements
         }
     }
 
-    public void onBegin() {
+    @Override
+	public void onBegin() {
         onBeginTransaction();
     }
 
-    public void onCommit() {
+    @Override
+	public void onCommit() {
         beforeTransactionCommit();
     }
 
-    public void onRollback() {
+    @Override
+	public void onRollback() {
         // not used
     }
 
