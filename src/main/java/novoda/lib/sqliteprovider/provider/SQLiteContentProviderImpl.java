@@ -133,8 +133,8 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
         if (expands.size() > 0) {
             builder.addInnerJoin(expands.toArray(new String[] {}));
-            ExtendedSQLiteOpenHelper helper = (ExtendedSQLiteOpenHelper) getDatabaseHelper();
-            autoproj = helper.getProjectionMap(tableName.toString(),
+            ExtendedSQLiteOpenHelper extendedHelper = (ExtendedSQLiteOpenHelper) getDatabaseHelper();
+            autoproj = extendedHelper.getProjectionMap(tableName.toString(),
                     expands.toArray(new String[] {}));
             builder.setProjectionMap(autoproj);
         }
