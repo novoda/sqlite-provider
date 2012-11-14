@@ -1,25 +1,16 @@
 
 package novoda.lib.sqliteprovider.util;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.net.Uri;
 
+import java.util.*;
+
 public class UriUtils {
-
-	private static final String TAG = UriUtils.class.getSimpleName();
-
-	private Uri wrapped = null;
-
-	private boolean isItem = false;
 
 	private static Map<String, String> mappedIds = new HashMap<String, String>();
 
 	public static UriUtils from(Uri uri) {
 		UriUtils utils = new UriUtils();
-		utils.wrapped = uri;
 
 		final List<String> segs = uri.getPathSegments();
 		String parent = "";
