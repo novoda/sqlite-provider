@@ -1,30 +1,23 @@
 
 package novoda.lib.sqliteprovider.migration;
 
-import static novoda.lib.sqliteprovider.util.Log.Migration.e;
-import static novoda.lib.sqliteprovider.util.Log.Migration.i;
-import static novoda.lib.sqliteprovider.util.Log.Migration.w;
-import static novoda.lib.sqliteprovider.util.Log.Migration.infoLoggingEnabled;
-import novoda.lib.sqliteprovider.util.SQLFile;
+import static novoda.lib.sqliteprovider.util.Log.Migration.*;
 
 import android.content.res.AssetManager;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.Comparator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import novoda.lib.sqliteprovider.util.SQLFile;
+
+import java.io.*;
+import java.util.*;
 
 public class Migrations {
 
-    private SortedSet<String> migrations;
+    private final SortedSet<String> migrations;
 
-    private int startDate;
+    private final int startDate;
 
     public Migrations() {
         this(-1);
@@ -67,7 +60,7 @@ public class Migrations {
     /* package */Comparator<String> comparator = new Comparator<String>() {
         @Override
         public int compare(String file, String another) {
-            return new Integer(extractDate(file)).compareTo(new Integer(extractDate(another)));
+            return Integer.valueOf(extractDate(file)).compareTo(Integer.valueOf(extractDate(another)));
         }
     };
 
