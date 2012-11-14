@@ -1,14 +1,14 @@
 
 package novoda.lib.sqliteprovider.provider.action;
 
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
-import novoda.lib.sqliteprovider.util.Log;
-import novoda.lib.sqliteprovider.util.UriUtils;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
+
+import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
+import novoda.lib.sqliteprovider.util.Log;
+import novoda.lib.sqliteprovider.util.UriUtils;
 
 /**
  * Ability to do an Upsert rather then insert/replace as we loose the
@@ -18,7 +18,7 @@ import android.net.Uri;
  */
 public class InsertHelper {
 
-    private ExtendedSQLiteOpenHelper dbHelper;
+    private final ExtendedSQLiteOpenHelper dbHelper;
 
     public InsertHelper(ExtendedSQLiteOpenHelper helper) {
         this.dbHelper = helper;
@@ -88,11 +88,8 @@ public class InsertHelper {
     }
 
     protected void appendParentReference(Uri uri, ContentValues insertValues) {
-        if (UriUtils.hasParent(uri)) {
-            if (!insertValues.containsKey(UriUtils.getParentId(uri) + "_id")) {
-                insertValues.put(UriUtils.getParentColumnName(uri) + "_id",
-                        UriUtils.getParentId(uri));
-            }
+        if (UriUtils.hasParent(uri) && !insertValues.containsKey(UriUtils.getParentId(uri) + "_id")) {
+        	insertValues.put(UriUtils.getParentColumnName(uri) + "_id", UriUtils.getParentId(uri));
         }
     }
 }
