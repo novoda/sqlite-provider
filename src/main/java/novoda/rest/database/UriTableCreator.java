@@ -3,13 +3,13 @@ package novoda.rest.database;
 
 import android.net.Uri;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class UriTableCreator implements SQLiteTableCreator {
 
-    private Uri uri;
+    private static final String COL_PRIMARY_KEY = "_id";
+
+	private Uri uri;
 
     private List<String> pathSegments;
 
@@ -23,7 +23,7 @@ public class UriTableCreator implements SQLiteTableCreator {
     @Override
     public String getParentColumnName() {
         if (isOneToMany()) {
-            return new StringBuffer(pathSegments.get(pathSegments.size() - 3)).append("_id")
+            return new StringBuffer(pathSegments.get(pathSegments.size() - 3)).append(COL_PRIMARY_KEY)
                     .toString();
         }
         return null;
@@ -44,7 +44,7 @@ public class UriTableCreator implements SQLiteTableCreator {
 
     @Override
     public String getPrimaryKey() {
-        return "_id";
+        return COL_PRIMARY_KEY;
     }
 
     @Override
@@ -69,12 +69,12 @@ public class UriTableCreator implements SQLiteTableCreator {
 
     @Override
     public String getParentPrimaryKey() {
-        return "_id";
+        return COL_PRIMARY_KEY;
     }
 
     @Override
     public SQLiteType getType(String field) {
-        if (field.equals("_id")) {
+        if (field.equals(COL_PRIMARY_KEY)) {
             return SQLiteType.INTEGER;
         }
         return SQLiteType.TEXT;
@@ -113,7 +113,7 @@ public class UriTableCreator implements SQLiteTableCreator {
 
     @Override
     public boolean shouldPKAutoIncrement() {
-        if (getPrimaryKey() == null || getPrimaryKey().equals("_id")) {
+        if (getPrimaryKey() == null || getPrimaryKey().equals(COL_PRIMARY_KEY)) {
             return true;
         }
         return false;
