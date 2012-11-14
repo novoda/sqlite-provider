@@ -4,9 +4,7 @@ package novoda.rest.database;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class UriQueryBuilder extends SQLiteQueryBuilder {
 
@@ -19,8 +17,7 @@ public class UriQueryBuilder extends SQLiteQueryBuilder {
     }
 
     public static SQLiteQueryBuilder fromUri(final Uri uri) {
-        UriQueryBuilder builder = new UriQueryBuilder(uri);
-        return builder;
+        return new UriQueryBuilder(uri);
     }
 
     public String getTable() {
