@@ -57,7 +57,7 @@ public class Migrations {
      * Comparator against filename: <date>_create.sql vs <date2>_create.sql will
      * compare date with date2
      */
-    /* package */Comparator<String> comparator = new Comparator<String>() {
+    private final Comparator<String> comparator = new Comparator<String>() {
         @Override
         public int compare(String file, String another) {
             return Integer.valueOf(extractDate(file)).compareTo(Integer.valueOf(extractDate(another)));
