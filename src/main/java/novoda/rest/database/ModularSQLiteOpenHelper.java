@@ -15,8 +15,8 @@ import java.util.Map.Entry;
 public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String TAG = ModularSQLiteOpenHelper.class.getSimpleName();
-
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
+    private static final int ALWAYS_UPGRADE = 99;
 
     private final List<String> createdTable = new ArrayList<String>();
 
@@ -69,7 +69,7 @@ public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
             Log.v(TAG, "Will create table " + creator.getTableName());
             createStatements.put(creator.getTableName(), creator);
             getWritableDatabase().needUpgrade(++dbVersion);
-            onUpgrade(getWritableDatabase(), 0, 99);
+            onUpgrade(getWritableDatabase(), 0, ALWAYS_UPGRADE);
         }
     }
 
