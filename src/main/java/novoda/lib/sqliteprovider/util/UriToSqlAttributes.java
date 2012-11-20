@@ -4,7 +4,8 @@ import android.net.Uri;
 
 public class UriToSqlAttributes {
 
-	public Uri uri;
+	private final Uri uri;
+	
 	public UriToSqlAttributes(Uri uri) {
 		this.uri = uri;
 	}
@@ -14,5 +15,9 @@ public class UriToSqlAttributes {
 			 return true;
 		 }
 		 return false;
+	}
+	
+	protected Uri getUri(){
+		return uri;
 	}
 }

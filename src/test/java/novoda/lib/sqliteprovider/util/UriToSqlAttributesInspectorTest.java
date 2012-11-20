@@ -23,7 +23,7 @@ public class UriToSqlAttributesInspectorTest {
     @Test
 	public void testUriInspectorCreationBehaviour(){
 		attrs = uriInspector.parse(Uri.parse("content://test.com/item/1"));
-		assertEquals("content://test.com/item/1", attrs.uri.toString());
+		assertEquals("content://test.com/item/1", attrs.getUri().toString());
 	}
     
     @Test
