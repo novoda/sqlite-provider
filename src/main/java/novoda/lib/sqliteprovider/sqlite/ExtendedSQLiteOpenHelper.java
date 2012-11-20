@@ -74,13 +74,6 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onCreate(db);
     }
-
-    @Override
-    public void onOpen(SQLiteDatabase db) {
-        super.onOpen(db);
-        // TODO caching
-    }
-    
     
     @Override
     public Map<String, String> getProjectionMap(String parent, String... foreignTables) {
