@@ -26,23 +26,18 @@ import java.util.ArrayList;
  * General purpose {@link ContentProvider} base class that uses SQLiteDatabase
  * for storage.
  */
-public abstract class SQLiteContentProvider extends ContentProvider implements
-        SQLiteTransactionListener {
+public abstract class SQLiteContentProvider extends ContentProvider implements SQLiteTransactionListener {
 
+    private static final int SLEEP_AFTER_YIELD_DELAY = 4000;
+
+    private final ThreadLocal<Boolean> mApplyingBatch = new ThreadLocal<Boolean>();
     private SQLiteOpenHelper mOpenHelper;
 
     private volatile boolean mNotifyChange;
 
-    protected SQLiteDatabase mDb;
-
-    private final ThreadLocal<Boolean> mApplyingBatch = new ThreadLocal<Boolean>();
-
-    private static final int SLEEP_AFTER_YIELD_DELAY = 4000;
-
     @Override
     public boolean onCreate() {
-        Context context = getContext();
-        mOpenHelper = getDatabaseHelper(context);
+        mOpenHelper = getDatabaseHelper(getContext());
         return true;
     }
 
@@ -82,7 +77,7 @@ public abstract class SQLiteContentProvider extends ContentProvider implements
         Uri result = null;
         boolean applyingBatch = applyingBatch();
         if (!applyingBatch) {
-            mDb = mOpenHelper.getWritableDatabase();
+            SQLiteDatabase mDb = mOpenHelper.getWritableDatabase();
             mDb.beginTransactionWithListener(this);
             try {
                 result = insertInTransaction(uri, values);
@@ -107,7 +102,7 @@ public abstract class SQLiteContentProvider extends ContentProvider implements
     @Override
     public int bulkInsert(Uri uri, ContentValues[] values) {
         int numValues = values.length;
-        mDb = mOpenHelper.getWritableDatabase();
+        SQLiteDatabase mDb = mOpenHelper.getWritableDatabase();
         mDb.beginTransactionWithListener(this);
         try {
             for (int i = 0; i < numValues; i++) {
@@ -131,7 +126,7 @@ public abstract class SQLiteContentProvider extends ContentProvider implements
         int count = 0;
         boolean applyingBatch = applyingBatch();
         if (!applyingBatch) {
-            mDb = mOpenHelper.getWritableDatabase();
+            SQLiteDatabase mDb = mOpenHelper.getWritableDatabase();
             mDb.beginTransactionWithListener(this);
             try {
                 count = updateInTransaction(uri, values, selection, selectionArgs);
@@ -159,7 +154,7 @@ public abstract class SQLiteContentProvider extends ContentProvider implements
         int count = 0;
         boolean applyingBatch = applyingBatch();
         if (!applyingBatch) {
-            mDb = mOpenHelper.getWritableDatabase();
+            SQLiteDatabase mDb = mOpenHelper.getWritableDatabase();
             mDb.beginTransactionWithListener(this);
             try {
                 count = deleteInTransaction(uri, selection, selectionArgs);
@@ -184,7 +179,7 @@ public abstract class SQLiteContentProvider extends ContentProvider implements
     @Override
     public ContentProviderResult[] applyBatch(ArrayList<ContentProviderOperation> operations)
             throws OperationApplicationException {
-        mDb = mOpenHelper.getWritableDatabase();
+        SQLiteDatabase mDb = mOpenHelper.getWritableDatabase();
         mDb.beginTransactionWithListener(this);
         try {
             mApplyingBatch.set(true);
