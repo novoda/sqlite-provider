@@ -30,7 +30,7 @@ public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
         init();
     }
 
-    protected void init() {
+    private void init() {
         final Cursor cur = getReadableDatabase().rawQuery(SELECT_TABLES_NAME, null);
         while (cur.moveToNext()) {
             createdTable.add(cur.getString(0));

@@ -22,7 +22,7 @@ public class ExtendedSQLiteQueryBuilder {
     }
 
     /*
-     * select * from parent inner join child1, child2 on parent.id=child1.id and parent.id=child2.id;
+     * select * from parent inner join child1, child2 on parent.id=child1.id and parent.id=child2.id
      */
     public void addInnerJoin(String... children) {
         final String parent = delegate.getTables();

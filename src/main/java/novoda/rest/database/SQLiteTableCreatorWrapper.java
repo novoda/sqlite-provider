@@ -3,6 +3,7 @@ package novoda.rest.database;
 
 public class SQLiteTableCreatorWrapper implements SQLiteTableCreator {
 
+    private String[] appendColumns = new String[]{};
     private final SQLiteTableCreator wrapped;
 
     public SQLiteTableCreatorWrapper(SQLiteTableCreator original) {
@@ -38,9 +39,7 @@ public class SQLiteTableCreatorWrapper implements SQLiteTableCreator {
     public String[] getTableFields() {
         String[] cursor = new String[wrapped.getTableFields().length + appendColumns.length];
         System.arraycopy(wrapped.getTableFields(), 0, cursor, 0, wrapped.getTableFields().length);
-        System
-                .arraycopy(appendColumns, 0, cursor, wrapped.getTableFields().length,
-                        appendColumns.length);
+        System.arraycopy(appendColumns, 0, cursor, wrapped.getTableFields().length, appendColumns.length);
         return cursor;
     }
 
@@ -90,8 +89,6 @@ public class SQLiteTableCreatorWrapper implements SQLiteTableCreator {
     }
 
     public void appendColumns(String[] columns) {
-        this.appendColumns = columns;
+        this.appendColumns = (columns != null) ? columns.clone() : new String[]{};
     }
-
-    private String[] appendColumns = new String[]{};
 }
