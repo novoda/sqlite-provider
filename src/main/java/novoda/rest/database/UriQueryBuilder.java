@@ -45,7 +45,6 @@ public class UriQueryBuilder extends SQLiteQueryBuilder {
         pathSegments = new ArrayList<String>(Arrays.asList(uri.getPath().split("/")));
         pathSegments.remove(0);
         setTables(getTable());
-        // appendWhereEscapeString(getWhere());
     }
 
     public String getWhere() {
@@ -73,6 +72,4 @@ public class UriQueryBuilder extends SQLiteQueryBuilder {
     public Uri getUri() {
         return uri;
     }
-
-    
 }

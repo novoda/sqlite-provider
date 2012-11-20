@@ -76,25 +76,12 @@ public class UriUtils {
 		}
 	}
 
-	/*	public static boolean hasParent(Uri uri){
-			if (!isNumberedEntryWithinCollection(uri)){
-				if (uri.getPathSegments().size()>2){
-					return true;
-				}  else if (uri.getPathSegments().size()>3){
-					return true;
-				}
-			}
-		return false;
-	}*/
-
 	public static boolean hasParent(Uri uri){
 		if (uri.getPathSegments().size()>2){
 			return true;
 		}
 		return false;
 	}
-
-
 
 	public static String getParentColumnName(Uri uri){
 		if (hasParent(uri)){
@@ -118,9 +105,7 @@ public class UriUtils {
 		return "";
 	}
 
-
 	public Map<String, String> getMappedIds() {
 		return mappedIds;
 	}
-
 }

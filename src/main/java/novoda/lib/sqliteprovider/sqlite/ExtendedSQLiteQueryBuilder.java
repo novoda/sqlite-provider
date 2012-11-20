@@ -2,9 +2,8 @@
 package novoda.lib.sqliteprovider.sqlite;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.*;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.text.TextUtils;
 
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.Set;
 
 public class ExtendedSQLiteQueryBuilder {
 
-    private SQLiteQueryBuilder delegate;
+    private final SQLiteQueryBuilder delegate;
 
     public ExtendedSQLiteQueryBuilder() {
         delegate = new SQLiteQueryBuilder();
@@ -23,8 +22,7 @@ public class ExtendedSQLiteQueryBuilder {
     }
 
     /*
-     * select * from parent inner join child1, child2 on parent.id=child1.id and
-     * parent.id=child2.id;
+     * select * from parent inner join child1, child2 on parent.id=child1.id and parent.id=child2.id;
      */
     public void addInnerJoin(String... children) {
         final String parent = delegate.getTables();
@@ -104,7 +102,8 @@ public class ExtendedSQLiteQueryBuilder {
         delegate.setCursorFactory(factory);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return delegate.toString();
     }
 }
