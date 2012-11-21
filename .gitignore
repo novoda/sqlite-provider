@@ -12,8 +12,15 @@ tmp/
 .redcar/
 .project
 .classpath
+.settings
+.idea/
 .gradle
 tests/tmp
 local.properties
 *~
 *.iml
+*.iws
+*.ipr
+.externalToolBuilders
+maven-eclipse.xml
+*.DS_Store
