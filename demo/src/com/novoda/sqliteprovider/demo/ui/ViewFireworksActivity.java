@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.loader.FireworkLoader;
+import com.novoda.sqliteprovider.demo.ui.adapter.FireworkAdapter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
 import java.util.ArrayList;
@@ -38,8 +39,10 @@ public class ViewFireworksActivity extends NovodaActivity implements LoaderCallb
 		data = new ArrayList<Firework>();
 		data.add(new Firework("name", "color", "type", "noise"));
 		
-		final ArrayAdapter<Firework> adapter = new ArrayAdapter<Firework>(this, android.R.layout.simple_list_item_1, android.R.id.text1, data);
-	
+		updateList(new FireworkAdapter(this, data));
+	}
+
+	private void updateList(final ArrayAdapter<Firework> adapter) {
 		uiHook.post(new Runnable() {
 			public void run() {
 				listview.setAdapter(adapter);
