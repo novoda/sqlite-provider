@@ -13,7 +13,7 @@ public class DBUtilsTest extends AndroidTestCase {
 
     private static final String CREATE_TABLES = "CREATE TABLE t1(id INTEGER, name TEXT, r REAL);\n";
     private static final String CREATE_2_TABLES = "CREATE TABLE T(id INTEGER);\nCREATE TABLE T2(id INTEGER);\n";
-    private static final String CREATE_2_TABLES_WITH_FOREIGN_KEY = "CREATE TABLE t(id INTEGER);\nCREATE TABLE t2(id INTEGER, t_id integer);\n";
+    private static final String CREATE_2_TABLES_WITH_FOREIGN_KEY = "CREATE TABLE t(id INTEGER);\nCREATE TABLE t2(id INTEGER, t_id INTEGER);\n";
     private static final String CREATE_TABLE_WITH_CONSTRAIN = "CREATE TABLE t(id INTEGER, const TEXT UNIQUE NOT NULL);";
 
     @Override
@@ -38,8 +38,7 @@ public class DBUtilsTest extends AndroidTestCase {
     }
 
     public void testGetForeignKey() throws Exception {
-        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), "testing.db", 1,
-                CREATE_2_TABLES_WITH_FOREIGN_KEY);
+        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), "testing.db", 1, CREATE_2_TABLES_WITH_FOREIGN_KEY);
         SQLiteDatabase db = getContext().openOrCreateDatabase("testing.db", 0, null);
         List<String> ft = DBUtils.getForeignTables(db, "t2");
         MoreAsserts.assertContentsInAnyOrder(ft, "t");
@@ -56,8 +55,8 @@ public class DBUtilsTest extends AndroidTestCase {
         android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), "testing.db", 1, CREATE_2_TABLES_WITH_FOREIGN_KEY);
         SQLiteDatabase db = getContext().openOrCreateDatabase("testing.db", 0, null);
         Map<String, String> ft = DBUtils.getProjectionMap(db, "t", "t2");
-        assertEquals("t.id", ft.get("id"));
-        assertEquals("t2.id", ft.get("t2.id"));
+        assertEquals("t.id AS t_id", ft.get("t_id"));
+        assertEquals("t2.id AS t2_id", ft.get("t2_id"));
     }
 
     public void testGettingUniqueConstrains() throws Exception {
