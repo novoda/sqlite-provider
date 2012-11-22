@@ -12,6 +12,7 @@ import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.loader.FireworkLoader;
 import com.novoda.sqliteprovider.demo.ui.adapter.FireworkAdapter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +33,12 @@ public class ViewFireworksActivity extends NovodaActivity implements LoaderCallb
 	}
 
 	public Loader<List<Firework>> onCreateLoader(int id, Bundle args) {
+		Log.i("Loading fireworks into activity");
 		return new FireworkLoader(this);
 	}
 
 	public void onLoadFinished(Loader<List<Firework>> loader, List<Firework> data) {
+		Log.i("Finished loading fireworks");
 		data = new ArrayList<Firework>();
 		data.add(new Firework("name", "color", "type", "noise"));
 		
@@ -43,6 +46,7 @@ public class ViewFireworksActivity extends NovodaActivity implements LoaderCallb
 	}
 
 	private void updateList(final ArrayAdapter<Firework> adapter) {
+		Log.i("updating activity list");
 		uiHook.post(new Runnable() {
 			public void run() {
 				listview.setAdapter(adapter);
