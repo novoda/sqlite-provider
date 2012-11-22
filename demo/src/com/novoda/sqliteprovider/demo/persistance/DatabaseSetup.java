@@ -39,7 +39,13 @@ public class DatabaseSetup {
 		Log.i("Adding fireworks");
 		
 		addFirework(database, "The Big Boy", "Red", "Rocket", "Bang");
-	
+		addFirework(database, "Water Falls", "Blue", "Fountain", "Fizz");
+		addFirework(database, "Rotar Motor", "Green", "Cathrine Wheel", "Whizz");
+		addFirework(database, "The Dieing Ghost", "White", "Screamer", "Eeek");
+		addFirework(database, "Asda Firework 1", "Brown", "Rocket", "Pop");
+		addFirework(database, "Asda Firework 2", "Green", "Rocket", "Bang");
+		addFirework(database, "Asda Firework 3", "Green and Brown", "Fountain", "Fizz");
+		
 		Log.i("Finished adding fireworks");
 	}
 
