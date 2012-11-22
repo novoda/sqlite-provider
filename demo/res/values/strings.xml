@@ -4,5 +4,6 @@
   <string name="app_name">SQLiteProviderDemo</string>
   <string name="hello_world">Hello world!</string>
   <string name="menu_settings">Settings</string>
+  <string name="button_main_view_all_fireworks">View all Fireworks</string>
 
 </resources>

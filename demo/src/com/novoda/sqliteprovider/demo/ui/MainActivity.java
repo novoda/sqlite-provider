@@ -1,10 +1,12 @@
 package com.novoda.sqliteprovider.demo.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.*;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.os.Bundle;
+import android.view.View;
 
 import com.novoda.sqliteprovider.demo.R;
 
@@ -21,6 +23,11 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(this, DB_NAME, new MyCusorFactory(), DB_VERSION);
+	}
+	
+	public void onViewAllFireworksClick(View button){
+		Intent intent = new Intent(this, ViewFireworksActivity.class);
+		startActivity(intent);
 	}
 	
 	class MyCusorFactory implements CursorFactory {
