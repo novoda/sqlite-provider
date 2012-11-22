@@ -14,7 +14,6 @@ import com.novoda.sqliteprovider.demo.ui.adapter.FireworkAdapter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ViewFireworksActivity extends NovodaActivity implements LoaderCallbacks<List<Firework>>{
@@ -39,9 +38,6 @@ public class ViewFireworksActivity extends NovodaActivity implements LoaderCallb
 
 	public void onLoadFinished(Loader<List<Firework>> loader, List<Firework> data) {
 		Log.i("Finished loading fireworks");
-		data = new ArrayList<Firework>();
-		data.add(new Firework("name", "color", "type", "noise"));
-		
 		updateList(new FireworkAdapter(this, data));
 	}
 
