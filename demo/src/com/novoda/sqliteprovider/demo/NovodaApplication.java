@@ -18,11 +18,15 @@ public class NovodaApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		
+		deleteDatabase(DB_NAME);
+		
 		ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(this, DB_NAME, new MyCusorFactory(), DB_VERSION);
 		Log.i("Helper started for: "+DB_NAME);
 		DatabaseSetup databaseSetup = new DatabaseSetup(helper);
 		
 		databaseSetup.createTables();
+		databaseSetup.addStaticData();
 	}
 
 	class MyCusorFactory implements CursorFactory {

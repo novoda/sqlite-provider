@@ -26,4 +26,22 @@ public class DatabaseSetup {
 		Log.i("Created all tables");
 	}
 
+	public void addStaticData() {
+		Log.i("Adding static data");
+		SQLiteDatabase database = helper.getWritableDatabase();
+		
+		addFireworks(database);
+	}
+
+	private void addFireworks(SQLiteDatabase database) {
+		Log.i("Adding fireworks");
+		
+		addFirework(database, "The Big Boy", "Red", "Rocket", "Bang");
+		
+	}
+
+	private void addFirework(SQLiteDatabase database, String... args) {
+		database.rawQuery(SqlFireworks.INSERT_INTO, args);
+	}
+
 }
