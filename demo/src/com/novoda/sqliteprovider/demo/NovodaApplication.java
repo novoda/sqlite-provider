@@ -14,19 +14,24 @@ public class NovodaApplication extends Application {
 
 	private static final String DB_NAME = "fireworks.db";
 	private static final int DB_VERSION = 1;
+	private ExtendedSQLiteOpenHelper helper;
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
 		deleteDatabase(DB_NAME);
 		
-		ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(this, DB_NAME, new MyCusorFactory(), DB_VERSION);
-		Log.i("Helper started for: "+DB_NAME);
-		DatabaseSetup databaseSetup = new DatabaseSetup(helper);
-		
+		DatabaseSetup databaseSetup = new DatabaseSetup(getHelper());
 		databaseSetup.createTables();
 		databaseSetup.addStaticData();
+	}
+
+	public ExtendedSQLiteOpenHelper getHelper() {
+		if(helper == null){
+			Log.i("Helper started for: "+DB_NAME);
+			helper = new ExtendedSQLiteOpenHelper(this, DB_NAME, new MyCusorFactory(), DB_VERSION);
+		}
+		return helper;
 	}
 
 	class MyCusorFactory implements CursorFactory {
