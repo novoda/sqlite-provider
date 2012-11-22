@@ -6,10 +6,13 @@ import android.support.v4.content.Loader;
 import android.widget.ListView;
 
 import com.novoda.sqliteprovider.demo.R;
+import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.loader.FireworkLoader;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
-public class ViewFireworksActivity extends NovodaActivity implements LoaderCallbacks<Object>{
+import java.util.List;
+
+public class ViewFireworksActivity extends NovodaActivity implements LoaderCallbacks<List<Firework>>{
 
 	private ListView listview;
 
@@ -23,15 +26,15 @@ public class ViewFireworksActivity extends NovodaActivity implements LoaderCallb
 		getSupportLoaderManager().initLoader(123, null, this);
 	}
 
-	public Loader<Object> onCreateLoader(int id, Bundle args) {
+	public Loader<List<Firework>> onCreateLoader(int id, Bundle args) {
 		return new FireworkLoader(this);
 	}
 
-	public void onLoadFinished(Loader<Object> loader, Object data) {
+	public void onLoadFinished(Loader<List<Firework>> loader, List<Firework> data) {
 		
 	}
 
-	public void onLoaderReset(Loader<Object> loader) {
+	public void onLoaderReset(Loader<List<Firework>> loader) {
 		
 	}
 	
