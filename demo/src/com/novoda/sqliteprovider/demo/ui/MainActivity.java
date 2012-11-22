@@ -1,6 +1,5 @@
 package com.novoda.sqliteprovider.demo.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.*;
@@ -9,10 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.novoda.sqliteprovider.demo.R;
+import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 
-public class MainActivity extends Activity {
+public class MainActivity extends NovodaActivity {
 
 	private static final String DB_NAME = "fireworks.db";
 	private static final int DB_VERSION = 1;

@@ -1,7 +1,7 @@
 package com.novoda.sqliteprovider.demo.ui;
 
-import android.app.Activity;
+import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
-public class ViewFireworksActivity extends Activity {
+public class ViewFireworksActivity extends NovodaActivity {
 
 }
