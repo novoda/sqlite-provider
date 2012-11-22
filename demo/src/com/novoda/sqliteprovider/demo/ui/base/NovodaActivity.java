@@ -1,7 +1,7 @@
 package com.novoda.sqliteprovider.demo.ui.base;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 
-public class NovodaActivity extends Activity {
+public class NovodaActivity extends FragmentActivity {
 
 }
