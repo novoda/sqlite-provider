@@ -12,15 +12,9 @@ import java.util.Map;
 public class DBUtilsTest extends AndroidTestCase {
 
     private static final String CREATE_TABLES = "CREATE TABLE t1(id INTEGER, name TEXT, r REAL);\n";
-
     private static final String CREATE_2_TABLES = "CREATE TABLE T(id INTEGER);\nCREATE TABLE T2(id INTEGER);\n";
-
     private static final String CREATE_2_TABLES_WITH_FOREIGN_KEY = "CREATE TABLE t(id INTEGER);\nCREATE TABLE t2(id INTEGER, t_id integer);\n";
-
     private static final String CREATE_TABLE_WITH_CONSTRAIN = "CREATE TABLE t(id INTEGER, const TEXT UNIQUE NOT NULL);";
-
-    public DBUtilsTest() {
-    }
 
     @Override
     protected void setUp() throws Exception {
@@ -61,8 +55,7 @@ public class DBUtilsTest extends AndroidTestCase {
     }
 
     public void testGettingProjectionMap() throws Exception {
-        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), "testing.db", 1,
-                CREATE_2_TABLES_WITH_FOREIGN_KEY);
+        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), "testing.db", 1, CREATE_2_TABLES_WITH_FOREIGN_KEY);
         SQLiteDatabase db = getContext().openOrCreateDatabase("testing.db", 0, null);
         Map<String, String> ft = DBUtils.getProjectionMap(db, "t", "t2");
         assertEquals("t.id", ft.get("id"));
@@ -70,8 +63,7 @@ public class DBUtilsTest extends AndroidTestCase {
     }
 
     public void testGettingUniqueConstrains() throws Exception {
-        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), "testing.db", 1,
-                CREATE_TABLE_WITH_CONSTRAIN);
+        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), "testing.db", 1, CREATE_TABLE_WITH_CONSTRAIN);
 
         SQLiteDatabase db = getContext().openOrCreateDatabase("testing.db", 0, null);
         List<String> constrains = DBUtils.getUniqueConstrains(db, "t");

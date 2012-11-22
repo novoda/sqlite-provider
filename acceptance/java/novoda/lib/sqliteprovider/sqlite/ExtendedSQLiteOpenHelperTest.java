@@ -16,9 +16,17 @@ public class ExtendedSQLiteOpenHelperTest extends AndroidTestCase {
         super.setUp();
         helper = new ExtendedSQLiteOpenHelper(getContext());
     }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        for (String db : getContext().databaseList()) {
+        	getContext().deleteDatabase(db);
+        }
+        super.tearDown();
+    }
 
     public void testGetTableNames() throws Exception {
-		helper.getWritableDatabase().execSQL("CREATE TABLE IF NOT EXISTS 'test'(id integer);");
+		helper.getWritableDatabase().execSQL("CREATE TABLE 'test'(id integer);");
         
         assertTrue("Table 'test' was not returned from getTables()", helper.getTables().contains("test"));
     }
@@ -38,8 +46,8 @@ public class ExtendedSQLiteOpenHelperTest extends AndroidTestCase {
 
     private void insertOne2Many(String parentTable, String childTable) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        db.execSQL("CREATE TABLE IF NOT EXISTS '" + parentTable + "'(_id INTEGER PRIMARY KEY);");
-        db.execSQL("CREATE TABLE IF NOT EXISTS '" + childTable + "'(_id INTEGER PRIMARY KEY, " + parentTable
+        db.execSQL("CREATE TABLE '" + parentTable + "'(_id INTEGER PRIMARY KEY);");
+        db.execSQL("CREATE TABLE '" + childTable + "'(_id INTEGER PRIMARY KEY, " + parentTable
                 + "_id INTEGER, FOREIGN KEY(" + parentTable + "_id ) REFERENCES " + parentTable
                 + "(_id) );");
     }
