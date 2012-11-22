@@ -1,10 +1,12 @@
-package com.novoda.sqliteprovider.demo;
+package com.novoda.sqliteprovider.demo.ui;
 
 import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.*;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.os.Bundle;
+
+import com.novoda.sqliteprovider.demo.R;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 
