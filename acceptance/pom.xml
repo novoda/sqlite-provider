@@ -10,7 +10,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>acceptance</artifactId>
+  <artifactId>sqliteprovider-acceptance</artifactId>
   <name>sqliteprovider-acceptance</name>
   <packaging>apk</packaging>
   <version>1.0.0-SNAPSHOT</version>
