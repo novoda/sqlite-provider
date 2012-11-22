@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.*;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
+import com.novoda.sqliteprovider.demo.util.Log;
+
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 
 public class NovodaApplication extends Application {
@@ -16,6 +18,8 @@ public class NovodaApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(this, DB_NAME, new MyCusorFactory(), DB_VERSION);
+
+		Log.i("Helper started for: "+DB_NAME);
 	}
 	
 
