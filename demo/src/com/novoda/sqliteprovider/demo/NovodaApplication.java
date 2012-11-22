@@ -21,12 +21,12 @@ public class NovodaApplication extends Application {
 		super.onCreate();
 		deleteDatabase(DB_NAME);
 		
-		DatabaseSetup databaseSetup = new DatabaseSetup(getHelper());
+		DatabaseSetup databaseSetup = new DatabaseSetup(getSqliteHelper());
 		databaseSetup.createTables();
 		databaseSetup.addStaticData();
 	}
 
-	public ExtendedSQLiteOpenHelper getHelper() {
+	public ExtendedSQLiteOpenHelper getSqliteHelper() {
 		if(helper == null){
 			Log.i("Helper started for: "+DB_NAME);
 			helper = new ExtendedSQLiteOpenHelper(this, DB_NAME, new MyCusorFactory(), DB_VERSION);
