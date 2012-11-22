@@ -7,10 +7,15 @@ public class Firework {
 	public final String type;
 	public final String noise;
 	
-	public Firework(String name, String color, String type, String noice) {
+	public Firework(String name, String color, String type, String noise) {
 		this.name = name;
 		this.color = color;
 		this.type = type;
-		this.noise = noice;
+		this.noise = noise;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 }
