@@ -66,9 +66,7 @@ public final class DBUtils {
         return Collections.unmodifiableList(createdTable);
     }
 
-    public static Map<String, String> getProjectionMap(SQLiteDatabase db, String parent,
-            String... foreignTables) {
-
+    public static Map<String, String> getProjectionMap(SQLiteDatabase db, String parent, String... foreignTables) {
         Map<String, String> projection = new HashMap<String, String>();
         projection.put("_id", parent + "._id AS _id");
         for (Entry<String, SQLiteType> entry : getFields(db, parent).entrySet()) {
