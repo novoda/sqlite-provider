@@ -1,5 +1,8 @@
 package com.novoda.sqliteprovider.demo.persistance;
 
+import static com.novoda.sqliteprovider.demo.persistance.SqlFireworks.*;
+
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.novoda.sqliteprovider.demo.util.Log;
@@ -19,7 +22,7 @@ public class DatabaseSetup {
 		
 		SQLiteDatabase database = helper.getWritableDatabase();
 		
-		database.execSQL(SqlFireworks.CREATE_TABLE);
+		database.execSQL(CREATE_TABLE);
 		Log.i("Created Fireworks table");
 
 		
@@ -50,7 +53,12 @@ public class DatabaseSetup {
 	}
 
 	private void addFirework(SQLiteDatabase database, String... args) {
-		database.rawQuery(SqlFireworks.INSERT_INTO, args);
+		ContentValues cv = new ContentValues();
+		cv.put(COL_NAME, args[0]);
+		cv.put(COL_COLOR, args[1]);
+		cv.put(COL_TYPE, args[2]);
+		cv.put(COL_NOISE, args[3]);
+		database.insert(TBL_NAME, null, cv);
 	}
 
 }

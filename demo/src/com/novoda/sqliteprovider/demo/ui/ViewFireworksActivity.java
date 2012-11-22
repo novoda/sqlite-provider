@@ -33,7 +33,7 @@ public class ViewFireworksActivity extends NovodaActivity implements LoaderCallb
 
 	public Loader<List<Firework>> onCreateLoader(int id, Bundle args) {
 		Log.i("Loading fireworks into activity");
-		return new FireworkLoader(this, getApp().getSqliteHelper());
+		return new FireworkLoader(this, getApp().getDatabaseReader());
 	}
 
 	public void onLoadFinished(Loader<List<Firework>> loader, List<Firework> data) {
