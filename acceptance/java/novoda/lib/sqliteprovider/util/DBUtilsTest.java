@@ -25,9 +25,7 @@ public class DBUtilsTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         for (String db : getContext().databaseList()) {
-            if (db.startsWith("_test_")) {
-                getContext().deleteDatabase(db);
-            }
+            getContext().deleteDatabase(db);
         }
         super.tearDown();
     }
