@@ -60,6 +60,7 @@
 
   <build>
     <sourceDirectory>java</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
     <resources>
       <resource>
         <directory>res</directory>
