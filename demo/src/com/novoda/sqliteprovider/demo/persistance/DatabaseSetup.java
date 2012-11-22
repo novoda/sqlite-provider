@@ -31,13 +31,16 @@ public class DatabaseSetup {
 		SQLiteDatabase database = helper.getWritableDatabase();
 		
 		addFireworks(database);
+		
+		Log.i("Finished adding static data");
 	}
 
 	private void addFireworks(SQLiteDatabase database) {
 		Log.i("Adding fireworks");
 		
 		addFirework(database, "The Big Boy", "Red", "Rocket", "Bang");
-		
+	
+		Log.i("Finished adding fireworks");
 	}
 
 	private void addFirework(SQLiteDatabase database, String... args) {
