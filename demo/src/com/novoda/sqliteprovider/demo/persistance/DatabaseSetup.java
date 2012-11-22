@@ -1,5 +1,7 @@
 package com.novoda.sqliteprovider.demo.persistance;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 
 public class DatabaseSetup {
@@ -11,8 +13,9 @@ public class DatabaseSetup {
 	}
 	
 	public void createTables() {
-		// TODO Auto-generated method stub
+		SQLiteDatabase database = helper.getWritableDatabase();
 		
+		database.execSQL(SqlFireworks.CREATE_TABLE);
 	}
 
 }
