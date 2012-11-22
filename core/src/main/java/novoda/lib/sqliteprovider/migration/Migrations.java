@@ -8,6 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import novoda.lib.sqliteprovider.util.Log;
 import novoda.lib.sqliteprovider.util.SQLFile;
 
 import java.io.*;
@@ -44,7 +45,7 @@ public class Migrations {
         try {
             return Integer.parseInt(migration.split("_", 0)[0]);
         } catch (NumberFormatException e) {
-            // Log
+            Log.Migration.e("Invalid int, returning -1.", e);
             return -1;
         }
     }
