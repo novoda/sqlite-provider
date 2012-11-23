@@ -19,8 +19,8 @@ public class DatabaseReader {
 		return getAllFrom(TBL_FIREWORKS);
 	}
 	
-	public Cursor getAllFrom(String tableName) {
-		return contentResolver.query(Uri.parse(AUTHORITY+ tableName), null, null, null, null);
+	private Cursor getAllFrom(String tableName) {
+		return contentResolver.query(Uri.parse(AUTHORITY + tableName), null, null, null, null);
 	}
 
 }
