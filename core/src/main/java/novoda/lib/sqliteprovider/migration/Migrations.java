@@ -127,12 +127,12 @@ public class Migrations {
 
     public static int getVersion(AssetManager assets, String migrationsPath) throws IOException {
         String[] sqls = assets.list(migrationsPath);
+        if(sqls.length == 0){
+        	throw new IOException("You need to add atleast one migration file in your assets folder");
+        }
         Migrations migrations = new Migrations(-1);
         for (String sqlfile : sqls) {
             migrations.add(sqlfile);
-        }
-        if(migrations.getMigrationsFiles().isEmpty()){
-        	throw new IOException("You need to add atleast one migration file in your assets folder");
         }
         int version = (migrations.extractDate(migrations.getMigrationsFiles().last()));
         if (infoLoggingEnabled()) {
