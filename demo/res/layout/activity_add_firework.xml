@@ -10,21 +10,25 @@
     android:text="@string/activity_add_firework_text" />
 
   <EditText
+    android:id="@+id/add_firework_input_name"
     style="@style/match_w_wrap_h"
     android:layout_margin="@dimen/norm_spacing"
     android:text="@string/activity_add_firework_input_title_name" />
 
   <EditText
+    android:id="@+id/add_firework_input_color"
     style="@style/match_w_wrap_h"
     android:layout_margin="@dimen/norm_spacing"
     android:text="@string/activity_add_firework_input_title_color" />
 
   <EditText
+    android:id="@+id/add_firework_input_type"
     style="@style/match_w_wrap_h"
     android:layout_margin="@dimen/norm_spacing"
     android:text="@string/activity_add_firework_input_title_type" />
 
   <EditText
+    android:id="@+id/add_firework_input_noise"
     style="@style/match_w_wrap_h"
     android:layout_margin="@dimen/norm_spacing"
     android:text="@string/activity_add_firework_input_title_noise" />
