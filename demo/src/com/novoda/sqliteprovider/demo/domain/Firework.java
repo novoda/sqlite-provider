@@ -16,6 +16,22 @@ public class Firework {
 	
 	@Override
 	public String toString() {
+		return getName();
+	}
+
+	public String getName() {
 		return name;
+	}
+	
+	public String getColor() {
+		return color;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getNoise() {
+		return noise;
 	}
 }

@@ -1,7 +1,8 @@
 package com.novoda.sqliteprovider.demo.ui;
 
-import android.content.ContentValues;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -9,15 +10,17 @@ import android.widget.Toast;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
+import com.novoda.sqliteprovider.demo.loader.FireworkSaver;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseWriter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
-public class AddFireworkActivity extends NovodaActivity {
+public class AddFireworkActivity extends NovodaActivity implements LoaderCallbacks<Firework>{
 
 	private EditText nameEditText;
 	private EditText colorEditText;
 	private EditText noiseEditText;
 	private EditText typeEditText;
+	private Firework firework;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +50,23 @@ public class AddFireworkActivity extends NovodaActivity {
 		noise = noiseEditText.getText().toString();
 		type = typeEditText.getText().toString();
 		
-		Firework firework = new Firework(name, color, type, noise);
+		firework = new Firework(name, color, type, noise);
 		
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("color", color);
-		values.put("noise", noise);
-		values.put("type", type);
-		
-		new DatabaseWriter(getContentResolver()).saveDataToFireworksTable(values);
-		
-		Toast.makeText(this, "Firework that goes "+ noise +" added.", Toast.LENGTH_SHORT).show();
+		getSupportLoaderManager().initLoader(123, null, this);
+	}
+
+	private boolean checkForInput(EditText editText) {
+		return TextUtils.isEmpty(editText.getText());
+	}
+
+	@Override
+	public Loader<Firework> onCreateLoader(int id, Bundle args) {
+		return new FireworkSaver(this, new DatabaseWriter(getContentResolver()), firework);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Firework> loader, Firework data) {
+		Toast.makeText(this, "Firework that goes "+ data.getNoise() +" added.", Toast.LENGTH_SHORT).show();
 		
 		nameEditText.setText("");
 		colorEditText.setText("");
@@ -65,8 +74,9 @@ public class AddFireworkActivity extends NovodaActivity {
 		typeEditText.setText("");
 	}
 
-	private boolean checkForInput(EditText editText) {
-		return TextUtils.isEmpty(editText.getText());
+	@Override
+	public void onLoaderReset(Loader<Firework> loader) {
+		
 	}
 	
 }

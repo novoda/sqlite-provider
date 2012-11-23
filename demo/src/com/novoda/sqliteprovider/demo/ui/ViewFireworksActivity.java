@@ -30,7 +30,6 @@ public class ViewFireworksActivity extends NovodaActivity implements LoaderCallb
 		
 		getSupportLoaderManager().initLoader(123, null, this);
 	}
-	
 
 	@Override
 	public Loader<List<Firework>> onCreateLoader(int id, Bundle args) {
