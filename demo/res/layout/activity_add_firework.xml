@@ -19,24 +19,24 @@
     android:id="@+id/add_firework_input_color"
     style="@style/match_w_wrap_h"
     android:layout_margin="@dimen/norm_spacing"
-    android:text="@string/activity_add_firework_input_title_color" />
+    android:hint="@string/activity_add_firework_input_title_color" />
 
   <EditText
     android:id="@+id/add_firework_input_type"
     style="@style/match_w_wrap_h"
     android:layout_margin="@dimen/norm_spacing"
-    android:text="@string/activity_add_firework_input_title_type" />
+    android:hint="@string/activity_add_firework_input_title_type" />
 
   <EditText
     android:id="@+id/add_firework_input_noise"
     style="@style/match_w_wrap_h"
     android:layout_margin="@dimen/norm_spacing"
-    android:text="@string/activity_add_firework_input_title_noise" />
+    android:hint="@string/activity_add_firework_input_title_noise" />
 
   <Button
     style="@style/match_w_wrap_h"
     android:layout_margin="@dimen/norm_spacing"
-    android:onClick="onAddFireworkClick"
-    android:text="@string/button_add_firework" />
+    android:hint="@string/button_add_firework"
+    android:onClick="onAddFireworkClick" />
 
 </LinearLayout>
