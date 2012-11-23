@@ -1,11 +1,14 @@
 package com.novoda.sqliteprovider.demo.ui;
 
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
+import com.novoda.sqliteprovider.demo.provider.FireworkProvider;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
 public class AddFireworkActivity extends NovodaActivity {
@@ -38,6 +41,14 @@ public class AddFireworkActivity extends NovodaActivity {
 		type = typeEditText.getText().toString();
 		
 		Firework firework = new Firework(name, color, type, noise);
+		
+		ContentValues values = new ContentValues();
+		values.put("name", name);
+		values.put("color", color);
+		values.put("noise", noise);
+		values.put("type", type);
+		
+		getContentResolver().insert(Uri.parse(FireworkProvider.AUTHORITY + "fireworks"), values);
 	}
 	
 }
