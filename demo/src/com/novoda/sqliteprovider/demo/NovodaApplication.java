@@ -5,8 +5,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.novoda.sqliteprovider.demo.persistance.DatabaseReader;
 
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
-
 public class NovodaApplication extends Application {
 
 	private DatabaseReader databaseHelper;
@@ -33,7 +31,7 @@ public class NovodaApplication extends Application {
 
 	public DatabaseReader getDatabaseReader() {
 		if(databaseHelper == null){
-			databaseHelper = new DatabaseReader((ExtendedSQLiteOpenHelper) sqLiteOpenHelper);
+			databaseHelper = new DatabaseReader(getContentResolver());
 		}
 		return databaseHelper;
 	}

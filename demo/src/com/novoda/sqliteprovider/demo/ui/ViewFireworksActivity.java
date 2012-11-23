@@ -35,7 +35,7 @@ public class ViewFireworksActivity extends NovodaActivity implements LoaderCallb
 	@Override
 	public Loader<List<Firework>> onCreateLoader(int id, Bundle args) {
 		Log.i("Loading fireworks into activity");
-		return new FireworkLoader(this, getApp().getContentResolver());
+		return new FireworkLoader(this, getApp().getDatabaseReader());
 	}
 
 	@Override

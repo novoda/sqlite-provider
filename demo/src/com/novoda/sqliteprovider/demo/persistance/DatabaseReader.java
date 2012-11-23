@@ -1,19 +1,19 @@
 package com.novoda.sqliteprovider.demo.persistance;
 
+import android.content.ContentResolver;
 import android.database.Cursor;
-
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
+import android.net.Uri;
 
 public class DatabaseReader {
 
-	private final ExtendedSQLiteOpenHelper helper;
+	private final ContentResolver contentResolver;
 
-	public DatabaseReader(ExtendedSQLiteOpenHelper extendedSQLiteOpenHelper) {
-		this.helper = extendedSQLiteOpenHelper;
+	public DatabaseReader(ContentResolver contentResolver) {
+		this.contentResolver = contentResolver;
 	}
 
-	public Cursor query(String tableName, String[] args) {
-		return helper.getReadableDatabase().query(tableName, null, null, args, null, null, null);
+	public Cursor getAllFrom(String tableName) {
+		return contentResolver.query(Uri.parse("content://com.novoda.demo/"+ tableName), null, null, null, null);
 	}
 
 }
