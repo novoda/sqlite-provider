@@ -30,7 +30,7 @@ public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 	public List<Firework> loadInBackground() {
 		ArrayList<Firework> data = new ArrayList<Firework>();
 		
-		Cursor cursor = databaseReader.getAllFrom("fireworks");
+		Cursor cursor = databaseReader.getAllFromFireworksTable();
 		
 		populateListWithCursor(data, cursor);
 		
