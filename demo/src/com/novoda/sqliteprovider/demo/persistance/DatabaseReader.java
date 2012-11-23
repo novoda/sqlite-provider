@@ -12,6 +12,10 @@ public class DatabaseReader {
 		this.contentResolver = contentResolver;
 	}
 
+	public Cursor getAllFromFireworksTable() {
+		return getAllFrom("fireworks");
+	}
+	
 	public Cursor getAllFrom(String tableName) {
 		return contentResolver.query(Uri.parse("content://com.novoda.demo/"+ tableName), null, null, null, null);
 	}

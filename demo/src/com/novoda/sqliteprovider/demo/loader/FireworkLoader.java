@@ -44,11 +44,10 @@ public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 				String color = cursor.getString(2);
 				String type = cursor.getString(3);
 				String noise = cursor.getString(4);
-				Firework firework = new Firework(name, color, type, noise);
-				data.add(firework);
+				data.add(new Firework(name, color, type, noise));
 			} while(cursor.moveToNext());
 		} else {
-			Log.e("Database fail");
+			Log.e("No data in the cursor.");
 		}
 	}
 }
