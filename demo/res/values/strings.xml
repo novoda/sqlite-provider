@@ -6,5 +6,10 @@
   <string name="menu_settings">Settings</string>
   <string name="button_main_view_all_fireworks">View all Fireworks</string>
   <string name="button_main_add_firework">Add a new Firework</string>
+  <string name="activity_add_firework_text">Add a firework to the firework table in your database</string>
+  <string name="activity_add_firework_input_title_name">Name:</string>
+  <string name="activity_add_firework_input_title_color">Color:</string>
+  <string name="activity_add_firework_input_title_type">Type:</string>
+  <string name="activity_add_firework_input_title_noise">Noise:</string>
 
 </resources>

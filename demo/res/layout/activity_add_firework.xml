@@ -3,6 +3,30 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical" >
-  
+
+  <TextView
+    style="@style/wrap_w_wrap_h"
+    android:padding="10dip"
+    android:text="@string/activity_add_firework_text" />
+
+  <EditText
+    style="@style/match_w_wrap_h"
+    android:layout_margin="10dip"
+    android:text="@string/activity_add_firework_input_title_name" />
+
+  <EditText
+    style="@style/match_w_wrap_h"
+    android:layout_margin="10dip"
+    android:text="@string/activity_add_firework_input_title_color" />
+
+  <EditText
+    style="@style/match_w_wrap_h"
+    android:layout_margin="10dip"
+    android:text="@string/activity_add_firework_input_title_type" />
+
+  <EditText
+    style="@style/match_w_wrap_h"
+    android:layout_margin="10dip"
+    android:text="@string/activity_add_firework_input_title_noise" />
 
 </LinearLayout>
