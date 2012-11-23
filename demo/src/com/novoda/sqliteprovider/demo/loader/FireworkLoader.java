@@ -28,16 +28,15 @@ public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 
 	@Override
 	public List<Firework> loadInBackground() {
-		ArrayList<Firework> data = new ArrayList<Firework>();
-		
 		Cursor cursor = databaseReader.getAllFromFireworksTable();
 		
-		populateListWithCursor(data, cursor);
+		List<Firework> data = populateListWith(cursor);
 		
 		return data;
 	}
 
-	private void populateListWithCursor(ArrayList<Firework> data, Cursor cursor) {
+	private List<Firework> populateListWith(Cursor cursor) {
+		List<Firework> data = new ArrayList<Firework>();
 		if(cursor.moveToFirst()){
 			do {
 				String name = cursor.getString(1);
@@ -49,5 +48,6 @@ public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 		} else {
 			Log.e("No data in the cursor.");
 		}
+		return data;
 	}
 }
