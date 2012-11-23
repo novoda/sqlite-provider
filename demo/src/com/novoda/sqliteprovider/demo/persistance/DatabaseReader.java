@@ -1,6 +1,7 @@
 package com.novoda.sqliteprovider.demo.persistance;
 
 import static com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.TBL_FIREWORKS;
+import static com.novoda.sqliteprovider.demo.provider.FireworkProvider.AUTHORITY;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -19,7 +20,7 @@ public class DatabaseReader {
 	}
 	
 	public Cursor getAllFrom(String tableName) {
-		return contentResolver.query(Uri.parse("content://com.novoda.demo/"+ tableName), null, null, null, null);
+		return contentResolver.query(Uri.parse(AUTHORITY+ tableName), null, null, null, null);
 	}
 
 }
