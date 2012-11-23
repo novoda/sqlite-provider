@@ -15,4 +15,7 @@ public class SqlFireworks {
 			COL_COLOR + " TEXT,"+
 			COL_TYPE + " TEXT,"+
 			COL_NOISE + " TEXT);";
+
+	private SqlFireworks(){
+	}
 }

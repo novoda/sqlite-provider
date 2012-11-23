@@ -2,10 +2,10 @@ package com.novoda.sqliteprovider.demo.domain;
 
 public class Firework {
 
-	public final String name;
-	public final String color;
-	public final String type;
-	public final String noise;
+	private final String name;
+	private final String color;
+	private final String type;
+	private final String noise;
 	
 	public Firework(String name, String color, String type, String noise) {
 		this.name = name;
