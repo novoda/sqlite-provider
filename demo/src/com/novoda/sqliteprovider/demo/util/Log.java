@@ -1,5 +1,6 @@
 package com.novoda.sqliteprovider.demo.util;
 
+
 public final class Log {
 
 	private static final String TAG = "SQLiteProviderDemo";
@@ -13,6 +14,10 @@ public final class Log {
 
 	public static void e(String msg) {
 		android.util.Log.e(TAG, msg);
+	}
+
+	public static void e(String msg, Exception e) {
+		android.util.Log.e(TAG, msg, e);
 	}
 	
 }
