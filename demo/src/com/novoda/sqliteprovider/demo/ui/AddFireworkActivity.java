@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.loader.FireworkSaver;
-import com.novoda.sqliteprovider.demo.persistance.DatabaseWriter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
 public class AddFireworkActivity extends NovodaActivity implements LoaderCallbacks<Firework>{
@@ -61,7 +60,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 
 	@Override
 	public Loader<Firework> onCreateLoader(int id, Bundle args) {
-		return new FireworkSaver(this, new DatabaseWriter(getContentResolver()), firework);
+		return new FireworkSaver(this, getApp().getFireworkWriter(), firework);
 	}
 
 	@Override
