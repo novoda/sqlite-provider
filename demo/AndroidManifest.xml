@@ -24,6 +24,11 @@
       </intent-filter>
     </activity>
     <activity android:name=".ui.ViewFireworksActivity" />
+
+    <provider
+      android:name=".provider.FireworkProvider"
+      android:authorities="com.novoda.demo"
+      android:exported="false" />
   </application>
 
 </manifest>

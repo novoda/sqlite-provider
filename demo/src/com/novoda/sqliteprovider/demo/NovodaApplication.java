@@ -1,38 +1,39 @@
 package com.novoda.sqliteprovider.demo;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import com.novoda.sqliteprovider.demo.persistance.DatabaseReader;
-import com.novoda.sqliteprovider.demo.util.Log;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
-
-import java.io.IOException;
 
 public class NovodaApplication extends Application {
 
 	private DatabaseReader databaseHelper;
-	private ExtendedSQLiteOpenHelper sqLiteOpenHelper;
+	private SQLiteOpenHelper sqLiteOpenHelper;
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		deleteDatabase(getPackageName()+".db");
+		String databaseName = getPackageName()+".db";
+		deleteDatabase(databaseName);
 		
-		try {
-			sqLiteOpenHelper = new ExtendedSQLiteOpenHelper(this);
+//		sqLiteOpenHelper = new ExtendedSQLiteOpenHelper(this, databaseName, null, 1);
+//		try {
+//			sqLiteOpenHelper = new ExtendedSQLiteOpenHelper(this);
+//		} catch (IOException e) {
+//			Log.e("Database error", e);
+//		}
+//		SQLiteDatabase writableDatabase = sqLiteOpenHelper.getWritableDatabase();
 		
 //			DatabaseSetup databaseSetup = new DatabaseSetup(sqLiteOpenHelper);
 //			databaseSetup.createTables();
 //			databaseSetup.addStaticData();
-		} catch (IOException e) {
-			Log.e("Fatal database creation error", e);
-		}
 	}
 
 	public DatabaseReader getDatabaseReader() {
 		if(databaseHelper == null){
-			databaseHelper = new DatabaseReader(sqLiteOpenHelper);
+			databaseHelper = new DatabaseReader((ExtendedSQLiteOpenHelper) sqLiteOpenHelper);
 		}
 		return databaseHelper;
 	}

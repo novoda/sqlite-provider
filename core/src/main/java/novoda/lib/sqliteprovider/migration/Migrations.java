@@ -68,8 +68,7 @@ public class Migrations {
     public static void migrate(SQLiteDatabase db, String[] sqlFiles) throws IOException {
     }
 
-    public static void migrate(SQLiteDatabase db, AssetManager manager, String assetLocation)
-            throws IOException {
+    public static void migrate(SQLiteDatabase db, AssetManager manager, String assetLocation) throws IOException {
 
         if (infoLoggingEnabled()) {
             i("current DB version is: " + db.getVersion());
@@ -126,17 +125,19 @@ public class Migrations {
     }
 
     public static int getVersion(AssetManager assets, String migrationsPath) throws IOException {
-        String[] sqls = assets.list(migrationsPath);
+        int version = 1;
+    	String[] sqls = assets.list(migrationsPath);
         if(sqls.length == 0){
-        	throw new IOException("You need to add atleast one migration file in your assets folder");
-        }
-        Migrations migrations = new Migrations(-1);
-        for (String sqlfile : sqls) {
-            migrations.add(sqlfile);
-        }
-        int version = (migrations.extractDate(migrations.getMigrationsFiles().last()));
-        if (infoLoggingEnabled()) {
-            i("current migration file version is: " + version);
+        	w("You need to add atleast one SQL file in your assets/"+ migrationsPath +" folder");
+        } else {
+	        Migrations migrations = new Migrations(-1);
+	        for (String sqlfile : sqls) {
+	            migrations.add(sqlfile);
+	        }
+	        version = (migrations.extractDate(migrations.getMigrationsFiles().last()));
+	        if (infoLoggingEnabled()) {
+	            i("current migration file version is: " + version);
+	        }
         }
         return version;
     }

@@ -1,7 +1,9 @@
 package com.novoda.sqliteprovider.demo.loader;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.novoda.sqliteprovider.demo.domain.Firework;
@@ -13,11 +15,12 @@ import java.util.List;
 
 public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 
-	private final DatabaseReader databaseReader;
+	private DatabaseReader databaseReader;
+	private final ContentResolver contentResolver;
 
-	public FireworkLoader(Context context, DatabaseReader databaseReader) {
+	public FireworkLoader(Context context, ContentResolver contentResolver) {
 		super(context);
-		this.databaseReader = databaseReader;
+		this.contentResolver = contentResolver;
 		forceLoad();
 	}
 	
@@ -30,14 +33,9 @@ public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 	public List<Firework> loadInBackground() {
 		ArrayList<Firework> data = new ArrayList<Firework>();
 		
-//		SQLiteContentProviderImpl impl = new SQLiteContentProviderImpl();
-//		
-//		Cursor cursor = impl.query(Uri.parse("content://com.novoda.demo/fireworks"), null, null, null, null);
-//		// Cursor cursor = databaseReader.query("fireworks", new String[]{});
-//
-//		populateListWithCursor(data, cursor);
+		Cursor cursor = contentResolver.query(Uri.parse("content://com.novoda.demo/fireworks"), null, null, null, null);
 		
-		data.add(new Firework("name", "color", "type", "noise"));
+		populateListWithCursor(data, cursor);
 		
 		return data;
 	}
