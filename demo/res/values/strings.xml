@@ -11,5 +11,6 @@
   <string name="activity_add_firework_input_title_color">Color:</string>
   <string name="activity_add_firework_input_title_type">Type:</string>
   <string name="activity_add_firework_input_title_noise">Noise:</string>
+  <string name="button_add_firework">Add Firework</string>
 
 </resources>

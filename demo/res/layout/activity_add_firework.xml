@@ -33,4 +33,10 @@
     android:layout_margin="@dimen/norm_spacing"
     android:text="@string/activity_add_firework_input_title_noise" />
 
+  <Button
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:onClick="onAddFireworkClick"
+    android:text="@string/button_add_firework" />
+
 </LinearLayout>
