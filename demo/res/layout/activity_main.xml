@@ -4,13 +4,13 @@
 
   <Button
     style="@style/match_w_wrap_h"
-    android:layout_margin="10dip"
+    android:layout_margin="@dimen/norm_spacing"
     android:onClick="onViewAllFireworksClick"
     android:text="@string/button_main_view_all_fireworks" />
 
   <Button
     style="@style/match_w_wrap_h"
-    android:layout_margin="10dip"
+    android:layout_margin="@dimen/norm_spacing"
     android:onClick="onAddFireworkClick"
     android:text="@string/button_main_add_firework" />
 
