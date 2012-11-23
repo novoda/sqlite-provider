@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.novoda.sqliteprovider.demo.R;
+import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
 public class AddFireworkActivity extends NovodaActivity {
@@ -26,7 +27,17 @@ public class AddFireworkActivity extends NovodaActivity {
 	}
 	
 	public void onAddFireworkClick(View button){
+		String name = "";
+		String color = "";
+		String noise = "";
+		String type = "";
 		
+		name = nameEditText.getText().toString();
+		color = colorEditText.getText().toString();
+		noise = noiseEditText.getText().toString();
+		type = typeEditText.getText().toString();
+		
+		Firework firework = new Firework(name, color, type, noise);
 	}
 	
 }
