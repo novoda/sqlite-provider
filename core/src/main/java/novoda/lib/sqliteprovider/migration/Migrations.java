@@ -131,6 +131,9 @@ public class Migrations {
         for (String sqlfile : sqls) {
             migrations.add(sqlfile);
         }
+        if(migrations.getMigrationsFiles().isEmpty()){
+        	throw new IOException("You need to add atleast one migration file in your assets folder");
+        }
         int version = (migrations.extractDate(migrations.getMigrationsFiles().last()));
         if (infoLoggingEnabled()) {
             i("current migration file version is: " + version);
