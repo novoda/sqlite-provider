@@ -11,7 +11,7 @@ public class NovodaApplication extends Application {
 	private FireworkReader fireworkReader;
 	private FireworkWriter fireworkWriter;
 	
-	public DatabaseReader getDatabaseReader() {
+	private DatabaseReader getDatabaseReader() {
 		if(databaseReader == null){
 			databaseReader = new DatabaseReader(getContentResolver());
 		}

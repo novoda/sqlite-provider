@@ -20,6 +20,7 @@ public class FireworkWriter {
 		values.put(COL_COLOR, firework.getColor());
 		values.put(COL_NOISE, firework.getNoise());
 		values.put(COL_TYPE, firework.getType());
+		values.put(COL_SHOP, 1);
 		
 		databaseWriter.saveDataToFireworksTable(values);
 	}
