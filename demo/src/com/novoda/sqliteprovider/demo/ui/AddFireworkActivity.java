@@ -32,8 +32,8 @@ public class AddFireworkActivity extends NovodaActivity {
 	}
 	
 	public void onAddFireworkClick(View button){
-		if(TextUtils.isEmpty(nameEditText.getText()) || TextUtils.isEmpty(colorEditText.getText()) || 
-				TextUtils.isEmpty(noiseEditText.getText()) || TextUtils.isEmpty(typeEditText.getText())) {
+		if(checkForInput(nameEditText) || checkForInput(colorEditText) ||
+				checkForInput(noiseEditText) || checkForInput(typeEditText)) {
 			Toast.makeText(this, "Fill in the firework", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -64,6 +64,10 @@ public class AddFireworkActivity extends NovodaActivity {
 		colorEditText.setText("");
 		noiseEditText.setText("");
 		typeEditText.setText("");
+	}
+
+	private boolean checkForInput(EditText editText) {
+		return TextUtils.isEmpty(editText.getText());
 	}
 	
 }
