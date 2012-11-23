@@ -3,8 +3,10 @@ package com.novoda.sqliteprovider.demo.ui;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
@@ -30,6 +32,12 @@ public class AddFireworkActivity extends NovodaActivity {
 	}
 	
 	public void onAddFireworkClick(View button){
+		if(TextUtils.isEmpty(nameEditText.getText()) || TextUtils.isEmpty(colorEditText.getText()) || 
+				TextUtils.isEmpty(noiseEditText.getText()) || TextUtils.isEmpty(typeEditText.getText())) {
+			Toast.makeText(this, "Fill in the firework", Toast.LENGTH_SHORT).show();
+			return;
+		}
+
 		String name = "";
 		String color = "";
 		String noise = "";
@@ -49,6 +57,13 @@ public class AddFireworkActivity extends NovodaActivity {
 		values.put("type", type);
 		
 		getContentResolver().insert(Uri.parse(FireworkProvider.AUTHORITY + "fireworks"), values);
+		
+		Toast.makeText(this, "Firework that goes "+ noise +" added.", Toast.LENGTH_SHORT).show();
+		
+		nameEditText.setText("");
+		colorEditText.setText("");
+		noiseEditText.setText("");
+		typeEditText.setText("");
 	}
 	
 }
