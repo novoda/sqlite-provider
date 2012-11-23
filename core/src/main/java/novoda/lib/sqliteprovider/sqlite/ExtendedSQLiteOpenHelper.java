@@ -26,12 +26,10 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
     private final Map<String, List<String>> constrains = new HashMap<String, List<String>>();
 
     public ExtendedSQLiteOpenHelper(Context context) throws IOException {
-        this(context, context.getPackageName() + ".db", null, Migrations.getVersion(
-                context.getAssets(), MIGRATIONS_PATH));
+        this(context, context.getPackageName() + ".db", null, Migrations.getVersion(context.getAssets(), MIGRATIONS_PATH));
     }
 
-    public ExtendedSQLiteOpenHelper(Context context, String name, CursorFactory factory,
-            int version) {
+    public ExtendedSQLiteOpenHelper(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
         this.context = context;
     }
