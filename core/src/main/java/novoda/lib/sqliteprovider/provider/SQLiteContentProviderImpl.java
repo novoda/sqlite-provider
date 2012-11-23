@@ -112,8 +112,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-            String sortOrder) {
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
         if (Provider.verboseLoggingEnabled()) {
             Provider.v("==================== start of query =======================");
@@ -134,8 +133,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
         if (expands.size() > 0) {
             builder.addInnerJoin(expands.toArray(new String[] {}));
             ExtendedSQLiteOpenHelper extendedHelper = (ExtendedSQLiteOpenHelper) getDatabaseHelper();
-            autoproj = extendedHelper.getProjectionMap(tableName.toString(),
-                    expands.toArray(new String[] {}));
+            autoproj = extendedHelper.getProjectionMap(tableName.toString(), expands.toArray(new String[] {}));
             builder.setProjectionMap(autoproj);
         }
 

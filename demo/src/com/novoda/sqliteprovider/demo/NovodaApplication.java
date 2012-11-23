@@ -3,29 +3,31 @@ package com.novoda.sqliteprovider.demo;
 import android.app.Application;
 
 import com.novoda.sqliteprovider.demo.persistance.DatabaseReader;
-import com.novoda.sqliteprovider.demo.persistance.DatabaseSetup;
 import com.novoda.sqliteprovider.demo.util.Log;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 
+import java.io.IOException;
+
 public class NovodaApplication extends Application {
 
-	private static final String DB_NAME = "fireworks.db";
-	private static final int DB_VERSION = 1;
 	private DatabaseReader databaseHelper;
 	private ExtendedSQLiteOpenHelper sqLiteOpenHelper;
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		deleteDatabase(DB_NAME);
+		deleteDatabase(getPackageName()+".db");
 		
-		Log.i("Helper started for: "+DB_NAME);
-		sqLiteOpenHelper = new ExtendedSQLiteOpenHelper(this, DB_NAME, null, DB_VERSION);
+		try {
+			sqLiteOpenHelper = new ExtendedSQLiteOpenHelper(this);
 		
-		DatabaseSetup databaseSetup = new DatabaseSetup(sqLiteOpenHelper);
-		databaseSetup.createTables();
-		databaseSetup.addStaticData();
+//			DatabaseSetup databaseSetup = new DatabaseSetup(sqLiteOpenHelper);
+//			databaseSetup.createTables();
+//			databaseSetup.addStaticData();
+		} catch (IOException e) {
+			Log.e("Fatal database creation error", e);
+		}
 	}
 
 	public DatabaseReader getDatabaseReader() {

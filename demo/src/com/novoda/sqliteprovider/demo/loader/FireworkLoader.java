@@ -28,8 +28,21 @@ public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 
 	@Override
 	public List<Firework> loadInBackground() {
-		Cursor cursor = databaseReader.query("fireworks", new String[]{});
 		ArrayList<Firework> data = new ArrayList<Firework>();
+		
+//		SQLiteContentProviderImpl impl = new SQLiteContentProviderImpl();
+//		
+//		Cursor cursor = impl.query(Uri.parse("content://com.novoda.demo/fireworks"), null, null, null, null);
+//		// Cursor cursor = databaseReader.query("fireworks", new String[]{});
+//
+//		populateListWithCursor(data, cursor);
+		
+		data.add(new Firework("name", "color", "type", "noise"));
+		
+		return data;
+	}
+
+	private void populateListWithCursor(ArrayList<Firework> data, Cursor cursor) {
 		if(cursor.moveToFirst()){
 			do {
 				String name = cursor.getString(1);
@@ -42,9 +55,5 @@ public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 		} else {
 			Log.e("Database fail");
 		}
-		return data;
 	}
-	
-	
-
 }
