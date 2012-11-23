@@ -13,7 +13,7 @@
     android:id="@+id/add_firework_input_name"
     style="@style/match_w_wrap_h"
     android:layout_margin="@dimen/norm_spacing"
-    android:text="@string/activity_add_firework_input_title_name" />
+    android:hint="@string/activity_add_firework_input_title_name" />
 
   <EditText
     android:id="@+id/add_firework_input_color"
