@@ -19,4 +19,9 @@ public class MainActivity extends NovodaActivity {
 		Intent intent = new Intent(this, ViewFireworksActivity.class);
 		startActivity(intent);
 	}
+	
+	public void onAddFireworkClick(View button){
+		Intent intent = new Intent(this, AddFireworkActivity.class);
+		startActivity(intent);
+	}
 }

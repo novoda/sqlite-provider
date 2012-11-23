@@ -1,9 +1,17 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  style="@style/match_w_wrap_h" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  style="@style/match_w_wrap_h"
+  android:orientation="vertical" >
 
   <Button
     style="@style/match_w_wrap_h"
+    android:layout_margin="10dip"
     android:onClick="onViewAllFireworksClick"
     android:text="@string/button_main_view_all_fireworks" />
 
-</RelativeLayout>
+  <Button
+    style="@style/match_w_wrap_h"
+    android:layout_margin="10dip"
+    android:onClick="onAddFireworkClick"
+    android:text="@string/button_main_add_firework" />
+
+</LinearLayout>
