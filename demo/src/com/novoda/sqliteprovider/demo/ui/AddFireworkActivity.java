@@ -1,7 +1,6 @@
 package com.novoda.sqliteprovider.demo.ui;
 
 import android.content.ContentValues;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,7 +9,7 @@ import android.widget.Toast;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
-import com.novoda.sqliteprovider.demo.provider.FireworkProvider;
+import com.novoda.sqliteprovider.demo.persistance.DatabaseWriter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
 public class AddFireworkActivity extends NovodaActivity {
@@ -56,7 +55,7 @@ public class AddFireworkActivity extends NovodaActivity {
 		values.put("noise", noise);
 		values.put("type", type);
 		
-		getContentResolver().insert(Uri.parse(FireworkProvider.AUTHORITY + "fireworks"), values);
+		new DatabaseWriter(getContentResolver()).saveDataToFireworksTable(values);
 		
 		Toast.makeText(this, "Firework that goes "+ noise +" added.", Toast.LENGTH_SHORT).show();
 		
