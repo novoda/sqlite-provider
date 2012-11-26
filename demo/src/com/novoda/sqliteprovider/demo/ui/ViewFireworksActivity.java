@@ -23,14 +23,13 @@ public class ViewFireworksActivity extends NovodaActivity implements LoaderCallb
 	private ListView listview;
 	private final Handler uiHook = new Handler();
 	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_fireworks);
 		
 		listview = (ListView) findViewById(android.R.id.list);
-		listview.setOnItemClickListener(onFireworkListItemClick );
+		listview.setOnItemClickListener(onFireworkListItemClick);
 		
 		getSupportLoaderManager().initLoader(123, null, this);
 	}
