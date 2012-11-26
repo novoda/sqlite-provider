@@ -39,6 +39,14 @@ public class FireworkReader {
 		return fireworks;
 	}
 	
+	public List<Firework> getFireworksGroupedByColor() {
+		Cursor cursor = databaseReader.getGroupedBy(TBL_FIREWORKS, Fireworks.COL_COLOR);
+		
+		List<Firework> fireworks = populateListWith(cursor);
+		
+		return fireworks;
+	}
+	
 	public List<Firework> getAll(){
 		Cursor cursor = databaseReader.getAllFrom(TBL_FIREWORKS);
 		
@@ -67,9 +75,5 @@ public class FireworkReader {
 		String noise = cursor.getString(Fireworks.COL_IDX_TYPE);
 		Firework firework = new Firework(name, color, type, noise);
 		return firework;
-	}
-
-	public void getFireworksByColor() {
-		databaseReader.getGroupedBy(TBL_FIREWORKS, Fireworks.COL_COLOR);
 	}
 }
