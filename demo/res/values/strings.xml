@@ -34,5 +34,6 @@
   <string name="activity_find_firework_from_one_shop_shop_input_title">Shop Primary Key</string>
   <string name="activity_find_firework_from_one_shop_shop_input_hint">Primary Key</string>
   <string name="activity_find_firework_from_one_shop_button_find_fireworks">Find Shop Fireworks</string>
+  <string name="activity_label_view_shop">Firework Shop</string>
 
 </resources>
