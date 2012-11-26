@@ -129,13 +129,11 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 		if (UriUtils.isItem(uri)) {
 			logger.logAppendWhere(uri);
 			builder.appendWhere(ID + "=" + uri.getLastPathSegment());
-		} else {
-			if (UriUtils.hasParent(uri)) {
-				StringBuilder escapedWhere = new StringBuilder();
-				DatabaseUtils.appendEscapedSQLString(escapedWhere, UriUtils.getParentId(uri));
-				logger.logAppendWhereOnParent(uri, escapedWhere);
-				builder.appendWhere(UriUtils.getParentColumnName(uri) + ID + "=" + escapedWhere.toString());
-			}
+		} else if (UriUtils.hasParent(uri)) {
+			StringBuilder escapedWhere = new StringBuilder();
+			DatabaseUtils.appendEscapedSQLString(escapedWhere, UriUtils.getParentId(uri));
+			logger.logAppendWhereOnParent(uri, escapedWhere);
+			builder.appendWhere(UriUtils.getParentColumnName(uri) + ID + "=" + escapedWhere.toString());
 		}
 
 		logger.logEnd(projection, selection, selectionArgs, sortOrder, builder, groupBy, having, limit, autoproj);
