@@ -35,6 +35,9 @@
     <activity
       android:name=".ui.FireworkActivity"
       android:label="@string/activity_label_firework" />
+    <activity
+      android:name=".ui.FindFireworkFromOneShopActivity"
+      android:label="@string/activity_label_find_firework" />
 
     <provider
       android:name=".provider.FireworkProvider"
