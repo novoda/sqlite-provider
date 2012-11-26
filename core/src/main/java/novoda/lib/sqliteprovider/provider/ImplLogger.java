@@ -1,12 +1,9 @@
 package novoda.lib.sqliteprovider.provider;
 
-import static novoda.lib.sqliteprovider.provider.SQLiteContentProviderImpl.ID;
-
 import android.net.Uri;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
 import novoda.lib.sqliteprovider.util.Log.Provider;
-import novoda.lib.sqliteprovider.util.UriUtils;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -20,15 +17,9 @@ public class ImplLogger {
 		}
 	}
 
-	protected void logAppendWhere(Uri uri) {
+	protected void logAppendWhere(String where) {
 		if (Provider.verboseLoggingEnabled()) {
-			Provider.v("Appending to where clause: " + ID + "=" + uri.getLastPathSegment());
-		}
-	}
-
-	protected void logAppendWhereOnParent(Uri uri, StringBuilder escapedWhere) {
-		if (Provider.verboseLoggingEnabled()) {
-			Provider.v("Appending to where clause: " + UriUtils.getParentColumnName(uri) + ID + "=" + escapedWhere.toString());
+			Provider.v("Appending to where clause: " + where);
 		}
 	}
 
