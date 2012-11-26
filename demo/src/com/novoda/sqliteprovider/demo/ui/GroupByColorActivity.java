@@ -9,7 +9,7 @@ import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
 import java.util.List;
 
-public class GroupByColorFireworksActivity extends NovodaActivity {
+public class GroupByColorActivity extends NovodaActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
