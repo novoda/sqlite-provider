@@ -20,6 +20,9 @@ public class DatabaseWriter {
 		saveDataToTable(TBL_FIREWORKS, values);
 	}
 	
+	/**
+	 * (1) Read table example
+	 */
 	private void saveDataToTable(String table, ContentValues values){
 		contentResolver.insert(Uri.parse(FireworkProvider.AUTHORITY + table), values);
 	}
