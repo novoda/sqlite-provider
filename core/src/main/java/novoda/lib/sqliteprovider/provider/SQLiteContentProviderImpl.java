@@ -2,8 +2,8 @@
 package novoda.lib.sqliteprovider.provider;
 
 import android.content.*;
-import android.database.Cursor;
-import android.database.SQLException;
+import android.database.*;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
@@ -144,12 +144,12 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
             builder.appendWhere(ID + "=" + uri.getLastPathSegment());
         } else {
             if (UriUtils.hasParent(uri)) {
+            	StringBuilder escapedWhere = new StringBuilder();
+            	DatabaseUtils.appendEscapedSQLString(escapedWhere, UriUtils.getParentId(uri));
                 if (Provider.verboseLoggingEnabled()) {
-                    Provider.v("Appending to where clause: " + UriUtils.getParentColumnName(uri)
-                            + ID + "=" + UriUtils.getParentId(uri));
+                    Provider.v("Appending to where clause: " + UriUtils.getParentColumnName(uri) + ID + "=" + escapedWhere.toString());
                 }
-                builder.appendWhereEscapeString(UriUtils.getParentColumnName(uri) + ID + "="
-                        + UriUtils.getParentId(uri));
+                builder.appendWhere(UriUtils.getParentColumnName(uri) + ID + "=" + escapedWhere.toString());
             }
         }
 
