@@ -42,8 +42,11 @@
       android:name=".ui.ViewShopActivity"
       android:label="@string/activity_label_view_shop" />
     <activity
-      android:name="com.novoda.sqliteprovider.demo.ui.FindRedFireworksActivity"
+      android:name=".ui.FindRedFireworksActivity"
       android:label="@string/activity_label_grouped_by_color" />
+    <activity
+      android:name=".ui.FindThreeFireworkShopsActivity"
+      android:label="@string/activity_label_limit" />
 
     <provider
       android:name=".provider.FireworkProvider"
