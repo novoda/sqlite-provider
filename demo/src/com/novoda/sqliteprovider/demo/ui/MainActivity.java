@@ -14,14 +14,38 @@ public class MainActivity extends NovodaActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 	}
-	
-	public void onViewAllFireworksClick(View button){
+
+	public void onViewAllFireworksClick(View button) {
 		Intent intent = new Intent(this, ViewFireworksActivity.class);
 		startActivity(intent);
 	}
-	
-	public void onAddFireworkClick(View button){
+
+	public void onAddFireworkClick(View button) {
 		Intent intent = new Intent(this, AddFireworkActivity.class);
 		startActivity(intent);
+	}
+
+	public void onFindFireworkWithPrimaryKeyClick(View button) {
+
+	}
+
+	public void onFindAllFireworksFromOneShopClick(View button) {
+
+	}
+
+	public void onFindAllRedFireworksClick(View button) {
+
+	}
+
+	public void onFindAllWizzFireworksClick(View button) {
+
+	}
+
+	public void onFindThreeFireworkShopsClick(View button) {
+
+	}
+
+	public void onFindUniquelyNoisyFireworksClick(View button) {
+
 	}
 }

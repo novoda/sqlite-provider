@@ -14,4 +14,40 @@
     android:onClick="onAddFireworkClick"
     android:text="@string/button_main_add_firework" />
 
+  <Button
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:onClick="onFindFireworkWithPrimaryKeyClick"
+    android:text="@string/button_main_find_using_primary_key" />
+
+  <Button
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:onClick="onFindAllFireworksFromOneShopClick"
+    android:text="@string/button_main_find_all_fireworks_from_one_shop" />
+
+  <Button
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:onClick="onFindAllRedFireworksClick"
+    android:text="@string/button_main_find_all_red_fireworks" />
+
+  <Button
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:onClick="onFindAllWizzFireworksClick"
+    android:text="@string/button_main_find_all_wizz_fireworks_having" />
+
+  <Button
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:onClick="onFindThreeFireworkShopsClick"
+    android:text="@string/button_main_find_3_firework_shops_limit" />
+
+  <Button
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:onClick="onFindUniquelyNoisyFireworksClick"
+    android:text="@string/button_main_find_fireworks_with_a_unique_noise" />
+
 </LinearLayout>

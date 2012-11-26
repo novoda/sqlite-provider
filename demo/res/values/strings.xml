@@ -12,5 +12,11 @@
   <string name="activity_add_firework_input_title_type">Type:</string>
   <string name="activity_add_firework_input_title_noise">Noise:</string>
   <string name="button_add_firework">Add Firework</string>
+  <string name="button_main_find_using_primary_key">Find firework using Primary Key</string>
+  <string name="button_main_find_all_fireworks_from_one_shop">Find all fireworks from one shop (One to Many)</string>
+  <string name="button_main_find_all_red_fireworks">Find all Red fireworks (Group)</string>
+  <string name="button_main_find_all_wizz_fireworks_having">Find all \'wizz\' fireworks (Having)</string>
+  <string name="button_main_find_3_firework_shops_limit">Find 3 firework shops (Limit)</string>
+  <string name="button_main_find_fireworks_with_a_unique_noise">Find fireworks with a unique noise (Distinct)</string>
 
 </resources>
