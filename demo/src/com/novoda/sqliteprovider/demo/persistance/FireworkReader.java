@@ -31,6 +31,14 @@ public class FireworkReader {
 		}
 	}
 	
+	public List<Firework> getFireworksForShop(int primaryKey) {
+		Cursor cursor = databaseWriter.getChildren(TBL_SHOPS, TBL_FIREWORKS, primaryKey);
+		
+		List<Firework> fireworks = populateListWith(cursor);
+		
+		return fireworks;
+	}
+	
 	public List<Firework> getAll(){
 		Cursor cursor = databaseWriter.getAllFrom(TBL_FIREWORKS);
 		
@@ -60,11 +68,4 @@ public class FireworkReader {
 		Firework firework = new Firework(name, color, type, noise);
 		return firework;
 	}
-
-	public List<Firework> getFireworksForShop(int primaryKey) {
-		Cursor cursor = databaseWriter.getChildren(TBL_SHOPS, TBL_FIREWORKS, primaryKey);
-		// TODO Auto-generated method stub
-		return new ArrayList<Firework>();
-	}
-	
 }
