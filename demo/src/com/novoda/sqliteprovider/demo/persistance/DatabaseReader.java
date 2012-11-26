@@ -35,4 +35,11 @@ public class DatabaseReader {
 		return contentResolver.query(Uri.parse(AUTHORITY + parentTableName +"/"+ primaryKey +"/"+ childTableName), null, null, null, null);
 	}
 
+	/**
+	 * (4) Read - group by support
+	 */
+	public Cursor getGroupedBy(String tableName, String column) {
+		return contentResolver.query(Uri.parse(AUTHORITY + tableName + "?groupBy="+column), null, null, null, null);
+	}
+
 }

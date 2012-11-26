@@ -14,14 +14,14 @@ import java.util.List;
 
 public class FireworkReader {
 
-	private final DatabaseReader databaseWriter;
+	private final DatabaseReader databaseReader;
 
-	public FireworkReader(DatabaseReader databaseWriter) {
-		this.databaseWriter = databaseWriter;
+	public FireworkReader(DatabaseReader databaseReader) {
+		this.databaseReader = databaseReader;
 	}
 	
 	public Firework getFirework(int primaryKey){
-		Cursor cursor = databaseWriter.getFrom(TBL_FIREWORKS, primaryKey);
+		Cursor cursor = databaseReader.getFrom(TBL_FIREWORKS, primaryKey);
 		
 		if(cursor.moveToFirst()){
 			return getFirework(cursor);
@@ -32,7 +32,7 @@ public class FireworkReader {
 	}
 	
 	public List<Firework> getFireworksForShop(int primaryKey) {
-		Cursor cursor = databaseWriter.getChildren(TBL_SHOPS, TBL_FIREWORKS, primaryKey);
+		Cursor cursor = databaseReader.getChildren(TBL_SHOPS, TBL_FIREWORKS, primaryKey);
 		
 		List<Firework> fireworks = populateListWith(cursor);
 		
@@ -40,7 +40,7 @@ public class FireworkReader {
 	}
 	
 	public List<Firework> getAll(){
-		Cursor cursor = databaseWriter.getAllFrom(TBL_FIREWORKS);
+		Cursor cursor = databaseReader.getAllFrom(TBL_FIREWORKS);
 		
 		List<Firework> fireworks = populateListWith(cursor);
 		
@@ -67,5 +67,9 @@ public class FireworkReader {
 		String noise = cursor.getString(Fireworks.COL_IDX_TYPE);
 		Firework firework = new Firework(name, color, type, noise);
 		return firework;
+	}
+
+	public void getFireworksByColor() {
+		databaseReader.getGroupedBy(TBL_FIREWORKS, Fireworks.COL_COLOR);
 	}
 }

@@ -41,6 +41,9 @@
     <activity
       android:name=".ui.ViewShopActivity"
       android:label="@string/activity_label_view_shop" />
+    <activity
+      android:name=".ui.GroupByColorFireworksActivity"
+      android:label="@string/activity_label_grouped_by_color" />
 
     <provider
       android:name=".provider.FireworkProvider"

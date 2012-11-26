@@ -37,5 +37,6 @@
   <string name="activity_label_view_shop">Firework Shop</string>
   <string name="activity_view_shop_input_title_name">Name:</string>
   <string name="activity_view_shop_input_title_postcode">Postcode:</string>
+  <string name="activity_label_grouped_by_color">Grouped by color</string>
 
 </resources>
