@@ -1,6 +1,8 @@
 package com.novoda.sqliteprovider.demo.domain;
 
-public class Firework {
+import java.io.Serializable;
+
+public class Firework implements Serializable {
 
 	private final String name;
 	private final String color;
