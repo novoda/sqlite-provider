@@ -17,9 +17,10 @@ public class GroupByColorFireworksActivity extends NovodaActivity {
 		
 		List<Firework> fireworks = getApp().getFireworkReader().getFireworksGroupedByColor();
 		
-		Shop shop = new Shop("Color Shop", "C010R", fireworks);
+		Shop shop = new Shop("Color Shop", "List below is grouped by color", fireworks);
 		
 		view(shop);
+		finish();
 	}
 	
 	private void view(Shop shop) {
