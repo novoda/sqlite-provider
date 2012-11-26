@@ -25,6 +25,7 @@
     </activity>
     <activity android:name=".ui.ViewFireworksActivity" />
     <activity android:name=".ui.AddFireworkActivity" />
+    <activity android:name=".ui.FindFireworkWithPkActivity" />
 
     <provider
       android:name=".provider.FireworkProvider"
