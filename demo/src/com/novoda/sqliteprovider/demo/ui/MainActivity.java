@@ -1,5 +1,6 @@
 package com.novoda.sqliteprovider.demo.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,19 +19,17 @@ public class MainActivity extends NovodaActivity {
 
 	@FromXML
 	public void onViewAllFireworksClick(View button) {
-		Intent intent = new Intent(this, ViewFireworksActivity.class);
-		startActivity(intent);
+		startActivity(ViewFireworksActivity.class);
 	}
 
 	@FromXML
 	public void onAddFireworkClick(View button) {
-		Intent intent = new Intent(this, AddFireworkActivity.class);
-		startActivity(intent);
+		startActivity(AddFireworkActivity.class);
 	}
 
 	@FromXML
 	public void onFindFireworkWithPrimaryKeyClick(View button) {
-
+		startActivity(FindFireworkWithPkActivity.class);
 	}
 
 	@FromXML
@@ -56,5 +55,10 @@ public class MainActivity extends NovodaActivity {
 	@FromXML
 	public void onFindUniquelyNoisyFireworksClick(View button) {
 
+	}
+	
+	private void startActivity(Class<? extends Activity> clazz) {
+		Intent intent = new Intent(this, clazz);
+		startActivity(intent);
 	}
 }
