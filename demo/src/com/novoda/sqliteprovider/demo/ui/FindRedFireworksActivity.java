@@ -9,15 +9,15 @@ import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
 import java.util.List;
 
-public class GroupByColorActivity extends NovodaActivity {
+public class FindRedFireworksActivity extends NovodaActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		List<Firework> fireworks = getApp().getFireworkReader().getFireworksGroupedByColor();
+		List<Firework> fireworks = getApp().getFireworkReader().getRedFireworks();
 		
-		Shop shop = new Shop("Color Shop", "List below is grouped by color", fireworks);
+		Shop shop = new Shop("Red Fireworks", "List below are from multiple shops that are Red", fireworks);
 		
 		view(shop);
 		finish();

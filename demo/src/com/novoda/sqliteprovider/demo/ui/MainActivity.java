@@ -39,7 +39,7 @@ public class MainActivity extends NovodaActivity {
 
 	@FromXML
 	public void onGroupFireworksByColorClick(View button) {
-		startActivity(GroupByColorActivity.class);
+		startActivity(FindRedFireworksActivity.class);
 	}
 
 	@FromXML
