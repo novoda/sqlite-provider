@@ -48,8 +48,8 @@ public class MainActivity extends NovodaActivity {
 	}
 
 	@FromXML
-	public void onFindUniquelyNoisyFireworksClick(View button) {
-
+	public void onFindUniqueFireworksClick(View button) {
+		startActivity(FindDistinctFireworksActivity.class);
 	}
 	
 	private void startActivity(Class<? extends Activity> clazz) {

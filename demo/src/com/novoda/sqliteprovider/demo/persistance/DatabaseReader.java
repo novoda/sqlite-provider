@@ -49,4 +49,11 @@ public class DatabaseReader {
 		return contentResolver.query(Uri.parse(AUTHORITY + tableName +"?limit="+ limit),  null, null, null, null);
 	}
 
+	/**
+	 * (6) Read - distinct support 
+	 */
+	public Cursor getDistinct(String tableName) {
+		return contentResolver.query(Uri.parse(AUTHORITY + tableName +"?distinct=true"), null, null, null, null);
+	}
+
 }

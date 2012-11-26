@@ -65,6 +65,16 @@ public class FireworkReader {
 		return fireworks;
 	}
 	
+	public List<Firework> getUniqueFireworks() {
+		Cursor cursor = databaseReader.getDistinct(TBL_FIREWORKS);
+		
+		List<Firework> fireworks = populateListWith(cursor);
+		
+		cursor.close();
+		
+		return fireworks;
+	}
+	
 	public List<Firework> getAll(){
 		Cursor cursor = databaseReader.getAllFrom(TBL_FIREWORKS);
 		

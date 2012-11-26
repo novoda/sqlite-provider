@@ -47,6 +47,9 @@
     <activity
       android:name=".ui.FindThreeFireworksActivity"
       android:label="@string/activity_label_limit" />
+    <activity
+      android:name=".ui.FindDistinctFireworksActivity"
+      android:label="@string/activity_label_distinct_fireworks" />
 
     <provider
       android:name=".provider.FireworkProvider"

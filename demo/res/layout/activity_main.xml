@@ -44,8 +44,8 @@
     <Button
       style="@style/match_w_wrap_h"
       android:layout_margin="@dimen/norm_spacing"
-      android:onClick="onFindUniquelyNoisyFireworksClick"
-      android:text="@string/button_main_find_fireworks_with_a_unique_noise" />
+      android:onClick="onFindUniqueFireworksClick"
+      android:text="@string/button_main_find_unique_fireworks" />
   </LinearLayout>
 
 </ScrollView>
