@@ -24,5 +24,9 @@
   <string name="activity_firework_title_type">Type:</string>
   <string name="activity_firework_title_noise">Noise:</string>
   <string name="activity_firework_title_shop">Shop:</string>
+  <string name="activity_label_firework">Firework Details</string>
+  <string name="activity_label_all_fireworks">All Fireworks</string>
+  <string name="activity_label_add_new_firework">Add New Firework</string>
+  <string name="activity_label_find_firework">Find Firework</string>
 
 </resources>

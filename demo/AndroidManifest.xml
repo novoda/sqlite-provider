@@ -23,10 +23,18 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".ui.ViewFireworksActivity" />
-    <activity android:name=".ui.AddFireworkActivity" />
-    <activity android:name=".ui.FindFireworkWithPkActivity" />
-    <activity android:name=".ui.FireworkActivity" />
+    <activity
+      android:name=".ui.ViewFireworksActivity"
+      android:label="@string/activity_label_all_fireworks" />
+    <activity
+      android:name=".ui.AddFireworkActivity"
+      android:label="@string/activity_label_add_new_firework" />
+    <activity
+      android:name=".ui.FindFireworkWithPkActivity"
+      android:label="@string/activity_label_find_firework" />
+    <activity
+      android:name=".ui.FireworkActivity"
+      android:label="@string/activity_label_firework" />
 
     <provider
       android:name=".provider.FireworkProvider"
