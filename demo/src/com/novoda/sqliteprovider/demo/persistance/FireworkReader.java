@@ -24,7 +24,11 @@ public class FireworkReader {
 		Cursor cursor = databaseReader.getFrom(TBL_FIREWORKS, primaryKey);
 		
 		if(cursor.moveToFirst()){
-			return getFirework(cursor);
+			Firework firework = getFirework(cursor);
+			
+			cursor.close();
+			
+			return firework;
 		} else {
 			Log.e("No data in the cursor. Returning null safe firework.");
 			return Firework.getNullSafeFirework();
@@ -36,6 +40,8 @@ public class FireworkReader {
 		
 		List<Firework> fireworks = populateListWith(cursor);
 		
+		cursor.close();
+		
 		return fireworks;
 	}
 	
@@ -43,6 +49,8 @@ public class FireworkReader {
 		Cursor cursor = databaseReader.getGroupedByAndHaving(TBL_FIREWORKS, Fireworks.COL_TYPE, Fireworks.COL_COLOR +"='Red'");
 		
 		List<Firework> fireworks = populateListWith(cursor);
+		
+		cursor.close();
 		
 		return fireworks;
 	}
@@ -52,6 +60,8 @@ public class FireworkReader {
 		
 		List<Firework> fireworks = populateListWith(cursor);
 		
+		cursor.close();
+		
 		return fireworks;
 	}
 	
@@ -59,6 +69,8 @@ public class FireworkReader {
 		Cursor cursor = databaseReader.getAllFrom(TBL_FIREWORKS);
 		
 		List<Firework> fireworks = populateListWith(cursor);
+		
+		cursor.close();
 		
 		return fireworks;
 	}
