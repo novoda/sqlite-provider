@@ -1,9 +1,7 @@
-
 package novoda.lib.sqliteprovider.provider;
 
 import android.content.*;
 import android.database.*;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
@@ -11,174 +9,143 @@ import android.net.Uri;
 import novoda.lib.sqliteprovider.provider.action.InsertHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
-import novoda.lib.sqliteprovider.util.*;
-import novoda.lib.sqliteprovider.util.Log.Provider;
+import novoda.lib.sqliteprovider.util.Log;
+import novoda.lib.sqliteprovider.util.UriUtils;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
-    private static final String ID = "_id";
+	protected static final String ID = "_id";
+	private static final String GROUP_BY = "groupBy";
+	private static final String HAVING = "having";
+	private static final String LIMIT = "limit";
+	private static final String EXPAND = "expand";
 
-    private static final String GROUP_BY = "groupBy";
+	private InsertHelper helper;
+	private ImplLogger logger;
 
-    private static final String HAVING = "having";
+	@Override
+	public boolean onCreate() {
+		super.onCreate();
+		helper = new InsertHelper((ExtendedSQLiteOpenHelper) getDatabaseHelper());
+		logger = new ImplLogger();
+		return true;
+	}
 
-    private static final String LIMIT = "limit";
+	@Override
+	protected SQLiteOpenHelper getDatabaseHelper(Context context) {
+		try {
+			return new ExtendedSQLiteOpenHelper(context);
+		} catch (IOException e) {
+			Log.Provider.e(e);
+			throw new IllegalStateException(e.getMessage());
+		}
+	}
 
-    private static final String EXPAND = "expand";
+	@Override
+	protected Uri insertInTransaction(Uri uri, ContentValues values) {
+		long rowId = helper.insert(uri, values);
+		if (rowId > 0) {
+			Uri newUri = ContentUris.withAppendedId(uri, rowId);
+			notifyUriChange(newUri);
+			return newUri;
+		}
+		throw new SQLException("Failed to insert row into " + uri);
+	}
 
-    private InsertHelper helper;
+	protected SQLiteDatabase getWritableDatabase() {
+		return getDatabaseHelper().getWritableDatabase();
+	}
 
-    @Override
-    public boolean onCreate() {
-        super.onCreate();
-        helper = new InsertHelper((ExtendedSQLiteOpenHelper) getDatabaseHelper());
-        return true;
-    }
+	protected SQLiteDatabase getReadableDatabase() {
+		return getDatabaseHelper().getReadableDatabase();
+	}
 
-    @Override
-    protected SQLiteOpenHelper getDatabaseHelper(Context context) {
-        try {
-            return new ExtendedSQLiteOpenHelper(context);
-        } catch (IOException e) {
-            Log.Provider.e(e);
-            throw new IllegalStateException(e.getMessage());
-        }
-    }
+	@Override
+	protected int updateInTransaction(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+		ContentValues insertValues = (values != null) ? new ContentValues(values) : new ContentValues();
 
-    @Override
-    protected Uri insertInTransaction(Uri uri, ContentValues values) {
-        long rowId = helper.insert(uri, values);
-        if (rowId > 0) {
-            Uri newUri = ContentUris.withAppendedId(uri, rowId);
-            notifyUriChange(newUri);
-            return newUri;
-        }
-        throw new SQLException("Failed to insert row into " + uri);
-    }
+		int rowId = getWritableDatabase().update(UriUtils.getItemDirID(uri), insertValues, selection, selectionArgs);
 
-    protected SQLiteDatabase getWritableDatabase() {
-        return getDatabaseHelper().getWritableDatabase();
-    }
+		if (rowId > 0) {
+			Uri insertUri = ContentUris.withAppendedId(uri, rowId);
+			notifyUriChange(insertUri);
+			return rowId;
+		}
+		throw new SQLException("Failed to update row into " + uri);
+	}
 
-    protected SQLiteDatabase getReadableDatabase() {
-        return getDatabaseHelper().getReadableDatabase();
-    }
+	@Override
+	protected int deleteInTransaction(Uri uri, String selection, String[] selectionArgs) {
+		SQLiteDatabase database = getWritableDatabase();
+		int count = database.delete(UriUtils.getItemDirID(uri), selection, selectionArgs);
+		notifyUriChange(uri);
+		return count;
+	}
 
-    @Override
-    protected int updateInTransaction(Uri uri, ContentValues values, String selection,
-            String[] selectionArgs) {
+	@Override
+	protected void notifyChange() {
 
-        ContentValues insertValues = (values != null) ? new ContentValues(values)
-                : new ContentValues();
+	}
 
-        int rowId = getWritableDatabase().update(UriUtils.getItemDirID(uri), insertValues,
-                selection, selectionArgs);
+	public void notifyUriChange(Uri uri) {
+		getContext().getContentResolver().notifyChange(uri, null, getNotificationSyncToNetwork());
+	}
 
-        if (rowId > 0) {
-            Uri insertUri = ContentUris.withAppendedId(uri, rowId);
-            notifyUriChange(insertUri);
-            return rowId;
-        }
-        throw new SQLException("Failed to update row into " + uri);
-    }
+	public boolean getNotificationSyncToNetwork() {
+		return false;
+	}
 
-    @Override
-    protected int deleteInTransaction(Uri uri, String selection, String[] selectionArgs) {
-        SQLiteDatabase database = getWritableDatabase();
-        int count = database.delete(UriUtils.getItemDirID(uri), selection, selectionArgs);
-        notifyUriChange(uri);
-        return count;
-    }
+	@Override
+	public String getType(Uri uri) {
+		return null;
+	}
 
-    @Override
-    protected void notifyChange() {
+	@Override
+	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+		logger.logStart(uri);
 
-    }
+		final ExtendedSQLiteQueryBuilder builder = getSQLiteQueryBuilder();
 
-    public void notifyUriChange(Uri uri) {
-        getContext().getContentResolver().notifyChange(uri, null, getNotificationSyncToNetwork());
-    }
+		final List<String> expands = uri.getQueryParameters(EXPAND);
+		final String groupBy = uri.getQueryParameter(GROUP_BY);
+		final String having = uri.getQueryParameter(HAVING);
+		final String limit = uri.getQueryParameter(LIMIT);
 
-    public boolean getNotificationSyncToNetwork() {
-        return false;
-    }
+		final StringBuilder tableName = new StringBuilder(UriUtils.getItemDirID(uri));
+		builder.setTables(tableName.toString());
+		Map<String, String> autoproj = null;
 
-    @Override
-    public String getType(Uri uri) {
-        return null;
-    }
+		if (expands.size() > 0) {
+			builder.addInnerJoin(expands.toArray(new String[] {}));
+			ExtendedSQLiteOpenHelper extendedHelper = (ExtendedSQLiteOpenHelper) getDatabaseHelper();
+			autoproj = extendedHelper.getProjectionMap(tableName.toString(), expands.toArray(new String[] {}));
+			builder.setProjectionMap(autoproj);
+		}
 
-    @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+		if (UriUtils.isItem(uri)) {
+			logger.logAppendWhere(uri);
+			builder.appendWhere(ID + "=" + uri.getLastPathSegment());
+		} else {
+			if (UriUtils.hasParent(uri)) {
+				StringBuilder escapedWhere = new StringBuilder();
+				DatabaseUtils.appendEscapedSQLString(escapedWhere, UriUtils.getParentId(uri));
+				logger.logAppendWhereOnParent(uri, escapedWhere);
+				builder.appendWhere(UriUtils.getParentColumnName(uri) + ID + "=" + escapedWhere.toString());
+			}
+		}
 
-        if (Provider.verboseLoggingEnabled()) {
-            Provider.v("==================== start of query =======================");
-            Provider.v("Uri: " + uri.toString());
-        }
+		logger.logEnd(projection, selection, selectionArgs, sortOrder, builder, groupBy, having, limit, autoproj);
 
-        final ExtendedSQLiteQueryBuilder builder = getSQLiteQueryBuilder();
+		Cursor cursor = builder.query(getReadableDatabase(), projection, selection, selectionArgs, groupBy, having, sortOrder, limit);
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		return cursor;
+	}
 
-        final List<String> expands = uri.getQueryParameters(EXPAND);
-        final String groupBy = uri.getQueryParameter(GROUP_BY);
-        final String having = uri.getQueryParameter(HAVING);
-        final String limit = uri.getQueryParameter(LIMIT);
-
-        final StringBuilder tableName = new StringBuilder(UriUtils.getItemDirID(uri));
-        builder.setTables(tableName.toString());
-        Map<String, String> autoproj = null;
-
-        if (expands.size() > 0) {
-            builder.addInnerJoin(expands.toArray(new String[] {}));
-            ExtendedSQLiteOpenHelper extendedHelper = (ExtendedSQLiteOpenHelper) getDatabaseHelper();
-            autoproj = extendedHelper.getProjectionMap(tableName.toString(), expands.toArray(new String[] {}));
-            builder.setProjectionMap(autoproj);
-        }
-
-        if (UriUtils.isItem(uri)) {
-            if (Provider.verboseLoggingEnabled()) {
-                Provider.v("Appending to where clause: " + ID + "=" + uri.getLastPathSegment());
-            }
-            builder.appendWhere(ID + "=" + uri.getLastPathSegment());
-        } else {
-            if (UriUtils.hasParent(uri)) {
-            	StringBuilder escapedWhere = new StringBuilder();
-            	DatabaseUtils.appendEscapedSQLString(escapedWhere, UriUtils.getParentId(uri));
-                if (Provider.verboseLoggingEnabled()) {
-                    Provider.v("Appending to where clause: " + UriUtils.getParentColumnName(uri) + ID + "=" + escapedWhere.toString());
-                }
-                builder.appendWhere(UriUtils.getParentColumnName(uri) + ID + "=" + escapedWhere.toString());
-            }
-        }
-
-        if (Provider.verboseLoggingEnabled()) {
-            Provider.v("table: " + builder.getTables());
-
-            if (projection != null){
-                Provider.v("projection:" + Arrays.toString(projection));
-            }
-            if (selection != null){
-                Provider.v("selection: " + selection + " with arguments "
-                        + Arrays.toString(selectionArgs));
-            }
-            Provider.v("extra args: " + groupBy + " ,having: " + having + " ,sort order: "
-                    + sortOrder + " ,limit: " + limit);
-
-            if (autoproj != null){
-                Provider.v("projectionAutomated: " + autoproj);
-            }
-            Provider.v("==================== end of query =======================");
-        }
-        
-        Cursor cursor = builder.query(getReadableDatabase(), projection, selection, selectionArgs, groupBy,
-                having, sortOrder, limit);
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
-        return cursor;
-    }
-
-    protected ExtendedSQLiteQueryBuilder getSQLiteQueryBuilder() {
-        return new ExtendedSQLiteQueryBuilder();
-    }
+	protected ExtendedSQLiteQueryBuilder getSQLiteQueryBuilder() {
+		return new ExtendedSQLiteQueryBuilder();
+	}
 }
