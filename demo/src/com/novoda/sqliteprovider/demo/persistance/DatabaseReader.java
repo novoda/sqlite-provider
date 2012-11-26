@@ -14,6 +14,9 @@ public class DatabaseReader {
 		this.contentResolver = contentResolver;
 	}
 	
+	/**
+	 * (1) Read table example
+	 */
 	protected Cursor getAllFrom(String tableName) {
 		return contentResolver.query(Uri.parse(AUTHORITY + tableName), null, null, null, null);
 	}
