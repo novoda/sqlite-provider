@@ -32,8 +32,8 @@
     <Button
       style="@style/match_w_wrap_h"
       android:layout_margin="@dimen/norm_spacing"
-      android:onClick="onFindAllRedFireworksClick"
-      android:text="@string/button_main_find_all_red_fireworks" />
+      android:onClick="onGroupFireworksByColorClick"
+      android:text="@string/button_main_group_fireworks_by_color" />
 
     <Button
       style="@style/match_w_wrap_h"
