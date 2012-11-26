@@ -1,9 +1,11 @@
 package com.novoda.sqliteprovider.demo.ui;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.util.FromXML;
 
 public class FindFireworkWithPkActivity extends NovodaActivity {
 
@@ -13,4 +15,8 @@ public class FindFireworkWithPkActivity extends NovodaActivity {
 		setContentView(R.layout.activity_find_firework_with_pk);
 	}
 	
+	@FromXML
+	public void onFindFireworkWithPkClick(View button){
+		
+	}
 }

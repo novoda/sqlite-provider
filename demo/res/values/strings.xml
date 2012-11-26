@@ -28,5 +28,8 @@
   <string name="activity_label_all_fireworks">All Fireworks</string>
   <string name="activity_label_add_new_firework">Add New Firework</string>
   <string name="activity_label_find_firework">Find Firework</string>
+  <string name="activity_find_firework_with_pk_firework_primary_key_input_title">Firework Primary Key:</string>
+  <string name="activity_find_firework_with_pk_firework_primary_key_input_hint">Primary Key</string>
+  <string name="activity_find_firework_with_pk_button_find_firework">Find Firework</string>
 
 </resources>
