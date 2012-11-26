@@ -18,7 +18,7 @@ import com.novoda.sqliteprovider.demo.util.Log;
 
 import java.util.List;
 
-public class ViewFireworksActivity extends NovodaActivity implements LoaderCallbacks<List<Firework>>{
+public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCallbacks<List<Firework>>{
 
 	private ListView listview;
 	private final Handler uiHook = new Handler();

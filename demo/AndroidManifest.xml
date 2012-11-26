@@ -24,7 +24,7 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".ui.ViewFireworksActivity"
+      android:name=".ui.ViewAllFireworksActivity"
       android:label="@string/activity_label_all_fireworks" />
     <activity
       android:name=".ui.AddFireworkActivity"

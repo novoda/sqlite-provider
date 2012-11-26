@@ -19,7 +19,7 @@ public class MainActivity extends NovodaActivity {
 
 	@FromXML
 	public void onViewAllFireworksClick(View button) {
-		startActivity(ViewFireworksActivity.class);
+		startActivity(ViewAllFireworksActivity.class);
 	}
 
 	@FromXML
