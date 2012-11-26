@@ -35,7 +35,7 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity {
 
 				List<Firework> fireworks = getApp().getFireworkReader().getFireworksForShop(primaryKey);
 				
-				Shop shop = new Shop("not implemented", "not implemented", fireworks);
+				Shop shop = new Shop("", "Below are the Fireworks with shop primary key: "+ primaryKey, fireworks);
 				
 				view(shop);
 			} catch (NumberFormatException e) {
