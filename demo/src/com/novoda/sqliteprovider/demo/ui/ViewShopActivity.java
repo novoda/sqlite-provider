@@ -22,10 +22,16 @@ public class ViewShopActivity extends NovodaActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_fireworks);
+		setContentView(R.layout.activity_view_shop);
 		
 		Shop shop = (Shop) getIntent().getSerializableExtra(EXTRA_SHOP);
 		if(shop != null){
+			TextView shopNameTextView = (TextView) findViewById(R.id.activity_view_shop_name);
+			shopNameTextView.setText(shop.getName());
+			
+			TextView shopPostcodeTextView = (TextView) findViewById(R.id.activity_view_shop_postcode);
+			shopPostcodeTextView.setText(shop.getPostcode());
+			
 			listview = (ListView) findViewById(android.R.id.list);
 			listview.setOnItemClickListener(onFireworkListItemClick);
 			listview.setAdapter(new FireworkAdapter(this, shop.getFireworks()));
