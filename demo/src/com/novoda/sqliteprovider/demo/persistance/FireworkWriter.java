@@ -1,6 +1,6 @@
 package com.novoda.sqliteprovider.demo.persistance;
 
-import static com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.*;
+import static com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.Fireworks.*;
 
 import android.content.ContentValues;
 

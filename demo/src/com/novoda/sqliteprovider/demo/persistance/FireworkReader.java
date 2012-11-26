@@ -1,10 +1,12 @@
 package com.novoda.sqliteprovider.demo.persistance;
 
-import static com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.*;
+import static com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.TBL_FIREWORKS;
+import static com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.TBL_SHOPS;
 
 import android.database.Cursor;
 
 import com.novoda.sqliteprovider.demo.domain.Firework;
+import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.Fireworks;
 import com.novoda.sqliteprovider.demo.util.Log;
 
 import java.util.ArrayList;
@@ -51,12 +53,18 @@ public class FireworkReader {
 	}
 
 	private Firework getFirework(Cursor cursor) {
-		String name = cursor.getString(COL_IDX_NAME);
-		String color = cursor.getString(COL_IDX_COLOR);
-		String type = cursor.getString(COL_IDX_NOISE);
-		String noise = cursor.getString(COL_IDX_TYPE);
+		String name = cursor.getString(Fireworks.COL_IDX_NAME);
+		String color = cursor.getString(Fireworks.COL_IDX_COLOR);
+		String type = cursor.getString(Fireworks.COL_IDX_NOISE);
+		String noise = cursor.getString(Fireworks.COL_IDX_TYPE);
 		Firework firework = new Firework(name, color, type, noise);
 		return firework;
+	}
+
+	public List<Firework> getFireworksForShop(int primaryKey) {
+		Cursor cursor = databaseWriter.getChildren(TBL_SHOPS, TBL_FIREWORKS, primaryKey);
+		// TODO Auto-generated method stub
+		return new ArrayList<Firework>();
 	}
 	
 }

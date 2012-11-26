@@ -28,4 +28,11 @@ public class DatabaseReader {
 		return contentResolver.query(Uri.parse(AUTHORITY + tableName +"/"+ primaryKey), null, null, null, null);
 	}
 
+	/**
+	 * (3) Read - one to many support
+	 */
+	public Cursor getChildren(String parentTableName, String childTableName, int primaryKey) {
+		return contentResolver.query(Uri.parse(AUTHORITY + parentTableName +"/"+ primaryKey +"/"+ childTableName), null, null, null, null);
+	}
+
 }
