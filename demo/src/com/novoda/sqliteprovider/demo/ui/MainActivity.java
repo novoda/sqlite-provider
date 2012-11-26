@@ -34,7 +34,7 @@ public class MainActivity extends NovodaActivity {
 
 	@FromXML
 	public void onFindAllFireworksFromOneShopClick(View button) {
-
+		startActivity(FindFireworksFromOneShopActivity.class);
 	}
 
 	@FromXML
