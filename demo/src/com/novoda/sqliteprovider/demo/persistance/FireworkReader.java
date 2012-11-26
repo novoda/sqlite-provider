@@ -18,6 +18,21 @@ public class FireworkReader {
 		this.databaseWriter = databaseWriter;
 	}
 	
+	public Firework getFirework(int primaryKey){
+		Cursor cursor = databaseWriter.getFrom(TBL_FIREWORKS, primaryKey);
+		
+		Firework firework;
+		if(cursor.moveToFirst()){
+			do {
+				firework = getFirework(cursor);
+			} while(cursor.moveToNext());
+		} else {
+			Log.e("No data in the cursor. Returning null safe firework.");
+			firework = Firework.getNullSafeFirework();
+		}
+		return firework;
+	}
+	
 	public List<Firework> getAll(){
 		Cursor cursor = databaseWriter.getAllFrom(TBL_FIREWORKS);
 		
@@ -30,16 +45,22 @@ public class FireworkReader {
 		List<Firework> data = new ArrayList<Firework>();
 		if(cursor.moveToFirst()){
 			do {
-				String name = cursor.getString(COL_IDX_NAME);
-				String color = cursor.getString(COL_IDX_COLOR);
-				String type = cursor.getString(COL_IDX_NOISE);
-				String noise = cursor.getString(COL_IDX_TYPE);
-				data.add(new Firework(name, color, type, noise));
+				Firework firework = getFirework(cursor);
+				data.add(firework);
 			} while(cursor.moveToNext());
 		} else {
 			Log.e("No data in the cursor.");
 		}
 		return data;
+	}
+
+	private Firework getFirework(Cursor cursor) {
+		String name = cursor.getString(COL_IDX_NAME);
+		String color = cursor.getString(COL_IDX_COLOR);
+		String type = cursor.getString(COL_IDX_NOISE);
+		String noise = cursor.getString(COL_IDX_TYPE);
+		Firework firework = new Firework(name, color, type, noise);
+		return firework;
 	}
 	
 }

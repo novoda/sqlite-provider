@@ -36,4 +36,8 @@ public class Firework implements Serializable {
 	public String getNoise() {
 		return noise;
 	}
+
+	public static Firework getNullSafeFirework() {
+		return new Firework("", "", "", "");
+	}
 }

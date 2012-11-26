@@ -15,10 +15,17 @@ public class DatabaseReader {
 	}
 	
 	/**
-	 * (1) Read table example
+	 * (1) Read - generic table support
 	 */
 	protected Cursor getAllFrom(String tableName) {
 		return contentResolver.query(Uri.parse(AUTHORITY + tableName), null, null, null, null);
+	}
+
+	/**
+	 * (2) Read - primary key support 
+	 */
+	public Cursor getFrom(String tableName, int primaryKey) {
+		return contentResolver.query(Uri.parse(AUTHORITY + tableName +"/"+ primaryKey), null, null, null, null);
 	}
 
 }
