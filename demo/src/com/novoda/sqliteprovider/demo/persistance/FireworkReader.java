@@ -21,16 +21,12 @@ public class FireworkReader {
 	public Firework getFirework(int primaryKey){
 		Cursor cursor = databaseWriter.getFrom(TBL_FIREWORKS, primaryKey);
 		
-		Firework firework;
 		if(cursor.moveToFirst()){
-			do {
-				firework = getFirework(cursor);
-			} while(cursor.moveToNext());
+			return getFirework(cursor);
 		} else {
 			Log.e("No data in the cursor. Returning null safe firework.");
-			firework = Firework.getNullSafeFirework();
+			return Firework.getNullSafeFirework();
 		}
-		return firework;
 	}
 	
 	public List<Firework> getAll(){
