@@ -39,8 +39,8 @@ public class FireworkReader {
 		return fireworks;
 	}
 	
-	public List<Firework> getRedFireworks() {
-		Cursor cursor = databaseReader.getGroupedByAndHaving(TBL_FIREWORKS, Fireworks.COL_COLOR, "");
+	public List<Firework> getRedFireworksGroupedByType() {
+		Cursor cursor = databaseReader.getGroupedByAndHaving(TBL_FIREWORKS, Fireworks.COL_TYPE, Fireworks.COL_COLOR +"='Red'");
 		
 		List<Firework> fireworks = populateListWith(cursor);
 		

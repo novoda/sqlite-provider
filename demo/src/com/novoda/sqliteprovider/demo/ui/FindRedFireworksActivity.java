@@ -15,9 +15,9 @@ public class FindRedFireworksActivity extends NovodaActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		List<Firework> fireworks = getApp().getFireworkReader().getRedFireworks();
+		List<Firework> fireworks = getApp().getFireworkReader().getRedFireworksGroupedByType();
 		
-		Shop shop = new Shop("Red Fireworks", "List below are from multiple shops that are Red", fireworks);
+		Shop shop = new Shop("Red Fireworks", "List below is Red fireworks grouped by Type", fireworks);
 		
 		view(shop);
 		finish();

@@ -11,7 +11,7 @@ INSERT INTO 'fireworks' (name, color, type, noise, shop) VALUES ("The Biggest Bo
 INSERT INTO 'fireworks' (name, color, type, noise, shop) VALUES ("Water Falls", "Blue", "Fountain", "Fizz", 1);
 INSERT INTO 'fireworks' (name, color, type, noise, shop) VALUES ("Rotar Motor", "Green", "Cathrine Wheel", "Whizz", 1);
 INSERT INTO 'fireworks' (name, color, type, noise, shop) VALUES ("Howler", "White", "Screamer", "Eeek", 1);
-INSERT INTO 'fireworks' (name, color, type, noise, shop) VALUES ("Red Lorry", "White", "Screamer", "Eeek", 1);
+INSERT INTO 'fireworks' (name, color, type, noise, shop) VALUES ("Red Lorry", "Red", "Screamer", "Eeek", 1);
 INSERT INTO 'fireworks' (name, color, type, noise, shop) VALUES ("Yellow Lorry", "White", "Screamer", "Eeek", 2);
 INSERT INTO 'fireworks' (name, color, type, noise, shop) VALUES ("RocketABC", "White", "Rocket", "Pop", 2);
 INSERT INTO 'fireworks' (name, color, type, noise, shop) VALUES ("RocketABC", "Blue", "Rocket", "Bang", 2);
