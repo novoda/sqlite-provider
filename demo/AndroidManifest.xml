@@ -45,7 +45,7 @@
       android:name=".ui.FindRedFireworksActivity"
       android:label="@string/activity_label_grouped_by_color" />
     <activity
-      android:name=".ui.FindThreeFireworkShopsActivity"
+      android:name=".ui.FindThreeFireworksActivity"
       android:label="@string/activity_label_limit" />
 
     <provider

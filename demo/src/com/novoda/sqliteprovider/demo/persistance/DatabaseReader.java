@@ -42,4 +42,11 @@ public class DatabaseReader {
 		return contentResolver.query(Uri.parse(AUTHORITY + tableName + "?groupBy="+column +"&having="+ having), null, null, null, null);
 	}
 
+	/**
+	 * (5) Read - limit support
+	 */
+	public Cursor getLimited(String tableName, int limit) {
+		return contentResolver.query(Uri.parse(AUTHORITY + tableName +"?limit="+ limit),  null, null, null, null);
+	}
+
 }
