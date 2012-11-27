@@ -19,18 +19,20 @@ public class FireworkActivity extends NovodaActivity {
 		
 		Firework firework = (Firework) getIntent().getSerializableExtra(EXTRA_FIREWORK);
 		if(firework != null){
-			TextView fireworkIdTextView = (TextView) findViewById(R.id.firework_id);
 			TextView fireworkNameTextView = (TextView) findViewById(R.id.firework_name);
 			TextView fireworkColorTextView = (TextView) findViewById(R.id.firework_color);
 			TextView fireworkTypeTextView = (TextView) findViewById(R.id.firework_type);
 			TextView fireworkNoiseTextView = (TextView) findViewById(R.id.firework_noise);
+			TextView fireworkPriceTextView = (TextView) findViewById(R.id.firework_price);
+			TextView fireworkIdTextView = (TextView) findViewById(R.id.firework_id);
 			TextView fireworkShopTextView = (TextView) findViewById(R.id.firework_shop);
 
-			fireworkIdTextView.setText("Not implemented");
 			fireworkNameTextView.setText(firework.getName());
 			fireworkColorTextView.setText(firework.getColor());
 			fireworkTypeTextView.setText(firework.getType());
 			fireworkNoiseTextView.setText(firework.getNoise());
+			fireworkPriceTextView.setText(firework.getFormattedPrice());
+			fireworkIdTextView.setText("Not implemented");
 			fireworkShopTextView.setText("Not implemented");
 			
 		} else {

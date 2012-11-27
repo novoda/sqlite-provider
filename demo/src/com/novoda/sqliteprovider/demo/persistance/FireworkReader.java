@@ -103,7 +103,8 @@ public class FireworkReader {
 		String color = cursor.getString(Fireworks.COL_IDX_COLOR);
 		String type = cursor.getString(Fireworks.COL_IDX_NOISE);
 		String noise = cursor.getString(Fireworks.COL_IDX_TYPE);
-		Firework firework = new Firework(name, color, type, noise);
+		double price = cursor.getDouble(Fireworks.COL_IDX_PRICE);
+		Firework firework = new Firework(name, color, type, noise, price);
 		return firework;
 	}
 }

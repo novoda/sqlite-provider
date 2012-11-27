@@ -12,6 +12,7 @@ import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.loader.FireworkSaver;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.util.FromXML;
 
 public class AddFireworkActivity extends NovodaActivity implements LoaderCallbacks<Firework>{
 
@@ -19,6 +20,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 	private EditText colorEditText;
 	private EditText noiseEditText;
 	private EditText typeEditText;
+	private EditText priceEditText;
 	private Firework firework;
 
 	@Override
@@ -30,11 +32,13 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		colorEditText = (EditText) findViewById(R.id.add_firework_input_color);
 		noiseEditText = (EditText) findViewById(R.id.add_firework_input_noise);
 		typeEditText = (EditText) findViewById(R.id.add_firework_input_type);
+		priceEditText = (EditText) findViewById(R.id.add_firework_input_price);
 	}
 	
+	@FromXML
 	public void onAddFireworkClick(View button){
 		if(checkForInput(nameEditText) || checkForInput(colorEditText) ||
-				checkForInput(noiseEditText) || checkForInput(typeEditText)) {
+				checkForInput(noiseEditText) || checkForInput(typeEditText) || checkForInput(priceEditText)) {
 			Toast.makeText(this, "Fill in the firework", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -43,13 +47,15 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		String color = "";
 		String noise = "";
 		String type = "";
+		double price = 0;
 		
 		name = nameEditText.getText().toString();
 		color = colorEditText.getText().toString();
 		noise = noiseEditText.getText().toString();
 		type = typeEditText.getText().toString();
+		price = Double.parseDouble(priceEditText.getText().toString());
 		
-		firework = new Firework(name, color, type, noise);
+		firework = new Firework(name, color, type, noise, price);
 		
 		getSupportLoaderManager().initLoader(123, null, this);
 	}
@@ -71,6 +77,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		colorEditText.setText("");
 		noiseEditText.setText("");
 		typeEditText.setText("");
+		priceEditText.setText("");
 	}
 
 	@Override

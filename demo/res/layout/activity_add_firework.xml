@@ -33,6 +33,13 @@
     android:layout_margin="@dimen/norm_spacing"
     android:hint="@string/activity_add_firework_input_title_noise" />
 
+  <EditText
+    android:id="@+id/add_firework_input_price"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/activity_add_firework_input_title_price"
+    android:inputType="numberDecimal" />
+
   <Button
     style="@style/match_w_wrap_h"
     android:layout_margin="@dimen/norm_spacing"

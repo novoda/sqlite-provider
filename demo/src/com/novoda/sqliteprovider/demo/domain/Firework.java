@@ -8,12 +8,14 @@ public class Firework implements Serializable {
 	private final String color;
 	private final String type;
 	private final String noise;
+	private final double price;
 	
-	public Firework(String name, String color, String type, String noise) {
+	public Firework(String name, String color, String type, String noise, double price) {
 		this.name = name;
 		this.color = color;
 		this.type = type;
 		this.noise = noise;
+		this.price = price;
 	}
 	
 	@Override
@@ -37,7 +39,15 @@ public class Firework implements Serializable {
 		return noise;
 	}
 
+	public double getPrice() {
+		return price;
+	}
+
+	public String getFormattedPrice() {
+		return "£"+String.valueOf(price);
+	}
+	
 	public static Firework getNullSafeFirework() {
-		return new Firework("", "", "", "");
+		return new Firework("", "", "", "", 0);
 	}
 }
