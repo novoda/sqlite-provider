@@ -58,7 +58,7 @@ public class FireworkReader {
 	
 	public List<Firework> getUniqueFireworks() {
 		String[] selection = {Fireworks.COL_NAME, Fireworks.COL_TYPE, Fireworks.COL_COLOR, Fireworks.COL_NOISE, Fireworks.COL_PRICE};
-		
+
 		Cursor cursor = databaseReader.getDistinct(TBL_FIREWORKS, selection);
 		
 		List<Firework> fireworks = populateListWith(cursor);

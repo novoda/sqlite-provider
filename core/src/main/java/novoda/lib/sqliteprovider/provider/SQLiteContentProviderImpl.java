@@ -23,6 +23,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 	private static final String HAVING = "having";
 	private static final String LIMIT = "limit";
 	private static final String EXPAND = "expand";
+	private static final String DISTINCT = "distinct";
 
 	private InsertHelper helper;
 	private ImplLogger logger;
@@ -115,6 +116,8 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 		final String having = uri.getQueryParameter(HAVING);
 		final String limit = uri.getQueryParameter(LIMIT);
 
+		builder.setDistinct("true".equals(uri.getQueryParameter(DISTINCT)));
+		
 		final StringBuilder tableName = new StringBuilder(UriUtils.getItemDirID(uri));
 		builder.setTables(tableName.toString());
 		Map<String, String> autoproj = null;
@@ -137,7 +140,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 			logger.logAppendWhere(where);
 			builder.appendWhere(where);
 		}
-
+		
 		logger.logEnd(projection, selection, selectionArgs, sortOrder, builder, groupBy, having, limit, autoproj);
 
 		Cursor cursor = builder.query(getReadableDatabase(), projection, selection, selectionArgs, groupBy, having, sortOrder, limit);
