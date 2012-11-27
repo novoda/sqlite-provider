@@ -38,8 +38,8 @@ public class DatabaseReader {
 	/**
 	 * (4) Read - group by & having support
 	 */
-	public Cursor getGroupedByAndHaving(String tableName, String column, String having) {
-		return contentResolver.query(Uri.parse(AUTHORITY + tableName + "?groupBy="+column +"&having="+ having), null, null, null, null);
+	public Cursor getGroupedByAndHaving(String tableName, String column, String having, String[] selection) {
+		return contentResolver.query(Uri.parse(AUTHORITY + tableName + "?groupBy="+column +"&having="+ having), selection, null, null, null);
 	}
 
 	/**

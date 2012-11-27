@@ -5,7 +5,8 @@ import static com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.TBL_S
 
 import android.database.Cursor;
 
-import com.novoda.sqliteprovider.demo.domain.Firework;
+import com.novoda.sqliteprovider.demo.domain.*;
+import com.novoda.sqliteprovider.demo.domain.Groups.Group;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.Fireworks;
 import com.novoda.sqliteprovider.demo.util.Log;
 
@@ -37,16 +38,6 @@ public class FireworkReader {
 	
 	public List<Firework> getFireworksForShop(int primaryKey) {
 		Cursor cursor = databaseReader.getChildren(TBL_SHOPS, TBL_FIREWORKS, primaryKey);
-		
-		List<Firework> fireworks = populateListWith(cursor);
-		
-		cursor.close();
-		
-		return fireworks;
-	}
-	
-	public List<Firework> getRedFireworksGroupedByType() {
-		Cursor cursor = databaseReader.getGroupedByAndHaving(TBL_FIREWORKS, Fireworks.COL_TYPE, Fireworks.COL_COLOR +"='Red'");
 		
 		List<Firework> fireworks = populateListWith(cursor);
 		
@@ -106,5 +97,32 @@ public class FireworkReader {
 		double price = cursor.getDouble(Fireworks.COL_IDX_PRICE);
 		Firework firework = new Firework(name, color, type, noise, price);
 		return firework;
+	}
+	
+	public Groups getCountOfRedFireworksGroupedByShop() {
+		String group = Fireworks.COL_SHOP;
+		String having = Fireworks.COL_COLOR +"='Red'";
+		String[] selection = {"COUNT("+Fireworks.COL_COLOR+") AS count", Fireworks.COL_SHOP};
+		Cursor cursor = databaseReader.getGroupedByAndHaving(TBL_FIREWORKS, group, having, selection);
+		
+		List<Group> data = populateGroupListWith(cursor);
+		
+		cursor.close();
+		
+		return new Groups(data);
+	}
+	
+	private List<Group> populateGroupListWith(Cursor cursor) {
+		List<Group> data = new ArrayList<Group>();
+		if(cursor.moveToFirst()){
+			do {
+				int count = cursor.getInt(0);
+				int shopId = cursor.getInt(1);
+				data.add(new Group(count, shopId));
+			} while(cursor.moveToNext());
+		} else {
+			Log.e("No data in the cursor.");
+		}
+		return data;
 	}
 }

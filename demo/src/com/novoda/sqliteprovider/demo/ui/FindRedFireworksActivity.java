@@ -1,13 +1,16 @@
 package com.novoda.sqliteprovider.demo.ui;
 
-import android.content.Intent;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 import android.os.Bundle;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.novoda.sqliteprovider.demo.domain.Firework;
-import com.novoda.sqliteprovider.demo.domain.Shop;
+import com.novoda.sqliteprovider.demo.domain.Groups;
+import com.novoda.sqliteprovider.demo.domain.Groups.Group;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
-
-import java.util.List;
 
 public class FindRedFireworksActivity extends NovodaActivity {
 
@@ -15,18 +18,29 @@ public class FindRedFireworksActivity extends NovodaActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		List<Firework> fireworks = getApp().getFireworkReader().getRedFireworksGroupedByType();
+		Groups groups = getApp().getFireworkReader().getCountOfRedFireworksGroupedByShop();
 		
-		Shop shop = new Shop("Red Fireworks", "List below is Red fireworks grouped by Type", fireworks);
-		
-		view(shop);
-		finish();
+		view(groups);
 	}
 	
-	private void view(Shop shop) {
-		Intent intent = new Intent(this, ViewShopActivity.class);
-		intent.putExtra(ViewShopActivity.EXTRA_SHOP, shop);
-		startActivity(intent);
+	private void view(Groups groups) {
+		LinearLayout view = new LinearLayout(this);
+		view.setOrientation(LinearLayout.VERTICAL);
+		for(Group group : groups){
+			LinearLayout row = new LinearLayout(this);
+			row.setOrientation(LinearLayout.HORIZONTAL);
+			
+			TextView shopTextView = new TextView(this);
+			shopTextView.setText("Shop ID: "+group.getShopId()+"  ");
+			row.addView(shopTextView, new LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+
+			TextView countTextView = new TextView(this);
+			countTextView.setText("Red Firework count: "+group.getCount());
+			row.addView(countTextView, new LayoutParams(WRAP_CONTENT, MATCH_PARENT));
+			
+			view.addView(row, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+		}
+		addContentView(view, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 	}
 	
 }

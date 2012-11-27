@@ -15,7 +15,7 @@
   <string name="button_add_firework">Add Firework</string>
   <string name="button_main_find_using_primary_key">Find firework using Primary Key</string>
   <string name="button_main_find_all_fireworks_from_one_shop">Find all fireworks from one shop (One to Many)</string>
-  <string name="button_main_group_fireworks_by_color">Group fireworks by color (Group)</string>
+  <string name="button_main_group_fireworks_by_color">Count Red fireworks Grouped by Shop (Group / Having)</string>
   <string name="button_main_find_3_firework_shops_limit">Find 3 fireworks (Limit)</string>
   <string name="button_main_find_unique_fireworks">Find unique fireworks (Distinct)</string>
   <string name="activity_firework_title_id">ID:</string>
