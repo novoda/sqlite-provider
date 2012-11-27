@@ -52,8 +52,8 @@ public class DatabaseReader {
 	/**
 	 * (6) Read - distinct support 
 	 */
-	public Cursor getDistinct(String tableName) {
-		return contentResolver.query(Uri.parse(AUTHORITY + tableName +"?distinct=true"), null, null, null, null);
+	public Cursor getDistinct(String tableName, String[] selection) {
+		return contentResolver.query(Uri.parse(AUTHORITY + tableName +"?distinct=true"), selection, null, null, null);
 	}
 
 }

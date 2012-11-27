@@ -57,7 +57,9 @@ public class FireworkReader {
 	}
 	
 	public List<Firework> getUniqueFireworks() {
-		Cursor cursor = databaseReader.getDistinct(TBL_FIREWORKS);
+		String[] selection = {Fireworks.COL_NAME, Fireworks.COL_TYPE, Fireworks.COL_COLOR, Fireworks.COL_NOISE, Fireworks.COL_PRICE};
+		
+		Cursor cursor = databaseReader.getDistinct(TBL_FIREWORKS, selection);
 		
 		List<Firework> fireworks = populateListWith(cursor);
 		
@@ -90,11 +92,11 @@ public class FireworkReader {
 	}
 
 	private Firework getFirework(Cursor cursor) {
-		String name = cursor.getString(Fireworks.COL_IDX_NAME);
-		String color = cursor.getString(Fireworks.COL_IDX_COLOR);
-		String type = cursor.getString(Fireworks.COL_IDX_NOISE);
-		String noise = cursor.getString(Fireworks.COL_IDX_TYPE);
-		double price = cursor.getDouble(Fireworks.COL_IDX_PRICE);
+		String name = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_NAME));
+		String color = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_COLOR));
+		String type = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_NOISE));
+		String noise = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_TYPE));
+		double price = cursor.getDouble(cursor.getColumnIndexOrThrow(Fireworks.COL_PRICE));
 		Firework firework = new Firework(name, color, type, noise, price);
 		return firework;
 	}
@@ -116,8 +118,8 @@ public class FireworkReader {
 		List<Group> data = new ArrayList<Group>();
 		if(cursor.moveToFirst()){
 			do {
-				int count = cursor.getInt(0);
-				int shopId = cursor.getInt(1);
+				int count = cursor.getInt(cursor.getColumnIndexOrThrow("count"));
+				int shopId = cursor.getInt(cursor.getColumnIndexOrThrow(Fireworks.COL_SHOP));
 				data.add(new Group(count, shopId));
 			} while(cursor.moveToNext());
 		} else {
