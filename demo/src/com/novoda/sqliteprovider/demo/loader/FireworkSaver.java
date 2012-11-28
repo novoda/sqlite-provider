@@ -10,6 +10,7 @@ public class FireworkSaver extends AsyncTaskLoader<Firework> {
 
 	private final FireworkWriter writer;
 	private final Firework firework;
+	public static final int LOADER_ID = 123;
 
 	public FireworkSaver(Context context, FireworkWriter writer, Firework firework) {
 		super(context);

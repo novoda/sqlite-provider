@@ -10,6 +10,8 @@ import java.util.List;
 
 public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 
+	public static final int LOADER_ID = 123;
+
 	private final FireworkReader fireworkReader;
 
 	public FireworkLoader(Context context, FireworkReader fireworkReader) {

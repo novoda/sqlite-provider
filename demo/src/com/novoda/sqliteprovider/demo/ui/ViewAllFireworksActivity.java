@@ -31,7 +31,7 @@ public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCa
 		listview = (ListView) findViewById(android.R.id.list);
 		listview.setOnItemClickListener(onFireworkListItemClick);
 		
-		getSupportLoaderManager().initLoader(123, null, this);
+		getSupportLoaderManager().initLoader(FireworkLoader.LOADER_ID, null, this);
 	}
 
 	@Override

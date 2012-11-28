@@ -48,7 +48,7 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity {
 		return !TextUtils.isEmpty(primaryKeyEditText.getText());
 	}
 	
-	private int getPrimaryKey() throws NumberFormatException {
+	private int getPrimaryKey() {
 		return Integer.parseInt(primaryKeyEditText.getText().toString());
 	}
 	

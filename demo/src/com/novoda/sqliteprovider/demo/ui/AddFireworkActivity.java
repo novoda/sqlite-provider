@@ -57,7 +57,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		
 		firework = new Firework(name, color, type, noise, price);
 		
-		getSupportLoaderManager().initLoader(123, null, this);
+		getSupportLoaderManager().initLoader(FireworkSaver.LOADER_ID, null, this);
 	}
 
 	private boolean checkForInput(EditText editText) {

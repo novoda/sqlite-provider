@@ -46,8 +46,8 @@ public class FireworkReader {
 		return fireworks;
 	}
 	
-	public List<Firework> getFirstThreeFireworks() {
-		Cursor cursor = databaseReader.getLimited(TBL_FIREWORKS, 3);
+	public List<Firework> getLimitedNumberOfFireworks(int limit) {
+		Cursor cursor = databaseReader.getLimited(TBL_FIREWORKS, limit);
 		
 		List<Firework> fireworks = populateListWith(cursor);
 		

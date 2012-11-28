@@ -11,11 +11,13 @@ import java.util.List;
 
 public class FindThreeFireworksActivity extends NovodaActivity {
 
+	private static final int LIMIT = 3;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		List<Firework> fireworks = getApp().getFireworkReader().getFirstThreeFireworks();
+		List<Firework> fireworks = getApp().getFireworkReader().getLimitedNumberOfFireworks(LIMIT);
 		
 		Shop shop = new Shop("3 Fireworks", "List below is limited to first 3 results", fireworks);
 		
