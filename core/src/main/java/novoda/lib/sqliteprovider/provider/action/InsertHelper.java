@@ -25,8 +25,7 @@ public class InsertHelper {
     }
 
     public long insert(Uri uri, ContentValues values) {
-        ContentValues insertValues = (values != null) ? new ContentValues(values)
-                : new ContentValues();
+        ContentValues insertValues = (values != null) ? new ContentValues(values) : new ContentValues();
         final String table = UriUtils.getItemDirID(uri);
         final String firstConstrain = dbHelper.getFirstConstrain(table, insertValues);
         appendParentReference(uri, insertValues);

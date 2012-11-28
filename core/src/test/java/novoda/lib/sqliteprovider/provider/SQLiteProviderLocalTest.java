@@ -5,19 +5,21 @@ import static org.junit.matchers.JUnitMatchers.hasItems;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
-import android.content.ContentUris;
-import android.content.ContentValues;
+import android.content.*;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.internal.Implementation;
 import com.xtremelabs.robolectric.internal.Implements;
 
+import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
 import novoda.lib.sqliteprovider.util.RoboRunner;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
@@ -31,27 +33,20 @@ public class SQLiteProviderLocalTest {
 
 	private SQLiteProviderImpl provider;
 
-	@Mock
-	private SQLiteDatabase db;
-
-	@Mock
-	private ExtendedSQLiteQueryBuilder builder;
-
-	@Mock
-	private Cursor mockCursor;
+	@Mock private SQLiteDatabase db;
+	@Mock private ExtendedSQLiteQueryBuilder builder;
+	@Mock private Cursor mockCursor;
 
 	@Before
 	public void init() {
 		MockitoAnnotations.initMocks(this);
 		Robolectric.bindShadowClass(ShadowContentUris.class);
 
-		provider = new SQLiteProviderImpl();
-
-		stub(
-				builder.query((SQLiteDatabase) anyObject(), (String[]) anyObject(), anyString(), (String[]) anyObject(), anyString(),
+		stub(builder.query((SQLiteDatabase) anyObject(), (String[]) anyObject(), anyString(), (String[]) anyObject(), anyString(),
 						anyString(), anyString(), anyString())).toReturn(mockCursor);
 
-//		provider.onCreate();
+		provider = new SQLiteProviderImpl();
+		provider.onCreate();
 	}
 
 	@Test
@@ -230,6 +225,31 @@ public class SQLiteProviderLocalTest {
 		@Override
 		protected ExtendedSQLiteQueryBuilder getSQLiteQueryBuilder() {
 			return builder;
+		}
+		
+		@Override
+		protected SQLiteOpenHelper getDatabaseHelper(Context context) {
+			try {
+				return new ExtendedSQLiteOpenHelper(getContext()){
+					@Override
+					public void onCreate(SQLiteDatabase db) {
+						// dont do a migrate
+					}
+					
+					@Override
+					public synchronized SQLiteDatabase getReadableDatabase() {
+						return db;
+					}
+					
+					@Override
+					public synchronized SQLiteDatabase getWritableDatabase() {
+						return db;
+					}
+				};
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
 		}
 
 		@Override
