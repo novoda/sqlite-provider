@@ -2,6 +2,9 @@ package com.novoda.sqliteprovider.demo.persistance;
 
 public class DatabaseConstants {
 
+	private DatabaseConstants(){
+	}
+	
 	protected static final String TBL_FIREWORKS = "firework";
 	public static class Fireworks {
 		protected static final String COL_NAME = "name";
