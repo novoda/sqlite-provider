@@ -21,11 +21,6 @@ public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 	}
 	
 	@Override
-	protected void onStartLoading() {
-		super.onStartLoading();
-	}
-
-	@Override
 	public List<Firework> loadInBackground() {
 		return fireworkReader.getAll();
 	}
