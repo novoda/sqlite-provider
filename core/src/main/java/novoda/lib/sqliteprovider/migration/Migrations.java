@@ -65,9 +65,6 @@ public class Migrations {
         }
     };
 
-    public static void migrate(SQLiteDatabase db, String[] sqlFiles) throws IOException {
-    }
-
     public static void migrate(SQLiteDatabase db, AssetManager manager, String assetLocation) throws IOException {
 
         if (infoLoggingEnabled()) {
