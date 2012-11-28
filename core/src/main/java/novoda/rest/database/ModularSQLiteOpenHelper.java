@@ -18,15 +18,15 @@ public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
     private static final int ALWAYS_UPGRADE = 99;
 
-    private final List<String> createdTable = new ArrayList<String>();
+    private static int dbVersion = 0;
 
-    private final Map<String, SQLiteTableCreator> createStatements = new HashMap<String, SQLiteTableCreator>();
-
-    private static int dbVersion = 3;
+    private final List<String> createdTable;
+    private final Map<String, SQLiteTableCreator> createStatements;
 
     public ModularSQLiteOpenHelper(Context context) {
-        super(context, new StringBuilder(context.getApplicationInfo().packageName).append(".db")
-                .toString(), null, dbVersion);
+        super(context, new StringBuilder(context.getApplicationInfo().packageName).append(".db").toString(), null, dbVersion);
+        createdTable = new ArrayList<String>();
+        createStatements = new HashMap<String, SQLiteTableCreator>();
         init();
     }
 
