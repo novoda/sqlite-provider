@@ -97,8 +97,8 @@ public class FireworkReader {
 		String type = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_NOISE));
 		String noise = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_TYPE));
 		double price = cursor.getDouble(cursor.getColumnIndexOrThrow(Fireworks.COL_PRICE));
-		Firework firework = new Firework(name, color, type, noise, price);
-		return firework;
+		
+		return new Firework(name, color, type, noise, price);
 	}
 	
 	public Groups getCountOfRedFireworksGroupedByShop() {
