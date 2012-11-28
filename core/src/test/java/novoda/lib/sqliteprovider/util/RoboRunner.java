@@ -4,10 +4,10 @@ package novoda.lib.sqliteprovider.util;
 import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
-import org.junit.runners.model.InitializationError;
-
 import java.io.File;
 import java.lang.reflect.Method;
+
+import org.junit.runners.model.InitializationError;
 
 public class RoboRunner extends RobolectricTestRunner {
 
@@ -17,7 +17,7 @@ public class RoboRunner extends RobolectricTestRunner {
 
     @Override
     public void beforeTest(Method method) {
+    	Robolectric.bindShadowClass(ShadowDatabaseUtils.class);
         Robolectric.bindShadowClass(ShadowAndroidTestCase.class);
-        Robolectric.logMissingInvokedShadowMethods();
     }
 }

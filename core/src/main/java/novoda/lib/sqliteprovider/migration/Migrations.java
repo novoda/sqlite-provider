@@ -89,13 +89,11 @@ public class Migrations {
         }
         
         for (String sql : migrations.getMigrationsFiles()) {
-            reader = new InputStreamReader(manager.open(assetLocation + File.separator + sql,
-                    AssetManager.ACCESS_RANDOM));
+            reader = new InputStreamReader(manager.open(assetLocation + File.separator + sql, AssetManager.ACCESS_RANDOM));
             if (infoLoggingEnabled()) {
                 i("executing SQL file: " + assetLocation + File.separator + sql);
             }
             try {
-
                 db.beginTransaction();
                 for (String insert : SQLFile.statementsFrom(reader)) {
                     if (TextUtils.isEmpty(insert.trim())){

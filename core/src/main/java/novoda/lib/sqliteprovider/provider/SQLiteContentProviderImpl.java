@@ -26,16 +26,27 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 	private static final String DISTINCT = "distinct";
 
 	private InsertHelper helper;
-	private ImplLogger logger;
+	private final ImplLogger logger;
 
+	public SQLiteContentProviderImpl() {
+		logger = new ImplLogger();
+	}
+	
 	@Override
 	public boolean onCreate() {
 		super.onCreate();
 		helper = new InsertHelper((ExtendedSQLiteOpenHelper) getDatabaseHelper());
-		logger = new ImplLogger();
 		return true;
 	}
 
+	protected SQLiteDatabase getWritableDatabase() {
+		return getDatabaseHelper().getWritableDatabase();
+	}
+
+	protected SQLiteDatabase getReadableDatabase() {
+		return getDatabaseHelper().getReadableDatabase();
+	}
+	
 	@Override
 	protected SQLiteOpenHelper getDatabaseHelper(Context context) {
 		try {
@@ -45,7 +56,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 			throw new IllegalStateException(e.getMessage());
 		}
 	}
-
+	
 	@Override
 	protected Uri insertInTransaction(Uri uri, ContentValues values) {
 		long rowId = helper.insert(uri, values);
@@ -56,15 +67,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 		}
 		throw new SQLException("Failed to insert row into " + uri);
 	}
-
-	protected SQLiteDatabase getWritableDatabase() {
-		return getDatabaseHelper().getWritableDatabase();
-	}
-
-	protected SQLiteDatabase getReadableDatabase() {
-		return getDatabaseHelper().getReadableDatabase();
-	}
-
+	
 	@Override
 	protected int updateInTransaction(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		ContentValues insertValues = (values != null) ? new ContentValues(values) : new ContentValues();
