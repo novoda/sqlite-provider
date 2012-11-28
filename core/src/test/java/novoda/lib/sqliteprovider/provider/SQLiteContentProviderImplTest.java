@@ -1,12 +1,11 @@
 
 package novoda.lib.sqliteprovider.provider;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import org.junit.Before;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 
 public class SQLiteContentProviderImplTest {
 
@@ -26,7 +25,8 @@ public class SQLiteContentProviderImplTest {
     }
 
     public class SQLiteContentProviderImplT extends SQLiteContentProviderImpl {
-        protected SQLiteDatabase getWritableDatabase() {
+        @Override
+		protected SQLiteDatabase getWritableDatabase() {
             return db;
         }
         
