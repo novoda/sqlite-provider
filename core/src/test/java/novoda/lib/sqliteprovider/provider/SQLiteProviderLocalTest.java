@@ -44,6 +44,7 @@ public class SQLiteProviderLocalTest {
 
 		stub(builder.query((SQLiteDatabase) anyObject(), (String[]) anyObject(), anyString(), (String[]) anyObject(), anyString(),
 						anyString(), anyString(), anyString())).toReturn(mockCursor);
+		stub(db.rawQuery(anyString(), (String[]) anyObject())).toReturn(mockCursor);
 
 		provider = new SQLiteProviderImpl();
 		provider.onCreate();
