@@ -20,4 +20,13 @@ public class DatabaseConstants {
 		protected static final String COL_NAME = "name";
 		protected static final String COL_POSTCODE = "postcode";
 	}
+
+	public static class RawSql {
+		public static final String SELECT_ALL = "SELECT * FROM fireworks;";
+		
+		public static final String INSERT_FIREWORK = "INSERT INTO fireworks " +
+														"(name, color, noise, ftype, price, shop_id) " +
+														"VALUES " +
+														"(Na, Co, No, Ft, Pr, Sh);";
+	}
 }

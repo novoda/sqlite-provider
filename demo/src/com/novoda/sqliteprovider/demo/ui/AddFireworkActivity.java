@@ -12,8 +12,8 @@ import android.widget.Toast;
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.loader.FireworkSaver;
-import com.novoda.sqliteprovider.demo.persistance.FireworkWriter;
-import com.novoda.sqliteprovider.demo.persistance.UriListener;
+import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
+import com.novoda.sqliteprovider.demo.persistance.*;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
 import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
@@ -99,6 +99,16 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		noiseEditText.setText("");
 		typeEditText.setText("");
 		priceEditText.setText("");
+	
+		uriSqlView.setSql(createSQL(data));
+	}
+
+	private String createSQL(Firework data) {
+		return TextUtils.replace(
+				RawSql.INSERT_FIREWORK, 
+				new String[]{"Na","Co","No","Pr","Sh"}, 
+				new CharSequence[]{data.getName(), data.getColor(), data.getNoise(), data.getType(), String.valueOf(data.getPrice()), "1"})
+				.toString();
 	}
 
 	@Override
