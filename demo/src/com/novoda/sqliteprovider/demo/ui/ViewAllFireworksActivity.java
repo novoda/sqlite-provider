@@ -13,7 +13,6 @@ import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.loader.FireworkLoader;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
-import com.novoda.sqliteprovider.demo.persistance.*;
 import com.novoda.sqliteprovider.demo.ui.adapter.FireworkAdapter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
@@ -43,27 +42,18 @@ public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCa
 	@Override
 	public Loader<List<Firework>> onCreateLoader(int id, Bundle args) {
 		Log.i("Loading fireworks into activity");
-		FireworkReader fireworkReader = getApp().getFireworkReader();
-		fireworkReader.setUriListener(viewUriListener);
-		return new FireworkLoader(this, fireworkReader);
+		return new FireworkLoader(this, getApp().getFireworkReader());
 	}
-
-	private final UriListener viewUriListener = new UriListener() {
-		@Override
-		public void onUriSet(final Uri uri) {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					uriSqlView.setUri(uri.toString());
-				}
-			});
-		}
-	};
 	
 	@Override
 	public void onLoadFinished(Loader<List<Firework>> loader, List<Firework> data) {
 		Log.i("Finished loading fireworks");
+		updateUri(getApp().getCachedUriListener().getLastUriCalled());
 		updateList(new FireworkAdapter(this, data));
+	}
+
+	private void updateUri(Uri uri) {
+		uriSqlView.setUri(uri.toString());
 	}
 
 	private void updateList(final ArrayAdapter<Firework> adapter) {

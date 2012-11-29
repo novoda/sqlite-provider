@@ -21,10 +21,6 @@ public class FireworkReader {
 		this.databaseReader = databaseReader;
 	}
 	
-	public void setUriListener(UriListener uriListener){
-		databaseReader.setUriListener(uriListener);
-	}
-	
 	public Firework getFirework(int primaryKey){
 		Cursor cursor = databaseReader.getFrom(TBL_FIREWORKS, primaryKey);
 		

@@ -1,6 +1,5 @@
 package com.novoda.sqliteprovider.demo.ui;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -13,7 +12,6 @@ import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.loader.FireworkSaver;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
-import com.novoda.sqliteprovider.demo.persistance.*;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
 import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
@@ -73,23 +71,9 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 
 	@Override
 	public Loader<Firework> onCreateLoader(int id, Bundle args) {
-		FireworkWriter fireworkWriter = getApp().getFireworkWriter();
-		fireworkWriter.setUriListener(viewUriListener);
-		return new FireworkSaver(this, fireworkWriter, firework);
+		return new FireworkSaver(this, getApp().getFireworkWriter(), firework);
 	}
 
-	private final UriListener viewUriListener = new UriListener() {
-		@Override
-		public void onUriSet(final Uri uri) {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					uriSqlView.setUri(uri.toString());
-				}
-			});
-		}
-	};
-	
 	@Override
 	public void onLoadFinished(Loader<Firework> loader, Firework data) {
 		Toast.makeText(this, "Firework that goes "+ data.getNoise() +" added.", Toast.LENGTH_SHORT).show();
@@ -100,6 +84,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		typeEditText.setText("");
 		priceEditText.setText("");
 	
+		uriSqlView.setUri(getApp().getCachedUriListener().getLastUriCalled().toString());
 		uriSqlView.setSql(createSQL(data));
 	}
 

@@ -14,10 +14,6 @@ public class FireworkWriter {
 		this.databaseWriter = databaseWriter;
 	}
 	
-	public void setUriListener(UriListener uriListener){
-		databaseWriter.setUriListener(uriListener);
-	}
-
 	public void saveFirework(Firework firework){
 		ContentValues values = new ContentValues();
 		values.put(COL_NAME, firework.getName());

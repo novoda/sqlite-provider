@@ -10,16 +10,13 @@ import android.net.Uri;
 public class DatabaseReader {
 
 	private final ContentResolver contentResolver;
-	private UriListener uriListener;
+	private final UriListener uriListener;
 
-	public DatabaseReader(ContentResolver contentResolver) {
+	public DatabaseReader(ContentResolver contentResolver, UriListener uriListener) {
 		this.contentResolver = contentResolver;
-	}
-
-	public void setUriListener(UriListener uriListener){
 		this.uriListener = uriListener;
 	}
-	
+
 	/**
 	 * (1) Read - generic table support
 	 */

@@ -10,17 +10,18 @@ public class NovodaApplication extends Application {
 	private DatabaseWriter databaseWriter;
 	private FireworkReader fireworkReader;
 	private FireworkWriter fireworkWriter;
+	private CacheUriListener cacheUriListener;
 	
 	private DatabaseReader getDatabaseReader() {
 		if(databaseReader == null){
-			databaseReader = new DatabaseReader(getContentResolver());
+			databaseReader = new DatabaseReader(getContentResolver(), getCachedUriListener());
 		}
 		return databaseReader;
 	}
 	
 	private DatabaseWriter getDatabaseWriter() {
 		if(databaseWriter == null){
-			databaseWriter = new DatabaseWriter(getContentResolver());
+			databaseWriter = new DatabaseWriter(getContentResolver(), getCachedUriListener());
 		}
 		return databaseWriter;
 	}
@@ -37,5 +38,12 @@ public class NovodaApplication extends Application {
 			fireworkWriter = new FireworkWriter(getDatabaseWriter());
 		}
 		return fireworkWriter;
+	}
+	
+	public CacheUriListener getCachedUriListener(){
+		if(cacheUriListener == null){
+			cacheUriListener = new CacheUriListener();
+		}
+		return cacheUriListener;
 	}
 }

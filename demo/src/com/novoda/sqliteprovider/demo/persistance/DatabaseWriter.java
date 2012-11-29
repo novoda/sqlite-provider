@@ -11,16 +11,13 @@ import android.net.Uri;
 public class DatabaseWriter {
 
 	private final ContentResolver contentResolver;
-	private UriListener uriListener;
+	private final UriListener uriListener;
 
-	public DatabaseWriter(ContentResolver contentResolver) {
+	public DatabaseWriter(ContentResolver contentResolver, UriListener uriListener) {
 		this.contentResolver = contentResolver;
-	}
-
-	public void setUriListener(UriListener uriListener){
 		this.uriListener = uriListener;
 	}
-	
+
 	public void saveDataToFireworksTable(ContentValues values){
 		saveDataToTable(TBL_FIREWORKS, values);
 	}
