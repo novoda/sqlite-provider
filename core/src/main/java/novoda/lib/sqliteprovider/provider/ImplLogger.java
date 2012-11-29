@@ -11,22 +11,22 @@ import java.util.Map;
 public class ImplLogger {
 
 	protected void logStart(Uri uri) {
-//		if (Provider.verboseLoggingEnabled()) {
+		if (Provider.verboseLoggingEnabled()) {
 			Provider.v("==================== start of query =======================");
 			Provider.v("Uri: " + uri.toString());
-//		}
+		}
 	}
 
 	protected void logAppendWhere(String where) {
-//		if (Provider.verboseLoggingEnabled()) {
+		if (Provider.verboseLoggingEnabled()) {
 			Provider.v("Appending to where clause: " + where);
-//		}
+		}
 	}
 
 	protected void logEnd(String[] projection, String selection, String[] selectionArgs, String sortOrder,
 								final ExtendedSQLiteQueryBuilder builder,  final String groupBy, final String having, 
 																				final String limit, Map<String, String> autoproj) {
-//		if (Provider.verboseLoggingEnabled()) {
+		if (Provider.verboseLoggingEnabled()) {
 			Provider.v("table: " + builder.getTables());
 
 			if (projection != null) {
@@ -41,7 +41,7 @@ public class ImplLogger {
 				Provider.v("projectionAutomated: " + autoproj);
 			}
 			Provider.v("==================== end of query =======================");
-//		}
+		}
 	}
 
 }
