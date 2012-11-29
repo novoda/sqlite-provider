@@ -8,6 +8,7 @@ import android.database.Cursor;
 import com.novoda.sqliteprovider.demo.domain.*;
 import com.novoda.sqliteprovider.demo.domain.Groups.Group;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.Fireworks;
+import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView.UriListener;
 import com.novoda.sqliteprovider.demo.util.Log;
 
 import java.util.ArrayList;
@@ -19,6 +20,10 @@ public class FireworkReader {
 
 	public FireworkReader(DatabaseReader databaseReader) {
 		this.databaseReader = databaseReader;
+	}
+	
+	public void setUriListener(UriListener uriListener){
+		databaseReader.setUriListener(uriListener);
 	}
 	
 	public Firework getFirework(int primaryKey){

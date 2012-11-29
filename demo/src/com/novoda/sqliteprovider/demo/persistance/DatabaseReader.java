@@ -6,54 +6,78 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView.UriListener;
+
 public class DatabaseReader {
 
 	private final ContentResolver contentResolver;
+	private UriListener uriListener;
 
 	public DatabaseReader(ContentResolver contentResolver) {
 		this.contentResolver = contentResolver;
+	}
+
+	public void setUriListener(UriListener uriListener){
+		this.uriListener = uriListener;
 	}
 	
 	/**
 	 * (1) Read - generic table support
 	 */
 	protected Cursor getAllFrom(String tableName) {
-		return contentResolver.query(Uri.parse(AUTHORITY + tableName), null, null, null, null);
+		Uri uri = createUri(tableName);
+		return contentResolver.query(uri, null, null, null, null);
 	}
 
 	/**
 	 * (2) Read - primary key support 
 	 */
 	public Cursor getFrom(String tableName, int primaryKey) {
-		return contentResolver.query(Uri.parse(AUTHORITY + tableName +"/"+ primaryKey), null, null, null, null);
+		Uri uri = createUri(tableName +"/"+ primaryKey);
+		return contentResolver.query(uri, null, null, null, null);
 	}
 
 	/**
 	 * (3) Read - one to many support
 	 */
 	public Cursor getChildren(String parentTableName, String childTableName, int primaryKey) {
-		return contentResolver.query(Uri.parse(AUTHORITY + parentTableName +"/"+ primaryKey +"/"+ childTableName), null, null, null, null);
+		Uri uri = createUri(parentTableName +"/"+ primaryKey +"/"+ childTableName);
+		return contentResolver.query(uri, null, null, null, null);
 	}
 
 	/**
 	 * (4) Read - group by & having support
 	 */
 	public Cursor getGroupedByAndHaving(String tableName, String column, String having, String[] selection) {
-		return contentResolver.query(Uri.parse(AUTHORITY + tableName + "?groupBy="+column +"&having="+ having), selection, null, null, null);
+		Uri uri = createUri(tableName + "?groupBy="+column +"&having="+ having);
+		return contentResolver.query(uri, selection, null, null, null);
 	}
 
 	/**
 	 * (5) Read - limit support
 	 */
 	public Cursor getLimited(String tableName, int limit) {
-		return contentResolver.query(Uri.parse(AUTHORITY + tableName +"?limit="+ limit),  null, null, null, null);
+		Uri uri = createUri(tableName +"?limit="+ limit);
+		return contentResolver.query(uri,  null, null, null, null);
 	}
 
 	/**
 	 * (6) Read - distinct support 
 	 */
 	public Cursor getDistinct(String tableName, String[] selection) {
-		return contentResolver.query(Uri.parse(AUTHORITY + tableName +"?distinct=true"), selection, null, null, null);
+		Uri uri = createUri(tableName +"?distinct=true");
+		return contentResolver.query(uri, selection, null, null, null);
 	}
 
+	private Uri createUri(String tableName) {
+		Uri uri = Uri.parse(AUTHORITY + tableName);
+		informListeners(uri);
+		return uri;
+	}
+
+	private void informListeners(Uri uri) {
+		if(uriListener != null){
+			uriListener.onUriSet(uri);
+		}
+	}
 }

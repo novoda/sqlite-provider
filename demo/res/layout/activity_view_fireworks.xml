@@ -4,6 +4,8 @@
   android:layout_height="match_parent"
   android:orientation="vertical" >
 
+  <include layout="@layout/view_uri_sql" />
+
   <ListView
     android:id="@android:id/list"
     style="@style/match_w_match_h" />

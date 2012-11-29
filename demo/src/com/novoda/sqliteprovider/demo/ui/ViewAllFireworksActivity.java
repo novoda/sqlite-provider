@@ -12,8 +12,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.loader.FireworkLoader;
+import com.novoda.sqliteprovider.demo.persistance.FireworkReader;
 import com.novoda.sqliteprovider.demo.ui.adapter.FireworkAdapter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
+import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView.UriListenerClient;
 import com.novoda.sqliteprovider.demo.util.Log;
 
 import java.util.List;
@@ -31,13 +34,19 @@ public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCa
 		listview = (ListView) findViewById(android.R.id.list);
 		listview.setOnItemClickListener(onFireworkListItemClick);
 		
+		uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
+//		uriSqlView.setUriPath("firework");
+		uriSqlView.setSql("SELECT * FROM fireworks;");
+		
 		getSupportLoaderManager().initLoader(FireworkLoader.LOADER_ID, null, this);
 	}
 
 	@Override
 	public Loader<List<Firework>> onCreateLoader(int id, Bundle args) {
 		Log.i("Loading fireworks into activity");
-		return new FireworkLoader(this, getApp().getFireworkReader());
+		FireworkReader fireworkReader = getApp().getFireworkReader();
+		fireworkReader.setUriListener(new UriListenerClient(uriSqlView));
+		return new FireworkLoader(this, fireworkReader);
 	}
 
 	@Override
@@ -62,6 +71,7 @@ public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCa
 			viewFirework((Firework)listview.getItemAtPosition(position));
 		}
 	};
+	private UriSqlView uriSqlView;
 	
 	private void viewFirework(Firework firework) {
 		Intent intent = new Intent(this, FireworkActivity.class);
