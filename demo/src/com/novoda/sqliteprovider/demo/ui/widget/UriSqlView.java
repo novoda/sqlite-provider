@@ -1,7 +1,6 @@
 package com.novoda.sqliteprovider.demo.ui.widget;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,23 +41,5 @@ public class UriSqlView extends LinearLayout {
 	public void setSql(String sql){
 		if(sqlTextView != null)
 			sqlTextView.setText(sql);
-	}
-	
-	public interface UriListener {
-		void onUriSet(Uri uri);
-	}
-	
-	public static class UriListenerClient implements UriListener {
-		private final UriSqlView view;
-
-		public UriListenerClient(UriSqlView view) {
-			this.view = view;
-		}
-
-		@Override
-		public void onUriSet(Uri uri) {
-			view.setUri(uri.toString());
-		}
-		
 	}
 }

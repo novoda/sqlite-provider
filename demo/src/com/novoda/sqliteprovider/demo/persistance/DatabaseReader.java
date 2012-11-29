@@ -6,7 +6,6 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView.UriListener;
 
 public class DatabaseReader {
 

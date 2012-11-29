@@ -8,7 +8,6 @@ import android.database.Cursor;
 import com.novoda.sqliteprovider.demo.domain.*;
 import com.novoda.sqliteprovider.demo.domain.Groups.Group;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.Fireworks;
-import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView.UriListener;
 import com.novoda.sqliteprovider.demo.util.Log;
 
 import java.util.ArrayList;

@@ -13,6 +13,10 @@ public class FireworkWriter {
 	public FireworkWriter(DatabaseWriter databaseWriter) {
 		this.databaseWriter = databaseWriter;
 	}
+	
+	public void setUriListener(UriListener uriListener){
+		databaseWriter.setUriListener(uriListener);
+	}
 
 	public void saveFirework(Firework firework){
 		ContentValues values = new ContentValues();

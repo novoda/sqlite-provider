@@ -1,27 +1,44 @@
 package com.novoda.sqliteprovider.demo.persistance;
 
 import static com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.TBL_FIREWORKS;
+import static com.novoda.sqliteprovider.demo.provider.FireworkProvider.AUTHORITY;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 
-import com.novoda.sqliteprovider.demo.provider.FireworkProvider;
 
 public class DatabaseWriter {
 
 	private final ContentResolver contentResolver;
+	private UriListener uriListener;
 
 	public DatabaseWriter(ContentResolver contentResolver) {
 		this.contentResolver = contentResolver;
 	}
 
+	public void setUriListener(UriListener uriListener){
+		this.uriListener = uriListener;
+	}
+	
 	public void saveDataToFireworksTable(ContentValues values){
 		saveDataToTable(TBL_FIREWORKS, values);
 	}
 	
 	private void saveDataToTable(String table, ContentValues values){
-		contentResolver.insert(Uri.parse(FireworkProvider.AUTHORITY + table), values);
+		Uri uri = createUri(table);
+		contentResolver.insert(uri, values);
 	}
 	
+	private Uri createUri(String tableName) {
+		Uri uri = Uri.parse(AUTHORITY + tableName);
+		informListeners(uri);
+		return uri;
+	}
+
+	private void informListeners(Uri uri) {
+		if(uriListener != null){
+			uriListener.onUriSet(uri);
+		}
+	}
 }
