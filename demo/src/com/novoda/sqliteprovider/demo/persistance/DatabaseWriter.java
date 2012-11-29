@@ -11,11 +11,9 @@ import android.net.Uri;
 public class DatabaseWriter {
 
 	private final ContentResolver contentResolver;
-	private final UriListener uriListener;
 
-	public DatabaseWriter(ContentResolver contentResolver, UriListener uriListener) {
+	public DatabaseWriter(ContentResolver contentResolver) {
 		this.contentResolver = contentResolver;
-		this.uriListener = uriListener;
 	}
 
 	public void saveDataToFireworksTable(ContentValues values){
@@ -28,14 +26,6 @@ public class DatabaseWriter {
 	}
 	
 	private Uri createUri(String tableName) {
-		Uri uri = Uri.parse(AUTHORITY + tableName);
-		informListeners(uri);
-		return uri;
-	}
-
-	private void informListeners(Uri uri) {
-		if(uriListener != null){
-			uriListener.onUriSet(uri);
-		}
+		return Uri.parse(AUTHORITY + tableName);
 	}
 }

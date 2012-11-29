@@ -28,5 +28,7 @@ public class DatabaseConstants {
 														"(name, color, noise, ftype, price, shop_id) " +
 														"VALUES " +
 														"(Na, Co, No, Ft, Pr, Sh);";
+
+		public static final String SELECT_USING_PRIMARY_KEY = "SELECT * FROM firework WHERE (_id=1)";
 	}
 }

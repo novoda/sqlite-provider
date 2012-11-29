@@ -9,8 +9,11 @@ import android.widget.Toast;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
+import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
+import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
+import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
 public class FindFireworkWithPkActivity extends NovodaActivity {
 
@@ -22,6 +25,10 @@ public class FindFireworkWithPkActivity extends NovodaActivity {
 		setContentView(R.layout.activity_find_firework_with_pk);
 		
 		primaryKeyEditText = (EditText) findViewById(R.id.find_firework_with_pk_input_primary_key);
+		
+		UriSqlView uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
+		uriSqlView.setUri(FireworkUriConstants.PRIMARY_KEY_SEARCH);
+		uriSqlView.setSql(RawSql.SELECT_USING_PRIMARY_KEY);
 	}
 	
 	@FromXML

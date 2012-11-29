@@ -12,6 +12,7 @@ import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.loader.FireworkSaver;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
+import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
 import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
@@ -38,6 +39,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		priceEditText = (EditText) findViewById(R.id.add_firework_input_price);
 		
 		uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
+		uriSqlView.setUri(FireworkUriConstants.ADD_FIREWORK);
 	}
 	
 	@FromXML
@@ -84,7 +86,6 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		typeEditText.setText("");
 		priceEditText.setText("");
 	
-		uriSqlView.setUri(getApp().getCachedUriListener().getLastUriCalled().toString());
 		uriSqlView.setSql(createSQL(data));
 	}
 

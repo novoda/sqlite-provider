@@ -10,11 +10,9 @@ import android.net.Uri;
 public class DatabaseReader {
 
 	private final ContentResolver contentResolver;
-	private final UriListener uriListener;
 
-	public DatabaseReader(ContentResolver contentResolver, UriListener uriListener) {
+	public DatabaseReader(ContentResolver contentResolver) {
 		this.contentResolver = contentResolver;
-		this.uriListener = uriListener;
 	}
 
 	/**
@@ -65,15 +63,7 @@ public class DatabaseReader {
 		return contentResolver.query(uri, selection, null, null, null);
 	}
 
-	private Uri createUri(String tableName) {
-		Uri uri = Uri.parse(AUTHORITY + tableName);
-		informListeners(uri);
-		return uri;
-	}
-
-	private void informListeners(Uri uri) {
-		if(uriListener != null){
-			uriListener.onUriSet(uri);
-		}
+	private Uri createUri(String path) {
+		return Uri.parse(AUTHORITY + path);
 	}
 }

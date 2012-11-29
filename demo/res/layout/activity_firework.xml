@@ -4,8 +4,6 @@
   android:layout_height="match_parent"
   android:orientation="vertical" >
 
-  <include layout="@layout/view_uri_sql" />
-
   <TextView
     style="@style/wrap_w_wrap_h"
     android:text="@string/activity_firework_title_name" />

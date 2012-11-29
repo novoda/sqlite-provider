@@ -34,7 +34,6 @@ public class FireworkActivity extends NovodaActivity {
 			fireworkPriceTextView.setText(firework.getFormattedPrice());
 			fireworkIdTextView.setText("Not implemented");
 			fireworkShopTextView.setText("Not implemented");
-			
 		} else {
 			Log.e("No firework found in the intent");
 		}
