@@ -10,7 +10,7 @@ import com.novoda.sqliteprovider.demo.util.Log;
 
 public class FireworkActivity extends NovodaActivity {
 
-	protected static final String EXTRA_FIREWORK = "com.novoda.sqliteprovider.demo.EXTRA_FIREWORK";
+	public static final String EXTRA_FIREWORK = "com.novoda.sqliteprovider.demo.EXTRA_FIREWORK";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

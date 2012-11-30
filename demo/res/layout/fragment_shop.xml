@@ -4,14 +4,18 @@
   android:layout_height="match_parent"
   android:orientation="vertical" >
 
-  <fragment
-    android:id="@+id/fragment_uri_sql"
+  <TextView
+    android:id="@+id/activity_view_shop_name"
     style="@style/wrap_w_wrap_h"
-    class="com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment" />
+    android:padding="@dimen/norm_spacing" />
 
-  <fragment
-    android:id="@+id/fragment_shop"
+  <TextView
+    android:id="@+id/activity_view_shop_postcode"
     style="@style/wrap_w_wrap_h"
-    class="com.novoda.sqliteprovider.demo.ui.fragment.ShopFragment" />
+    android:padding="@dimen/norm_spacing" />
+
+  <ListView
+    android:id="@android:id/list"
+    style="@style/match_w_match_h" />
 
 </LinearLayout>
