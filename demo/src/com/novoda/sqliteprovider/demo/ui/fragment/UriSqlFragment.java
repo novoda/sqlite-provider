@@ -39,11 +39,7 @@ public class UriSqlFragment extends Fragment {
 		uriSqlView.setVisibility(View.GONE);
 	}
 	
-	public void setUri(String uri) {
-		uriSqlView.setUri(uri);
-	}
-
-	public void setSql(String sql) {
+	public void updateSql(String sql) {
 		uriSqlView.setSql(sql);
 	}
 }

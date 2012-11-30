@@ -88,7 +88,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		typeEditText.setText("");
 		priceEditText.setText("");
 	
-		uriSqlFragment.setSql(createSQL(data));
+		uriSqlFragment.updateSql(createSQL(data));
 	}
 
 	private String createSQL(Firework data) {
