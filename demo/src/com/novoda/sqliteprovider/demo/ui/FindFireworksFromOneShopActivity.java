@@ -10,8 +10,11 @@ import android.widget.Toast;
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.domain.Shop;
+import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
+import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
+import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
 import java.util.List;
 
@@ -25,6 +28,10 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity {
 		setContentView(R.layout.activity_find_firework_from_one_shop);
 		
 		primaryKeyEditText = (EditText) findViewById(R.id.find_fireworks_from_one_shop_input_shop_primary_key);
+		
+		UriSqlView uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
+		uriSqlView.setUri(FireworkUriConstants.SHOP_FOREIGN_KEY_SEARCH);
+		uriSqlView.setSql(RawSql.SELECT_USING_SHOP_FOREIGN_KEY);
 	}
 	
 	@FromXML
@@ -53,8 +60,8 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity {
 	}
 	
 	private void view(Shop shop) {
-		Intent intent = new Intent(this, FindFireworkUsingShopActivity.class);
-		intent.putExtra(FindFireworkUsingShopActivity.EXTRA_SHOP, shop);
+		Intent intent = new Intent(this, ViewShopActivity.class);
+		intent.putExtra(ViewShopActivity.EXTRA_SHOP, shop);
 		startActivity(intent);
 	}
 }

@@ -29,6 +29,8 @@ public class DatabaseConstants {
 														"VALUES " +
 														"(Na, Co, No, Ft, Pr, Sh);";
 
-		public static final String SELECT_USING_PRIMARY_KEY = "SELECT * FROM firework WHERE (_id=1)";
+		public static final String SELECT_USING_PRIMARY_KEY = "SELECT * FROM firework WHERE (_id=1);";
+
+		public static final String SELECT_USING_SHOP_FOREIGN_KEY = "SELECT * FROM firework WHERE (shop_id=1);";
 	}
 }

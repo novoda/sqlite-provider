@@ -24,8 +24,8 @@ public class FindDistinctFireworksActivity extends NovodaActivity {
 	}
 	
 	private void view(Shop shop) {
-		Intent intent = new Intent(this, FindFireworkUsingShopActivity.class);
-		intent.putExtra(FindFireworkUsingShopActivity.EXTRA_SHOP, shop);
+		Intent intent = new Intent(this, ViewShopActivity.class);
+		intent.putExtra(ViewShopActivity.EXTRA_SHOP, shop);
 		startActivity(intent);
 	}
 	
