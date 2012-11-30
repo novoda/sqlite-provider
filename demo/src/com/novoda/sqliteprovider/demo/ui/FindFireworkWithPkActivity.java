@@ -12,10 +12,11 @@ import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
 import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.input.FindFireworkWithPk;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
 import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
-public class FindFireworkWithPkActivity extends NovodaActivity {
+public class FindFireworkWithPkActivity extends NovodaActivity implements FindFireworkWithPk {
 
 	private EditText primaryKeyEditText;
 
@@ -31,6 +32,7 @@ public class FindFireworkWithPkActivity extends NovodaActivity {
 		uriSqlView.setSql(RawSql.SELECT_USING_PRIMARY_KEY);
 	}
 	
+	@Override
 	@FromXML
 	public void onFindFireworkWithPkClick(View button){
 		if(userHasEnteredSomething()){

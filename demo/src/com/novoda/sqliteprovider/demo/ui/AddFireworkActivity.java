@@ -14,10 +14,11 @@ import com.novoda.sqliteprovider.demo.loader.FireworkSaver;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
 import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.input.AddFirework;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
 import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
-public class AddFireworkActivity extends NovodaActivity implements LoaderCallbacks<Firework> {
+public class AddFireworkActivity extends NovodaActivity implements LoaderCallbacks<Firework>, AddFirework {
 
 	private EditText nameEditText;
 	private EditText colorEditText;
@@ -42,6 +43,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		uriSqlView.setUri(FireworkUriConstants.ADD_FIREWORK);
 	}
 	
+	@Override
 	@FromXML
 	public void onAddFireworkClick(View button){
 		if(checkForInput(nameEditText) || checkForInput(colorEditText) ||

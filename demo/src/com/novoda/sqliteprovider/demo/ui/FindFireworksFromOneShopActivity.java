@@ -12,12 +12,13 @@ import com.novoda.sqliteprovider.demo.domain.*;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
 import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.input.FindShopFireworks;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
 import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
 import java.util.List;
 
-public class FindFireworksFromOneShopActivity extends NovodaActivity {
+public class FindFireworksFromOneShopActivity extends NovodaActivity implements FindShopFireworks {
 
 	private EditText primaryKeyEditText;
 
@@ -33,6 +34,7 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity {
 		uriSqlView.setSql(RawSql.SELECT_USING_SHOP_FOREIGN_KEY);
 	}
 	
+	@Override
 	@FromXML
 	public void onFindShopFireworks(View button){
 		if(userHasEnteredSomething()){

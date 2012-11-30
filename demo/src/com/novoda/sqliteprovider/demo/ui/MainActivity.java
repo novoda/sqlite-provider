@@ -7,9 +7,10 @@ import android.view.View;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.input.DemoMenu;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
 
-public class MainActivity extends NovodaActivity {
+public class MainActivity extends NovodaActivity implements DemoMenu {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -17,36 +18,43 @@ public class MainActivity extends NovodaActivity {
 		setContentView(R.layout.activity_main);
 	}
 
+	@Override
 	@FromXML
 	public void onViewAllFireworksClick(View button) {
 		startActivity(ViewAllFireworksActivity.class);
 	}
 
+	@Override
 	@FromXML
 	public void onAddFireworkClick(View button) {
 		startActivity(AddFireworkActivity.class);
 	}
 
+	@Override
 	@FromXML
 	public void onFindFireworkWithPrimaryKeyClick(View button) {
 		startActivity(FindFireworkWithPkActivity.class);
 	}
 
+	@Override
 	@FromXML
 	public void onFindAllFireworksFromOneShopClick(View button) {
 		startActivity(FindFireworksFromOneShopActivity.class);
 	}
 
+	@Override
 	@FromXML
 	public void onGroupFireworksByTypeAndHavingColorRedClick(View button) {
 		startActivity(FindRedFireworksActivity.class);
 	}
 
+	@Override
 	@FromXML
 	public void onFindThreeFireworkShopsClick(View button) {
 		startActivity(FindThreeFireworksActivity.class);
 	}
 
+	@Override
 	@FromXML
 	public void onFindUniqueFireworksClick(View button) {
 		startActivity(FindDistinctFireworksActivity.class);
