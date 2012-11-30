@@ -32,5 +32,7 @@ public class DatabaseConstants {
 		public static final String SELECT_USING_PRIMARY_KEY = "SELECT * FROM firework WHERE (_id=1);";
 
 		public static final String SELECT_USING_SHOP_FOREIGN_KEY = "SELECT * FROM firework WHERE (shop_id=1);";
+
+		public static final String GROUP_BY = "SELECT COUNT(color) AS count, shop_id FROM firework GROUP BY shop_id HAVING color='Red';";
 	}
 }

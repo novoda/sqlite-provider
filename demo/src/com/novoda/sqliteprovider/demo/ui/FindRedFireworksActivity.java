@@ -4,13 +4,18 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Groups;
 import com.novoda.sqliteprovider.demo.domain.Groups.Group;
+import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
+import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
 public class FindRedFireworksActivity extends NovodaActivity {
 
@@ -26,6 +31,9 @@ public class FindRedFireworksActivity extends NovodaActivity {
 	private void view(Groups groups) {
 		LinearLayout view = new LinearLayout(this);
 		view.setOrientation(LinearLayout.VERTICAL);
+		
+		addUriSqlView(view);
+		
 		for(Group group : groups){
 			LinearLayout row = new LinearLayout(this);
 			row.setOrientation(LinearLayout.HORIZONTAL);
@@ -41,6 +49,14 @@ public class FindRedFireworksActivity extends NovodaActivity {
 			view.addView(row, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
 		}
 		addContentView(view, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+	}
+
+	private void addUriSqlView(LinearLayout view) {
+		View.inflate(this, R.layout.view_uri_sql, view);
+		
+		UriSqlView uriSqlView = (UriSqlView) view.findViewById(R.id.view_uri_sql);
+		uriSqlView.setUri(FireworkUriConstants.GROUP_BY_SEARCH);
+		uriSqlView.setSql(RawSql.GROUP_BY);
 	}
 	
 }

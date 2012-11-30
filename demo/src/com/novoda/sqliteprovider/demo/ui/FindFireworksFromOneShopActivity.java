@@ -30,7 +30,7 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity {
 		primaryKeyEditText = (EditText) findViewById(R.id.find_fireworks_from_one_shop_input_shop_primary_key);
 		
 		UriSqlView uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
-		uriSqlView.setUri(FireworkUriConstants.SHOP_FOREIGN_KEY_SEARCH);
+		uriSqlView.setUri(FireworkUriConstants.ONE_TO_MANY_SEARCH);
 		uriSqlView.setSql(RawSql.SELECT_USING_SHOP_FOREIGN_KEY);
 	}
 	
