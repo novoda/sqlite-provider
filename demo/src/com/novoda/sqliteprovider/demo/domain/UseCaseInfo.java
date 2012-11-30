@@ -1,5 +1,7 @@
 package com.novoda.sqliteprovider.demo.domain;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 public class UseCaseInfo implements Serializable {
@@ -18,5 +20,13 @@ public class UseCaseInfo implements Serializable {
 
 	public String getSql() {
 		return sql;
+	}
+	
+	public boolean isValid(){
+		return !TextUtils.isEmpty(uri) && !TextUtils.isEmpty(sql);
+	}
+
+	public static UseCaseInfo getNullSafe() {
+		return new UseCaseInfo("", "");
 	}
 }

@@ -28,8 +28,8 @@ public class UseCaseFactory {
 		case LIMIT:
 			return createUseCaseInfo(FireworkUriConstants.LIMIT_3, RawSql.LIMIT);
 		default:
-			Log.e("Usecase "+ useCase.toString() +" not found, returning null.");
-			return null;
+			Log.e("UseCase "+ useCase.toString() +" not found, returning null safe case.");
+			return UseCaseInfo.getNullSafe();
 		}
 	}
 

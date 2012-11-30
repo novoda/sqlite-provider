@@ -27,11 +27,11 @@ public class UriSqlFragment extends Fragment {
 	}
 	
 	private void setInfo(UseCaseInfo info){
-		if(info == null){
-			hide();
-		} else {
+		if(info.isValid()){
 			uriSqlView.setUri(info.getUri());
 			uriSqlView.setSql(info.getSql());
+		} else {
+			hide();
 		}
 	}
 	
