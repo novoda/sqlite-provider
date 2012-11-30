@@ -45,7 +45,7 @@ public class FindFireworksFromOneShopFragment extends Fragment {
 			try {
 				int primaryKey = getPrimaryKey();
 
-				List<Firework> fireworks = getFirework(primaryKey);
+				List<Firework> fireworks = getFireworks(primaryKey);
 				
 				Shop shop = new Shop("", "Below are the Fireworks with shop primary key: "+ primaryKey, fireworks);
 				
@@ -64,7 +64,7 @@ public class FindFireworksFromOneShopFragment extends Fragment {
 		return Integer.parseInt(primaryKeyEditText.getText().toString());
 	}
 	
-	private List<Firework> getFirework(int primaryKey) {
+	private List<Firework> getFireworks(int primaryKey) {
 		return ((NovodaActivity) getActivity()).getApp().getFireworkReader().getFireworksForShop(primaryKey);
 	}
 	
