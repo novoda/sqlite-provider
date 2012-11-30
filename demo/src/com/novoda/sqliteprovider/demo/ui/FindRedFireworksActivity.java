@@ -51,7 +51,7 @@ public class FindRedFireworksActivity extends NovodaActivity {
 		addContentView(view, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 	}
 
-	private void addUriSqlView(LinearLayout view) {
+	private void addUriSqlView(LinearLayout view) { // TODO change to Fragment
 		View.inflate(this, R.layout.view_uri_sql, view);
 		
 		UriSqlView uriSqlView = (UriSqlView) view.findViewById(R.id.view_uri_sql);

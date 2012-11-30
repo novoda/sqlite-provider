@@ -30,8 +30,8 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity implements 
 		primaryKeyEditText = (EditText) findViewById(R.id.find_fireworks_from_one_shop_input_shop_primary_key);
 		
 		UriSqlFragment uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
-		uriSqlFragment.setUri(FireworkUriConstants.ONE_TO_MANY_SEARCH);
-		uriSqlFragment.setSql(RawSql.SELECT_USING_SHOP_FOREIGN_KEY);
+		UseCaseInfo info = new UseCaseInfo(FireworkUriConstants.ONE_TO_MANY_SEARCH, RawSql.SELECT_USING_SHOP_FOREIGN_KEY);
+		uriSqlFragment.setInfo(info);
 	}
 	
 	@Override

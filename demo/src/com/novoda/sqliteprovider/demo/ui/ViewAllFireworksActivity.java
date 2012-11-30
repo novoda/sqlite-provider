@@ -10,6 +10,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
+import com.novoda.sqliteprovider.demo.domain.UseCaseInfo;
 import com.novoda.sqliteprovider.demo.loader.FireworkLoader;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
 import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
@@ -33,8 +34,8 @@ public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCa
 		listview.setOnItemClickListener(onFireworkListItemClick);
 		
 		UriSqlFragment uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
-		uriSqlFragment.setUri(FireworkUriConstants.VIEW_ALL_SEARCH);
-		uriSqlFragment.setSql(RawSql.SELECT_ALL);
+		UseCaseInfo info = new UseCaseInfo(FireworkUriConstants.VIEW_ALL_SEARCH, RawSql.SELECT_ALL);
+		uriSqlFragment.setInfo(info);
 		
 		getSupportLoaderManager().initLoader(FireworkLoader.LOADER_ID, null, this);
 	}
