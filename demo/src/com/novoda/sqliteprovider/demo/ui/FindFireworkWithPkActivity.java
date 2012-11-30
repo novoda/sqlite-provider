@@ -12,9 +12,9 @@ import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
 import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
 import com.novoda.sqliteprovider.demo.ui.input.FindFireworkWithPk;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
-import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
 public class FindFireworkWithPkActivity extends NovodaActivity implements FindFireworkWithPk {
 
@@ -27,9 +27,9 @@ public class FindFireworkWithPkActivity extends NovodaActivity implements FindFi
 		
 		primaryKeyEditText = (EditText) findViewById(R.id.find_firework_with_pk_input_primary_key);
 		
-		UriSqlView uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
-		uriSqlView.setUri(FireworkUriConstants.PRIMARY_KEY_SEARCH);
-		uriSqlView.setSql(RawSql.SELECT_USING_PRIMARY_KEY);
+		UriSqlFragment uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
+		uriSqlFragment.setUri(FireworkUriConstants.PRIMARY_KEY_SEARCH);
+		uriSqlFragment.setSql(RawSql.SELECT_USING_PRIMARY_KEY);
 	}
 	
 	@Override

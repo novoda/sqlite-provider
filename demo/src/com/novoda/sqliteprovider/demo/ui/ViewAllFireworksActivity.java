@@ -15,7 +15,7 @@ import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
 import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.adapter.FireworkAdapter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
-import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
+import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
 import com.novoda.sqliteprovider.demo.util.Log;
 
 import java.util.List;
@@ -23,7 +23,6 @@ import java.util.List;
 public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCallbacks<List<Firework>>{
 
 	private ListView listview;
-	private UriSqlView uriSqlView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +32,9 @@ public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCa
 		listview = (ListView) findViewById(android.R.id.list);
 		listview.setOnItemClickListener(onFireworkListItemClick);
 		
-		uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
-		uriSqlView.setSql(RawSql.SELECT_ALL);
-		uriSqlView.setUri(FireworkUriConstants.VIEW_ALL_SEARCH);
+		UriSqlFragment uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
+		uriSqlFragment.setUri(FireworkUriConstants.VIEW_ALL_SEARCH);
+		uriSqlFragment.setSql(RawSql.SELECT_ALL);
 		
 		getSupportLoaderManager().initLoader(FireworkLoader.LOADER_ID, null, this);
 	}

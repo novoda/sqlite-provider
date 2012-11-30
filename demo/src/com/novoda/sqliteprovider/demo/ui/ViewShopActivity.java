@@ -10,7 +10,7 @@ import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.*;
 import com.novoda.sqliteprovider.demo.ui.adapter.FireworkAdapter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
-import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
+import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
 import com.novoda.sqliteprovider.demo.util.Log;
 
 public class ViewShopActivity extends NovodaActivity {
@@ -20,7 +20,7 @@ public class ViewShopActivity extends NovodaActivity {
 	
 	private ListView listview;
 	private UseCaseInfo info;
-	private UriSqlView uriSqlView;
+	private UriSqlFragment uriSqlFragment;
 	private Shop shop;
 	
 	@Override
@@ -28,8 +28,8 @@ public class ViewShopActivity extends NovodaActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_shop);
 		
-		uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
 		info = (UseCaseInfo) getIntent().getSerializableExtra(EXTRA_INFO);
+		uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
 		setExampleInfo();
 		
 		shop = (Shop) getIntent().getSerializableExtra(EXTRA_SHOP);
@@ -38,10 +38,10 @@ public class ViewShopActivity extends NovodaActivity {
 
 	private void setExampleInfo() {
 		if(info != null){
-			uriSqlView.setUri(info.getUri());
-			uriSqlView.setSql(info.getSql());
+			uriSqlFragment.setUri(info.getUri());
+			uriSqlFragment.setSql(info.getSql());
 		} else {
-			uriSqlView.setVisibility(View.GONE);
+			uriSqlFragment.hide();
 		}
 	}
 	

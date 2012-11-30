@@ -12,9 +12,9 @@ import com.novoda.sqliteprovider.demo.domain.*;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
 import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
 import com.novoda.sqliteprovider.demo.ui.input.FindShopFireworks;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
-import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
 import java.util.List;
 
@@ -29,9 +29,9 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity implements 
 		
 		primaryKeyEditText = (EditText) findViewById(R.id.find_fireworks_from_one_shop_input_shop_primary_key);
 		
-		UriSqlView uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
-		uriSqlView.setUri(FireworkUriConstants.ONE_TO_MANY_SEARCH);
-		uriSqlView.setSql(RawSql.SELECT_USING_SHOP_FOREIGN_KEY);
+		UriSqlFragment uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
+		uriSqlFragment.setUri(FireworkUriConstants.ONE_TO_MANY_SEARCH);
+		uriSqlFragment.setSql(RawSql.SELECT_USING_SHOP_FOREIGN_KEY);
 	}
 	
 	@Override

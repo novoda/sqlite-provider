@@ -4,7 +4,10 @@
   android:layout_height="match_parent"
   android:orientation="vertical" >
 
-  <include layout="@layout/view_uri_sql" />
+  <fragment
+    android:id="@+id/fragment_uri_sql"
+    style="@style/wrap_w_wrap_h"
+    class="com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment" />
 
   <TextView
     style="@style/wrap_w_wrap_h"

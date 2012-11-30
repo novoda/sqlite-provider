@@ -14,9 +14,9 @@ import com.novoda.sqliteprovider.demo.loader.FireworkSaver;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
 import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
 import com.novoda.sqliteprovider.demo.ui.input.AddFirework;
 import com.novoda.sqliteprovider.demo.ui.util.FromXML;
-import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
 public class AddFireworkActivity extends NovodaActivity implements LoaderCallbacks<Firework>, AddFirework {
 
@@ -25,7 +25,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 	private EditText noiseEditText;
 	private EditText typeEditText;
 	private EditText priceEditText;
-	private UriSqlView uriSqlView;
+	private UriSqlFragment uriSqlFragment;
 	private Firework firework;
 
 	@Override
@@ -39,8 +39,9 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		typeEditText = (EditText) findViewById(R.id.add_firework_input_type);
 		priceEditText = (EditText) findViewById(R.id.add_firework_input_price);
 		
-		uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
-		uriSqlView.setUri(FireworkUriConstants.ADD_FIREWORK);
+		uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
+		uriSqlFragment.setUri(FireworkUriConstants.ADD_FIREWORK);
+		uriSqlFragment.setSql(RawSql.INSERT_FIREWORK);
 	}
 	
 	@Override
@@ -88,7 +89,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		typeEditText.setText("");
 		priceEditText.setText("");
 	
-		uriSqlView.setSql(createSQL(data));
+		uriSqlFragment.setSql(createSQL(data));
 	}
 
 	private String createSQL(Firework data) {
