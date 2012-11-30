@@ -7,15 +7,16 @@ import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.novoda.sqliteprovider.demo.R;
-import com.novoda.sqliteprovider.demo.domain.Firework;
-import com.novoda.sqliteprovider.demo.domain.Shop;
+import com.novoda.sqliteprovider.demo.domain.*;
 import com.novoda.sqliteprovider.demo.ui.adapter.FireworkAdapter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 import com.novoda.sqliteprovider.demo.util.Log;
 
 public class ViewShopActivity extends NovodaActivity {
 
 	protected static final String EXTRA_SHOP = "com.novoda.sqliteprovider.demo.ui.EXTRA_SHOP";
+	protected static final String EXTRA_INFO = "com.novoda.sqliteprovider.demo.ui.EXTRA_INFO";
 	
 	private ListView listview;
 	
@@ -23,6 +24,13 @@ public class ViewShopActivity extends NovodaActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_shop);
+		
+		UseCaseInfo info = (UseCaseInfo) getIntent().getSerializableExtra(EXTRA_INFO);
+		if(info != null){
+			UriSqlView uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
+			uriSqlView.setUri(info.getUri());
+			uriSqlView.setSql(info.getSql());
+		}
 		
 		Shop shop = (Shop) getIntent().getSerializableExtra(EXTRA_SHOP);
 		if(shop != null){
