@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.input.OnPrimaryKeyInputError;
 
 public class FindFireworkWithPkFragment extends Fragment {
 
@@ -69,8 +70,8 @@ public class FindFireworkWithPkFragment extends Fragment {
 	}
 	
 	private void informActivityPublicKeyInvalid() {
-		if(getActivity() instanceof OnPublicKeyInputError){
-			((OnPublicKeyInputError) getActivity()).onPublicKeyInvalid();
+		if(getActivity() instanceof OnPrimaryKeyInputError){
+			((OnPrimaryKeyInputError) getActivity()).onPrimaryKeyInvalid();
 		}
 	}
 }

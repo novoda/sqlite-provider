@@ -10,8 +10,9 @@ import com.novoda.sqliteprovider.demo.domain.UseCaseFactory.UseCase;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.fragment.FindFireworkWithPkFragment.OnFireworkFound;
 import com.novoda.sqliteprovider.demo.ui.fragment.*;
+import com.novoda.sqliteprovider.demo.ui.input.OnPrimaryKeyInputError;
 
-public class FindFireworkWithPkActivity extends NovodaActivity implements OnFireworkFound, OnPublicKeyInputError {
+public class FindFireworkWithPkActivity extends NovodaActivity implements OnFireworkFound, OnPrimaryKeyInputError {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class FindFireworkWithPkActivity extends NovodaActivity implements OnFire
 	}
 
 	@Override
-	public void onPublicKeyInvalid() {
+	public void onPrimaryKeyInvalid() {
 		Toast.makeText(this, "Primary Key should be an Int", Toast.LENGTH_SHORT).show();
 	}
 }

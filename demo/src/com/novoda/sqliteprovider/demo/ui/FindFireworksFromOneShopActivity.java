@@ -9,9 +9,10 @@ import com.novoda.sqliteprovider.demo.domain.Shop;
 import com.novoda.sqliteprovider.demo.domain.UseCaseFactory.UseCase;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.fragment.FindFireworksFromOneShopFragment.OnShopFound;
-import com.novoda.sqliteprovider.demo.ui.fragment.*;
+import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
+import com.novoda.sqliteprovider.demo.ui.input.OnPrimaryKeyInputError;
 
-public class FindFireworksFromOneShopActivity extends NovodaActivity implements OnPublicKeyInputError, OnShopFound {
+public class FindFireworksFromOneShopActivity extends NovodaActivity implements OnPrimaryKeyInputError, OnShopFound {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity implements 
 	}
 
 	@Override
-	public void onPublicKeyInvalid() {
+	public void onPrimaryKeyInvalid() {
 		Toast.makeText(this, "Primary Key should be an int", Toast.LENGTH_SHORT).show();
 	}
 	

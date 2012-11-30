@@ -11,6 +11,7 @@ import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.domain.Shop;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
+import com.novoda.sqliteprovider.demo.ui.input.OnPrimaryKeyInputError;
 
 import java.util.List;
 
@@ -68,8 +69,8 @@ public class FindFireworksFromOneShopFragment extends Fragment {
 	}
 	
 	private void informActivityPublicKeyInvalid() {
-		if(getActivity() instanceof OnPublicKeyInputError){
-			((OnPublicKeyInputError) getActivity()).onPublicKeyInvalid();
+		if(getActivity() instanceof OnPrimaryKeyInputError){
+			((OnPrimaryKeyInputError) getActivity()).onPrimaryKeyInvalid();
 		}
 	}
 	
