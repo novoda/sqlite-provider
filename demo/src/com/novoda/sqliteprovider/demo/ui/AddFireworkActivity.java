@@ -92,7 +92,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 	private String createSQL(Firework data) {
 		return TextUtils.replace(
 				RawSql.INSERT_FIREWORK, 
-				new String[]{"Na","Co","No","Pr","Sh"}, 
+				new String[]{"Na","Co","No", "Ft", "Pr","Sh"}, 
 				new CharSequence[]{data.getName(), data.getColor(), data.getNoise(), data.getType(), String.valueOf(data.getPrice()), "1"})
 				.toString();
 	}
