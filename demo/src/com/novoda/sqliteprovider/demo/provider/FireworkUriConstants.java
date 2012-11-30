@@ -10,5 +10,6 @@ public class FireworkUriConstants {
 	public static final String ONE_TO_MANY_SEARCH = AUTHORITY + "shop/1/firework";
 	public static final String GROUP_BY_SEARCH = AUTHORITY + "firework?groupBy=shop_id&having=color='Red'";
 	public static final String LIMIT_3 = AUTHORITY + "firework?limit=3";
+	public static final String UNIQUE_SEARCH = AUTHORITY + "firework?distinct=true";
 
 }

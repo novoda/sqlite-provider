@@ -36,5 +36,7 @@ public class DatabaseConstants {
 		public static final String GROUP_BY = "SELECT COUNT(color) AS count, shop_id FROM firework GROUP BY shop_id HAVING color='Red';";
 
 		public static final String LIMIT = "SELECT * FROM firework LIMIT 3;";
+
+		public static final String DISTINCT = "SELECT DISTINCT name, ftype, color, noise, price FROM firework;";
 	}
 }

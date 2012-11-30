@@ -7,11 +7,6 @@
   <include layout="@layout/view_uri_sql" />
 
   <TextView
-    style="@style/wrap_w_wrap_h"
-    android:padding="@dimen/norm_spacing"
-    android:text="@string/activity_view_shop_input_title_name" />
-
-  <TextView
     android:id="@+id/activity_view_shop_name"
     style="@style/wrap_w_wrap_h"
     android:padding="@dimen/norm_spacing" />
