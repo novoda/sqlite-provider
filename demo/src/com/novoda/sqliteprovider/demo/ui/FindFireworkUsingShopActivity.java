@@ -13,7 +13,7 @@ import com.novoda.sqliteprovider.demo.ui.adapter.FireworkAdapter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.util.Log;
 
-public class ViewShopActivity extends NovodaActivity {
+public class FindFireworkUsingShopActivity extends NovodaActivity {
 
 	protected static final String EXTRA_SHOP = "com.novoda.sqliteprovider.demo.ui.EXTRA_SHOP";
 	
