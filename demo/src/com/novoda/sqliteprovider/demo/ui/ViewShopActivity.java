@@ -25,11 +25,13 @@ public class ViewShopActivity extends NovodaActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_shop);
 		
+		UriSqlView uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
 		UseCaseInfo info = (UseCaseInfo) getIntent().getSerializableExtra(EXTRA_INFO);
 		if(info != null){
-			UriSqlView uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
 			uriSqlView.setUri(info.getUri());
 			uriSqlView.setSql(info.getSql());
+		} else {
+			uriSqlView.setVisibility(View.GONE);
 		}
 		
 		Shop shop = (Shop) getIntent().getSerializableExtra(EXTRA_SHOP);
