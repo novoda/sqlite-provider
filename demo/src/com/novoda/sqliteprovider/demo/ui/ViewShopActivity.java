@@ -30,19 +30,10 @@ public class ViewShopActivity extends NovodaActivity {
 		
 		info = (UseCaseInfo) getIntent().getSerializableExtra(EXTRA_INFO);
 		uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
-		setExampleInfo();
+		uriSqlFragment.setInfo(info);
 		
 		shop = (Shop) getIntent().getSerializableExtra(EXTRA_SHOP);
 		setShopData();
-	}
-
-	private void setExampleInfo() {
-		if(info != null){
-			uriSqlFragment.setUri(info.getUri());
-			uriSqlFragment.setSql(info.getSql());
-		} else {
-			uriSqlFragment.hide();
-		}
 	}
 	
 	private void setShopData() {

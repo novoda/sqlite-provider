@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.*;
 
 import com.novoda.sqliteprovider.demo.R;
+import com.novoda.sqliteprovider.demo.domain.UseCaseInfo;
 import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
 public class UriSqlFragment extends Fragment {
@@ -20,6 +21,19 @@ public class UriSqlFragment extends Fragment {
 		return root;
 	}
 
+	public void setInfo(UseCaseInfo info){
+		if(info == null){
+			hide();
+		} else {
+			uriSqlView.setUri(info.getUri());
+			uriSqlView.setSql(info.getSql());
+		}
+	}
+	
+	private void hide() {
+		uriSqlView.setVisibility(View.GONE);
+	}
+	
 	public void setUri(String uri) {
 		uriSqlView.setUri(uri);
 	}
@@ -27,9 +41,4 @@ public class UriSqlFragment extends Fragment {
 	public void setSql(String sql) {
 		uriSqlView.setSql(sql);
 	}
-
-	public void hide() {
-		uriSqlView.setVisibility(View.GONE);
-	}
-	
 }
