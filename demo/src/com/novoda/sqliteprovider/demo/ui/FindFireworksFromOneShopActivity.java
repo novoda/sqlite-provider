@@ -2,62 +2,36 @@ package com.novoda.sqliteprovider.demo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.novoda.sqliteprovider.demo.R;
-import com.novoda.sqliteprovider.demo.domain.*;
+import com.novoda.sqliteprovider.demo.domain.Shop;
 import com.novoda.sqliteprovider.demo.domain.UseCaseFactory.UseCase;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
-import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
-import com.novoda.sqliteprovider.demo.ui.input.FindShopFireworks;
-import com.novoda.sqliteprovider.demo.ui.util.FromXML;
+import com.novoda.sqliteprovider.demo.ui.fragment.FindFireworksFromOneShopFragment.OnShopFound;
+import com.novoda.sqliteprovider.demo.ui.fragment.*;
 
-import java.util.List;
-
-public class FindFireworksFromOneShopActivity extends NovodaActivity implements FindShopFireworks {
-
-	private EditText primaryKeyEditText;
+public class FindFireworksFromOneShopActivity extends NovodaActivity implements OnPublicKeyInputError, OnShopFound {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_find_firework_from_one_shop);
 		
-		primaryKeyEditText = (EditText) findViewById(R.id.find_fireworks_from_one_shop_input_shop_primary_key);
-		
 		UriSqlFragment uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
 		uriSqlFragment.setInfo(UseCase.ONE_TO_MANY);
 	}
+
+	@Override
+	public void onPublicKeyInvalid() {
+		Toast.makeText(this, "Primary Key should be an int", Toast.LENGTH_SHORT).show();
+	}
 	
 	@Override
-	@FromXML
-	public void onFindShopFireworks(View button){
-		if(userHasEnteredSomething()){
-			try {
-				int primaryKey = getPrimaryKey();
-
-				List<Firework> fireworks = getApp().getFireworkReader().getFireworksForShop(primaryKey);
-				
-				Shop shop = new Shop("", "Below are the Fireworks with shop primary key: "+ primaryKey, fireworks);
-				
-				view(shop);
-			} catch (NumberFormatException e) {
-				Toast.makeText(this, "Primary Key should be an int", Toast.LENGTH_SHORT).show();
-			}
-		}
+	public void onShopFound(Shop shop) {
+		view(shop);
 	}
 
-	private boolean userHasEnteredSomething() {
-		return !TextUtils.isEmpty(primaryKeyEditText.getText());
-	}
-	
-	private int getPrimaryKey() {
-		return Integer.parseInt(primaryKeyEditText.getText().toString());
-	}
-	
 	private void view(Shop shop) {
 		Intent intent = new Intent(this, ViewShopActivity.class);
 		intent.putExtra(ViewShopActivity.EXTRA_SHOP, shop);

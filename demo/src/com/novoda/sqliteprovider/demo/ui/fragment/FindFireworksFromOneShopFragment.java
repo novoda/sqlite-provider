@@ -9,47 +9,52 @@ import android.widget.EditText;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
+import com.novoda.sqliteprovider.demo.domain.Shop;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 
-public class FindFireworkWithPkFragment extends Fragment {
+import java.util.List;
 
-	public interface OnFireworkFound {
-		void onFireworkFound(Firework firework);
+public class FindFireworksFromOneShopFragment extends Fragment {
+
+	public interface OnShopFound {
+		void onShopFound(Shop shop);
 	}
 	
 	private EditText primaryKeyEditText;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View root = inflater.inflate(R.layout.fragment_find_firework_with_pk, container, false);
+		View root = inflater.inflate(R.layout.fragment_find_firework_from_one_shop, container, false);
 		
-		root.findViewById(R.id.find_firework_with_pk_button_find).setOnClickListener(onFindButtonClick);
-		primaryKeyEditText = (EditText) root.findViewById(R.id.find_firework_with_pk_input_primary_key);
+		root.findViewById(R.id.find_firework_from_one_shop_button_find).setOnClickListener(onFindFireworkListener);
+		primaryKeyEditText = (EditText) root.findViewById(R.id.find_fireworks_from_one_shop_input_shop_primary_key);
 		
 		return root;
 	}
 	
-	public OnClickListener onFindButtonClick = new OnClickListener() {
+	private final OnClickListener onFindFireworkListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			onFindFireworkWithPkClick();
+			onFindShopFireworks();
 		}
 	};
 	
-	public void onFindFireworkWithPkClick(){
+	public void onFindShopFireworks(){
 		if(userHasEnteredSomething()){
 			try {
 				int primaryKey = getPrimaryKey();
 
-				Firework firework = getFirework(primaryKey);
+				List<Firework> fireworks = getFirework(primaryKey);
 				
-				informActivityFireworkFound(firework);
+				Shop shop = new Shop("", "Below are the Fireworks with shop primary key: "+ primaryKey, fireworks);
+				
+				informActivityShopFound(shop);
 			} catch (NumberFormatException e) {
 				informActivityPublicKeyInvalid();
 			}
 		}
 	}
-
+	
 	private boolean userHasEnteredSomething() {
 		return !TextUtils.isEmpty(primaryKeyEditText.getText());
 	}
@@ -58,19 +63,19 @@ public class FindFireworkWithPkFragment extends Fragment {
 		return Integer.parseInt(primaryKeyEditText.getText().toString());
 	}
 	
-	private Firework getFirework(int primaryKey) {
-		return ((NovodaActivity) getActivity()).getApp().getFireworkReader().getFirework(primaryKey);
-	}
-	
-	private void informActivityFireworkFound(Firework firework) {
-		if(getActivity() instanceof OnFireworkFound){
-			((OnFireworkFound) getActivity()).onFireworkFound(firework);
-		}
+	private List<Firework> getFirework(int primaryKey) {
+		return ((NovodaActivity) getActivity()).getApp().getFireworkReader().getFireworksForShop(primaryKey);
 	}
 	
 	private void informActivityPublicKeyInvalid() {
 		if(getActivity() instanceof OnPublicKeyInputError){
 			((OnPublicKeyInputError) getActivity()).onPublicKeyInvalid();
+		}
+	}
+	
+	private void informActivityShopFound(Shop shop) {
+		if(getActivity() instanceof OnShopFound){
+			((OnShopFound) getActivity()).onShopFound(shop);
 		}
 	}
 }

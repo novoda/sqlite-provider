@@ -9,7 +9,6 @@ import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.domain.UseCaseFactory.UseCase;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.fragment.FindFireworkWithPkFragment.OnFireworkFound;
-import com.novoda.sqliteprovider.demo.ui.fragment.FindFireworkWithPkFragment.OnPublicKeyInputError;
 import com.novoda.sqliteprovider.demo.ui.fragment.*;
 
 public class FindFireworkWithPkActivity extends NovodaActivity implements OnFireworkFound, OnPublicKeyInputError {
