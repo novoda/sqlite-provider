@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical" >
+
+  <TextView
+    style="@style/wrap_w_wrap_h"
+    android:padding="@dimen/norm_spacing"
+    android:text="@string/activity_add_firework_text" />
+
+  <EditText
+    android:id="@+id/add_firework_input_name"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/activity_add_firework_input_title_name" />
+
+  <EditText
+    android:id="@+id/add_firework_input_color"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/activity_add_firework_input_title_color" />
+
+  <EditText
+    android:id="@+id/add_firework_input_type"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/activity_add_firework_input_title_type" />
+
+  <EditText
+    android:id="@+id/add_firework_input_noise"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/activity_add_firework_input_title_noise" />
+
+  <EditText
+    android:id="@+id/add_firework_input_price"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/activity_add_firework_input_title_price"
+    android:inputType="numberDecimal" />
+
+  <Button
+    android:id="@+id/add_firework_add_button"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/button_add_firework"
+    android:onClick="onAddFireworkClick" />
+
+</LinearLayout>
