@@ -45,7 +45,7 @@ public class FindFireworkWithPkFragment extends Fragment {
 			try {
 				int primaryKey = getPrimaryKey();
 
-				Firework firework = ((NovodaActivity) getActivity()).getApp().getFireworkReader().getFirework(primaryKey);
+				Firework firework = getFirework(primaryKey);
 				
 				informActivityFireworkFound(firework);
 			} catch (NumberFormatException e) {
@@ -53,13 +53,17 @@ public class FindFireworkWithPkFragment extends Fragment {
 			}
 		}
 	}
-	
+
 	private boolean userHasEnteredSomething() {
 		return !TextUtils.isEmpty(primaryKeyEditText.getText());
 	}
 	
 	private int getPrimaryKey() {
 		return Integer.parseInt(primaryKeyEditText.getText().toString());
+	}
+	
+	private Firework getFirework(int primaryKey) {
+		return ((NovodaActivity) getActivity()).getApp().getFireworkReader().getFirework(primaryKey);
 	}
 	
 	private void informActivityFireworkFound(Firework firework) {
