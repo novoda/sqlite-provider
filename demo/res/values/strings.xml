@@ -41,5 +41,6 @@
   <string name="activity_label_grouped_by_color">Grouped by color</string>
   <string name="activity_label_limit">Limit of 3</string>
   <string name="activity_label_distinct_fireworks">Distinct Fireworks</string>
+  <string name="activity_label_find_firework_from_shop">Find Fireworks with shop PK</string>
 
 </resources>
