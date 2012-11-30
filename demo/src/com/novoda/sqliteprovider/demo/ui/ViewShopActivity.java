@@ -19,22 +19,33 @@ public class ViewShopActivity extends NovodaActivity {
 	protected static final String EXTRA_INFO = "com.novoda.sqliteprovider.demo.ui.EXTRA_INFO";
 	
 	private ListView listview;
+	private UseCaseInfo info;
+	private UriSqlView uriSqlView;
+	private Shop shop;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_shop);
 		
-		UriSqlView uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
-		UseCaseInfo info = (UseCaseInfo) getIntent().getSerializableExtra(EXTRA_INFO);
+		uriSqlView = (UriSqlView) findViewById(R.id.view_uri_sql);
+		info = (UseCaseInfo) getIntent().getSerializableExtra(EXTRA_INFO);
+		setExampleInfo();
+		
+		shop = (Shop) getIntent().getSerializableExtra(EXTRA_SHOP);
+		setShopData();
+	}
+
+	private void setExampleInfo() {
 		if(info != null){
 			uriSqlView.setUri(info.getUri());
 			uriSqlView.setSql(info.getSql());
 		} else {
 			uriSqlView.setVisibility(View.GONE);
 		}
-		
-		Shop shop = (Shop) getIntent().getSerializableExtra(EXTRA_SHOP);
+	}
+	
+	private void setShopData() {
 		if(shop != null){
 			TextView shopNameTextView = (TextView) findViewById(R.id.activity_view_shop_name);
 			shopNameTextView.setText(shop.getName());
