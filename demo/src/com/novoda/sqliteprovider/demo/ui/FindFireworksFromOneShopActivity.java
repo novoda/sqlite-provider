@@ -9,8 +9,7 @@ import android.widget.Toast;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.*;
-import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
-import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
+import com.novoda.sqliteprovider.demo.domain.UseCaseFactory.UseCase;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
 import com.novoda.sqliteprovider.demo.ui.input.FindShopFireworks;
@@ -30,8 +29,7 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity implements 
 		primaryKeyEditText = (EditText) findViewById(R.id.find_fireworks_from_one_shop_input_shop_primary_key);
 		
 		UriSqlFragment uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
-		UseCaseInfo info = new UseCaseInfo(FireworkUriConstants.ONE_TO_MANY_SEARCH, RawSql.SELECT_USING_SHOP_FOREIGN_KEY);
-		uriSqlFragment.setInfo(info);
+		uriSqlFragment.setInfo(UseCase.ONE_TO_MANY);
 	}
 	
 	@Override
@@ -63,13 +61,7 @@ public class FindFireworksFromOneShopActivity extends NovodaActivity implements 
 	private void view(Shop shop) {
 		Intent intent = new Intent(this, ViewShopActivity.class);
 		intent.putExtra(ViewShopActivity.EXTRA_SHOP, shop);
-		addUseCaseInfo(intent);
+		intent.putExtra(ViewShopActivity.EXTRA_INFO, UseCase.ONE_TO_MANY);
 		startActivity(intent);
-	}
-
-	private void addUseCaseInfo(Intent intent) {
-		String uri = FireworkUriConstants.ONE_TO_MANY_SEARCH;
-		String sql = RawSql.SELECT_USING_SHOP_FOREIGN_KEY;
-		intent.putExtra(ViewShopActivity.EXTRA_INFO, new UseCaseInfo(uri, sql));
 	}
 }

@@ -10,10 +10,9 @@ import android.widget.Toast;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
-import com.novoda.sqliteprovider.demo.domain.UseCaseInfo;
+import com.novoda.sqliteprovider.demo.domain.UseCaseFactory.UseCase;
 import com.novoda.sqliteprovider.demo.loader.FireworkSaver;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
-import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
 import com.novoda.sqliteprovider.demo.ui.input.AddFirework;
@@ -41,8 +40,7 @@ public class AddFireworkActivity extends NovodaActivity implements LoaderCallbac
 		priceEditText = (EditText) findViewById(R.id.add_firework_input_price);
 		
 		uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
-		UseCaseInfo info = new UseCaseInfo(FireworkUriConstants.ADD_FIREWORK, RawSql.INSERT_FIREWORK);
-		uriSqlFragment.setInfo(info);
+		uriSqlFragment.setInfo(UseCase.ADD);
 	}
 	
 	@Override

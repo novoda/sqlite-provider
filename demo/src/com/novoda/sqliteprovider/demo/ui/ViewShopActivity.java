@@ -8,6 +8,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.*;
+import com.novoda.sqliteprovider.demo.domain.UseCaseFactory.UseCase;
 import com.novoda.sqliteprovider.demo.ui.adapter.FireworkAdapter;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
@@ -19,8 +20,6 @@ public class ViewShopActivity extends NovodaActivity {
 	protected static final String EXTRA_INFO = "com.novoda.sqliteprovider.demo.ui.EXTRA_INFO";
 	
 	private ListView listview;
-	private UseCaseInfo info;
-	private UriSqlFragment uriSqlFragment;
 	private Shop shop;
 	
 	@Override
@@ -28,9 +27,9 @@ public class ViewShopActivity extends NovodaActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_shop);
 		
-		info = (UseCaseInfo) getIntent().getSerializableExtra(EXTRA_INFO);
-		uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
-		uriSqlFragment.setInfo(info);
+		UseCase useCase = (UseCase) getIntent().getSerializableExtra(EXTRA_INFO);
+		UriSqlFragment uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
+		uriSqlFragment.setInfo(useCase);
 		
 		shop = (Shop) getIntent().getSerializableExtra(EXTRA_SHOP);
 		setShopData();
