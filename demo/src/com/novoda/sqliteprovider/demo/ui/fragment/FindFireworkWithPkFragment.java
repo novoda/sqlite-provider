@@ -17,33 +17,33 @@ public class FindFireworkWithPkFragment extends Fragment {
 	public interface OnFireworkFound {
 		void onFireworkFound(Firework firework);
 	}
-	
+
 	private EditText primaryKeyEditText;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View root = inflater.inflate(R.layout.fragment_find_firework_with_pk, container, false);
-		
+
 		root.findViewById(R.id.find_firework_with_pk_button_find).setOnClickListener(onFindButtonClick);
 		primaryKeyEditText = (EditText) root.findViewById(R.id.find_firework_with_pk_input_primary_key);
-		
+
 		return root;
 	}
-	
-	public OnClickListener onFindButtonClick = new OnClickListener() {
+
+	private final OnClickListener onFindButtonClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			onFindFireworkWithPkClick();
 		}
 	};
-	
-	public void onFindFireworkWithPkClick(){
-		if(userHasEnteredSomething()){
+
+	public void onFindFireworkWithPkClick() {
+		if (userHasEnteredSomething()) {
 			try {
 				int primaryKey = getPrimaryKey();
 
 				Firework firework = getFirework(primaryKey);
-				
+
 				informActivityFireworkFound(firework);
 			} catch (NumberFormatException e) {
 				informActivityPublicKeyInvalid();
@@ -54,23 +54,23 @@ public class FindFireworkWithPkFragment extends Fragment {
 	private boolean userHasEnteredSomething() {
 		return !TextUtils.isEmpty(primaryKeyEditText.getText());
 	}
-	
+
 	private int getPrimaryKey() {
 		return Integer.parseInt(primaryKeyEditText.getText().toString());
 	}
-	
+
 	private Firework getFirework(int primaryKey) {
 		return ((NovodaActivity) getActivity()).getApp().getFireworkReader().getFirework(primaryKey);
 	}
-	
+
 	private void informActivityFireworkFound(Firework firework) {
-		if(getActivity() instanceof OnFireworkFound){
+		if (getActivity() instanceof OnFireworkFound) {
 			((OnFireworkFound) getActivity()).onFireworkFound(firework);
 		}
 	}
-	
+
 	private void informActivityPublicKeyInvalid() {
-		if(getActivity() instanceof OnPrimaryKeyInputError){
+		if (getActivity() instanceof OnPrimaryKeyInputError) {
 			((OnPrimaryKeyInputError) getActivity()).onPrimaryKeyInvalid();
 		}
 	}
