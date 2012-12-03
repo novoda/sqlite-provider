@@ -21,7 +21,6 @@
     style="@style/wrap_w_wrap_h"
     android:layout_gravity="right"
     android:layout_margin="@dimen/norm_spacing"
-    android:onClick="onFindShopFireworks"
     android:text="@string/activity_find_firework_from_one_shop_button_find_fireworks" />
 
 </LinearLayout>
