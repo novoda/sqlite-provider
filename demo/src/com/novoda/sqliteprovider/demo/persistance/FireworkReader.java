@@ -20,71 +20,70 @@ public class FireworkReader {
 	public FireworkReader(DatabaseReader databaseReader) {
 		this.databaseReader = databaseReader;
 	}
-	
-	public Firework getFirework(int primaryKey){
+
+	public Firework getFirework(int primaryKey) {
 		Cursor cursor = databaseReader.getFrom(TBL_FIREWORKS, primaryKey);
-		
-		if(cursor.moveToFirst()){
+
+		if (cursor.moveToFirst()) {
 			Firework firework = getFirework(cursor);
-			
+
 			cursor.close();
-			
+
 			return firework;
-		} else {
-			Log.e("No data in the cursor. Returning null safe firework.");
-			return Firework.getNullSafeFirework();
 		}
+		Log.e("No data in the cursor. Returning null safe firework.");
+		return Firework.getNullSafeFirework();
 	}
-	
+
 	public List<Firework> getFireworksForShop(int primaryKey) {
 		Cursor cursor = databaseReader.getChildren(TBL_SHOPS, TBL_FIREWORKS, primaryKey);
-		
+
 		List<Firework> fireworks = populateListWith(cursor);
-		
+
 		cursor.close();
-		
+
 		return fireworks;
 	}
-	
+
 	public List<Firework> getLimitedNumberOfFireworks(int limit) {
 		Cursor cursor = databaseReader.getLimited(TBL_FIREWORKS, limit);
-		
+
 		List<Firework> fireworks = populateListWith(cursor);
-		
+
 		cursor.close();
-		
+
 		return fireworks;
 	}
-	
+
 	public List<Firework> getUniqueFireworks() {
-		String[] selection = {Fireworks.COL_NAME, Fireworks.COL_TYPE, Fireworks.COL_COLOR, Fireworks.COL_NOISE, Fireworks.COL_PRICE};
+		String[] selection = { Fireworks.COL_NAME, Fireworks.COL_TYPE, Fireworks.COL_COLOR, Fireworks.COL_NOISE, Fireworks.COL_PRICE };
 
 		Cursor cursor = databaseReader.getDistinct(TBL_FIREWORKS, selection);
-		
+
 		List<Firework> fireworks = populateListWith(cursor);
-		
+
 		cursor.close();
-		
+
 		return fireworks;
 	}
-	
-	public List<Firework> getAll(){
+
+	public List<Firework> getAll() {
 		Cursor cursor = databaseReader.getAllFrom(TBL_FIREWORKS);
-		
+
 		List<Firework> fireworks = populateListWith(cursor);
-		
+
 		cursor.close();
-		
+
 		return fireworks;
 	}
-	
+
 	private List<Firework> populateListWith(Cursor cursor) {
 		List<Firework> data = new ArrayList<Firework>();
-		if(cursor.moveToFirst()){
+		if (cursor.moveToFirst()) {
 			do {
 				Firework firework = getFirework(cursor);
 				data.add(firework);
-			} while(cursor.moveToNext());
+			} while (cursor.moveToNext());
 		} else {
 			Log.e("No data in the cursor.");
 		}
@@ -97,31 +96,31 @@ public class FireworkReader {
 		String type = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_NOISE));
 		String noise = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_TYPE));
 		double price = cursor.getDouble(cursor.getColumnIndexOrThrow(Fireworks.COL_PRICE));
-		
+
 		return new Firework(name, color, type, noise, price);
 	}
-	
+
 	public Groups getCountOfRedFireworksGroupedByShop() {
 		String group = Fireworks.COL_SHOP;
-		String having = Fireworks.COL_COLOR +"='Red'";
-		String[] selection = {"COUNT("+Fireworks.COL_COLOR+") AS count", Fireworks.COL_SHOP};
+		String having = Fireworks.COL_COLOR + "='Red'";
+		String[] selection = { "COUNT(" + Fireworks.COL_COLOR + ") AS count", Fireworks.COL_SHOP };
 		Cursor cursor = databaseReader.getGroupedByAndHaving(TBL_FIREWORKS, group, having, selection);
-		
+
 		List<Group> data = populateGroupListWith(cursor);
-		
+
 		cursor.close();
-		
+
 		return new Groups(data);
 	}
-	
+
 	private List<Group> populateGroupListWith(Cursor cursor) {
 		List<Group> data = new ArrayList<Group>();
-		if(cursor.moveToFirst()){
+		if (cursor.moveToFirst()) {
 			do {
 				int count = cursor.getInt(cursor.getColumnIndexOrThrow("count"));
 				int shopId = cursor.getInt(cursor.getColumnIndexOrThrow(Fireworks.COL_SHOP));
 				data.add(new Group(count, shopId));
-			} while(cursor.moveToNext());
+			} while (cursor.moveToNext());
 		} else {
 			Log.e("No data in the cursor.");
 		}
