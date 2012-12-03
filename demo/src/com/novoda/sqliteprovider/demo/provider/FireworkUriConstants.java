@@ -2,7 +2,10 @@ package com.novoda.sqliteprovider.demo.provider;
 
 import static com.novoda.sqliteprovider.demo.provider.FireworkProvider.AUTHORITY;
 
-public class FireworkUriConstants {
+public final class FireworkUriConstants {
+
+	private FireworkUriConstants() {
+	}
 
 	public static final String VIEW_ALL_SEARCH = AUTHORITY + "firework";
 	public static final String ADD_FIREWORK = AUTHORITY + "firework (with ContentValues)";
