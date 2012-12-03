@@ -1,4 +1,3 @@
-
 package novoda.lib.sqliteprovider.util;
 
 import android.net.Uri;
@@ -15,24 +14,24 @@ public class UriUtils {
 		final List<String> segs = uri.getPathSegments();
 		String parent = "";
 
-		for (int i=0;i<segs.size();i++){
+		for (int i = 0; i < segs.size(); i++) {
 			String currentSeg = segs.get(i);
-			if(isNumeric(currentSeg)){
+			if (isNumeric(currentSeg)) {
 				final int children = Integer.parseInt(currentSeg);
-				for(int l=0; l<children; l++){
+				for (int l = 0; l < children; l++) {
 					mappedIds.put(parent, currentSeg);
 				}
-			}else{
+			} else {
 				parent = currentSeg;
 			}
 		}
 		return utils;
 	}
 
-	public static boolean isNumeric(String numericChar){
-		try{
+	public static boolean isNumeric(String numericChar) {
+		try {
 			Integer.parseInt(numericChar);
-		} catch(NumberFormatException nfe) {
+		} catch (NumberFormatException nfe) {
 			return false;
 		}
 		return true;
@@ -58,9 +57,8 @@ public class UriUtils {
 		final List<String> segments = uri.getPathSegments();
 		if (rootPath != null && !rootPath.equals("")) {
 			return (((segments.size() - rootPath.split("/").length + 1) % 2) == 1);
-		} else {
-			return ((segments.size() % 2) == 0);
 		}
+		return ((segments.size() % 2) == 0);
 	}
 
 	public static String getItemDirID(final Uri uri) {
@@ -71,36 +69,33 @@ public class UriUtils {
 		final List<String> segments = uri.getPathSegments();
 		if (isItem(rootPath, uri)) {
 			return segments.get(segments.size() - 2);
-		} else {
-			return uri.getLastPathSegment();
 		}
+		return uri.getLastPathSegment();
 	}
 
-	public static boolean hasParent(Uri uri){
-		if (uri.getPathSegments().size()>2){
+	public static boolean hasParent(Uri uri) {
+		if (uri.getPathSegments().size() > 2) {
 			return true;
 		}
 		return false;
 	}
 
-	public static String getParentColumnName(Uri uri){
-		if (hasParent(uri)){
-			if (!isNumberedEntryWithinCollection(uri)){
-				return uri.getPathSegments().get((uri.getPathSegments().size()-1)-2);
-			} else {				
-				return uri.getPathSegments().get((uri.getPathSegments().size()-1)-3);
-			}				
+	public static String getParentColumnName(Uri uri) {
+		if (hasParent(uri)) {
+			if (!isNumberedEntryWithinCollection(uri)) {
+				return uri.getPathSegments().get((uri.getPathSegments().size() - 1) - 2);
+			}
+			return uri.getPathSegments().get((uri.getPathSegments().size() - 1) - 3);
 		}
 		return "";
 	}
 
-	public static String getParentId(Uri uri){
-		if (hasParent(uri)){
-			if (!isNumberedEntryWithinCollection(uri)){
-				return uri.getPathSegments().get((uri.getPathSegments().size()-1)-1);
-			} else {
-				return uri.getPathSegments().get((uri.getPathSegments().size()-1)-2);
-			}			
+	public static String getParentId(Uri uri) {
+		if (hasParent(uri)) {
+			if (!isNumberedEntryWithinCollection(uri)) {
+				return uri.getPathSegments().get((uri.getPathSegments().size() - 1) - 1);
+			}
+			return uri.getPathSegments().get((uri.getPathSegments().size() - 1) - 2);
 		}
 		return "";
 	}
