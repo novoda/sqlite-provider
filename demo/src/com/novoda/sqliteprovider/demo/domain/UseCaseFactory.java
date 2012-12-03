@@ -4,7 +4,7 @@ import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants.RawSql;
 import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.util.Log;
 
-public class UseCaseFactory {
+public final class UseCaseFactory {
 
 	private UseCaseFactory() {
 	}

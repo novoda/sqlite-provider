@@ -23,7 +23,7 @@ public class UriSqlView extends LinearLayout {
 	}
 
 	private void init() {
-		
+
 	}
 
 	@Override
@@ -32,14 +32,16 @@ public class UriSqlView extends LinearLayout {
 		uriTextView = (TextView) findViewById(R.id.view_uri_sql_uri);
 		sqlTextView = (TextView) findViewById(R.id.view_uri_sql_sql);
 	}
-	
-	public void setUri(String uri){
-		if(uriTextView != null)
+
+	public void setUri(String uri) {
+		if (uriTextView != null) {
 			uriTextView.setText(uri);
+		}
 	}
-	
-	public void setSql(String sql){
-		if(sqlTextView != null)
+
+	public void setSql(String sql) {
+		if (sqlTextView != null) {
 			sqlTextView.setText(sql);
+		}
 	}
 }

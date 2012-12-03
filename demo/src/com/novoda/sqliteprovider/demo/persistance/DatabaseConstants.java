@@ -1,6 +1,6 @@
 package com.novoda.sqliteprovider.demo.persistance;
 
-public class DatabaseConstants {
+public final class DatabaseConstants {
 
 	private DatabaseConstants() {
 	}
