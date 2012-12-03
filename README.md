@@ -2,7 +2,7 @@ An Android library as ContentProvider for SQLite
 ================================================
 
 
-THIS IS A DUMP OF IDEAS - NOTHING IS IMPLEMENTED AT THE MOMENT
+THIS IS A DUMP OF IDEAS - PARTIALLY IMPLEMENTED AT THE MOMENT (see demo project)
 
 
 
