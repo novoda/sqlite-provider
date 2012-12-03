@@ -1,70 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/wrap_w_wrap_h" >
 
-  <TextView
-    style="@style/wrap_w_wrap_h"
-    android:text="@string/activity_firework_title_name" />
+    <LinearLayout
+        style="@style/wrap_w_wrap_h"
+        android:orientation="vertical" >
 
-  <TextView
-    android:id="@+id/firework_name"
-    style="@style/wrap_w_wrap_h"
-    android:padding="@dimen/norm_spacing" />
+        <TextView
+            style="@style/wrap_w_wrap_h"
+            android:text="@string/activity_firework_title_name" />
 
-  <TextView
-    style="@style/wrap_w_wrap_h"
-    android:text="@string/activity_firework_title_color" />
+        <TextView
+            android:id="@+id/firework_name"
+            style="@style/wrap_w_wrap_h"
+            android:padding="@dimen/norm_spacing" />
 
-  <TextView
-    android:id="@+id/firework_color"
-    style="@style/wrap_w_wrap_h"
-    android:padding="@dimen/norm_spacing" />
+        <TextView
+            style="@style/wrap_w_wrap_h"
+            android:text="@string/activity_firework_title_color" />
 
-  <TextView
-    style="@style/wrap_w_wrap_h"
-    android:text="@string/activity_firework_title_type" />
+        <TextView
+            android:id="@+id/firework_color"
+            style="@style/wrap_w_wrap_h"
+            android:padding="@dimen/norm_spacing" />
 
-  <TextView
-    android:id="@+id/firework_type"
-    style="@style/wrap_w_wrap_h"
-    android:padding="@dimen/norm_spacing" />
+        <TextView
+            style="@style/wrap_w_wrap_h"
+            android:text="@string/activity_firework_title_type" />
 
-  <TextView
-    style="@style/wrap_w_wrap_h"
-    android:text="@string/activity_firework_title_noise" />
+        <TextView
+            android:id="@+id/firework_type"
+            style="@style/wrap_w_wrap_h"
+            android:padding="@dimen/norm_spacing" />
 
-  <TextView
-    android:id="@+id/firework_noise"
-    style="@style/wrap_w_wrap_h"
-    android:padding="@dimen/norm_spacing" />
+        <TextView
+            style="@style/wrap_w_wrap_h"
+            android:text="@string/activity_firework_title_noise" />
 
-  <TextView
-    style="@style/wrap_w_wrap_h"
-    android:text="@string/activity_firework_title_price" />
+        <TextView
+            android:id="@+id/firework_noise"
+            style="@style/wrap_w_wrap_h"
+            android:padding="@dimen/norm_spacing" />
 
-  <TextView
-    android:id="@+id/firework_price"
-    style="@style/wrap_w_wrap_h"
-    android:padding="@dimen/norm_spacing" />
+        <TextView
+            style="@style/wrap_w_wrap_h"
+            android:text="@string/activity_firework_title_price" />
 
-  <TextView
-    style="@style/wrap_w_wrap_h"
-    android:text="@string/activity_firework_title_id" />
+        <TextView
+            android:id="@+id/firework_price"
+            style="@style/wrap_w_wrap_h"
+            android:padding="@dimen/norm_spacing" />
 
-  <TextView
-    android:id="@+id/firework_id"
-    style="@style/wrap_w_wrap_h"
-    android:padding="@dimen/norm_spacing" />
+        <TextView
+            style="@style/wrap_w_wrap_h"
+            android:text="@string/activity_firework_title_id" />
 
-  <TextView
-    style="@style/wrap_w_wrap_h"
-    android:text="@string/activity_firework_title_shop" />
+        <TextView
+            android:id="@+id/firework_id"
+            style="@style/wrap_w_wrap_h"
+            android:padding="@dimen/norm_spacing" />
 
-  <TextView
-    android:id="@+id/firework_shop"
-    style="@style/wrap_w_wrap_h"
-    android:padding="@dimen/norm_spacing" />
+        <TextView
+            style="@style/wrap_w_wrap_h"
+            android:text="@string/activity_firework_title_shop" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/firework_shop"
+            style="@style/wrap_w_wrap_h"
+            android:padding="@dimen/norm_spacing" />
+    </LinearLayout>
+
+</ScrollView>
