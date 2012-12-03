@@ -15,7 +15,7 @@ public class UriToSqlAttributesInspectorTest {
 	private UriToSqlAttributes attrs = null;
 
 	@Before
-	private void setup() {
+	public void setup() {
 		uriInspector = new UriInspector();
 	}
 
