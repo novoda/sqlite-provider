@@ -34,7 +34,7 @@ public class UriQueryBuilder extends SQLiteQueryBuilder {
 		return (pathSegments.size() > 2);
 	}
 
-	public void setUri(Uri uri) {
+	public final void setUri(Uri uri) {
 		this.uri = uri;
 		init();
 	}
