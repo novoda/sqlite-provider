@@ -5,9 +5,6 @@ import android.test.AndroidTestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Arrays;
-import java.util.List;
-
 @RunWith(RoboRunner.class)
 public class SQLFileTest extends AndroidTestCase {
 
@@ -27,19 +24,19 @@ public class SQLFileTest extends AndroidTestCase {
 		// assertNotNull(this.getContext().getAssets());
 	}
 
-	private void assertSameList(List<String> first, List<String> second) {
-		if (first.size() != second.size())
-			fail("should have same size array, " + first.size() + " " + second.size());
-
-		String[] t1 = first.toArray(new String[] {});
-		String[] t2 = second.toArray(new String[] {});
-		Arrays.sort(t1);
-		Arrays.sort(t2);
-		for (int i = 0; i < t1.length; i++) {
-			if (!t1[i].equals(t2[i])) {
-				fail("value not the same: " + t1[i] + " compared to: " + t2[i]);
-			}
-		}
-		assertTrue(true);
-	}
+	// private void assertSameList(List<String> first, List<String> second) {
+	// if (first.size() != second.size())
+	// fail("should have same size array, " + first.size() + " " + second.size());
+	//
+	// String[] t1 = first.toArray(new String[] {});
+	// String[] t2 = second.toArray(new String[] {});
+	// Arrays.sort(t1);
+	// Arrays.sort(t2);
+	// for (int i = 0; i < t1.length; i++) {
+	// if (!t1[i].equals(t2[i])) {
+	// fail("value not the same: " + t1[i] + " compared to: " + t2[i]);
+	// }
+	// }
+	// assertTrue(true);
+	// }
 }
