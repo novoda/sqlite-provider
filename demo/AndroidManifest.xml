@@ -42,8 +42,8 @@
       android:name=".ui.ViewShopActivity"
       android:label="@string/activity_label_view_shop" />
     <activity
-      android:name=".ui.FindRedFireworksActivity"
-      android:label="@string/activity_label_grouped_by_color" />
+      android:name=".ui.WellStockedShopActivity"
+      android:label="@string/activity_label_grouped_by_shop_id" />
     <activity
       android:name=".ui.FindThreeFireworksActivity"
       android:label="@string/activity_label_limit" />

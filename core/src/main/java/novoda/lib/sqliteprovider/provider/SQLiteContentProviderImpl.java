@@ -31,7 +31,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 	public SQLiteContentProviderImpl() {
 		logger = new ImplLogger();
 	}
-	
+
 	@Override
 	public boolean onCreate() {
 		super.onCreate();
@@ -46,7 +46,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 	protected SQLiteDatabase getReadableDatabase() {
 		return getDatabaseHelper().getReadableDatabase();
 	}
-	
+
 	@Override
 	protected SQLiteOpenHelper getDatabaseHelper(Context context) {
 		try {
@@ -56,7 +56,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 			throw new IllegalStateException(e.getMessage());
 		}
 	}
-	
+
 	@Override
 	protected Uri insertInTransaction(Uri uri, ContentValues values) {
 		long rowId = helper.insert(uri, values);
@@ -67,7 +67,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 		}
 		throw new SQLException("Failed to insert row into " + uri);
 	}
-	
+
 	@Override
 	protected int updateInTransaction(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		ContentValues insertValues = (values != null) ? new ContentValues(values) : new ContentValues();
@@ -120,7 +120,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 		final String limit = uri.getQueryParameter(LIMIT);
 
 		builder.setDistinct("true".equals(uri.getQueryParameter(DISTINCT)));
-		
+
 		final StringBuilder tableName = new StringBuilder(UriUtils.getItemDirID(uri));
 		builder.setTables(tableName.toString());
 		Map<String, String> autoproj = null;
@@ -143,7 +143,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 			logger.logAppendWhere(where);
 			builder.appendWhere(where);
 		}
-		
+
 		logger.logEnd(projection, selection, selectionArgs, sortOrder, builder, groupBy, having, limit, autoproj);
 
 		Cursor cursor = builder.query(getReadableDatabase(), projection, selection, selectionArgs, groupBy, having, sortOrder, limit);

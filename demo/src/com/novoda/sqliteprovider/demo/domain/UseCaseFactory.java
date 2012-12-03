@@ -6,14 +6,14 @@ import com.novoda.sqliteprovider.demo.util.Log;
 
 public class UseCaseFactory {
 
-	private UseCaseFactory(){
-	}
-	
-	public enum UseCase {
-		ADD, ONE_TO_MANY, PRIMARY_KEY_LOOKUP, SELECT_ALL, DISTINCT, LIMIT;
+	private UseCaseFactory() {
 	}
 
-	public static UseCaseInfo getInfo(UseCase useCase){
+	public enum UseCase {
+		ADD, ONE_TO_MANY, PRIMARY_KEY_LOOKUP, SELECT_ALL, DISTINCT, LIMIT, GROUP_HAVING;
+	}
+
+	public static UseCaseInfo getInfo(UseCase useCase) {
 		switch (useCase) {
 		case ADD:
 			return createUseCaseInfo(FireworkUriConstants.ADD_FIREWORK, RawSql.INSERT_FIREWORK);
@@ -27,8 +27,10 @@ public class UseCaseFactory {
 			return createUseCaseInfo(FireworkUriConstants.UNIQUE_SEARCH, RawSql.DISTINCT);
 		case LIMIT:
 			return createUseCaseInfo(FireworkUriConstants.LIMIT_3, RawSql.LIMIT);
+		case GROUP_HAVING:
+			return createUseCaseInfo(FireworkUriConstants.GROUP_BY_SEARCH, RawSql.GROUP_BY);
 		default:
-			Log.e("UseCase "+ useCase.toString() +" not found, returning null safe case.");
+			Log.e("UseCase " + useCase.toString() + " not found, returning null safe case.");
 			return UseCaseInfo.getNullSafe();
 		}
 	}
@@ -36,5 +38,5 @@ public class UseCaseFactory {
 	private static UseCaseInfo createUseCaseInfo(String uri, String sql) {
 		return new UseCaseInfo(uri, sql);
 	}
-	
+
 }

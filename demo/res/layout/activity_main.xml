@@ -33,7 +33,7 @@
       style="@style/match_w_wrap_h"
       android:layout_margin="@dimen/norm_spacing"
       android:onClick="onGroupFireworksByTypeAndHavingColorRedClick"
-      android:text="@string/button_main_group_fireworks_by_color" />
+      android:text="@string/button_main_group_fireworks_by_shop_id" />
 
     <Button
       style="@style/match_w_wrap_h"

@@ -17,46 +17,46 @@ import com.novoda.sqliteprovider.demo.provider.FireworkUriConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
 import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
-public class FindRedFireworksActivity extends NovodaActivity {
+public class WellStockedShopActivity extends NovodaActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Groups groups = getApp().getFireworkReader().getCountOfRedFireworksGroupedByShop();
-		
+
+		Groups groups = getApp().getFireworkReader().getShopsWithFireworkPricesAddingUpToOverForty();
+
 		view(groups);
 	}
-	
+
 	private void view(Groups groups) {
-		LinearLayout view = new LinearLayout(this);
-		view.setOrientation(LinearLayout.VERTICAL);
-		
-		addUriSqlView(view);
-		
-		for(Group group : groups){
+		LinearLayout root = new LinearLayout(this);
+		root.setOrientation(LinearLayout.VERTICAL);
+
+		addUriSqlView(root);
+
+		for (Group group : groups) {
 			LinearLayout row = new LinearLayout(this);
 			row.setOrientation(LinearLayout.HORIZONTAL);
-			
+
 			TextView shopTextView = new TextView(this);
-			shopTextView.setText("Shop ID: "+group.getShopId()+"  ");
+			shopTextView.setText("Shop ID: " + group.getShopId() + "  ");
 			row.addView(shopTextView, new LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
 
 			TextView countTextView = new TextView(this);
-			countTextView.setText("Red Firework count: "+group.getCount());
+			countTextView.setText("Total: " + group.getFormattedTotal());
 			row.addView(countTextView, new LayoutParams(WRAP_CONTENT, MATCH_PARENT));
-			
-			view.addView(row, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+
+			root.addView(row, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
 		}
-		addContentView(view, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+		addContentView(root, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 	}
 
-	private void addUriSqlView(LinearLayout view) { // TODO change to Fragment
-		View.inflate(this, R.layout.view_uri_sql, view);
-		
-		UriSqlView uriSqlView = (UriSqlView) view.findViewById(R.id.view_uri_sql);
+	private void addUriSqlView(LinearLayout root) { // TODO change to Fragment
+		View.inflate(this, R.layout.view_uri_sql, root);
+
+		UriSqlView uriSqlView = (UriSqlView) root.findViewById(R.id.view_uri_sql);
 		uriSqlView.setUri(FireworkUriConstants.GROUP_BY_SEARCH);
 		uriSqlView.setSql(RawSql.GROUP_BY);
 	}
-	
+
 }

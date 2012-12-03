@@ -45,7 +45,7 @@ public class MainActivity extends NovodaActivity implements DemoMenu {
 	@Override
 	@FromXML
 	public void onGroupFireworksByTypeAndHavingColorRedClick(View button) {
-		startActivity(FindRedFireworksActivity.class);
+		startActivity(WellStockedShopActivity.class);
 	}
 
 	@Override

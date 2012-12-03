@@ -100,10 +100,10 @@ public class FireworkReader {
 		return new Firework(name, color, type, noise, price);
 	}
 
-	public Groups getCountOfRedFireworksGroupedByShop() {
+	public Groups getShopsWithFireworkPricesAddingUpToOverForty() {
 		String group = Fireworks.COL_SHOP;
-		String having = Fireworks.COL_COLOR + "='Red'";
-		String[] selection = { "COUNT(" + Fireworks.COL_COLOR + ") AS count", Fireworks.COL_SHOP };
+		String having = "SUM (" + Fireworks.COL_PRICE + ") > 40";
+		String[] selection = { Fireworks.COL_SHOP, "SUM (" + Fireworks.COL_PRICE + ") as total" };
 		Cursor cursor = databaseReader.getGroupedByAndHaving(TBL_FIREWORKS, group, having, selection);
 
 		List<Group> data = populateGroupListWith(cursor);
@@ -117,7 +117,7 @@ public class FireworkReader {
 		List<Group> data = new ArrayList<Group>();
 		if (cursor.moveToFirst()) {
 			do {
-				int count = cursor.getInt(cursor.getColumnIndexOrThrow("count"));
+				double count = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
 				int shopId = cursor.getInt(cursor.getColumnIndexOrThrow(Fireworks.COL_SHOP));
 				data.add(new Group(count, shopId));
 			} while (cursor.moveToNext());

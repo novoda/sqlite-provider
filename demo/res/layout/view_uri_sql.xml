@@ -7,10 +7,12 @@
 
   <TextView
     android:id="@+id/view_uri_sql_uri"
-    style="@style/wrap_w_wrap_h" />
+    style="@style/wrap_w_wrap_h"
+    android:textColor="@color/uri" />
 
   <TextView
     android:id="@+id/view_uri_sql_sql"
-    style="@style/wrap_w_wrap_h" />
+    style="@style/wrap_w_wrap_h"
+    android:textColor="@color/sql" />
 
 </com.novoda.sqliteprovider.demo.ui.widget.UriSqlView>

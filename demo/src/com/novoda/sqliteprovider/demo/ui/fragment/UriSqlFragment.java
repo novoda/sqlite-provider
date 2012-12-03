@@ -18,27 +18,27 @@ public class UriSqlFragment extends Fragment {
 		View root = inflater.inflate(R.layout.fragment_uri_sql, container, false);
 
 		uriSqlView = (UriSqlView) root.findViewById(R.id.view_uri_sql);
-		
+
 		return root;
 	}
 
-	public void setInfo(UseCase useCase){
+	public void setInfo(UseCase useCase) {
 		setInfo(UseCaseFactory.getInfo(useCase));
 	}
-	
-	private void setInfo(UseCaseInfo info){
-		if(info.isValid()){
+
+	private void setInfo(UseCaseInfo info) {
+		if (info.isValid()) {
 			uriSqlView.setUri(info.getUri());
 			uriSqlView.setSql(info.getSql());
 		} else {
 			hide();
 		}
 	}
-	
+
 	private void hide() {
 		uriSqlView.setVisibility(View.GONE);
 	}
-	
+
 	public void updateSql(String sql) {
 		uriSqlView.setSql(sql);
 	}
