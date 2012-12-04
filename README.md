@@ -4,6 +4,7 @@ An Android library as ContentProvider for SQLite
 
 THIS IS A DUMP OF IDEAS - PARTIALLY IMPLEMENTED AT THE MOMENT (see demo project)
 
+Check the <a href="https://github.com/novoda/SQLiteProvider/wiki">WIKI</a> for further instruction
 
 
 The library is meant to augment the ContentProvider interface to fit SQLite in a more pronounced way. The aim is 
