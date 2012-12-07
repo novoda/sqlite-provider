@@ -15,10 +15,6 @@
   <packaging>apk</packaging>
   <version>1.0.0-SNAPSHOT</version>
 
-  <properties>
-    <eclipse.excludeArtifactIds>robotium,android-test</eclipse.excludeArtifactIds>
-  </properties>
-
   <dependencies>
 
     <dependency>

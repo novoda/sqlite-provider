@@ -15,10 +15,6 @@
   <packaging>apk</packaging>
   <version>1.0.0-SNAPSHOT</version>
 
-  <properties>
-    <eclipse.excludeArtifactIds>android,commons-codec,commons-logging,httpclient,opengl-api,httpcore,json,xpp3,xmlParserAPIs,imageloader-demo,junit,javassist,objenesis,h2</eclipse.excludeArtifactIds>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>com.novoda</groupId>
@@ -60,19 +56,6 @@
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
-    <plugins>
-      <plugin>
-        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-        <artifactId>android-maven-plugin</artifactId>
-        <extensions>true</extensions>
-        <version>3.4.1</version>
-        <configuration>
-          <sdk>
-            <platform>8</platform>
-          </sdk>
-        </configuration>
-      </plugin>
-    </plugins>
   </build>
 
 </project>
