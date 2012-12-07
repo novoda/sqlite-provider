@@ -24,3 +24,4 @@ local.properties
 .externalToolBuilders
 maven-eclipse.xml
 *.DS_Store
+/lint-results.xml
