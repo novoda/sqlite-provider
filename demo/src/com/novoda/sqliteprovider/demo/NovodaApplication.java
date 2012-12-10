@@ -25,14 +25,14 @@ public class NovodaApplication extends Application {
 		return databaseWriter;
 	}
 	
-	public FireworkReader getFireworkReader() {
+	public final FireworkReader getFireworkReader() {
 		if(fireworkReader == null){
 			fireworkReader = new FireworkReader(getDatabaseReader());
 		}
 		return fireworkReader;
 	}
 	
-	public FireworkWriter getFireworkWriter() {
+	public final FireworkWriter getFireworkWriter() {
 		if(fireworkWriter == null){
 			fireworkWriter = new FireworkWriter(getDatabaseWriter());
 		}

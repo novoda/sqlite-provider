@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+
+  <issue id="UnusedResources" >
+
+    <ignore path="res/raw/create.sql" /> <!-- lint is wrong it is used -->
+  </issue>
+
+</lint>
