@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="1" android:versionName="1.0"
-	package="novoda.lib.sqliteprovider.tests">
-	<application>
+  package="novoda.lib.sqliteprovider.tests"
+  android:versionCode="1"
+  android:versionName="1.0" >
 
-		<uses-library android:name="android.test.runner" />
+  <uses-sdk
+    android:minSdkVersion="3"
+    android:targetSdkVersion="16" />
 
-		<provider android:authorities="novoda.lib.sqliteprovider.provider.sqliteprovider"
-			android:name="novoda.lib.sqliteprovider.provider.SQLiteProvider" />
+  <application android:allowBackup="false" >
+    <uses-library android:name="android.test.runner" />
 
-		<provider android:authorities="novoda.lib.sqliteprovider.test"
-			android:name="novoda.lib.sqliteprovider.testproviders.TestProvider" />
+    <provider
+      android:name="novoda.lib.sqliteprovider.provider.SQLiteProvider"
+      android:authorities="novoda.lib.sqliteprovider.provider.sqliteprovider"
+      android:exported="false" />
+    <provider
+      android:name="novoda.lib.sqliteprovider.testproviders.TestProvider"
+      android:authorities="novoda.lib.sqliteprovider.test"
+      android:exported="false" />
+  </application>
 
-	</application>
-	<instrumentation android:name="android.test.InstrumentationTestRunner"
-		android:targetPackage="novoda.lib.sqliteprovider.tests" android:label="Tests for sqliteprovider" />
+  <instrumentation
+    android:name="android.test.InstrumentationTestRunner"
+    android:label="Tests for sqliteprovider"
+    android:targetPackage="novoda.lib.sqliteprovider.tests" />
+
 </manifest>

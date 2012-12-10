@@ -17,7 +17,8 @@
 
     <provider
       android:name="novoda.lib.sqliteprovider.testproviders.TestProvider"
-      android:authorities="novoda.lib.sqliteprovider.test" />
+      android:authorities="novoda.lib.sqliteprovider.test"
+      android:exported="false" />
   </application>
 
   <instrumentation
