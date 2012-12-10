@@ -10,18 +10,18 @@ import java.util.List;
 
 public class FireworkLoader extends AsyncTaskLoader<List<Firework>> {
 
-	public static final int LOADER_ID = 123;
+    public static final int LOADER_ID = 123;
 
-	private final FireworkReader fireworkReader;
+    private final FireworkReader fireworkReader;
 
-	public FireworkLoader(Context context, FireworkReader fireworkReader) {
-		super(context);
-		this.fireworkReader = fireworkReader;
-		forceLoad();
-	}
-	
-	@Override
-	public List<Firework> loadInBackground() {
-		return fireworkReader.getAll();
-	}
+    public FireworkLoader(Context context, FireworkReader fireworkReader) {
+        super(context);
+        this.fireworkReader = fireworkReader;
+        forceLoad();
+    }
+
+    @Override
+    public List<Firework> loadInBackground() {
+        return fireworkReader.getAll();
+    }
 }

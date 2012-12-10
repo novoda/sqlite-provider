@@ -9,39 +9,39 @@ import com.novoda.sqliteprovider.demo.R;
 
 public class UriSqlView extends LinearLayout {
 
-	private TextView uriTextView;
-	private TextView sqlTextView;
+    private TextView uriTextView;
+    private TextView sqlTextView;
 
-	public UriSqlView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init();
-	}
+    public UriSqlView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
 
-	public UriSqlView(Context context) {
-		super(context);
-		init();
-	}
+    public UriSqlView(Context context) {
+        super(context);
+        init();
+    }
 
-	private void init() {
+    private void init() {
 
-	}
+    }
 
-	@Override
-	protected void onFinishInflate() {
-		super.onFinishInflate();
-		uriTextView = (TextView) findViewById(R.id.view_uri_sql_uri);
-		sqlTextView = (TextView) findViewById(R.id.view_uri_sql_sql);
-	}
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        uriTextView = (TextView) findViewById(R.id.view_uri_sql_uri);
+        sqlTextView = (TextView) findViewById(R.id.view_uri_sql_sql);
+    }
 
-	public void setUri(String uri) {
-		if (uriTextView != null) {
-			uriTextView.setText(uri);
-		}
-	}
+    public void setUri(String uri) {
+        if (uriTextView != null) {
+            uriTextView.setText(uri);
+        }
+    }
 
-	public void setSql(String sql) {
-		if (sqlTextView != null) {
-			sqlTextView.setText(sql);
-		}
-	}
+    public void setSql(String sql) {
+        if (sqlTextView != null) {
+            sqlTextView.setText(sql);
+        }
+    }
 }

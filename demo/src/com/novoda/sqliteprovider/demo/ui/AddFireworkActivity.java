@@ -17,50 +17,50 @@ import com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment;
 
 public class AddFireworkActivity extends NovodaActivity implements AddFireworkListener, LoaderCallbacks<Firework> {
 
-	private UriSqlFragment uriSqlFragment;
-	private Firework firework;
+    private UriSqlFragment uriSqlFragment;
+    private Firework firework;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_firework);
-		
-		uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
-		uriSqlFragment.setInfo(UseCase.ADD);
-	}
-	
-	@Override
-	public void onEmptyInput() {
-		Toast.makeText(this, "Fill in the firework", Toast.LENGTH_SHORT).show();
-	}
-	
-	@Override
-	public void onAddClick(Firework firework) {
-		this.firework = firework;
-		getSupportLoaderManager().initLoader(FireworkSaver.LOADER_ID, null, this);
-	}
-	
-	@Override
-	public Loader<Firework> onCreateLoader(int id, Bundle args) {
-		return new FireworkSaver(this, getApp().getFireworkWriter(), firework);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_firework);
 
-	@Override
-	public void onLoadFinished(Loader<Firework> loader, Firework data) {
-		Toast.makeText(this, "Firework that goes "+ data.getNoise() +" added.", Toast.LENGTH_SHORT).show();
-		
-		uriSqlFragment.updateSql(createSQL(data));
-	}
+        uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
+        uriSqlFragment.setInfo(UseCase.ADD);
+    }
 
-	private String createSQL(Firework data) {
-		return TextUtils.replace(
-				RawSql.INSERT_FIREWORK, 
-				new String[]{"Na","Co","No", "Ft", "Pr","Sh"}, 
-				new CharSequence[]{data.getName(), data.getColor(), data.getNoise(), data.getType(), String.valueOf(data.getPrice()), "1"})
-				.toString();
-	}
+    @Override
+    public void onEmptyInput() {
+        Toast.makeText(this, "Fill in the firework", Toast.LENGTH_SHORT).show();
+    }
 
-	@Override
-	public void onLoaderReset(Loader<Firework> loader) {
-	}
+    @Override
+    public void onAddClick(Firework firework) {
+        this.firework = firework;
+        getSupportLoaderManager().initLoader(FireworkSaver.LOADER_ID, null, this);
+    }
+
+    @Override
+    public Loader<Firework> onCreateLoader(int id, Bundle args) {
+        return new FireworkSaver(this, getApp().getFireworkWriter(), firework);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Firework> loader, Firework data) {
+        Toast.makeText(this, "Firework that goes "+ data.getNoise() +" added.", Toast.LENGTH_SHORT).show();
+
+        uriSqlFragment.updateSql(createSQL(data));
+    }
+
+    private String createSQL(Firework data) {
+        return TextUtils.replace(
+                RawSql.INSERT_FIREWORK,
+                new String[]{"Na","Co","No", "Ft", "Pr","Sh"},
+                new CharSequence[]{data.getName(), data.getColor(), data.getNoise(), data.getType(), String.valueOf(data.getPrice()), "1"})
+                .toString();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Firework> loader) {
+    }
 }

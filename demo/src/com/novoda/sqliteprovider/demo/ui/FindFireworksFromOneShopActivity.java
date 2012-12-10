@@ -14,29 +14,29 @@ import com.novoda.sqliteprovider.demo.ui.input.OnPrimaryKeyInputError;
 
 public class FindFireworksFromOneShopActivity extends NovodaActivity implements OnPrimaryKeyInputError, OnShopFound {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_find_firework_from_one_shop);
-		
-		UriSqlFragment uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
-		uriSqlFragment.setInfo(UseCase.ONE_TO_MANY);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_find_firework_from_one_shop);
 
-	@Override
-	public void onPrimaryKeyInvalid() {
-		Toast.makeText(this, "Primary Key should be an int", Toast.LENGTH_SHORT).show();
-	}
-	
-	@Override
-	public void onShopFound(Shop shop) {
-		view(shop);
-	}
+        UriSqlFragment uriSqlFragment = (UriSqlFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_uri_sql);
+        uriSqlFragment.setInfo(UseCase.ONE_TO_MANY);
+    }
 
-	private void view(Shop shop) {
-		Intent intent = new Intent(this, ViewShopActivity.class);
-		intent.putExtra(ViewShopActivity.EXTRA_SHOP, shop);
-		intent.putExtra(ViewShopActivity.EXTRA_INFO, UseCase.ONE_TO_MANY);
-		startActivity(intent);
-	}
+    @Override
+    public void onPrimaryKeyInvalid() {
+        Toast.makeText(this, "Primary Key should be an int", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onShopFound(Shop shop) {
+        view(shop);
+    }
+
+    private void view(Shop shop) {
+        Intent intent = new Intent(this, ViewShopActivity.class);
+        intent.putExtra(ViewShopActivity.EXTRA_SHOP, shop);
+        intent.putExtra(ViewShopActivity.EXTRA_INFO, UseCase.ONE_TO_MANY);
+        startActivity(intent);
+    }
 }

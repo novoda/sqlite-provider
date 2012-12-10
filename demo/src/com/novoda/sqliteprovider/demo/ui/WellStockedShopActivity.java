@@ -19,44 +19,44 @@ import com.novoda.sqliteprovider.demo.ui.widget.UriSqlView;
 
 public class WellStockedShopActivity extends NovodaActivity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		Groups groups = getApp().getFireworkReader().getShopsWithFireworkPricesAddingUpToOverForty();
+        Groups groups = getApp().getFireworkReader().getShopsWithFireworkPricesAddingUpToOverForty();
 
-		view(groups);
-	}
+        view(groups);
+    }
 
-	private void view(Groups groups) {
-		LinearLayout root = new LinearLayout(this);
-		root.setOrientation(LinearLayout.VERTICAL);
+    private void view(Groups groups) {
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
 
-		addUriSqlView(root);
+        addUriSqlView(root);
 
-		for (Group group : groups) {
-			LinearLayout row = new LinearLayout(this);
-			row.setOrientation(LinearLayout.HORIZONTAL);
+        for (Group group : groups) {
+            LinearLayout row = new LinearLayout(this);
+            row.setOrientation(LinearLayout.HORIZONTAL);
 
-			TextView shopTextView = new TextView(this);
-			shopTextView.setText("Shop ID: " + group.getShopId() + "  ");
-			row.addView(shopTextView, new LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+            TextView shopTextView = new TextView(this);
+            shopTextView.setText("Shop ID: " + group.getShopId() + "  ");
+            row.addView(shopTextView, new LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
 
-			TextView countTextView = new TextView(this);
-			countTextView.setText("Total: " + group.getFormattedTotal());
-			row.addView(countTextView, new LayoutParams(WRAP_CONTENT, MATCH_PARENT));
+            TextView countTextView = new TextView(this);
+            countTextView.setText("Total: " + group.getFormattedTotal());
+            row.addView(countTextView, new LayoutParams(WRAP_CONTENT, MATCH_PARENT));
 
-			root.addView(row, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-		}
-		addContentView(root, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
-	}
+            root.addView(row, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+        }
+        addContentView(root, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+    }
 
-	private void addUriSqlView(LinearLayout root) { // TODO change to Fragment
-		View.inflate(this, R.layout.view_uri_sql, root);
+    private void addUriSqlView(LinearLayout root) { // TODO change to Fragment
+        View.inflate(this, R.layout.view_uri_sql, root);
 
-		UriSqlView uriSqlView = (UriSqlView) root.findViewById(R.id.view_uri_sql);
-		uriSqlView.setUri(FireworkUriConstants.GROUP_BY_SEARCH);
-		uriSqlView.setSql(RawSql.GROUP_BY);
-	}
+        UriSqlView uriSqlView = (UriSqlView) root.findViewById(R.id.view_uri_sql);
+        uriSqlView.setUri(FireworkUriConstants.GROUP_BY_SEARCH);
+        uriSqlView.setSql(RawSql.GROUP_BY);
+    }
 
 }

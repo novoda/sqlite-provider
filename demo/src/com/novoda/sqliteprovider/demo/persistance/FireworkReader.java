@@ -15,115 +15,115 @@ import java.util.List;
 
 public class FireworkReader {
 
-	private final DatabaseReader databaseReader;
+    private final DatabaseReader databaseReader;
 
-	public FireworkReader(DatabaseReader databaseReader) {
-		this.databaseReader = databaseReader;
-	}
+    public FireworkReader(DatabaseReader databaseReader) {
+        this.databaseReader = databaseReader;
+    }
 
-	public Firework getFirework(int primaryKey) {
-		Cursor cursor = databaseReader.getFrom(TBL_FIREWORKS, primaryKey);
+    public Firework getFirework(int primaryKey) {
+        Cursor cursor = databaseReader.getFrom(TBL_FIREWORKS, primaryKey);
 
-		if (cursor.moveToFirst()) {
-			Firework firework = getFirework(cursor);
+        if (cursor.moveToFirst()) {
+            Firework firework = getFirework(cursor);
 
-			cursor.close();
+            cursor.close();
 
-			return firework;
-		}
-		Log.e("No data in the cursor. Returning null safe firework.");
-		return Firework.getNullSafeFirework();
-	}
+            return firework;
+        }
+        Log.e("No data in the cursor. Returning null safe firework.");
+        return Firework.getNullSafeFirework();
+    }
 
-	public List<Firework> getFireworksForShop(int primaryKey) {
-		Cursor cursor = databaseReader.getChildren(TBL_SHOPS, TBL_FIREWORKS, primaryKey);
+    public List<Firework> getFireworksForShop(int primaryKey) {
+        Cursor cursor = databaseReader.getChildren(TBL_SHOPS, TBL_FIREWORKS, primaryKey);
 
-		List<Firework> fireworks = populateListWith(cursor);
+        List<Firework> fireworks = populateListWith(cursor);
 
-		cursor.close();
+        cursor.close();
 
-		return fireworks;
-	}
+        return fireworks;
+    }
 
-	public List<Firework> getLimitedNumberOfFireworks(int limit) {
-		Cursor cursor = databaseReader.getLimited(TBL_FIREWORKS, limit);
+    public List<Firework> getLimitedNumberOfFireworks(int limit) {
+        Cursor cursor = databaseReader.getLimited(TBL_FIREWORKS, limit);
 
-		List<Firework> fireworks = populateListWith(cursor);
+        List<Firework> fireworks = populateListWith(cursor);
 
-		cursor.close();
+        cursor.close();
 
-		return fireworks;
-	}
+        return fireworks;
+    }
 
-	public List<Firework> getUniqueFireworks() {
-		String[] selection = { Fireworks.COL_NAME, Fireworks.COL_TYPE, Fireworks.COL_COLOR, Fireworks.COL_NOISE, Fireworks.COL_PRICE };
+    public List<Firework> getUniqueFireworks() {
+        String[] selection = { Fireworks.COL_NAME, Fireworks.COL_TYPE, Fireworks.COL_COLOR, Fireworks.COL_NOISE, Fireworks.COL_PRICE };
 
-		Cursor cursor = databaseReader.getDistinct(TBL_FIREWORKS, selection);
+        Cursor cursor = databaseReader.getDistinct(TBL_FIREWORKS, selection);
 
-		List<Firework> fireworks = populateListWith(cursor);
+        List<Firework> fireworks = populateListWith(cursor);
 
-		cursor.close();
+        cursor.close();
 
-		return fireworks;
-	}
+        return fireworks;
+    }
 
-	public List<Firework> getAll() {
-		Cursor cursor = databaseReader.getAllFrom(TBL_FIREWORKS);
+    public List<Firework> getAll() {
+        Cursor cursor = databaseReader.getAllFrom(TBL_FIREWORKS);
 
-		List<Firework> fireworks = populateListWith(cursor);
+        List<Firework> fireworks = populateListWith(cursor);
 
-		cursor.close();
+        cursor.close();
 
-		return fireworks;
-	}
+        return fireworks;
+    }
 
-	private List<Firework> populateListWith(Cursor cursor) {
-		List<Firework> data = new ArrayList<Firework>();
-		if (cursor.moveToFirst()) {
-			do {
-				Firework firework = getFirework(cursor);
-				data.add(firework);
-			} while (cursor.moveToNext());
-		} else {
-			Log.e("No data in the cursor.");
-		}
-		return data;
-	}
+    private List<Firework> populateListWith(Cursor cursor) {
+        List<Firework> data = new ArrayList<Firework>();
+        if (cursor.moveToFirst()) {
+            do {
+                Firework firework = getFirework(cursor);
+                data.add(firework);
+            } while (cursor.moveToNext());
+        } else {
+            Log.e("No data in the cursor.");
+        }
+        return data;
+    }
 
-	private Firework getFirework(Cursor cursor) {
-		String name = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_NAME));
-		String color = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_COLOR));
-		String type = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_NOISE));
-		String noise = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_TYPE));
-		double price = cursor.getDouble(cursor.getColumnIndexOrThrow(Fireworks.COL_PRICE));
+    private Firework getFirework(Cursor cursor) {
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_NAME));
+        String color = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_COLOR));
+        String type = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_NOISE));
+        String noise = cursor.getString(cursor.getColumnIndexOrThrow(Fireworks.COL_TYPE));
+        double price = cursor.getDouble(cursor.getColumnIndexOrThrow(Fireworks.COL_PRICE));
 
-		return new Firework(name, color, type, noise, price);
-	}
+        return new Firework(name, color, type, noise, price);
+    }
 
-	public Groups getShopsWithFireworkPricesAddingUpToOverForty() {
-		String group = Fireworks.COL_SHOP;
-		String having = "SUM (" + Fireworks.COL_PRICE + ") > 40";
-		String[] selection = { Fireworks.COL_SHOP, "SUM (" + Fireworks.COL_PRICE + ") as total" };
-		Cursor cursor = databaseReader.getGroupedByAndHaving(TBL_FIREWORKS, group, having, selection);
+    public Groups getShopsWithFireworkPricesAddingUpToOverForty() {
+        String group = Fireworks.COL_SHOP;
+        String having = "SUM (" + Fireworks.COL_PRICE + ") > 40";
+        String[] selection = { Fireworks.COL_SHOP, "SUM (" + Fireworks.COL_PRICE + ") as total" };
+        Cursor cursor = databaseReader.getGroupedByAndHaving(TBL_FIREWORKS, group, having, selection);
 
-		List<Group> data = populateGroupListWith(cursor);
+        List<Group> data = populateGroupListWith(cursor);
 
-		cursor.close();
+        cursor.close();
 
-		return new Groups(data);
-	}
+        return new Groups(data);
+    }
 
-	private List<Group> populateGroupListWith(Cursor cursor) {
-		List<Group> data = new ArrayList<Group>();
-		if (cursor.moveToFirst()) {
-			do {
-				double count = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
-				int shopId = cursor.getInt(cursor.getColumnIndexOrThrow(Fireworks.COL_SHOP));
-				data.add(new Group(count, shopId));
-			} while (cursor.moveToNext());
-		} else {
-			Log.e("No data in the cursor.");
-		}
-		return data;
-	}
+    private List<Group> populateGroupListWith(Cursor cursor) {
+        List<Group> data = new ArrayList<Group>();
+        if (cursor.moveToFirst()) {
+            do {
+                double count = cursor.getDouble(cursor.getColumnIndexOrThrow("total"));
+                int shopId = cursor.getInt(cursor.getColumnIndexOrThrow(Fireworks.COL_SHOP));
+                data.add(new Group(count, shopId));
+            } while (cursor.moveToNext());
+        } else {
+            Log.e("No data in the cursor.");
+        }
+        return data;
+    }
 }

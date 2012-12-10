@@ -5,25 +5,25 @@ import java.util.List;
 
 public class Shop implements Serializable {
 
-	private final String name;
-	private final String postcode;
-	private final List<Firework> fireworks;
-	
-	public Shop(String name, String postcode, List<Firework> fireworks) {
-		this.name = name;
-		this.postcode = postcode;
-		this.fireworks = fireworks;
-	}
+    private final String name;
+    private final String postcode;
+    private final List<Firework> fireworks;
 
-	public String getName() {
-		return name;
-	}
+    public Shop(String name, String postcode, List<Firework> fireworks) {
+        this.name = name;
+        this.postcode = postcode;
+        this.fireworks = fireworks;
+    }
 
-	public String getPostcode() {
-		return postcode;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public List<Firework> getFireworks() {
-		return fireworks;
-	}
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public List<Firework> getFireworks() {
+        return fireworks;
+    }
 }

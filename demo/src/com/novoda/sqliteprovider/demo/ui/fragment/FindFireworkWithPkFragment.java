@@ -14,64 +14,64 @@ import com.novoda.sqliteprovider.demo.ui.input.OnPrimaryKeyInputError;
 
 public class FindFireworkWithPkFragment extends Fragment {
 
-	public interface OnFireworkFound {
-		void onFireworkFound(Firework firework);
-	}
+    public interface OnFireworkFound {
+        void onFireworkFound(Firework firework);
+    }
 
-	private EditText primaryKeyEditText;
+    private EditText primaryKeyEditText;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View root = inflater.inflate(R.layout.fragment_find_firework_with_pk, container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_find_firework_with_pk, container, false);
 
-		root.findViewById(R.id.find_firework_with_pk_button_find).setOnClickListener(onFindButtonClick);
-		primaryKeyEditText = (EditText) root.findViewById(R.id.find_firework_with_pk_input_primary_key);
+        root.findViewById(R.id.find_firework_with_pk_button_find).setOnClickListener(onFindButtonClick);
+        primaryKeyEditText = (EditText) root.findViewById(R.id.find_firework_with_pk_input_primary_key);
 
-		return root;
-	}
+        return root;
+    }
 
-	private final OnClickListener onFindButtonClick = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			onFindFireworkWithPkClick();
-		}
-	};
+    private final OnClickListener onFindButtonClick = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onFindFireworkWithPkClick();
+        }
+    };
 
-	public void onFindFireworkWithPkClick() {
-		if (userHasEnteredSomething()) {
-			try {
-				int primaryKey = getPrimaryKey();
+    public void onFindFireworkWithPkClick() {
+        if (userHasEnteredSomething()) {
+            try {
+                int primaryKey = getPrimaryKey();
 
-				Firework firework = getFirework(primaryKey);
+                Firework firework = getFirework(primaryKey);
 
-				informActivityFireworkFound(firework);
-			} catch (NumberFormatException e) {
-				informActivityPublicKeyInvalid();
-			}
-		}
-	}
+                informActivityFireworkFound(firework);
+            } catch (NumberFormatException e) {
+                informActivityPublicKeyInvalid();
+            }
+        }
+    }
 
-	private boolean userHasEnteredSomething() {
-		return !TextUtils.isEmpty(primaryKeyEditText.getText());
-	}
+    private boolean userHasEnteredSomething() {
+        return !TextUtils.isEmpty(primaryKeyEditText.getText());
+    }
 
-	private int getPrimaryKey() {
-		return Integer.parseInt(primaryKeyEditText.getText().toString());
-	}
+    private int getPrimaryKey() {
+        return Integer.parseInt(primaryKeyEditText.getText().toString());
+    }
 
-	private Firework getFirework(int primaryKey) {
-		return ((NovodaActivity) getActivity()).getApp().getFireworkReader().getFirework(primaryKey);
-	}
+    private Firework getFirework(int primaryKey) {
+        return ((NovodaActivity) getActivity()).getApp().getFireworkReader().getFirework(primaryKey);
+    }
 
-	private void informActivityFireworkFound(Firework firework) {
-		if (getActivity() instanceof OnFireworkFound) {
-			((OnFireworkFound) getActivity()).onFireworkFound(firework);
-		}
-	}
+    private void informActivityFireworkFound(Firework firework) {
+        if (getActivity() instanceof OnFireworkFound) {
+            ((OnFireworkFound) getActivity()).onFireworkFound(firework);
+        }
+    }
 
-	private void informActivityPublicKeyInvalid() {
-		if (getActivity() instanceof OnPrimaryKeyInputError) {
-			((OnPrimaryKeyInputError) getActivity()).onPrimaryKeyInvalid();
-		}
-	}
+    private void informActivityPublicKeyInvalid() {
+        if (getActivity() instanceof OnPrimaryKeyInputError) {
+            ((OnPrimaryKeyInputError) getActivity()).onPrimaryKeyInvalid();
+        }
+    }
 }
