@@ -11,9 +11,9 @@ public final class SQLiteUtil {
     private static final short UPDATE = 2;
 
     private SQLiteUtil() {
-		// Util Class
-	}
-    
+        // Util Class
+    }
+
     public static String[] getTriggers(final String parentTable, final String parentPKName,
             final String childTable, final String parentFKName) {
         return new String[] {
@@ -44,17 +44,17 @@ public final class SQLiteUtil {
         String typeString = null;
         buf.append("CREATE TRIGGER ");
         switch (type) {
-            case DELETE:
-                typeString = "DELETE";
-                break;
-            case INSERT:
-                typeString = "INSERT";
-                break;
-            case UPDATE:
-                typeString = "UPDATE";
-                break;
-            default:
-                throw new IllegalStateException("type must be valid");
+        case DELETE:
+            typeString = "DELETE";
+            break;
+        case INSERT:
+            typeString = "INSERT";
+            break;
+        case UPDATE:
+            typeString = "UPDATE";
+            break;
+        default:
+            throw new IllegalStateException("type must be valid");
         }
         buf.append(typeString.toLowerCase()).append("_").append(parentTable);
         buf.append(" BEFORE ").append(typeString).append(" ON ").append(parentTable).append(

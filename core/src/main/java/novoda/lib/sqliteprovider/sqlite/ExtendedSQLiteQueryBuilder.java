@@ -67,7 +67,7 @@ public class ExtendedSQLiteQueryBuilder {
 
     public String buildQuery(String[] projectionIn, String selection, String[] selectionArgs,
             String groupBy, String having, String sortOrder, String limit) {
-        
+
         return delegate.buildQuery(projectionIn, selection, selectionArgs, groupBy, having,
                 sortOrder, limit);
     }
@@ -76,7 +76,7 @@ public class ExtendedSQLiteQueryBuilder {
             Set<String> columnsPresentInTable, int computedColumnsOffset,
             String typeDiscriminatorValue, String selection, String[] selectionArgs,
             String groupBy, String having) {
-        
+
         return delegate.buildUnionSubQuery(typeDiscriminatorColumn, unionColumns,
                 columnsPresentInTable, computedColumnsOffset, typeDiscriminatorValue, selection,
                 selectionArgs, groupBy, having);
@@ -103,7 +103,7 @@ public class ExtendedSQLiteQueryBuilder {
     }
 
     @Override
-	public String toString() {
+    public String toString() {
         return delegate.toString();
     }
 }

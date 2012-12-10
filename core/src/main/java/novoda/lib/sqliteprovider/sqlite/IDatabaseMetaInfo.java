@@ -15,7 +15,7 @@ public interface IDatabaseMetaInfo {
     List<String> getTables();
 
     List<String> getForeignTables(String table);
-    
+
     List<String> getUniqueConstrains(String table);
 
     Map<String, String> getProjectionMap(String parent, String... foreignTables);

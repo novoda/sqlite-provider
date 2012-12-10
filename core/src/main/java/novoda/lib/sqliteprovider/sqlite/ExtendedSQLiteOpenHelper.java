@@ -72,7 +72,7 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onCreate(db);
     }
-    
+
     @Override
     public Map<String, String> getProjectionMap(String parent, String... foreignTables) {
         return DBUtils.getProjectionMap(getReadableDatabase(), parent, foreignTables);

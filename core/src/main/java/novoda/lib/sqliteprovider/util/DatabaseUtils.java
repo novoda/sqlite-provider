@@ -1,12 +1,12 @@
 
 package novoda.lib.sqliteprovider.util;
 
-import novoda.rest.database.SQLiteTableCreator;
-import novoda.rest.database.SQLiteType;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import novoda.rest.database.SQLiteTableCreator;
+import novoda.rest.database.SQLiteType;
 
 import java.util.Map.Entry;
 
@@ -38,8 +38,8 @@ public class DatabaseUtils extends android.database.DatabaseUtils {
 
         StringBuilder sql = new StringBuilder();
         sql.append("CREATE TABLE IF NOT EXISTS ").append("\"" + creator.getTableName() + "\"")
-                .append(" (").append(primaryKey).append(" ").append(primaryKeyType.name())
-                .append(" PRIMARY KEY").append(((shouldAutoincrement) ? " AUTOINCREMENT " : " "));
+        .append(" (").append(primaryKey).append(" ").append(primaryKeyType.name())
+        .append(" PRIMARY KEY").append(((shouldAutoincrement) ? " AUTOINCREMENT " : " "));
 
         for (String f : creator.getTableFields()) {
             if (f.equals(primaryKey)) {

@@ -5,9 +5,9 @@ import android.net.Uri;
 public class SQLiteUri {
 
     private Uri uri;
-    
+
     public SQLiteUri (Uri uri) {
-       this.uri = uri;
+        this.uri = uri;
     }
 
     public void setUri(Uri uri) {

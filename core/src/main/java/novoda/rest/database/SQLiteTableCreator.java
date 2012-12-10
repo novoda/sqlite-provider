@@ -4,7 +4,7 @@ package novoda.rest.database;
 /**
  * Definition of the methods needed to create a table out of an object - will
  * mostly likely be a cursor.
- * 
+ *
  * @author Carl-Gustaf Harroch
  */
 public interface SQLiteTableCreator {
@@ -25,13 +25,13 @@ public interface SQLiteTableCreator {
 
     // Could all this be put in a SQLiteTableCreator?
     boolean isOneToMany();
-    
+
     String getParentColumnName();
-    
+
     SQLiteType getParentType();
-    
+
     String getParentTableName();
-    
+
     String getParentPrimaryKey();
     // End
 
@@ -42,6 +42,6 @@ public interface SQLiteTableCreator {
     String getTableName();
 
     String[] getTableFields();
-    
+
     String[] getTriggers();
 }

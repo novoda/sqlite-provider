@@ -202,17 +202,17 @@ public abstract class SQLiteContentProvider extends ContentProvider implements S
     }
 
     @Override
-	public void onBegin() {
+    public void onBegin() {
         onBeginTransaction();
     }
 
     @Override
-	public void onCommit() {
+    public void onCommit() {
         beforeTransactionCommit();
     }
 
     @Override
-	public void onRollback() {
+    public void onRollback() {
         // not used
     }
 

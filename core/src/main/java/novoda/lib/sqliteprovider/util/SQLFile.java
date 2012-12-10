@@ -15,7 +15,7 @@ public class SQLFile {
     private boolean inComment = false;
 
     public void parse(Reader in) throws IOException {
-    	BufferedReader reader = new BufferedReader(in);
+        BufferedReader reader = new BufferedReader(in);
         statements = new ArrayList<String>();
         String line = null;
         while ((line = reader.readLine()) != null) {

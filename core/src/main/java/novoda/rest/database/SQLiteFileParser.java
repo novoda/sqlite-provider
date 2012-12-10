@@ -9,65 +9,65 @@ import java.util.Iterator;
  */
 public class SQLiteFileParser implements Iterator<String>, Iterable<String> {
 
-	private final BufferedReader br;
+    private final BufferedReader br;
 
-	private String currentLine = null;
+    private String currentLine = null;
 
-	private boolean inHasNext = false;
+    private boolean inHasNext = false;
 
-	public SQLiteFileParser(InputStream in) {
-		br = new BufferedReader(new InputStreamReader(in));
-	}
+    public SQLiteFileParser(InputStream in) {
+        br = new BufferedReader(new InputStreamReader(in));
+    }
 
-	@Override
-	public Iterator<String> iterator() {
-		return this;
-	}
+    @Override
+    public Iterator<String> iterator() {
+        return this;
+    }
 
-	@Override
-	public boolean hasNext() {
-		try {
-			inHasNext  = true;
-			currentLine = getNextSQL();
-			return currentLine != null;
-		} catch (IOException e) {
-			return false;
-		}
-	}
+    @Override
+    public boolean hasNext() {
+        try {
+            inHasNext  = true;
+            currentLine = getNextSQL();
+            return currentLine != null;
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
-	@Override
-	public String next() {
-		try {
-			if (inHasNext) {
-				inHasNext = false;
-				return currentLine;
-			}
-			return getNextSQL();
-		} catch (IOException e) {
-			return null;
-		}
-	}
+    @Override
+    public String next() {
+        try {
+            if (inHasNext) {
+                inHasNext = false;
+                return currentLine;
+            }
+            return getNextSQL();
+        } catch (IOException e) {
+            return null;
+        }
+    }
 
-	private String getNextSQL() throws IOException {
-		currentLine = br.readLine();
-		if (currentLine != null
-				&& (currentLine.startsWith("--") || currentLine.trim().length() == 0)) {
-			return getNextSQL();
-		}
-		return currentLine;
-	}
+    private String getNextSQL() throws IOException {
+        currentLine = br.readLine();
+        if (currentLine != null
+                && (currentLine.startsWith("--") || currentLine.trim().length() == 0)) {
+            return getNextSQL();
+        }
+        return currentLine;
+    }
 
-	@Override
-	public void remove() {
-		throw new UnsupportedOperationException("not supported");
-	}
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException("not supported");
+    }
 
-	public void close() {
-		try {
-			br.close();
-		} catch (IOException e) {
-			// do nothing
-		}
-	}
+    public void close() {
+        try {
+            br.close();
+        } catch (IOException e) {
+            // do nothing
+        }
+    }
 
 }

@@ -20,13 +20,13 @@ public final class DBUtils {
     private static final String PRGAMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
 
     private static List<String> defaultTables = Arrays.asList(new String[] {
-        "android_metadata"
+            "android_metadata"
     });
 
     private DBUtils(){
-    	// Util class
+        // Util class
     }
-    
+
     public static List<String> getForeignTables(SQLiteDatabase db, String table) {
         final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
         List<String> tables = getTables(db);
@@ -99,7 +99,7 @@ public final class DBUtils {
 
     /**
      * Gets the version of SQLite used by Android.
-     * 
+     *
      * @return the SQLite version
      */
     public static String getSQLiteVersion() {

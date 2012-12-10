@@ -129,7 +129,7 @@ public class Log {
                 String selection, String[] selectionArgs, String sortOrder, ContentValues values) {
 
             StringBuilder builder = new StringBuilder("==== Content Provider Logger ====")
-                    .append('\n');
+            .append('\n');
             builder.append(type.name()).append(" request received").append('\n');
             builder.append("Uri: ").append(uri.toString()).append('\n');
 
@@ -143,7 +143,7 @@ public class Log {
 
             if (selectionArgs != null) {
                 builder.append("Selection Argument: ").append(Arrays.toString(selectionArgs))
-                        .append('\n');
+                .append('\n');
             }
 
             if (sortOrder != null) {

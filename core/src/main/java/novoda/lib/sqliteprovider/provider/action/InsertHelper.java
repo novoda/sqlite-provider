@@ -13,7 +13,7 @@ import novoda.lib.sqliteprovider.util.UriUtils;
 /**
  * Ability to do an Upsert rather then insert/replace as we loose the
  * relationship with the foreign keys.
- * 
+ *
  * @author acsia
  */
 public class InsertHelper {
@@ -50,8 +50,8 @@ public class InsertHelper {
         long rowId = -1;
         int update = dbHelper.getWritableDatabase().update(table, values, constrain + "=?",
                 new String[] {
-                    values.getAsString(constrain)
-                });
+                values.getAsString(constrain)
+        });
 
         if (Log.Provider.verboseLoggingEnabled()) {
             Log.Provider.v("Constrain " + constrain + " yield " + update);
@@ -64,7 +64,7 @@ public class InsertHelper {
 
     /**
      * Will get the Row id from the latest update.
-     * 
+     *
      * @param table
      * @param constrain
      * @param values
@@ -72,9 +72,9 @@ public class InsertHelper {
      */
     private long getRowIdForUpdate(String table, String constrain, ContentValues values) {
         final Cursor cur = dbHelper.getReadableDatabase().query(table, new String[] {
-            "_id"
+                "_id"
         }, constrain + "=?", new String[] {
-            values.getAsString(constrain)
+                values.getAsString(constrain)
         }, null, null, null);
         if (!cur.moveToFirst()) {
             return -1;
@@ -88,7 +88,7 @@ public class InsertHelper {
 
     protected void appendParentReference(Uri uri, ContentValues insertValues) {
         if (UriUtils.hasParent(uri) && !insertValues.containsKey(UriUtils.getParentId(uri) + "_id")) {
-        	insertValues.put(UriUtils.getParentColumnName(uri) + "_id", UriUtils.getParentId(uri));
+            insertValues.put(UriUtils.getParentColumnName(uri) + "_id", UriUtils.getParentId(uri));
         }
     }
 }

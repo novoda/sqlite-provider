@@ -12,7 +12,7 @@ public class ContentProviderTest extends AndroidTestCase {
     }
 
     public void testMapping() throws Exception {
-    	Cursor cursor = getContext().getContentResolver().query(
+        Cursor cursor = getContext().getContentResolver().query(
                 Uri.parse("content://novoda.lib.sqliteprovider.test/childs?expand=parents"), null,
                 null, null, null);
         assertTrue(cursor.getColumnIndexOrThrow("childs__id") > -1);
