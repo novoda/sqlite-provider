@@ -81,16 +81,16 @@ public class MigrationsTest {
                 new ByteArrayInputStream(execute.getBytes("UTF-8")));
 
         Migrations.migrate(db, manager, "sql");
-        
+
         //verify(db, times(3)).execSQL(anyString());
         verify(db).setVersion(123456);
     }
-    
+
     @Test
     public void testNoFiles() throws IOException {
         when(db.getVersion()).thenReturn(0);
         AssetManager manager = mock(AssetManager.class);
-        when(manager.list(anyString())).thenReturn(new String[] {          
+        when(manager.list(anyString())).thenReturn(new String[] {
         });
         Migrations.migrate(db, manager, "sql");
     }

@@ -5,19 +5,18 @@ import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import novoda.lib.sqliteprovider.util.RoboRunner;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import novoda.lib.sqliteprovider.util.RoboRunner;
+
 import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.*;
 
 @RunWith(RoboRunner.class)
 public class ExtendedSQLiteQueryBuilderTest {
@@ -41,8 +40,8 @@ public class ExtendedSQLiteQueryBuilderTest {
         when(qb.getTables()).thenReturn("test");
         builder.addInnerJoin("groups", "anothers");
         verify(qb)
-                .setTables(
-                        "test LEFT JOIN groups ON test.group_id=groups._id LEFT JOIN anothers ON test.another_id=anothers._id");
+        .setTables(
+                "test LEFT JOIN groups ON test.group_id=groups._id LEFT JOIN anothers ON test.another_id=anothers._id");
     }
 
     @Test(expected = IllegalStateException.class)

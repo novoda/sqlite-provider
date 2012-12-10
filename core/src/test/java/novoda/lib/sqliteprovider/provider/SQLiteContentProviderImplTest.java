@@ -21,14 +21,14 @@ public class SQLiteContentProviderImplTest {
     }
 
     public void testInsertWithConflictShouldUpdateRatherThenInsert() throws Exception {
-    //    provider.insertInTransaction(Uri.parse("content://test.com/test"), values)
+        //    provider.insertInTransaction(Uri.parse("content://test.com/test"), values)
     }
 
     public class SQLiteContentProviderImplT extends SQLiteContentProviderImpl {
         @Override
-		protected SQLiteDatabase getWritableDatabase() {
+        protected SQLiteDatabase getWritableDatabase() {
             return db;
         }
-        
+
     }
 }

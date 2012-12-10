@@ -8,9 +8,9 @@ import com.xtremelabs.robolectric.internal.Implements;
 @Implements(DatabaseUtils.class)
 public class ShadowDatabaseUtils extends com.xtremelabs.robolectric.shadows.ShadowDatabaseUtils {
 
-	@Implementation
-	public static void appendEscapedSQLString(StringBuilder sb, String sqlString){
-		sb.append('\'');
+    @Implementation
+    public static void appendEscapedSQLString(StringBuilder sb, String sqlString){
+        sb.append('\'');
         if (sqlString.indexOf('\'') != -1) {
             int length = sqlString.length();
             for (int i = 0; i < length; i++) {
@@ -23,6 +23,6 @@ public class ShadowDatabaseUtils extends com.xtremelabs.robolectric.shadows.Shad
         } else
             sb.append(sqlString);
         sb.append('\'');
-	}
-	
+    }
+
 }
