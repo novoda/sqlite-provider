@@ -17,12 +17,14 @@ public class DBUtilsTest extends AndroidTestCase {
     private static final String CREATE_TABLE_WITH_CONSTRAIN = "CREATE TABLE t(id INTEGER, const TEXT UNIQUE NOT NULL);";
 
     @Override
-    protected void setUp() {
+    protected void setUp() throws Exception {
+        super.setUp();
         setContext(new RenamingDelegatingContext(getContext(), "_test_"));
     }
 
     @Override
-    protected void tearDown() {
+    protected void tearDown() throws Exception {
+        super.tearDown();
         for (String db : getContext().databaseList()) {
             getContext().deleteDatabase(db);
         }
