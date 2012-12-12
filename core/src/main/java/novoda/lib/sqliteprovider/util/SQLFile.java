@@ -60,8 +60,7 @@ public class SQLFile {
         FileReader reader = new FileReader(sqlfile);
         SQLFile file = new SQLFile();
         file.parse(reader);
-        List<String> statements = file.getStatements();
         reader.close();
-        return statements;
+        return file.getStatements();
     }
 }
