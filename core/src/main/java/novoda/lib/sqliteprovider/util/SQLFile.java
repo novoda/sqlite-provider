@@ -58,13 +58,13 @@ public class SQLFile {
 
     public static List<String> statementsFrom(File sqlfile) throws IOException {
         FileReader reader = null;
-        try{
+        try {
             reader = new FileReader(sqlfile);
             SQLFile file = new SQLFile();
             file.parse(reader);
             return file.getStatements();
-        } finally{
-            if(reader != null){
+        } finally {
+            if (reader != null) {
                 reader.close();
             }
         }
