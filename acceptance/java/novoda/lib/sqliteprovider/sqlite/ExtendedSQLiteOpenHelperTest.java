@@ -6,19 +6,19 @@ import android.database.sqlite.SQLiteException;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.Suppress;
 
-import java.io.IOException;
-
 public class ExtendedSQLiteOpenHelperTest extends AndroidTestCase {
 
     private ExtendedSQLiteOpenHelper helper;
 
     @Override
-    protected void setUp() throws IOException {
+    protected void setUp() throws Exception {
+        super.setUp();
         helper = new ExtendedSQLiteOpenHelper(getContext());
     }
 
     @Override
-    protected void tearDown() {
+    protected void tearDown() throws Exception {
+        super.tearDown();
         for (String db : getContext().databaseList()) {
             getContext().deleteDatabase(db);
         }
