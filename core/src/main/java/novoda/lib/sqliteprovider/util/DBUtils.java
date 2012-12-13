@@ -105,12 +105,12 @@ public final class DBUtils {
     public static String getSQLiteVersion() {
         final Cursor cursor = SQLiteDatabase.openOrCreateDatabase(":memory:", null).rawQuery(
                 "select sqlite_version() AS sqlite_version", null);
-        String sqliteVersion = "";
+        StringBuilder sqliteVersion = new StringBuilder();
         while (cursor.moveToNext()) {
-            sqliteVersion += cursor.getString(0);
+            sqliteVersion.append(cursor.getString(0));
         }
         cursor.close();
-        return sqliteVersion;
+        return sqliteVersion.toString();
     }
 
     public static List<String> getUniqueConstrains(SQLiteDatabase db, String table) {
