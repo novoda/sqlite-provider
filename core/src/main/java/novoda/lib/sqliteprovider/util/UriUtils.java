@@ -55,7 +55,7 @@ public class UriUtils {
 
     public static boolean isItem(final String rootPath, final Uri uri) {
         final List<String> segments = uri.getPathSegments();
-        if (rootPath != null && !rootPath.equals("")) {
+        if (rootPath != null && !"".equals(rootPath)) {
             return (((segments.size() - rootPath.split("/").length + 1) % 2) == 1);
         }
         return ((segments.size() % 2) == 0);
