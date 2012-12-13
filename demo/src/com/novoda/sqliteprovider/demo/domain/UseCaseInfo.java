@@ -22,7 +22,7 @@ public class UseCaseInfo implements Serializable {
         return sql;
     }
 
-    public boolean isValid(){
+    public boolean isValid() {
         return !TextUtils.isEmpty(uri) && !TextUtils.isEmpty(sql);
     }
 

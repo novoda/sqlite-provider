@@ -44,7 +44,7 @@ public class Firework implements Serializable {
     }
 
     public String getFormattedPrice() {
-        return "£"+price;
+        return "£" + price;
     }
 
     public static Firework getNullSafeFirework() {

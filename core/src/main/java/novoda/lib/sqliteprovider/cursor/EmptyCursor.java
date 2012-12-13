@@ -6,7 +6,7 @@ public class EmptyCursor extends AbstractCursor {
 
     @Override
     public String[] getColumnNames() {
-        return new String[] { "_id" };
+        return new String[] {"_id"};
     }
 
     @Override

@@ -6,7 +6,7 @@ public class SQLiteUri {
 
     private Uri uri;
 
-    public SQLiteUri (Uri uri) {
+    public SQLiteUri(Uri uri) {
         this.uri = uri;
     }
 

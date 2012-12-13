@@ -135,6 +135,6 @@ public class UriTableCreator implements SQLiteTableCreator {
 
     @Override
     public String[] getTableFields() {
-        return new String[] { getPrimaryKey() };
+        return new String[] {getPrimaryKey()};
     }
 }

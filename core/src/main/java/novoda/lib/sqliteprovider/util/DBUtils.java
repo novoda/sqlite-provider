@@ -23,7 +23,7 @@ public final class DBUtils {
             "android_metadata"
     });
 
-    private DBUtils(){
+    private DBUtils() {
         // Util class
     }
 
