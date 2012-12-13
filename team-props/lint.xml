@@ -1,30 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
   <issue id="NewApi">
-    <ignore path="target/classes/com/actionbarsherlock/internal/ActionBarSherlockNative.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/ActionBarSherlockNative$ActionModeWrapper.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/app/ActionBarWrapper.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/app/ActionBarWrapper$TabWrapper.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/view/ActionProviderWrapper.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/view/menu/ActionMenuItemView.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/view/menu/MenuItemWrapper.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/view/menu/ActionMenuPresenter$HasPermanentMenuKey.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/widget/IcsAdapterView.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/widget/IcsProgressBar.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/widget/ActionBarView$HomeView.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/widget/SearchView.class"/>
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/ActionBarSherlockNative.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/ActionBarSherlockNative$ActionModeWrapper.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/app/ActionBarWrapper.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/app/ActionBarWrapper$TabWrapper.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/view/ActionProviderWrapper.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/view/menu/ActionMenuItemView.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/view/menu/MenuItemWrapper.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/view/menu/ActionMenuPresenter$HasPermanentMenuKey.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/widget/IcsAdapterView.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/widget/IcsProgressBar.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/widget/ActionBarView$HomeView.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/widget/SearchView.class" />
   </issue>
 
+  <!-- can't target 17 till robolectric patched -->
+  <issue
+    id="OldTargetApi"
+    severity="ignore" />
+
   <issue id="FloatMath">
-    <ignore path="target/classes/com/actionbarsherlock/internal/nineoldandroids/view/animation/AnimatorProxy.class"/>
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/nineoldandroids/view/animation/AnimatorProxy.class" />
   </issue>
 
   <issue id="DefaultLocale">
-    <ignore path="target/classes/com/actionbarsherlock/internal/widget/CapitalizingTextView.class"/>
-    <ignore path="target/classes/com/actionbarsherlock/internal/widget/CapitalizingButton.class"/>
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/widget/CapitalizingTextView.class" />
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/widget/CapitalizingButton.class" />
   </issue>
 
   <issue id="ViewConstructor">
-    <ignore path="target/classes/com/actionbarsherlock/internal/widget/CollapsibleActionViewWrapper.class"/>
+    <ignore
+      path="target/classes/com/actionbarsherlock/internal/widget/CollapsibleActionViewWrapper.class" />
   </issue>
 </lint>
