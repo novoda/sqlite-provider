@@ -47,7 +47,7 @@ public class AddFireworkActivity extends NovodaActivity implements AddFireworkLi
 
     @Override
     public void onLoadFinished(Loader<Firework> loader, Firework data) {
-        Toast.makeText(this, "Firework that goes "+ data.getNoise() +" added.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Firework that goes " + data.getNoise() + " added.", Toast.LENGTH_SHORT).show();
 
         uriSqlFragment.updateSql(createSQL(data));
     }

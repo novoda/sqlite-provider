@@ -18,7 +18,7 @@ public class FireworkActivity extends NovodaActivity {
         setContentView(R.layout.activity_firework);
 
         Firework firework = (Firework) getIntent().getSerializableExtra(EXTRA_FIREWORK);
-        if(firework != null){
+        if (firework != null) {
             TextView fireworkNameTextView = (TextView) findViewById(R.id.firework_name);
             TextView fireworkColorTextView = (TextView) findViewById(R.id.firework_color);
             TextView fireworkTypeTextView = (TextView) findViewById(R.id.firework_type);

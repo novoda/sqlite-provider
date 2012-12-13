@@ -14,7 +14,7 @@ public class FireworkWriter {
         this.databaseWriter = databaseWriter;
     }
 
-    public void saveFirework(Firework firework){
+    public void saveFirework(Firework firework) {
         ContentValues values = new ContentValues();
         values.put(COL_NAME, firework.getName());
         values.put(COL_COLOR, firework.getColor());

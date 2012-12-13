@@ -88,7 +88,7 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
 
     public String getFirstConstrain(String table, ContentValues values) {
         List<String> localConstrains = getUniqueConstrains(table);
-        if (localConstrains == null){
+        if (localConstrains == null) {
             return null;
         }
         for (String c : localConstrains) {

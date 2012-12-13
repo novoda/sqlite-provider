@@ -56,7 +56,7 @@ public class FireworkReader {
     }
 
     public List<Firework> getUniqueFireworks() {
-        String[] selection = { Fireworks.COL_NAME, Fireworks.COL_TYPE, Fireworks.COL_COLOR, Fireworks.COL_NOISE, Fireworks.COL_PRICE };
+        String[] selection = {Fireworks.COL_NAME, Fireworks.COL_TYPE, Fireworks.COL_COLOR, Fireworks.COL_NOISE, Fireworks.COL_PRICE};
 
         Cursor cursor = databaseReader.getDistinct(TBL_FIREWORKS, selection);
 
@@ -103,7 +103,7 @@ public class FireworkReader {
     public Groups getShopsWithFireworkPricesAddingUpToOverForty() {
         String group = Fireworks.COL_SHOP;
         String having = "SUM (" + Fireworks.COL_PRICE + ") > 40";
-        String[] selection = { Fireworks.COL_SHOP, "SUM (" + Fireworks.COL_PRICE + ") as total" };
+        String[] selection = {Fireworks.COL_SHOP, "SUM (" + Fireworks.COL_PRICE + ") as total"};
         Cursor cursor = databaseReader.getGroupedByAndHaving(TBL_FIREWORKS, group, having, selection);
 
         List<Group> data = populateGroupListWith(cursor);

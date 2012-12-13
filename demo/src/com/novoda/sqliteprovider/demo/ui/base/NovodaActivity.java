@@ -6,7 +6,7 @@ import com.novoda.sqliteprovider.demo.NovodaApplication;
 
 public class NovodaActivity extends FragmentActivity {
 
-    public NovodaApplication getApp(){
+    public NovodaApplication getApp() {
         return (NovodaApplication) getApplication();
     }
 

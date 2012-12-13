@@ -16,11 +16,11 @@ public class DatabaseWriter {
         this.contentResolver = contentResolver;
     }
 
-    public void saveDataToFireworksTable(ContentValues values){
+    public void saveDataToFireworksTable(ContentValues values) {
         saveDataToTable(TBL_FIREWORKS, values);
     }
 
-    private void saveDataToTable(String table, ContentValues values){
+    private void saveDataToTable(String table, ContentValues values) {
         Uri uri = createUri(table);
         contentResolver.insert(uri, values);
     }

@@ -19,7 +19,7 @@ import com.novoda.sqliteprovider.demo.util.Log;
 
 import java.util.List;
 
-public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCallbacks<List<Firework>>{
+public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCallbacks<List<Firework>> {
 
     private ListView listview;
 
@@ -62,7 +62,7 @@ public class ViewAllFireworksActivity extends NovodaActivity implements LoaderCa
     private final OnItemClickListener onFireworkListItemClick = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-            viewFirework((Firework)listview.getItemAtPosition(position));
+            viewFirework((Firework) listview.getItemAtPosition(position));
         }
     };
 
