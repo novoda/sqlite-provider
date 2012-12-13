@@ -29,4 +29,10 @@
       <url>https://github.com/novoda/public-mvn-repo/raw/master/releases</url>
     </repository>
   </repositories>
+
+  <scm>
+    <url>https://github.com/novoda/SQLiteProvider/tree/${scm.branch}</url>
+    <connection>scm:git:git://https://github.com/novoda/SQLiteProvider.git</connection>
+    <developerConnection>scm:git:ssh://https://github.com/novoda/SQLiteProvider.git</developerConnection>
+  </scm>
 </project>
