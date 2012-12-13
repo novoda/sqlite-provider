@@ -12,7 +12,7 @@ public interface SQLiteInserter {
 
     // Do I need?
     String getInsertStatement(String tableName);
-    
+
     int getInsertIndex(String field);
 
     SQLiteType getType(String field);

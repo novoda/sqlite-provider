@@ -76,7 +76,6 @@ public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
     /**
      * Method to return the columns and type for a specific table. This only
      * supports value defined in SQLType
-     * 
      * @param table , the table name against which we want the columns
      * @return a map containing all columns and their type
      */
@@ -96,7 +95,6 @@ public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
     /**
      * Utility method to check if a table has been created in the database or
      * not.
-     * 
      * @param tableName , the table to check if created or not
      * @return true if the table has been created. false otherwise
      */
