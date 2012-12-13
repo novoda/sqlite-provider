@@ -51,7 +51,8 @@ public class UriTableCreator implements SQLiteTableCreator {
     }
 
     /**
-     * By default, we will delete all relationship on INSERT, UPDATE, DELETE as we would expect the parent node to contain the one to many relationship and
+     * By default, we will delete all relationship on INSERT, UPDATE, DELETE
+     * as we would expect the parent node to contain the one to many relationship and
      * reinsert the children into the database. This is a safe approach rather then updating or appending values.
      */
     @Override
