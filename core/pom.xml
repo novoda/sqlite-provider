@@ -7,13 +7,13 @@
   <parent>
     <groupId>com.novoda</groupId>
     <artifactId>sqliteprovider-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>sqliteprovider-core</artifactId>
   <name>sqliteprovider-core</name>
   <packaging>jar</packaging>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
 
   <dependencies>
     <dependency>

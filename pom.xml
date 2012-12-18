@@ -12,7 +12,7 @@
 
   <groupId>com.novoda</groupId>
   <artifactId>sqliteprovider-parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>sqliteprovider-parent</name>
   <description>SQLiteProvider Multi Module Project</description>
