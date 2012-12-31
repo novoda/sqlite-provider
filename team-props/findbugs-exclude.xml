@@ -3,6 +3,7 @@
     <Package name="~com\.actionbarsherlock.*" />
   </Match>
   <Match>
-    <Class name="~.*R.java" />
+    <Class name="~.*\.R\$.*"/>
+    <Bug pattern="NM_CLASS_NAMING_CONVENTION"/>
   </Match>
 </FindBugsFilter>
