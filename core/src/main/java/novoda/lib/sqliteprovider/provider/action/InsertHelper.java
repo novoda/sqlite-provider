@@ -46,7 +46,7 @@ public class InsertHelper {
         throw new SQLException("Failed to insert row into " + uri);
     }
 
-    private long tryUpdateWithConstrain(String table, String constrain, ContentValues values) {
+    protected long tryUpdateWithConstrain(String table, String constrain, ContentValues values) {
         long rowId = -1;
         int update = dbHelper.getWritableDatabase().update(table, values, constrain + "=?",
                 new String[] {
