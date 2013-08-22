@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.novoda</groupId>
     <artifactId>reporting</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.2</version>
   </parent>
 
   <groupId>com.novoda</groupId>
