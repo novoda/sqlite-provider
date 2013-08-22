@@ -37,7 +37,7 @@ public class InsertHelper {
                 Log.Provider.w("No constrain against URI: " + uri);
             }
         }
-        if (rowId < 0) {
+        if (rowId <= 0) {
             rowId = dbHelper.getWritableDatabase().insert(table, null, insertValues);
         }
         if (rowId > 0) {
