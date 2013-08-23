@@ -72,7 +72,7 @@ public class InsertHelper {
      */
     private long getRowIdForUpdate(String table, String constrain, ContentValues values) {
         final Cursor cur = dbHelper.getReadableDatabase().query(table, new String[] {
-                "_id"
+                "rowid"
         }, constrain + "=?", new String[] {
                 values.getAsString(constrain)
         }, null, null, null);
