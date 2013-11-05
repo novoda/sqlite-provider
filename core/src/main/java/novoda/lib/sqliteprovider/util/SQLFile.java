@@ -10,6 +10,12 @@ import java.util.List;
  */
 public class SQLFile {
 
+    private static final String STATEMENT_END_CHARACTER = ";";
+    private static final String LINE_COMMENT_START_CHARACTERS = "--";
+    private static final String BLOCK_COMMENT_START_CHARACTERS = "/*";
+    private static final String CLOCK_COMENT_END_CHARACTERS = "*/";
+    private static final String LINE_CONCATENATION_CHARACTER = " ";
+
     private List<String> statements;
 
     private boolean inComment = false;
@@ -24,16 +30,16 @@ public class SQLFile {
             if (line.length() == 0) {
                 continue;
             }
-            if (line.startsWith("--")) {
+            if (line.startsWith(LINE_COMMENT_START_CHARACTERS)) {
                 continue;
             }
 
-            if (line.startsWith("/*")) {
+            if (line.startsWith(BLOCK_COMMENT_START_CHARACTERS)) {
                 inComment = true;
                 continue;
             }
 
-            if (line.endsWith("*/") && inComment) {
+            if (line.endsWith(CLOCK_COMENT_END_CHARACTERS) && inComment) {
                 inComment = false;
                 continue;
             }
@@ -43,8 +49,8 @@ public class SQLFile {
             }
 
             statement.append(line);
-            if (!line.endsWith(";")) {
-                statement.append(" ");
+            if (!line.endsWith(STATEMENT_END_CHARACTER)) {
+                statement.append(LINE_CONCATENATION_CHARACTER);
                 continue;
             }
 
