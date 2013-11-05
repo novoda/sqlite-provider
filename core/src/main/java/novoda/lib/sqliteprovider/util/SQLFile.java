@@ -13,7 +13,7 @@ public class SQLFile {
     private static final String STATEMENT_END_CHARACTER = ";";
     private static final String LINE_COMMENT_START_CHARACTERS = "--";
     private static final String BLOCK_COMMENT_START_CHARACTERS = "/*";
-    private static final String CLOCK_COMENT_END_CHARACTERS = "*/";
+    private static final String BLOCK_COMMENT_END_CHARACTERS = "*/";
     private static final String LINE_CONCATENATION_CHARACTER = " ";
 
     private List<String> statements;
@@ -39,7 +39,7 @@ public class SQLFile {
                 continue;
             }
 
-            if (line.endsWith(CLOCK_COMENT_END_CHARACTERS) && inComment) {
+            if (line.endsWith(BLOCK_COMMENT_END_CHARACTERS) && inComment) {
                 inComment = false;
                 continue;
             }
