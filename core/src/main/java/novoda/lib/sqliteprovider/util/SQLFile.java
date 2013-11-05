@@ -18,6 +18,7 @@ public class SQLFile {
         BufferedReader reader = new BufferedReader(in);
         statements = new ArrayList<String>();
         String line = null;
+        StringBuilder statement = new StringBuilder();
         while ((line = reader.readLine()) != null) {
             line = line.trim();
             if (line.length() == 0) {
@@ -41,7 +42,14 @@ public class SQLFile {
                 continue;
             }
 
-            statements.add(line);
+            statement.append(line);
+            if (!line.endsWith(";")) {
+                statement.append(" ");
+                continue;
+            }
+
+            statements.add(statement.toString());
+            statement.setLength(0);
         }
         reader.close();
     }
