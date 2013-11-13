@@ -23,14 +23,12 @@ public class SQLFile {
     public void parse(Reader in) throws IOException {
         BufferedReader reader = new BufferedReader(in);
         statements = new ArrayList<String>();
-        String line = null;
+        String line;
         StringBuilder statement = new StringBuilder();
         while ((line = reader.readLine()) != null) {
-            line = line.trim();
+            line = stripOffTrailingComment(line).trim();
+
             if (line.length() == 0) {
-                continue;
-            }
-            if (line.startsWith(LINE_COMMENT_START_CHARACTERS)) {
                 continue;
             }
 
@@ -39,7 +37,7 @@ public class SQLFile {
                 continue;
             }
 
-            if (line.endsWith(BLOCK_COMMENT_END_CHARACTERS) && inComment) {
+            if (inComment && line.endsWith(BLOCK_COMMENT_END_CHARACTERS)) {
                 inComment = false;
                 continue;
             }
@@ -58,6 +56,14 @@ public class SQLFile {
             statement.setLength(0);
         }
         reader.close();
+    }
+
+    private String stripOffTrailingComment(String line) {
+        int commentStartIndex = line.indexOf(LINE_COMMENT_START_CHARACTERS);
+        if (commentStartIndex != -1) {
+            line = line.substring(0, commentStartIndex);
+        }
+        return line;
     }
 
     public List<String> getStatements() {
