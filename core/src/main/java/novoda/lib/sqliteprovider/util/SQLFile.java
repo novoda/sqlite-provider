@@ -61,7 +61,7 @@ public class SQLFile {
     private String stripOffTrailingComment(String line) {
         int commentStartIndex = line.indexOf(LINE_COMMENT_START_CHARACTERS);
         if (commentStartIndex != -1) {
-            line = line.substring(0, commentStartIndex);
+            return line.substring(0, commentStartIndex);
         }
         return line;
     }
