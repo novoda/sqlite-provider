@@ -56,6 +56,9 @@ public class SQLFile {
             statement.setLength(0);
         }
         reader.close();
+        if (statement.length() > 0) {
+            throw new IOException("incomplete sql statement (missing semicolon?): "+statement.toString());
+        }
     }
 
     private String stripOffTrailingComment(String line) {

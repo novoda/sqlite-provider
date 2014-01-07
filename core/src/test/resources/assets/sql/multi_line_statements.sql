@@ -1,3 +1,4 @@
+-- This file should contain the same sql statements as one_line_statements.sql, only formatting and comments can differ.
 CREATE TABLE 'testTable'
         _id INTEGER PRIMARY KEY AUTOINCREMENT;
 CREATE TABLE 'second'
