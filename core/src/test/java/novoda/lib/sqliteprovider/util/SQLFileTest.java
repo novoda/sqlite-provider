@@ -24,6 +24,16 @@ public class SQLFileTest extends AndroidTestCase {
     }
 
     @Test
+    public void testSkippingTrailingComments() throws IOException {
+        String rawLine = "CREATE TABLE 'testTable'";
+        String comment = "-- adding some comment that should get stripped off";
+        String nextLine = "_id INTEGER PRIMARY KEY AUTOINCREMENT;";
+        String lineCommand = rawLine + comment + "\n" + nextLine;
+        List<String> statements = SQLFile.statementsFrom(new StringReader(lineCommand));
+        assertEquals(rawLine+ " "+nextLine, statements.get(0));
+    }
+
+    @Test
     public void testMultiLineEqualsSingleLineStatements() throws IOException {
         List<String> oneLiners = readStatements("one_line_statements.sql");
         List<String> multiLiners = readStatements("multi_line_statements.sql");
