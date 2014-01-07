@@ -40,17 +40,27 @@ public class SQLFileTest extends AndroidTestCase {
         assertStatementsAreEqual(oneLiners, multiLiners);
     }
 
-    private void assertStatementsAreEqual(List<String> oneLiners, List<String> multiLiners) {
-        for (int index = 0; index < oneLiners.size(); index++) {
-            assertEquals(oneLiners.get(index), multiLiners.get(index));
-        }
-    }
-
     @Test
     public void testMultiLineEqualsSingleLineCount() throws IOException {
         List<String> oneLiners = readStatements("one_line_statements.sql");
         List<String> multiLiners = readStatements("multi_line_statements.sql");
         assertEquals(oneLiners.size(), multiLiners.size());
+    }
+
+    @Test
+    public void testIncompleteLastStatementDetection() throws IOException {
+        try {
+            readStatements("missing_last_semicolon.sql");
+            fail("incomplete last statement should throw an IOException.");
+        } catch (IOException e) {
+            assertNotNull(e);
+        }
+    }
+
+    private void assertStatementsAreEqual(List<String> oneLiners, List<String> multiLiners) {
+        for (int index = 0; index < oneLiners.size(); index++) {
+            assertEquals(oneLiners.get(index), multiLiners.get(index));
+        }
     }
 
     private List<String> readStatements(String fileName) throws IOException {
