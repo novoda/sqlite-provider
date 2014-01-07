@@ -30,7 +30,7 @@ public class SQLFileTest extends AndroidTestCase {
         String nextLine = "_id INTEGER PRIMARY KEY AUTOINCREMENT;";
         String lineCommand = rawLine + comment + "\n" + nextLine;
         List<String> statements = SQLFile.statementsFrom(new StringReader(lineCommand));
-        assertEquals(rawLine+ " "+nextLine, statements.get(0));
+        assertEquals(rawLine + " " + nextLine, statements.get(0));
     }
 
     @Test
@@ -47,14 +47,9 @@ public class SQLFileTest extends AndroidTestCase {
         assertEquals(oneLiners.size(), multiLiners.size());
     }
 
-    @Test
+    @Test(expected = IOException.class)
     public void testIncompleteLastStatementDetection() throws IOException {
-        try {
-            readStatements("missing_last_semicolon.sql");
-            fail("incomplete last statement should throw an IOException.");
-        } catch (IOException e) {
-            assertNotNull(e);
-        }
+        readStatements("missing_last_semicolon.sql");
     }
 
     private void assertStatementsAreEqual(List<String> oneLiners, List<String> multiLiners) {
