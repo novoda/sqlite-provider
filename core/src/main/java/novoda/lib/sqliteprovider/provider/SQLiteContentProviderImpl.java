@@ -65,7 +65,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
             notifyUriChange(newUri);
             return newUri;
         }
-        throw new SQLException("Failed to update row into " + uri + " because it does not exists ");
+        throw new SQLException("Failed to insert row into " + uri);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
             notifyUriChange(insertUri);
             return rowId;
         }
-        throw new SQLException("Failed to update row into " + uri + " because it does not exists ");
+        throw new SQLException("Failed to update row into " + uri + " because it does not exists.");
     }
 
     @Override
