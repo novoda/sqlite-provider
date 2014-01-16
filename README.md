@@ -19,9 +19,9 @@ dependencies {
 Maven:
 ````xml
 <dependency>
-    <groupId>com.squareup.picasso</groupId>
-    <artifactId>picasso</artifactId>
-    <version>(insert latest version)</version>
+   <groupId>com.novoda</groupId>
+   <artifactId>sqliteprovider-core</artifactId>
+   <version>1.0.0</version>
 </dependency>
 ````
 
