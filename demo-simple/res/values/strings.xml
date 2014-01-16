@@ -2,5 +2,6 @@
 <resources>
 
   <string name="app_name">SQLiteProviderDemo</string>
+  <string name="explain_demo">See the device LogCat for the output of this demo</string>
 
 </resources>

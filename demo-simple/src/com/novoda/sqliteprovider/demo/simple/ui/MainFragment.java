@@ -1,7 +1,9 @@
 package com.novoda.sqliteprovider.demo.simple.ui;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -17,9 +19,31 @@ import com.novoda.sqliteprovider.demo.simple.provider.FireworkProvider;
 
 public class MainFragment extends Fragment {
 
+    /**
+     * See /assets/migrations/1_SETUP.SQL for the database creation
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /**
+         * You can save multiple ways - this is just an example of using Uri's
+         */
+        saveNewShopToDatabase();
+        /**
+         * You can retrieve from the database multiple ways - this is just an example of using Uri's
+         */
+        retrieveShopsFromDatabase();
+    }
+
+    private void saveNewShopToDatabase() {
+        Uri table = FireworkProvider.SHOPS;
+        ContentValues values = new ContentValues(1);
+        values.put(FireworkProvider.COL_SHOP_NAME, "MyNewShop" + System.currentTimeMillis());
+        values.put(FireworkProvider.COL_SHOP_POSTCODE, "LN11YA");
+        getActivity().getContentResolver().insert(table, values);
+    }
+
+    private void retrieveShopsFromDatabase() {
         getActivity().getSupportLoaderManager()
                 .initLoader(R.id.loader_shop, null, new LoaderManager.LoaderCallbacks<Cursor>() {
 
@@ -59,7 +83,7 @@ public class MainFragment extends Fragment {
     private static class ShopCursorLoader extends CursorLoader {
 
         public ShopCursorLoader(Context context) {
-            super(context, FireworkProvider.SELECT_SHOPS, null, null, null, null);
+            super(context, FireworkProvider.SHOPS, null, null, null, null);
         }
     }
 }
