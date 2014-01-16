@@ -27,6 +27,7 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         /**
          * You can save multiple ways - this is just an example of using Uri's
+         * do not normally do this on the UI Thread
          */
         saveNewShopToDatabase();
         /**
@@ -62,8 +63,8 @@ public class MainFragment extends Fragment {
                             String shopName = cursor.getString(cursor.getColumnIndex("name"));
                             String shopPostcode = cursor.getString(cursor.getColumnIndex("postcode"));
 
-                            Log.d("demo", "Found shop:" + shopName);
-                            Log.d("demo", "Found shop postcode:" + shopPostcode);
+                            Log.d("demo", "Found shop: " + shopName);
+                            Log.d("demo", "Found postcode: " + shopPostcode);
                         } while (cursor.moveToNext());
 
                     }
