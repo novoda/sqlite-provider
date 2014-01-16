@@ -1,8 +1,9 @@
-An Android library as ContentProvider for SQLite
+SQLiteProvider
 ================================================
 
+A simplification of database access.
 
-SQLiteProvider implements a ContentProvider for you that allows you database access using [Uri][1]'s
+SQLiteProvider implements a ContentProvider for you that allows database access using [Uri][1]'s
 
 Download
 --------
