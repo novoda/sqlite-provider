@@ -35,8 +35,11 @@ public class MainFragment extends Fragment {
                         }
 
                         do {
-                            Log.d("demo", "Found shop:" + cursor.getString(cursor.getColumnIndex("name")));
-                            Log.d("demo", "Found shop postcode:" + cursor.getString(cursor.getColumnIndex("postcode")));
+                            String shopName = cursor.getString(cursor.getColumnIndex("name"));
+                            String shopPostcode = cursor.getString(cursor.getColumnIndex("postcode"));
+
+                            Log.d("demo", "Found shop:" + shopName);
+                            Log.d("demo", "Found shop postcode:" + shopPostcode);
                         } while (cursor.moveToNext());
 
                     }
