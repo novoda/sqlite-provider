@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical" >
+
+  <TextView
+    android:id="@+id/activity_view_shop_name"
+    style="@style/wrap_w_wrap_h"
+    android:padding="@dimen/norm_spacing" />
+
+  <TextView
+    android:id="@+id/activity_view_shop_postcode"
+    style="@style/wrap_w_wrap_h"
+    android:padding="@dimen/norm_spacing" />
+
+  <ListView
+    android:id="@android:id/list"
+    style="@style/match_w_match_h" />
+
+</LinearLayout>

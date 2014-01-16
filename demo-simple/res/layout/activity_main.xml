@@ -1,0 +1,51 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  style="@style/wrap_w_wrap_h" >
+
+  <LinearLayout
+    style="@style/match_w_wrap_h"
+    android:orientation="vertical" >
+
+    <Button
+      style="@style/match_w_wrap_h"
+      android:layout_margin="@dimen/norm_spacing"
+      android:onClick="onViewAllFireworksClick"
+      android:text="@string/button_main_view_all_fireworks" />
+
+    <Button
+      style="@style/match_w_wrap_h"
+      android:layout_margin="@dimen/norm_spacing"
+      android:onClick="onAddFireworkClick"
+      android:text="@string/button_main_add_firework" />
+
+    <Button
+      style="@style/match_w_wrap_h"
+      android:layout_margin="@dimen/norm_spacing"
+      android:onClick="onFindFireworkWithPrimaryKeyClick"
+      android:text="@string/button_main_find_using_primary_key" />
+
+    <Button
+      style="@style/match_w_wrap_h"
+      android:layout_margin="@dimen/norm_spacing"
+      android:onClick="onFindAllFireworksFromOneShopClick"
+      android:text="@string/button_main_find_all_fireworks_from_one_shop" />
+
+    <Button
+      style="@style/match_w_wrap_h"
+      android:layout_margin="@dimen/norm_spacing"
+      android:onClick="onGroupFireworksByTypeAndHavingColorRedClick"
+      android:text="@string/button_main_group_fireworks_by_shop_id" />
+
+    <Button
+      style="@style/match_w_wrap_h"
+      android:layout_margin="@dimen/norm_spacing"
+      android:onClick="onFindThreeFireworkShopsClick"
+      android:text="@string/button_main_find_3_firework_shops_limit" />
+
+    <Button
+      style="@style/match_w_wrap_h"
+      android:layout_margin="@dimen/norm_spacing"
+      android:onClick="onFindUniqueFireworksClick"
+      android:text="@string/button_main_find_unique_fireworks" />
+  </LinearLayout>
+
+</ScrollView>

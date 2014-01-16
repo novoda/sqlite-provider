@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical" >
+
+  <TextView
+    style="@style/wrap_w_wrap_h"
+    android:padding="@dimen/norm_spacing"
+    android:text="@string/activity_find_firework_from_one_shop_shop_input_title" />
+
+  <EditText
+    android:id="@+id/find_fireworks_from_one_shop_input_shop_primary_key"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/activity_find_firework_from_one_shop_shop_input_hint"
+    android:inputType="number" />
+
+  <Button
+    android:id="@+id/find_firework_from_one_shop_button_find"
+    style="@style/wrap_w_wrap_h"
+    android:layout_gravity="right"
+    android:layout_margin="@dimen/norm_spacing"
+    android:text="@string/activity_find_firework_from_one_shop_button_find_fireworks" />
+
+</LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">SQLiteProviderDemo</string>
+  <string name="button_main_view_all_fireworks">View all Fireworks</string>
+  <string name="button_main_add_firework">Add a new Firework</string>
+  <string name="activity_add_firework_text">Add a firework to the firework table in your database</string>
+  <string name="activity_add_firework_input_title_name">Name:</string>
+  <string name="activity_add_firework_input_title_color">Color:</string>
+  <string name="activity_add_firework_input_title_type">Type:</string>
+  <string name="activity_add_firework_input_title_noise">Noise:</string>
+  <string name="activity_add_firework_input_title_price">Price:</string>
+  <string name="button_add_firework">Add Firework</string>
+  <string name="button_main_find_using_primary_key">Find firework using Primary Key</string>
+  <string name="button_main_find_all_fireworks_from_one_shop">Find all fireworks from one shop (One to Many)</string>
+  <string name="button_main_group_fireworks_by_shop_id">Total firework price Grouped by Shop (Group / Having)</string>
+  <string name="button_main_find_3_firework_shops_limit">Find 3 fireworks (Limit)</string>
+  <string name="button_main_find_unique_fireworks">Find unique fireworks (Distinct)</string>
+  <string name="activity_firework_title_id">ID:</string>
+  <string name="activity_firework_title_name">Name:</string>
+  <string name="activity_firework_title_color">Color:</string>
+  <string name="activity_firework_title_type">Type:</string>
+  <string name="activity_firework_title_noise">Noise:</string>
+  <string name="activity_firework_title_shop">Shop:</string>
+  <string name="activity_firework_title_price">Price:</string>
+  <string name="activity_label_firework">Firework Details</string>
+  <string name="activity_label_all_fireworks">All Fireworks</string>
+  <string name="activity_label_add_new_firework">Add New Firework</string>
+  <string name="activity_label_find_firework">Find Firework</string>
+  <string name="activity_find_firework_with_pk_firework_primary_key_input_title">Firework Primary Key:</string>
+  <string name="activity_find_firework_with_pk_firework_primary_key_input_hint">Primary Key</string>
+  <string name="activity_find_firework_with_pk_button_find_firework">Find Firework</string>
+  <string name="activity_find_firework_from_one_shop_shop_input_title">Shop Primary Key</string>
+  <string name="activity_find_firework_from_one_shop_shop_input_hint">Primary Key</string>
+  <string name="activity_find_firework_from_one_shop_button_find_fireworks">Find Shop Fireworks</string>
+  <string name="activity_label_view_shop">Firework Shop</string>
+  <string name="activity_label_grouped_by_shop_id">Grouped by shop_id</string>
+  <string name="activity_label_limit">Limit of 3</string>
+  <string name="activity_label_distinct_fireworks">Distinct Fireworks</string>
+  <string name="activity_label_find_firework_from_shop">Find Fireworks with shop PK</string>
+
+</resources>
