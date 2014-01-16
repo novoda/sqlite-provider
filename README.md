@@ -2,15 +2,67 @@ An Android library as ContentProvider for SQLite
 ================================================
 
 
-THIS IS A DUMP OF IDEAS - PARTIALLY IMPLEMENTED AT THE MOMENT (see demo project)
+SQLiteProvider implements a ContentProvider for you that allows you database access using [Uri][1]'s
 
-Check the <a href="https://github.com/novoda/SQLiteProvider/wiki">WIKI</a> for further instruction
+Download
+--------
 
+Download [the latest JAR][2] or grab via
+
+Gradle:
+````xml
+dependencies {
+    compile 'com.novoda:sqliteprovider-core:1.0.0'
+}
+````
+Maven:
+````xml
+<dependency>
+    <groupId>com.squareup.picasso</groupId>
+    <artifactId>picasso</artifactId>
+    <version>(insert latest version)</version>
+</dependency>
+````
+
+You will need to declare the Novoda repository:
+
+Gradle:
+````groovy
+buildscript {
+        repositories {
+            maven {
+                url "https://github.com/novoda/public-mvn-repo/raw/master/releases"
+            }
+        }
+    }
+````
+Maven:
+````xml
+<repositories>
+    <repository>
+      <id>public-mvn-repo-releases</id>
+      <url>https://github.com/novoda/public-mvn-repo/raw/master/releases</url>
+    </repository>
+</repositories>
+````
+
+Check the [WIKI][5] for further instruction
+
+Usage
+--------
+
+Simple example source code can be found in this demo module: [Android Simple Demo][3]
+
+Advanced queries & source code can be found in this demo module: [Android Extended Demo][4]
+
+
+Overview
+--------
 
 The library is meant to augment the ContentProvider interface to fit SQLite in a more pronounced way. The aim is 
-to set convention on queries via URI. A lot of facilities are added to ensure 
+to set convention on queries via URI.
 
-The following Uris are intended to be supported:
+The following Uris are possible (some may not be supported yet):
 
 ### General Uri by convention
 
@@ -122,3 +174,9 @@ you should have content values put with "column name" mapped to a SQLite type (l
 		values.put("name", "TEXT");
 		values.put("rid", "INTEGER");
 		getContentResolver().insert(uri, values);
+
+ [1]: http://developer.android.com/reference/android/net/Uri.html
+ [2]: https://github.com/novoda/public-mvn-repo/raw/master/releases/com/novoda/sqliteprovider-core/1.0.0/sqliteprovider-core-1.0.0.jar
+ [3]: https://github.com/novoda/SQLiteProvider/tree/master/demo-simple
+ [4]: https://github.com/novoda/SQLiteProvider/tree/master/demo-extended
+ [5]: https://github.com/novoda/SQLiteProvider/wiki
