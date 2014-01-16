@@ -7,7 +7,7 @@
   <fragment
     android:id="@+id/fragment_uri_sql"
     style="@style/wrap_w_wrap_h"
-    class="com.novoda.sqliteprovider.demo.simple.ui.fragment.UriSqlFragment" />
+    class="com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment" />
 
   <ListView
     android:id="@android:id/list"

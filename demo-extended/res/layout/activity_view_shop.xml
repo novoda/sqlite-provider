@@ -7,11 +7,11 @@
   <fragment
     android:id="@+id/fragment_uri_sql"
     style="@style/wrap_w_wrap_h"
-    class="com.novoda.sqliteprovider.demo.simple.ui.fragment.UriSqlFragment" />
+    class="com.novoda.sqliteprovider.demo.ui.fragment.UriSqlFragment" />
 
   <fragment
     android:id="@+id/fragment_shop"
     style="@style/wrap_w_wrap_h"
-    class="com.novoda.sqliteprovider.demo.simple.ui.fragment.ShopFragment" />
+    class="com.novoda.sqliteprovider.demo.ui.fragment.ShopFragment" />
 
 </LinearLayout>

@@ -2,7 +2,10 @@ package com.novoda.sqliteprovider.demo;
 
 import android.app.Application;
 
-import com.novoda.sqliteprovider.demo.simple.persistance.*;
+import com.novoda.sqliteprovider.demo.persistance.DatabaseReader;
+import com.novoda.sqliteprovider.demo.persistance.DatabaseWriter;
+import com.novoda.sqliteprovider.demo.persistance.FireworkReader;
+import com.novoda.sqliteprovider.demo.persistance.FireworkWriter;
 
 public class NovodaApplication extends Application {
 

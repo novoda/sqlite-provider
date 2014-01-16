@@ -15,7 +15,7 @@
     android:label="@string/app_name"
     android:theme="@style/AppTheme" >
     <activity
-      android:name=".simple.ui.MainActivity"
+      android:name=".ui.MainActivity"
       android:label="@string/app_name" >
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -24,35 +24,35 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".simple.ui.ViewAllFireworksActivity"
+      android:name=".ui.ViewAllFireworksActivity"
       android:label="@string/activity_label_all_fireworks" />
     <activity
-      android:name=".simple.ui.AddFireworkActivity"
+      android:name=".ui.AddFireworkActivity"
       android:label="@string/activity_label_add_new_firework" />
     <activity
-      android:name=".simple.ui.FindFireworkWithPkActivity"
+      android:name=".ui.FindFireworkWithPkActivity"
       android:label="@string/activity_label_find_firework" />
     <activity
-      android:name=".simple.ui.FireworkActivity"
+      android:name=".ui.FireworkActivity"
       android:label="@string/activity_label_firework" />
     <activity
-      android:name=".simple.ui.FindFireworksFromOneShopActivity"
+      android:name=".ui.FindFireworksFromOneShopActivity"
       android:label="@string/activity_label_find_firework_from_shop" />
     <activity
-      android:name=".simple.ui.ViewShopActivity"
+      android:name=".ui.ViewShopActivity"
       android:label="@string/activity_label_view_shop" />
     <activity
-      android:name=".simple.ui.WellStockedShopActivity"
+      android:name=".ui.WellStockedShopActivity"
       android:label="@string/activity_label_grouped_by_shop_id" />
     <activity
-      android:name=".simple.ui.FindThreeFireworksActivity"
+      android:name=".ui.FindThreeFireworksActivity"
       android:label="@string/activity_label_limit" />
     <activity
-      android:name=".simple.ui.FindDistinctFireworksActivity"
+      android:name=".ui.FindDistinctFireworksActivity"
       android:label="@string/activity_label_distinct_fireworks" />
 
     <provider
-      android:name=".simple.provider.FireworkProvider"
+      android:name=".provider.FireworkProvider"
       android:authorities="com.novoda.demo"
       android:exported="false" />
   </application>

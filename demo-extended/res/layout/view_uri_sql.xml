@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.novoda.sqliteprovider.demo.simple.ui.widget.UriSqlView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.novoda.sqliteprovider.demo.ui.widget.UriSqlView xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/view_uri_sql"
   style="@style/wrap_w_wrap_h"
   android:orientation="vertical"
@@ -15,4 +15,4 @@
     style="@style/wrap_w_wrap_h"
     android:textColor="@color/sql" />
 
-</com.novoda.sqliteprovider.demo.simple.ui.widget.UriSqlView>
+</com.novoda.sqliteprovider.demo.ui.widget.UriSqlView>
