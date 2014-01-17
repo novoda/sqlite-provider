@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.novoda.sqliteprovider.demo.ui.widget.UriSqlView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/view_uri_sql"
+  style="@style/wrap_w_wrap_h"
+  android:orientation="vertical"
+  android:padding="@dimen/norm_spacing" >
+
+  <TextView
+    android:id="@+id/view_uri_sql_uri"
+    style="@style/wrap_w_wrap_h"
+    android:textColor="@color/uri" />
+
+  <TextView
+    android:id="@+id/view_uri_sql_sql"
+    style="@style/wrap_w_wrap_h"
+    android:textColor="@color/sql" />
+
+</com.novoda.sqliteprovider.demo.ui.widget.UriSqlView>

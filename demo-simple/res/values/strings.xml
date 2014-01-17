@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">SQLiteProviderDemo</string>
+  <string name="explain_demo">See the device LogCat for the output of this demo</string>
+
+</resources>
