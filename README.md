@@ -11,7 +11,7 @@ Download
 Download [the latest JAR][2] or grab via
 
 Gradle:
-````xml
+````groovy
 dependencies {
     compile 'com.novoda:sqliteprovider-core:1.0.0'
 }
@@ -30,12 +30,12 @@ You will need to declare the Novoda repository:
 Gradle:
 ````groovy
 buildscript {
-        repositories {
-            maven {
-                url "https://github.com/novoda/public-mvn-repo/raw/master/releases"
-            }
+    repositories {
+        maven {
+            url "https://github.com/novoda/public-mvn-repo/raw/master/releases"
         }
     }
+}
 ````
 Maven:
 ````xml
@@ -120,11 +120,11 @@ If you are interested to only get the table name, the following should be helpfu
    
 To get the current version of the database similar to "select sqlite_version() AS sqlite_version":
 
-		content://<authority>/_info?version
+	content://<authority>/_info?version
 	
 returns the following cursor:
 
-		sqlite_version TEXT
+	sqlite_version TEXT
 	
 ### Size management
 
@@ -170,11 +170,13 @@ updatedAt (optional): will put a updatedAt field which contains update date - de
 
 you should have content values put with "column name" mapped to a SQLite type (look at SQLiteType)
 
-		Uri uri = Uri.parse("content://authority/_db?create=table
-		ContentValues values = new ContentValues();
-		values.put("name", "TEXT");
-		values.put("rid", "INTEGER");
-		getContentResolver().insert(uri, values);
+```java
+Uri uri = Uri.parse("content://authority/_db?create=table
+ContentValues values = new ContentValues();
+values.put("name", "TEXT");
+values.put("rid", "INTEGER");
+getContentResolver().insert(uri, values);
+```
 
  [1]: http://developer.android.com/reference/android/net/Uri.html
  [2]: https://github.com/novoda/public-mvn-repo/raw/master/releases/com/novoda/sqliteprovider-core/1.0.0/sqliteprovider-core-1.0.0.jar
