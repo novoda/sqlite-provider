@@ -13,7 +13,7 @@ Download [the latest JAR][2] or grab via
 Gradle:
 ````groovy
 dependencies {
-    compile 'com.novoda:sqliteprovider-core:1.0.0'
+    compile 'com.novoda:sqliteprovider-core:1.0.1'
 }
 ````
 Maven:
@@ -21,7 +21,7 @@ Maven:
 <dependency>
    <groupId>com.novoda</groupId>
    <artifactId>sqliteprovider-core</artifactId>
-   <version>1.0.0</version>
+   <version>1.0.1</version>
 </dependency>
 ````
 
@@ -181,7 +181,7 @@ getContentResolver().insert(uri, values);
 ```
 
  [1]: http://developer.android.com/reference/android/net/Uri.html
- [2]: https://github.com/novoda/public-mvn-repo/raw/master/releases/com/novoda/sqliteprovider-core/1.0.0/sqliteprovider-core-1.0.0.jar
+ [2]: https://github.com/novoda/public-mvn-repo/raw/master/releases/com/novoda/sqliteprovider-core/1.0.1/sqliteprovider-core-1.0.1.jar
  [3]: https://github.com/novoda/SQLiteProvider/tree/master/demo-simple
  [4]: https://github.com/novoda/SQLiteProvider/tree/master/demo-extended
  [5]: https://github.com/novoda/SQLiteProvider/wiki
