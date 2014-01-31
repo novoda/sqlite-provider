@@ -5,19 +5,19 @@
   <parent>
     <groupId>com.novoda</groupId>
     <artifactId>sqliteprovider-parent</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>sqliteprovider-demo-extended</artifactId>
   <name>demo-extended</name>
   <packaging>apk</packaging>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
 
   <dependencies>
     <dependency>
       <groupId>com.novoda</groupId>
       <artifactId>sqliteprovider-core</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>1.0.2-SNAPSHOT</version>
       <type>jar</type>
     </dependency>
 
