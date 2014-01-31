@@ -162,11 +162,13 @@ If you insert against
 
 (TODO) alter?
 
+```
 tableName (mandatory): the table name
 withId (optional): automatically add "_id PRIMARY KEY AUTOINCREMENT" - default is true
 foreignKey (optional): automatically add <fk_name>_id as foreign key to table creation
 createdAt (optional): will put a createdAt field which contains creation date - default to insert
 updatedAt (optional): will put a updatedAt field which contains update date - default to insert
+```
 
 you should have content values put with "column name" mapped to a SQLite type (look at SQLiteType)
 
