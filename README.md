@@ -173,7 +173,7 @@ updatedAt (optional): will put a updatedAt field which contains update date - de
 you should have content values put with "column name" mapped to a SQLite type (look at SQLiteType)
 
 ```java
-Uri uri = Uri.parse("content://authority/_db?create=table
+Uri uri = Uri.parse("content://authority/_db?create=table");
 ContentValues values = new ContentValues();
 values.put("name", "TEXT");
 values.put("rid", "INTEGER");
