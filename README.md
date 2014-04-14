@@ -32,7 +32,7 @@ Gradle:
 buildscript {
     repositories {
         maven {
-            url "https://github.com/novoda/public-mvn-repo/raw/master/releases"
+            url "http://ci.novoda.com/maven/releases/"
         }
     }
 }
@@ -42,7 +42,7 @@ Maven:
 <repositories>
     <repository>
       <id>public-mvn-repo-releases</id>
-      <url>https://github.com/novoda/public-mvn-repo/raw/master/releases</url>
+      <url>http://ci.novoda.com/maven/releases/</url>
     </repository>
 </repositories>
 ````
