@@ -40,7 +40,9 @@ public class InsertHelper {
         if (rowId <= 0) {
             rowId = dbHelper.getWritableDatabase().insert(table, null, insertValues);
         }
-        if (rowId > 0) {
+        // According to http://developer.android.com/reference/android/database/sqlite/SQLiteDatabase.html#insert(java.lang.String,%20java.lang.String,%20android.content.ContentValues)
+        // only -1 indicates an error, and returning 0 is valid and has been seen.
+        if (rowId != -1) {
             return rowId;
         }
         throw new SQLException("Failed to insert row into " + uri);
