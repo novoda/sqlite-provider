@@ -60,12 +60,9 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     @Override
     protected Uri insertInTransaction(Uri uri, ContentValues values) {
         long rowId = helper.insert(uri, values);
-        if (rowId > 0) {
-            Uri newUri = ContentUris.withAppendedId(uri, rowId);
-            notifyUriChange(newUri);
-            return newUri;
-        }
-        throw new SQLException("Failed to insert row into " + uri);
+		Uri newUri = ContentUris.withAppendedId(uri, rowId);
+		notifyUriChange(newUri);
+		return newUri;
     }
 
     @Override
