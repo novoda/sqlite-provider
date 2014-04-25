@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="novoda.sqliteprovider"
-  android:versionCode="10000"
+  android:versionCode="10020"
   android:versionName="1.0.2" >
 
   <uses-sdk
