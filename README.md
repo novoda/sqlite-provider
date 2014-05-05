@@ -180,6 +180,18 @@ values.put("rid", "INTEGER");
 getContentResolver().insert(uri, values);
 ```
 
+Build
+-----
+
+To build the core library jar you can use the following gradle command;
+
+ ./gradlew assembleRelease
+
+This will result in the core jar being available at
+
+ core/build/bundles/release/classes.jar
+
+
 License
 -------
 
