@@ -24,9 +24,9 @@ public final class DatabaseConstants {
     }
 
     public static class RawSql {
-        public static final String SELECT_ALL = "SELECT * FROM fireworks;";
+        public static final String SELECT_ALL = "SELECT * FROM firework;";
 
-        public static final String INSERT_FIREWORK = "INSERT INTO fireworks " + "(name, color, noise, ftype, price, shop_id) " + "VALUES "
+        public static final String INSERT_FIREWORK = "INSERT INTO firework " + "(name, color, noise, ftype, price, shop_id) " + "VALUES "
                 + "(Na, Co, No, Ft, Pr, Sh);";
 
         public static final String SELECT_USING_PRIMARY_KEY = "SELECT * FROM firework WHERE (_id=1);";
