@@ -29,11 +29,9 @@ You will need to declare the Novoda repository:
 
 Gradle:
 ````groovy
-buildscript {
-    repositories {
-        maven {
-            url "http://ci.novoda.com/maven/releases/"
-        }
+repositories {
+    maven {
+        url "http://ci.novoda.com/maven/releases/"
     }
 }
 ````
