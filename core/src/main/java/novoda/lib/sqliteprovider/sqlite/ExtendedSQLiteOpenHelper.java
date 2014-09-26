@@ -3,15 +3,18 @@ package novoda.lib.sqliteprovider.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.*;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import novoda.lib.sqliteprovider.migration.Migrations;
 import novoda.lib.sqliteprovider.util.DBUtils;
 import novoda.lib.sqliteprovider.util.Log;
-
-import java.io.IOException;
-import java.util.*;
 
 // TODO caching?
 public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatabaseMetaInfo {
@@ -26,7 +29,11 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
     private final Map<String, List<String>> constrains = new HashMap<String, List<String>>();
 
     public ExtendedSQLiteOpenHelper(Context context) throws IOException {
-        this(context, context.getPackageName() + ".db", null, Migrations.getVersion(context.getAssets(), MIGRATIONS_PATH));
+        this(context, null);
+    }
+
+    public ExtendedSQLiteOpenHelper(Context context, CursorFactory factory) throws IOException {
+        this(context, context.getPackageName() + ".db", factory, Migrations.getVersion(context.getAssets(), MIGRATIONS_PATH));
     }
 
     public ExtendedSQLiteOpenHelper(Context context, String name, CursorFactory factory, int version) {
