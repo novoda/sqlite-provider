@@ -1,20 +1,24 @@
 package novoda.lib.sqliteprovider.provider;
 
-import android.content.*;
-import android.database.*;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import novoda.lib.sqliteprovider.provider.action.InsertHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
 import novoda.lib.sqliteprovider.util.Log;
 import novoda.lib.sqliteprovider.util.UriUtils;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
@@ -50,7 +54,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     @Override
     protected SQLiteOpenHelper getDatabaseHelper(Context context) {
         try {
-            return new ExtendedSQLiteOpenHelper(context);
+            return new ExtendedSQLiteOpenHelper(context, getCursorFactory());
         } catch (IOException e) {
             Log.Provider.e(e);
             throw new IllegalStateException(e.getMessage());
@@ -150,5 +154,10 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
     protected ExtendedSQLiteQueryBuilder getSQLiteQueryBuilder() {
         return new ExtendedSQLiteQueryBuilder();
+    }
+
+    @Override
+    protected SQLiteDatabase.CursorFactory getCursorFactory() {
+        return null;
     }
 }

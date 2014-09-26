@@ -43,6 +43,8 @@ public abstract class SQLiteContentProvider extends ContentProvider implements S
 
     protected abstract SQLiteOpenHelper getDatabaseHelper(Context context);
 
+    protected abstract SQLiteDatabase.CursorFactory getCursorFactory();
+
     /**
      * The equivalent of the {@link #insert} method, but invoked within a
      * transaction.
