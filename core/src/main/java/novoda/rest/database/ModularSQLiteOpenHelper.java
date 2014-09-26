@@ -7,10 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import novoda.lib.sqliteprovider.util.DatabaseUtils;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+
+import novoda.lib.sqliteprovider.util.DatabaseUtils;
 
 public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
 
@@ -24,7 +27,11 @@ public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
     private final Map<String, SQLiteTableCreator> createStatements;
 
     public ModularSQLiteOpenHelper(Context context) {
-        super(context, new StringBuilder(context.getApplicationInfo().packageName).append(".db").toString(), null, dbVersion);
+        this(context, null);
+    }
+
+    public ModularSQLiteOpenHelper(Context context, SQLiteDatabase.CursorFactory factory) {
+        super(context, new StringBuilder(context.getApplicationInfo().packageName).append(".db").toString(), factory, dbVersion);
         createdTable = new ArrayList<String>();
         createStatements = new HashMap<String, SQLiteTableCreator>();
         init();
