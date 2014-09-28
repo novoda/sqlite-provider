@@ -28,9 +28,11 @@ fi
 
 
 echo "You are about to release version $1 of $PROJECT_NAME to $2"
-read -p "Are you sure you want to continue? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Nn]$ ]]; then
+read -p "Are you sure you want to continue? (y/n) " response
+
+if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    echo "Starting release"
+else
     echo "Cancelled"
     exit 1
 fi
