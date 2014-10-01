@@ -25,3 +25,4 @@ local.properties
 maven-eclipse.xml
 *.DS_Store
 /lint-results.xml
+build/
