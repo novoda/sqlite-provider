@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.13.2'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.6'
+    }
+}
+
 apply plugin: 'com.android.library'
 
 android {
@@ -10,8 +20,4 @@ android {
     }
 }
 
-buildscript {
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.13.0'
-    }
-}
+apply from: '../team-props/publish.gradle'

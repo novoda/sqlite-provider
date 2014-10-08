@@ -1,0 +1,14 @@
+ext {
+    PUBLISH_GROUP_ID = 'com.novoda'
+    PUBLISH_ARTIFACT_ID = 'sqliteprovider-core'
+    PUBLISH_VERSION = '1.0.3'
+
+    UPLOAD_NAME = PUBLISH_ARTIFACT_ID
+    UPLOAD_DESCRIPTION = 'Extended SQLite functionality for Android'
+    UPLOAD_WEBSITE = 'https://github.com/novoda/SQLiteProvider'
+    UPLOAD_ISSUE_TRACKER = 'https://github.com/novoda/SQLiteProvider/issues'
+    UPLOAD_REPOSITORY = 'https://github.com/novoda/SQLiteProvider.git'
+    UPLOAD_VERSION = PUBLISH_VERSION
+}
+
+apply from: 'https://gist.githubusercontent.com/hal9002/0772dffbd8a6a81bc176/raw' // bintray upload helper
