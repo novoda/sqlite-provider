@@ -1,7 +1,7 @@
 ext {
     PUBLISH_GROUP_ID = 'com.novoda'
     PUBLISH_ARTIFACT_ID = 'sqliteprovider-core'
-    PUBLISH_VERSION = '1.0.3'
+    PUBLISH_VERSION = '1.0.4-SNAPSHOT'
 
     UPLOAD_NAME = PUBLISH_ARTIFACT_ID
     UPLOAD_DESCRIPTION = 'Extended SQLite functionality for Android'
