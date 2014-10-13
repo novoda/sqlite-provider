@@ -8,12 +8,12 @@ SQLiteProvider implements a ContentProvider for you that allows database access 
 Download
 --------
 
-Download [the latest JAR][2] or grab via
+Add it to your projects via Gradle or Maven:
 
 Gradle:
 ````groovy
 dependencies {
-    compile 'com.novoda:sqliteprovider-core:1.0.1'
+    compile 'com.novoda:sqliteprovider-core:1.0.3'
 }
 ````
 Maven:
@@ -21,31 +21,31 @@ Maven:
 <dependency>
    <groupId>com.novoda</groupId>
    <artifactId>sqliteprovider-core</artifactId>
-   <version>1.0.1</version>
+   <version>1.0.3</version>
 </dependency>
 ````
 
-You will need to declare the Novoda repository:
+You just need to declare jCenter in the list of repositories:
 
 Gradle:
 ````groovy
 repositories {
-    maven {
-        url "http://ci.novoda.com/maven/releases/"
-    }
+    jcenter()
 }
 ````
 Maven:
 ````xml
 <repositories>
     <repository>
-      <id>public-mvn-repo-releases</id>
-      <url>http://ci.novoda.com/maven/releases/</url>
+      <id>bintray-jcenter</id>
+      <url>http://jcenter.bintray.com</url>
     </repository>
 </repositories>
 ````
 
 Check the [WIKI][5] for further instruction
+
+[ ![Download](https://api.bintray.com/packages/novoda/maven/sqliteprovider-core/images/download.svg) ](https://bintray.com/novoda/maven/sqliteprovider-core/_latestVersion)
 
 Usage
 --------
