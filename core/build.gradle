@@ -4,11 +4,12 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.13.2'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.6'
+        classpath 'com.novoda:android-bintray-release:0.2.3'
     }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'android-bintray-release'
 
 android {
     compileSdkVersion 20
@@ -20,4 +21,11 @@ android {
     }
 }
 
-apply from: '../team-props/publish.gradle'
+publish {
+    userOrg = 'novoda'
+    groupId = 'com.novoda'
+    artifactId = 'sqliteprovider-core'
+    version = '1.0.4-SNAPSHOT'
+    description = 'Extended SQLite functionality for Android'
+    website = 'https://github.com/novoda/SQLiteProvider'
+}
