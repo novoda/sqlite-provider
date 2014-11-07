@@ -1,4 +1,4 @@
-SQLiteProvider ![](http://ci.novoda.com/buildStatus/icon?job=SQLiteProvider)
+SQLiteProvider [![](http://ci.novoda.com/buildStatus/icon?job=SQLiteProvider)](http://ci.novoda.com/job/SQLiteProvider/lastSuccessfulBuild/console)
 ================================================
 
 A simplification of database access.
