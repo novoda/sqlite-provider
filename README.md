@@ -1,4 +1,4 @@
-SQLiteProvider
+SQLiteProvider ![](http://ci.novoda.com/buildStatus/icon?job=SQLiteProvider)
 ================================================
 
 A simplification of database access.
