@@ -1,15 +1,15 @@
+apply plugin: 'com.android.library'
+apply plugin: 'bintray-release'
+
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.13.2'
-        classpath 'com.novoda:android-bintray-release:0.2.3'
+        classpath 'com.novoda:bintray-release:0.2.4'
     }
 }
-
-apply plugin: 'com.android.library'
-apply plugin: 'android-bintray-release'
 
 android {
     compileSdkVersion 20
