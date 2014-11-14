@@ -5,8 +5,8 @@ A simplification of database access for Android.
 
 ## Description
 
-sqlite-provider implements a ContentProvider for you that allows database access using [Uri][1]'s
-The library is meant to augment the ContentProvider interface to fit SQLite in a more pronounced way. The aim is to set convention on queries via URI.
+sqlite-provider implements a ContentProvider for you that allows database access using [Uri][1]s
+The library is meant to augment the ContentProvider interface to fit SQLite in a more pronounced way. The aim is to set convention on queries via Uris.
 
 
 ## Adding to your project
