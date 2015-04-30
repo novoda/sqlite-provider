@@ -1,4 +1,3 @@
 include ':core'
-include ':acceptance'
 include ':demo-extended'
 include ':demo-simple'

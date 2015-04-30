@@ -10,7 +10,6 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@RunWith(RoboRunner.class)
 public class SQLFileTest extends AndroidTestCase {
 
     @Test

@@ -1,11 +1,8 @@
 package novoda.lib.sqliteprovider.provider;
 
-import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.hasItems;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
-
-import android.content.*;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,10 +12,6 @@ import com.xtremelabs.robolectric.Robolectric;
 import com.xtremelabs.robolectric.internal.Implementation;
 import com.xtremelabs.robolectric.internal.Implements;
 
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
-import novoda.lib.sqliteprovider.util.RoboRunner;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -27,6 +20,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
+import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
+import novoda.lib.sqliteprovider.util.RoboRunner;
+
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.hasItems;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 @RunWith(RoboRunner.class)
 public class SQLiteProviderLocalTest {

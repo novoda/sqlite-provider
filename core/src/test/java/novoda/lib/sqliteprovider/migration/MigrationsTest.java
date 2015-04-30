@@ -1,27 +1,23 @@
 
 package novoda.lib.sqliteprovider.migration;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
-
 import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
-
-import novoda.lib.sqliteprovider.util.RoboRunner;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-@RunWith(RoboRunner.class)
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
+
 public class MigrationsTest {
 
     @Mock

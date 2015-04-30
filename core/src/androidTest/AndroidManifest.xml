@@ -18,9 +18,4 @@
       android:exported="false" />
   </application>
 
-  <instrumentation
-    android:name="android.test.InstrumentationTestRunner"
-    android:label="Tests for sqliteprovider"
-    android:targetPackage="novoda.lib.sqliteprovider.tests" />
-
 </manifest>
