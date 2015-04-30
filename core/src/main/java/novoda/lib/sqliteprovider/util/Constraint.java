@@ -2,10 +2,10 @@ package novoda.lib.sqliteprovider.util;
 
 import java.util.List;
 
-class Constraint {
+public class Constraint {
     private final List<String> columns;
 
-    private Constraint(List<String> columns) {
+    public Constraint(List<String> columns) {
         this.columns = columns;
     }
 
