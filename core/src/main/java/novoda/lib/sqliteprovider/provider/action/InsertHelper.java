@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
 
+import java.util.Arrays;
 import java.util.List;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
@@ -66,7 +67,7 @@ public class InsertHelper {
             Log.Provider.v("Constrain " + constrain + " yield " + update);
         }
         if (update > 0) {
-            rowId = getRowIdForUpdate(table, constrain, values);
+            rowId = getRowIdForUpdate(table, new Constraint(Arrays.asList(constrain)), values);
         }
         return rowId;
     }
@@ -114,7 +115,7 @@ public class InsertHelper {
      * Will get the Row id from the latest update.
      *
      * @param table
-     * @param constrain
+     * @param constraint
      * @param values
      * @return
      */
