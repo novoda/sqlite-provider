@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     compile project(':core')
+    compile 'com.android.support:appcompat-v7:22.1.1'
     testCompile "com.jayway.android.robotium:robotium-solo:3.1"
     testCompile "com.google.android:android:4.0.1.2"
     testCompile "com.google.android:android-test:4.0.1.2"
