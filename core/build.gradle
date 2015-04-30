@@ -6,19 +6,34 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.13.2'
+        classpath 'com.android.tools.build:gradle:1.2.2'
         classpath 'com.novoda:bintray-release:0.2.4'
     }
 }
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
         }
     }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile "org.scala-lang:scala-library:2.9.1"
+    testCompile "org.scalatest:scalatest_2.9.1:1.8.RC1"
+    testCompile "junit:junit:4.10"
+    testCompile "com.pivotallabs:robolectric:1.1"
+    testCompile "com.novocode:junit-interface:0.8"
+    testCompile "org.mockito:mockito-core:1.9.0"
+    testCompile "com.google.android:android:4.0.1.2"
+    testCompile "com.google.android:android-test:4.0.1.2"
 }
 
 publish {
