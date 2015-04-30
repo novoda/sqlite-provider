@@ -4,10 +4,15 @@ package novoda.lib.sqliteprovider.util;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+
+import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
 
 public final class DBUtils {
 
@@ -19,7 +24,7 @@ public final class DBUtils {
 
     private static final String PRGAMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
 
-    private static List<String> defaultTables = Arrays.asList(new String[] {
+    private static List<String> defaultTables = Arrays.asList(new String[]{
             "android_metadata"
     });
 
@@ -113,6 +118,11 @@ public final class DBUtils {
         return sqliteVersion.toString();
     }
 
+
+    /**
+     * Use {@link #getUniqueConstraints(SQLiteDatabase, String)}
+     */
+    @Deprecated
     public static List<String> getUniqueConstrains(SQLiteDatabase db, String table) {
         List<String> constrains = new ArrayList<String>();
         final Cursor pragmas = db.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
@@ -129,5 +139,26 @@ public final class DBUtils {
         }
         pragmas.close();
         return constrains;
+    }
+
+
+    public static List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
+        List<Constraint> constraints = new ArrayList<Constraint>();
+        final Cursor indexCursor = db.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
+        while (indexCursor.moveToNext()) {
+            int isUnique = indexCursor.getInt(2);
+            if (isUnique == 1) {
+                String indexName = indexCursor.getString(1);
+                final Cursor columnCursor = db.rawQuery(String.format(PRGAMA_INDEX_INFO, indexName), null);
+                List<String> columns = new ArrayList<>(columnCursor.getCount());
+                while (columnCursor.moveToNext()) {
+                    String columnName = columnCursor.getString(2);
+                    columns.add(columnName);
+                }
+                columnCursor.close();
+            }
+        }
+        indexCursor.close();
+        return constraints;
     }
 }

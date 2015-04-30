@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
 
+import java.util.List;
+
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
+import novoda.lib.sqliteprovider.util.Constraint;
 import novoda.lib.sqliteprovider.util.Log;
 import novoda.lib.sqliteprovider.util.UriUtils;
 
@@ -27,11 +30,11 @@ public class InsertHelper {
     public long insert(Uri uri, ContentValues values) {
         ContentValues insertValues = (values != null) ? new ContentValues(values) : new ContentValues();
         final String table = UriUtils.getItemDirID(uri);
-        final String firstConstrain = dbHelper.getFirstConstrain(table, insertValues);
+        final Constraint constraint = dbHelper.getFirstConstraint(table, insertValues);
         appendParentReference(uri, insertValues);
         long rowId = -1;
-        if (firstConstrain != null) {
-            rowId = tryUpdateWithConstrain(table, firstConstrain, insertValues);
+        if (constraint != null) {
+            rowId = tryUpdateWithConstraint(table, constraint, insertValues);
         } else {
             if (Log.Provider.warningLoggingEnabled()) {
                 Log.Provider.w("No constrain against URI: " + uri);
@@ -48,12 +51,16 @@ public class InsertHelper {
         throw new SQLException("Failed to insert row into " + uri);
     }
 
+    /**
+     * Use {@link #tryUpdateWithConstraint(String, Constraint, ContentValues)}
+     */
+    @Deprecated
     protected long tryUpdateWithConstrain(String table, String constrain, ContentValues values) {
         long rowId = -1;
         int update = dbHelper.getWritableDatabase().update(table, values, constrain + "=?",
-                new String[] {
-                values.getAsString(constrain)
-        });
+                new String[]{
+                        values.getAsString(constrain)
+                });
 
         if (Log.Provider.verboseLoggingEnabled()) {
             Log.Provider.v("Constrain " + constrain + " yield " + update);
@@ -64,6 +71,45 @@ public class InsertHelper {
         return rowId;
     }
 
+    protected long tryUpdateWithConstraint(String table, Constraint constraint, ContentValues values) {
+        long rowId = -1;
+        String whereClause = getWhereClause(constraint);
+        String[] whereArgs = getWhereArguments(constraint, values);
+        int update = dbHelper.getWritableDatabase().update(table, values, whereClause, whereArgs);
+
+        if (Log.Provider.verboseLoggingEnabled()) {
+            Log.Provider.v("Constrain " + constraint + " yield " + update);
+        }
+        if (update > 0) {
+            rowId = getRowIdForUpdate(table, constraint, values);
+        }
+        return rowId;
+    }
+
+    private String getWhereClause(Constraint constraint) {
+        List<String> columns = constraint.getColumns();
+        String whereClause = "";
+        for (int i = 0; i < columns.size(); i++) {
+            String column = columns.get(i);
+            if (i > 0) {
+                whereClause += " AND ";
+            }
+            whereClause += column + "=?";
+        }
+        return whereClause;
+    }
+
+    private String[] getWhereArguments(Constraint constraint, ContentValues values) {
+        List<String> columns = constraint.getColumns();
+        int columnCount = columns.size();
+        String[] whereArgs = new String[columnCount];
+        for (int i = 0; i < columnCount; i++) {
+            String column = columns.get(i);
+            whereArgs[i] = values.getAsString(column);
+        }
+        return whereArgs;
+    }
+
     /**
      * Will get the Row id from the latest update.
      *
@@ -72,12 +118,10 @@ public class InsertHelper {
      * @param values
      * @return
      */
-    private long getRowIdForUpdate(String table, String constrain, ContentValues values) {
-        final Cursor cur = dbHelper.getReadableDatabase().query(table, new String[] {
+    private long getRowIdForUpdate(String table, Constraint constraint, ContentValues values) {
+        final Cursor cur = dbHelper.getReadableDatabase().query(table, new String[]{
                 "rowid"
-        }, constrain + "=?", new String[] {
-                values.getAsString(constrain)
-        }, null, null, null);
+        }, getWhereClause(constraint), getWhereArguments(constraint, values), null, null, null);
         if (!cur.moveToFirst()) {
             return -1;
         }
