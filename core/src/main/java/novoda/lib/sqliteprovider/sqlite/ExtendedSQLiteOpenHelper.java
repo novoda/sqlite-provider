@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import novoda.lib.sqliteprovider.migration.Migrations;
+import novoda.lib.sqliteprovider.util.Constraint;
 import novoda.lib.sqliteprovider.util.DBUtils;
 import novoda.lib.sqliteprovider.util.Log;
 
@@ -26,7 +27,10 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
     /*
      * We cache the constrains.
      */
+    @Deprecated
     private final Map<String, List<String>> constrains = new HashMap<String, List<String>>();
+
+    private final Map<String, List<Constraint>> constraints = new HashMap<String, List<Constraint>>();
 
     public ExtendedSQLiteOpenHelper(Context context) throws IOException {
         this(context, null);
@@ -85,6 +89,10 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
         return DBUtils.getProjectionMap(getReadableDatabase(), parent, foreignTables);
     }
 
+    /**
+     * Use {@link #getUniqueConstraints(String)}
+     */
+    @Deprecated
     @Override
     public List<String> getUniqueConstrains(String table) {
         if (!constrains.containsKey(table)) {
@@ -93,6 +101,18 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
         return constrains.get(table);
     }
 
+    @Override
+    public List<Constraint> getUniqueConstraints(String table) {
+        if (!constraints.containsKey(table)) {
+            constraints.put(table, DBUtils.getUniqueConstraints(getReadableDatabase(), table));
+        }
+        return constraints.get(table);
+    }
+
+    /**
+     * Use {@link #getFirstConstraint(String, ContentValues)}
+     */
+    @Deprecated
     public String getFirstConstrain(String table, ContentValues values) {
         List<String> localConstrains = getUniqueConstrains(table);
         if (localConstrains == null) {
@@ -101,6 +121,25 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
         for (String c : localConstrains) {
             if (values.containsKey(c)) {
                 return c;
+            }
+        }
+        return null;
+    }
+
+    public Constraint getFirstConstraint(String table, ContentValues values) {
+        List<Constraint> constraints = getUniqueConstraints(table);
+        if (constraints == null) {
+            return null;
+        }
+        for (Constraint constraint : constraints) {
+            boolean isValidConstraint = true;
+            for (String column : constraint.getColumns()) {
+                if (!values.containsKey(column)) {
+                    isValidConstraint = false;
+                }
+            }
+            if (isValidConstraint) {
+                return constraint;
             }
         }
         return null;
