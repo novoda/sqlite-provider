@@ -4,9 +4,6 @@
   android:versionCode="1"
   android:versionName="1.0" >
 
-  <uses-sdk
-    android:minSdkVersion="3"
-    android:targetSdkVersion="17" />
 
   <application android:allowBackup="false" >
     <uses-library android:name="android.test.runner" />
@@ -20,10 +17,5 @@
       android:authorities="novoda.lib.sqliteprovider.test"
       android:exported="false" />
   </application>
-
-  <instrumentation
-    android:name="android.test.InstrumentationTestRunner"
-    android:label="Tests for sqliteprovider"
-    android:targetPackage="novoda.lib.sqliteprovider.tests" />
 
 </manifest>

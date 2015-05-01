@@ -1,12 +1,14 @@
 package novoda.lib.sqliteprovider.util;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.test.*;
-
-import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
+import android.test.AndroidTestCase;
+import android.test.MoreAsserts;
+import android.test.RenamingDelegatingContext;
 
 import java.util.List;
 import java.util.Map;
+
+import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
 
 public class DBUtilsTest extends AndroidTestCase {
 

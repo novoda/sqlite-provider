@@ -1,23 +1,12 @@
 package novoda.lib.sqliteprovider.provider;
 
-import static org.junit.Assert.assertThat;
-import static org.junit.matchers.JUnitMatchers.hasItems;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
-
-import android.content.*;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.internal.Implementation;
-import com.xtremelabs.robolectric.internal.Implements;
-
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
-import novoda.lib.sqliteprovider.util.RoboRunner;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,8 +16,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.annotation.Config;
+import org.robolectric.annotation.Implementation;
+import org.robolectric.annotation.Implements;
+import org.robolectric.shadows.ShadowContentUris;
+
+import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
+import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
+import novoda.lib.sqliteprovider.util.RoboRunner;
+
+import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.hasItems;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 @RunWith(RoboRunner.class)
+@Config(shadows = {ShadowContentUris.class}, manifest = "src/test/resources/AndroidManifest.xml")
 public class SQLiteProviderLocalTest {
 
     private SQLiteProviderImpl provider;
@@ -40,7 +45,6 @@ public class SQLiteProviderLocalTest {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        Robolectric.bindShadowClass(ShadowContentUris.class);
 
         stub(builder.query((SQLiteDatabase) anyObject(), (String[]) anyObject(), anyString(), (String[]) anyObject(), anyString(),
                 anyString(), anyString(), anyString())).toReturn(mockCursor);
