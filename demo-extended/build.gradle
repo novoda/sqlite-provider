@@ -1,0 +1,28 @@
+apply plugin: 'com.android.application'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.2'
+    }
+}
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 8
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile project(':core')
+    compile 'com.android.support:appcompat-v7:22.1.1'
+}

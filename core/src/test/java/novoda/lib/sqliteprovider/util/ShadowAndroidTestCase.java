@@ -4,9 +4,10 @@ package novoda.lib.sqliteprovider.util;
 import android.content.Context;
 import android.test.AndroidTestCase;
 
-import com.xtremelabs.robolectric.Robolectric;
-import com.xtremelabs.robolectric.internal.Implementation;
-import com.xtremelabs.robolectric.internal.Implements;
+import org.robolectric.Robolectric;
+import org.robolectric.annotation.Implementation;
+import org.robolectric.annotation.Implements;
+
 
 @Implements(AndroidTestCase.class)
 public class ShadowAndroidTestCase {
