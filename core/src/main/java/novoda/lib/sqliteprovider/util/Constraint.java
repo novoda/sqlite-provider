@@ -12,4 +12,20 @@ public class Constraint {
     public List<String> getColumns() {
         return columns;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Constraint that = (Constraint) o;
+
+        return columns.equals(that.columns);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return columns.hashCode();
+    }
 }
