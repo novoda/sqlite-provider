@@ -1,13 +1,15 @@
 apply plugin: 'com.android.library'
 apply plugin: 'bintray-release'
+apply plugin: 'org.robolectric'
 
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.2'
+        classpath 'com.android.tools.build:gradle:1.1.3'
         classpath 'com.novoda:bintray-release:0.2.4'
+        classpath 'org.robolectric:robolectric-gradle-plugin:1.0.1'
     }
 }
 
@@ -25,9 +27,11 @@ repositories {
 }
 
 dependencies {
-    testCompile "junit:junit:4.10"
-    testCompile "com.pivotallabs:robolectric:1.1"
-    testCompile "org.mockito:mockito-core:1.9.0"
+    testCompile "junit:junit:4.12"
+    testCompile "org.robolectric:robolectric:2.4"
+    testCompile "org.mockito:mockito-core:1.9.5"
+    // make Robolectric work on Gradle 2.3
+    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
 }
 
 publish {
