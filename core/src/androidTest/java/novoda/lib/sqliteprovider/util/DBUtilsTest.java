@@ -5,6 +5,7 @@ import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.RenamingDelegatingContext;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -65,14 +66,14 @@ public class DBUtilsTest extends AndroidTestCase {
         android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLE_WITH_CONSTRAIN);
 
         SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
-        List<String> constrains = DBUtils.getUniqueConstrains(db, "t");
-        MoreAsserts.assertContentsInAnyOrder(constrains, "const");
+        List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
+        MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("const")));
     }
 
     public void testGettingUniqueConstrainsIsEmpty() throws Exception {
         android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLES);
         SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
-        List<String> constrains = DBUtils.getUniqueConstrains(db, "t");
+        List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
         MoreAsserts.assertEmpty(constrains);
     }
 }
