@@ -156,6 +156,7 @@ public final class DBUtils {
                     columns.add(columnName);
                 }
                 columnCursor.close();
+                constraints.add(new Constraint(columns));
             }
         }
         indexCursor.close();
