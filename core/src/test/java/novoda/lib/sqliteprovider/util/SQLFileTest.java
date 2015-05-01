@@ -1,16 +1,46 @@
 package novoda.lib.sqliteprovider.util;
 
-import android.test.AndroidTestCase;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-public class SQLFileTest extends AndroidTestCase {
+import static junit.framework.Assert.assertEquals;
+
+public class SQLFileTest {
+
+    private static final String MISSING_LAST_SEMICOLON = "-- We ommit the trailing semicolon of the last statement to test whether the parser detects that.\n" +
+            "CREATE TABLE 'testTable'\n" +
+            "        _id INTEGER PRIMARY KEY AUTOINCREMENT;\n" +
+            "CREATE TABLE 'second'\n" +
+            "        _id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "        name TEXT,\n" +
+            "        description TEXT,\n" +
+            "        latitude REAL,\n" +
+            "        longitude REAL,\n" +
+            "        createdAt INTEGER";
+
+    private static final String MULTI_LINE = "-- This file should contain the same sql statements as one_line_statements.sql, only formatting and comments can differ.\n" +
+            "CREATE TABLE 'testTable'\n" +
+            "        _id INTEGER PRIMARY KEY AUTOINCREMENT;\n" +
+            "CREATE TABLE 'second'\n" +
+            "        _id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "        -- the name\n" +
+            "        name TEXT, -- now even this is a supported comment!!!\n" +
+            "        -- a meaningful description\n" +
+            "        description TEXT,--and this is working as well.\n" +
+            "        -- geo-coordinates\n" +
+            "        latitude REAL,\n" +
+            "        longitude REAL,\n" +
+            "        -- create timestamp\n" +
+            "        createdAt INTEGER;";
+    
+    private static final String ONE_LINE = "-- This file should contain the same sql statements as multi_line_statements.sql, only formatting and comments can differ.\n" +
+            "CREATE TABLE 'testTable' _id INTEGER PRIMARY KEY AUTOINCREMENT;\n" +
+            "-- a comment\n" +
+            "CREATE TABLE 'second' _id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, latitude REAL, longitude REAL, createdAt INTEGER;";
 
     @Test
     public void testReadMultiLineCommand() throws IOException {
@@ -34,28 +64,25 @@ public class SQLFileTest extends AndroidTestCase {
 
     @Test
     public void testMultiLineEqualsSingleLineStatements() throws IOException {
-        List<String> oneLiners = readStatements("one_line_statements.sql");
-        List<String> multiLiners = readStatements("multi_line_statements.sql");
+        List<String> oneLiners = readStatements(ONE_LINE);
+        List<String> multiLiners = readStatements(MULTI_LINE);
         assertEquals(oneLiners, multiLiners);
     }
 
     @Test
     public void testMultiLineEqualsSingleLineCount() throws IOException {
-        List<String> oneLiners = readStatements("one_line_statements.sql");
-        List<String> multiLiners = readStatements("multi_line_statements.sql");
+        List<String> oneLiners = readStatements(ONE_LINE);
+        List<String> multiLiners = readStatements(MULTI_LINE);
         assertEquals(oneLiners.size(), multiLiners.size());
     }
 
     @Test(expected = IOException.class)
     public void testIncompleteLastStatementDetection() throws IOException {
-        readStatements("missing_last_semicolon.sql");
+        readStatements(MISSING_LAST_SEMICOLON);
     }
 
-    private List<String> readStatements(String fileName) throws IOException {
-        return SQLFile.statementsFrom(getSqlFileReader(fileName));
+    private List<String> readStatements(String sqlString) throws IOException {
+        return SQLFile.statementsFrom(new StringReader(sqlString));
     }
 
-    private InputStreamReader getSqlFileReader(String fileName) {
-        return new InputStreamReader(getClass().getResourceAsStream("/assets/sql/" + fileName));
-    }
 }
