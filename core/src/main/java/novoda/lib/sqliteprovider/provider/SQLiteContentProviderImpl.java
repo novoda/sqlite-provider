@@ -63,14 +63,16 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
     @Override
     protected Uri insertInTransaction(Uri uri, ContentValues values) {
-        return insertInTransaction(uri, values, true);
+        Uri insertUri = insertSilently(uri, values);
+        notifyUriChange(uri);
+        return insertUri;
     }
 
     @Override
     protected int bulkInsertInTransaction(Uri uri, ContentValues[] values) {
         int rowsCreated = 0;
         for (ContentValues value : values) {
-            Uri insertUri = insertInTransaction(uri, value, false);
+            Uri insertUri = insertSilently(uri, value);
             if (insertUri != null) {
                 rowsCreated++;
             }
@@ -80,13 +82,9 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
         return rowsCreated;
     }
 
-    private Uri insertInTransaction(Uri uri, ContentValues values, boolean shouldNotifyChange) {
+    private Uri insertSilently(Uri uri, ContentValues values) {
         long rowId = helper.insert(uri, values);
-        Uri newUri = ContentUris.withAppendedId(uri, rowId);
-        if (shouldNotifyChange) {
-            notifyUriChange(newUri);
-        }
-        return newUri;
+        return ContentUris.withAppendedId(uri, rowId);
     }
 
     @Override
