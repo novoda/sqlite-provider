@@ -16,8 +16,15 @@
 
 package novoda.lib.sqliteprovider.provider;
 
-import android.content.*;
-import android.database.sqlite.*;
+import android.content.ContentProvider;
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.OperationApplicationException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteTransactionListener;
 import android.net.Uri;
 
 import java.util.ArrayList;
@@ -56,7 +63,12 @@ public abstract class SQLiteContentProvider extends ContentProvider implements S
      * transaction.
      */
     protected abstract int updateInTransaction(Uri uri, ContentValues values, String selection,
-            String[] selectionArgs);
+                                               String[] selectionArgs);
+
+    /**
+     * The equivalent of the {@link #bulkInsert} method, but invoked within a transaction.
+     */
+    protected abstract int bulkInsertInTransaction(Uri uri, ContentValues[] values);
 
     /**
      * The equivalent of the {@link #delete} method, but invoked within a
@@ -107,12 +119,9 @@ public abstract class SQLiteContentProvider extends ContentProvider implements S
         SQLiteDatabase mDb = mOpenHelper.getWritableDatabase();
         mDb.beginTransactionWithListener(this);
         try {
-            for (int i = 0; i < numValues; i++) {
-                Uri result = insertInTransaction(uri, values[i]);
-                if (result != null) {
-                    mNotifyChange = true;
-                }
-                mDb.yieldIfContendedSafely();
+            int rowsCreated = bulkInsertInTransaction(uri, values);
+            if (rowsCreated != 0) {
+                mNotifyChange = true;
             }
             mDb.setTransactionSuccessful();
         } finally {

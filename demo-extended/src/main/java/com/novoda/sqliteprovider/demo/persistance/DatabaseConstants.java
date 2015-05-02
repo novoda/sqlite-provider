@@ -38,5 +38,10 @@ public final class DatabaseConstants {
         public static final String LIMIT = "SELECT * FROM firework LIMIT 3;";
 
         public static final String DISTINCT = "SELECT DISTINCT name, ftype, color, noise, price FROM firework;";
+        public static final String BULK_INSERT_FIREWORKS = "BEGIN TRANSACTION\n" +
+                "FOR Times DO\n" +
+                "INSERT INTO firework " + "(name, color, noise, ftype, price, " +
+                "shop_id) VALUES (Na, Co, No, Ft, Pr, Sh);\n" +
+                "END TRANSACTION";
     }
 }

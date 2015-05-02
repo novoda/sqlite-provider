@@ -25,11 +25,13 @@ import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
 import novoda.lib.sqliteprovider.util.RoboRunner;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(RoboRunner.class)
@@ -38,9 +40,14 @@ public class SQLiteProviderLocalTest {
 
     private SQLiteProviderImpl provider;
 
-    @Mock private SQLiteDatabase db;
-    @Mock private ExtendedSQLiteQueryBuilder builder;
-    @Mock private Cursor mockCursor;
+    @Mock
+    private SQLiteDatabase db;
+    @Mock
+    private ExtendedSQLiteQueryBuilder builder;
+    @Mock
+    private Cursor mockCursor;
+
+    private int notifyChangeCounter;
 
     @Before
     public void init() {
@@ -191,8 +198,70 @@ public class SQLiteProviderLocalTest {
         // verify(builder).setTables("table INNER JOIN childs ON table.child_id=childs._id");
     }
 
+    @Test
+    public void testBulkInsertInsertsCorrectly() {
+        when(db.insert(anyString(), anyString(), (ContentValues) anyObject())).thenReturn(2L);
+        int bulkSize = 100;
+        ContentValues[] bulkToInsert = createContentValuesArray(bulkSize);
+
+        bulkInsert("test.com/table1", bulkToInsert);
+
+        verify(db, times(bulkSize)).insert(eq("table1"), anyString(), (ContentValues) anyObject());
+    }
+
+    @Test
+    public void testBulkInsertNotifiesOnlyOnce() {
+        when(db.insert(anyString(), anyString(), (ContentValues) anyObject())).thenReturn(2L);
+        int bulkSize = 100;
+        ContentValues[] bulkToInsert = createContentValuesArray(bulkSize);
+
+        bulkInsert("test.com/table1", bulkToInsert);
+
+        assertThat(notifyChangeCounter, is(1));
+    }
+
+    @Test
+    public void testInsertNotifiesAsManyChangesAsInserts() {
+        when(db.insert(anyString(), anyString(), (ContentValues) anyObject())).thenReturn(2L);
+        int insertSize = 100;
+        ContentValues[] inserts = createContentValuesArray(insertSize);
+
+        for (ContentValues insert : inserts) {
+            insert("test.com/table1", insert);
+        }
+
+        assertThat(notifyChangeCounter, is(insertSize));
+    }
+
+    @Test
+    public void testUpdateNotifiesAsManyChangesAsUpdates() {
+        when(db.update(anyString(), (ContentValues) anyObject(), anyString(), any(String[].class))).thenReturn(1);
+        int updateSize = 100;
+        ContentValues[] updates = createContentValuesArray(updateSize);
+
+        for (ContentValues update : updates) {
+            update("test.com/table1", update, null, null);
+        }
+
+        assertThat(notifyChangeCounter, is(updateSize));
+    }
+
+    @Test
+    public void testDeleteNotifiesAsManyChangesAsDeletes() {
+        when(db.delete(anyString(), anyString(), (String[]) anyObject())).thenReturn(0);
+        int deleteSize = 100;
+
+        for (int i = 0; i < deleteSize; i++) {
+            delete("test.com/table1", null, null);
+        }
+
+        assertThat(notifyChangeCounter, is(deleteSize));
+
+    }
+
     @Implements(ContentUris.class)
     static class ShadowContentUris {
+
         @SuppressWarnings("unused")
         @Implementation
         public static Uri withAppendedId(Uri uri, long id) {
@@ -212,8 +281,22 @@ public class SQLiteProviderLocalTest {
         provider.insert(Uri.parse("content://" + uri), cv);
     }
 
+    private void bulkInsert(String uri, ContentValues[] cv) {
+        provider.bulkInsert(Uri.parse("content://" + uri), cv);
+    }
+
     private void query(String uri) {
         provider.query(Uri.parse("content://" + uri), null, null, null, null);
+    }
+
+    private ContentValues[] createContentValuesArray(int size) {
+        ContentValues[] bulkToInsert = new ContentValues[size];
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("test", "test");
+        for (int i = 0; i < size; i++) {
+            bulkToInsert[i] = contentValues;
+        }
+        return bulkToInsert;
     }
 
     public class SQLiteProviderImpl extends SQLiteContentProviderImpl {
@@ -235,7 +318,7 @@ public class SQLiteProviderLocalTest {
         @Override
         protected SQLiteOpenHelper getDatabaseHelper(Context context) {
             try {
-                return new ExtendedSQLiteOpenHelper(getContext()){
+                return new ExtendedSQLiteOpenHelper(getContext()) {
                     @Override
                     public void onCreate(SQLiteDatabase db) {
                         // dont do a migrate
@@ -259,6 +342,7 @@ public class SQLiteProviderLocalTest {
 
         @Override
         public void notifyUriChange(Uri uri) {
+            notifyChangeCounter++;
         }
     }
 }

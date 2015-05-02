@@ -63,10 +63,28 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
     @Override
     protected Uri insertInTransaction(Uri uri, ContentValues values) {
+        Uri insertUri = insertSilently(uri, values);
+        notifyUriChange(uri);
+        return insertUri;
+    }
+
+    @Override
+    protected int bulkInsertInTransaction(Uri uri, ContentValues[] values) {
+        int rowsCreated = 0;
+        for (ContentValues value : values) {
+            Uri insertUri = insertSilently(uri, value);
+            if (insertUri != null) {
+                rowsCreated++;
+            }
+            getWritableDatabase().yieldIfContendedSafely();
+        }
+        notifyUriChange(uri);
+        return rowsCreated;
+    }
+
+    private Uri insertSilently(Uri uri, ContentValues values) {
         long rowId = helper.insert(uri, values);
-		Uri newUri = ContentUris.withAppendedId(uri, rowId);
-		notifyUriChange(newUri);
-		return newUri;
+        return ContentUris.withAppendedId(uri, rowId);
     }
 
     @Override
@@ -127,9 +145,9 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
         Map<String, String> autoproj = null;
 
         if (expands.size() > 0) {
-            builder.addInnerJoin(expands.toArray(new String[] {}));
+            builder.addInnerJoin(expands.toArray(new String[]{}));
             ExtendedSQLiteOpenHelper extendedHelper = (ExtendedSQLiteOpenHelper) getDatabaseHelper();
-            autoproj = extendedHelper.getProjectionMap(tableName.toString(), expands.toArray(new String[] {}));
+            autoproj = extendedHelper.getProjectionMap(tableName.toString(), expands.toArray(new String[]{}));
             builder.setProjectionMap(autoproj);
         }
 
