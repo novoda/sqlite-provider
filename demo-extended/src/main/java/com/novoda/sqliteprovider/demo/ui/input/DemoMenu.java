@@ -8,6 +8,8 @@ public interface DemoMenu {
 
     void onAddFireworkClick(View button);
 
+    void onBulkAddFireworksClick(View button);
+
     void onFindFireworkWithPrimaryKeyClick(View button);
 
     void onFindAllFireworksFromOneShopClick(View button);

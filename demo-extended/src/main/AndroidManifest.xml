@@ -26,6 +26,9 @@
       android:name=".ui.AddFireworkActivity"
       android:label="@string/activity_label_add_new_firework" />
     <activity
+      android:name=".ui.AddBulkFireworksActivity"
+      android:label="@string/activity_label_add_bulk_fireworks" />
+    <activity
       android:name=".ui.FindFireworkWithPkActivity"
       android:label="@string/activity_label_find_firework" />
     <activity

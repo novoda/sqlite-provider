@@ -20,6 +20,12 @@
     <Button
       style="@style/match_w_wrap_h"
       android:layout_margin="@dimen/norm_spacing"
+      android:onClick="onBulkAddFireworksClick"
+      android:text="@string/button_main_bulk_add_fireworks" />
+
+    <Button
+      style="@style/match_w_wrap_h"
+      android:layout_margin="@dimen/norm_spacing"
       android:onClick="onFindFireworkWithPrimaryKeyClick"
       android:text="@string/button_main_find_using_primary_key" />
 

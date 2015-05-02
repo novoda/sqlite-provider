@@ -18,6 +18,15 @@ public class DatabaseWriter {
         saveDataToTable(DatabaseConstants.TBL_FIREWORKS, values);
     }
 
+    public void bulkSaveDataToFireworksTable(ContentValues[] values) {
+        bulkSaveDataToTable(DatabaseConstants.TBL_FIREWORKS, values);
+    }
+
+    private void bulkSaveDataToTable(String table, ContentValues[] values) {
+        Uri uri = createUri(table);
+        contentResolver.bulkInsert(uri, values);
+    }
+
     private void saveDataToTable(String table, ContentValues values) {
         Uri uri = createUri(table);
         contentResolver.insert(uri, values);
