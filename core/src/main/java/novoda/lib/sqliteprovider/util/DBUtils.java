@@ -24,9 +24,7 @@ public final class DBUtils {
 
     private static final String PRGAMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
 
-    private static List<String> defaultTables = Arrays.asList(new String[]{
-            "android_metadata"
-    });
+    private static List<String> defaultTables = Arrays.asList("android_metadata");
 
     private DBUtils() {
         // Util class
