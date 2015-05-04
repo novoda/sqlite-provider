@@ -2,12 +2,6 @@ subprojects {
     buildscript {
         repositories {
             mavenCentral()
-            maven {
-                url "https://oss.sonatype.org/content/repositories/snapshots"
-            }
-            maven {
-                url "http://ci.novoda.com/maven/releases/"
-            }
         }
     }
 }
