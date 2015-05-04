@@ -1,4 +1,4 @@
-package novoda.lib.sqliteprovider.util;
+package novoda.lib.sqliteprovider;
 
 import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricTestRunner;

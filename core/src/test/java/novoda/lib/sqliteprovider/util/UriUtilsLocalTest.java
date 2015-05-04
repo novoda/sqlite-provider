@@ -6,6 +6,7 @@ import android.net.Uri;
 import java.util.Map;
 
 import junit.framework.TestCase;
+import novoda.lib.sqliteprovider.RoboRunner;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

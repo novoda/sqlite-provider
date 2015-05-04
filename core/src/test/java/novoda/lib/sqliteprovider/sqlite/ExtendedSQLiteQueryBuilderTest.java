@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
-import novoda.lib.sqliteprovider.util.RoboRunner;
+import novoda.lib.sqliteprovider.RoboRunner;
 
 import java.util.List;
 

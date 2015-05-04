@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import novoda.lib.sqliteprovider.util.RoboRunner;
+import novoda.lib.sqliteprovider.RoboRunner;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
