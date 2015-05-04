@@ -34,7 +34,7 @@ publish {
     userOrg = 'novoda'
     groupId = 'com.novoda'
     artifactId = 'sqlite-provider'
-    version = '1.0.8'
+    version = '1.0.9'
     description = 'Extended SQLite functionality for Android'
     website = 'https://github.com/novoda/sqlite-provider'
 }
