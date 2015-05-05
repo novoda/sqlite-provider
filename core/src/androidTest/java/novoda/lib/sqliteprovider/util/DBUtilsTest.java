@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.RenamingDelegatingContext;
+import android.text.TextUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
 
-import static android.database.DatabaseUtils.*;
+import static android.database.DatabaseUtils.createDbFromSqlStatements;
 
 public class DBUtilsTest extends AndroidTestCase {
 
@@ -83,6 +84,12 @@ public class DBUtilsTest extends AndroidTestCase {
         List<Constraint> uniqueConstraints = DBUtils.getUniqueConstraints(db, "t");
 
         MoreAsserts.assertEmpty(uniqueConstraints);
+    }
+
+    public void testGettingVersion() throws Exception {
+        String version = DBUtils.getSQLiteVersion();
+
+        assertFalse(TextUtils.isEmpty(version));
     }
 
     private SQLiteDatabase createDatabaseWithStatement(String statement) {
