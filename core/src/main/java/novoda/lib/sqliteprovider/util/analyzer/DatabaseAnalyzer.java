@@ -32,7 +32,7 @@ public class DatabaseAnalyzer {
 
     public List<String> getForeignTables(String table) {
         final Cursor cursor = executeQuery(String.format(PRAGMA_TABLE, table));
-        List<String> tables = getTables();
+        List<String> tables = getTableNames();
         List<String> foreignTables = new ArrayList<String>(5);
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
@@ -59,7 +59,7 @@ public class DatabaseAnalyzer {
     /**
      * @return a list of tables
      */
-    public List<String> getTables() {
+    public List<String> getTableNames() {
         final Cursor cursor = executeQuery(SELECT_TABLES_NAME);
         List<String> createdTable = new ArrayList<String>(cursor.getCount());
         String tableName;
@@ -87,6 +87,7 @@ public class DatabaseAnalyzer {
                 projection.put(foreignTable + "_" + name, foreignTable + "." + name + " AS " + foreignTable + "_" + name);
             }
         }
+
         return Collections.unmodifiableMap(projection);
     }
 
@@ -113,16 +114,15 @@ public class DatabaseAnalyzer {
      */
     public String getSQLiteVersion() {
         final Cursor cursor = executeQuery("SELECT sqlite_version() AS sqlite_version");
+        String version = "";
 
-        StringBuilder versionString = new StringBuilder();
-
-        while (cursor.moveToNext()) {
-            versionString.append(cursor.getString(0));
+        if (cursor.moveToFirst()) {
+            version = cursor.getString(0);
         }
 
         cursor.close();
 
-        return versionString.toString();
+        return version;
     }
 
     public List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {

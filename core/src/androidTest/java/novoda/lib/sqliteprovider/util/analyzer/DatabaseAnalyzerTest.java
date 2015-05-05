@@ -34,7 +34,7 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
         createDatabaseWithStatement(CREATE_2_TABLES);
         SQLiteDatabase db = getDatabase();
 
-        List<String> tables = new DatabaseAnalyzer(db).getTables();
+        List<String> tables = new DatabaseAnalyzer(db).getTableNames();
 
         MoreAsserts.assertContentsInAnyOrder(tables, "T", "T2");
     }
