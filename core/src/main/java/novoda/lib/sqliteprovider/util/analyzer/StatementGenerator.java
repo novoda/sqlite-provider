@@ -52,7 +52,8 @@ public class StatementGenerator {
             if (columnName.equals(primaryKeyColumnName)) {
                 continue;
             }
-            statement.append(", ").append(columnName).append(" ").append(creator.getType(columnName).name());
+            SQLiteType columnType = creator.getType(columnName);
+            statement.append(", ").append(columnName).append(" ").append(columnType.name());
 
             if (!creator.isNullAllowed(columnName)) {
                 statement.append(" NOT NULL");
@@ -67,7 +68,7 @@ public class StatementGenerator {
             }
         }
 
-        statement.append(");");
-        return statement.toString();
+        return statement.append(");")
+                .toString();
     }
 }

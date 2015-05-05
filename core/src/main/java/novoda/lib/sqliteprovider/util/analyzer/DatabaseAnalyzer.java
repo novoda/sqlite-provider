@@ -59,9 +59,8 @@ public class DatabaseAnalyzer {
     public List<String> getTableNames() {
         final Cursor cursor = executeQuery(SELECT_TABLES_NAME);
         List<String> createdTable = new ArrayList<String>(cursor.getCount());
-        String tableName;
         while (cursor.moveToNext()) {
-            tableName = cursor.getString(0);
+            String tableName = cursor.getString(0);
             if (!DEFAULT_TABLES.contains(tableName)) {
                 createdTable.add(tableName);
             }
@@ -73,19 +72,20 @@ public class DatabaseAnalyzer {
     public Map<String, String> getProjectionMap(String parent, String... foreignTables) {
         Map<String, String> projection = new HashMap<String, String>();
         projection.put("_id", parent + "._id AS _id");
-        for (Column column : getColumns(parent)) {
-            String name = column.getName();
-            projection.put(parent + "_" + name, parent + "." + name + " AS " + parent + "_" + name);
-        }
+        addProjectionForTable(projection, parent);
 
         for (String foreignTable : foreignTables) {
-            for (Column column : getColumns(foreignTable)) {
-                String name = column.getName();
-                projection.put(foreignTable + "_" + name, foreignTable + "." + name + " AS " + foreignTable + "_" + name);
-            }
+            addProjectionForTable(projection, foreignTable);
         }
 
         return Collections.unmodifiableMap(projection);
+    }
+
+    private void addProjectionForTable(Map<String, String> projection, String foreignTable) {
+        for (Column column : getColumns(foreignTable)) {
+            String name = column.getName();
+            projection.put(foreignTable + "_" + name, foreignTable + "." + name + " AS " + foreignTable + "_" + name);
+        }
     }
 
     public List<Column> getColumns(String table) {
