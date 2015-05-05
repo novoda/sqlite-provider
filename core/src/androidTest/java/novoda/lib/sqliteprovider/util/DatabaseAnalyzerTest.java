@@ -30,7 +30,8 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
     }
 
     public void testGetTables() throws Exception {
-        SQLiteDatabase db = createDatabaseWithStatement(CREATE_2_TABLES);
+        createDatabaseWithStatement(CREATE_2_TABLES);
+        SQLiteDatabase db = getDatabase();
 
         List<String> tables = new DatabaseAnalyzer(db).getTables();
 
@@ -38,7 +39,8 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
     }
 
     public void testGetForeignKey() throws Exception {
-        SQLiteDatabase db = createDatabaseWithStatement(CREATE_2_TABLES_WITH_FOREIGN_KEY);
+        createDatabaseWithStatement(CREATE_2_TABLES_WITH_FOREIGN_KEY);
+        SQLiteDatabase db = getDatabase();
 
         List<String> foreignTables = new DatabaseAnalyzer(db).getForeignTables("t2");
 
@@ -46,7 +48,8 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
     }
 
     public void testGettingColumns() throws Exception {
-        SQLiteDatabase db = createDatabaseWithStatement(CREATE_TABLES);
+        createDatabaseWithStatement(CREATE_TABLES);
+        SQLiteDatabase db = getDatabase();
 
         Map<String, SQLiteType> ft = new DatabaseAnalyzer(db).getColumns("t1");
 
@@ -54,7 +57,8 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
     }
 
     public void testGettingProjectionMap() throws Exception {
-        SQLiteDatabase db = createDatabaseWithStatement(CREATE_2_TABLES_WITH_FOREIGN_KEY);
+        createDatabaseWithStatement(CREATE_2_TABLES_WITH_FOREIGN_KEY);
+        SQLiteDatabase db = getDatabase();
 
         Map<String, String> ft = new DatabaseAnalyzer(db).getProjectionMap("t", "t2");
 
@@ -63,7 +67,8 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
     }
 
     public void testGettingUniqueConstraints() throws Exception {
-        SQLiteDatabase db = createDatabaseWithStatement(CREATE_TABLE_WITH_CONSTRAINT);
+        createDatabaseWithStatement(CREATE_TABLE_WITH_CONSTRAINT);
+        SQLiteDatabase db = getDatabase();
 
         List<Constraint> constrains = new DatabaseAnalyzer(db).getUniqueConstraints(db, "t");
 
@@ -71,7 +76,8 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
     }
 
     public void testGettingMultiColumnUniqueConstraints() throws Exception {
-        SQLiteDatabase db = createDatabaseWithStatement(CREATE_TABLE_WITH_MULTI_COLUMN_CONSTRAINT);
+        createDatabaseWithStatement(CREATE_TABLE_WITH_MULTI_COLUMN_CONSTRAINT);
+        SQLiteDatabase db = getDatabase();
 
         List<Constraint> constrains = new DatabaseAnalyzer(db).getUniqueConstraints(db, "t");
 
@@ -79,7 +85,8 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
     }
 
     public void testGettingUniqueConstraintsIsEmpty() throws Exception {
-        SQLiteDatabase db = createDatabaseWithStatement(CREATE_TABLES);
+        createDatabaseWithStatement(CREATE_TABLES);
+        SQLiteDatabase db = getDatabase();
 
         List<Constraint> uniqueConstraints = new DatabaseAnalyzer(db).getUniqueConstraints(db, "t");
 
@@ -87,16 +94,20 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
     }
 
     public void testGettingVersion() throws Exception {
-        SQLiteDatabase db = createDatabaseWithStatement("");
+        createDatabaseWithStatement("");
+        SQLiteDatabase db = getDatabase();
 
         String version = new DatabaseAnalyzer(db).getSQLiteVersion();
 
         assertFalse(TextUtils.isEmpty(version));
     }
 
-    private SQLiteDatabase createDatabaseWithStatement(String statement) {
-        createDbFromSqlStatements(getContext(), DB_NAME, 1, statement);
+    private SQLiteDatabase getDatabase() {
         return getContext().openOrCreateDatabase(DB_NAME, 0, null);
+    }
+
+    private void createDatabaseWithStatement(String statement) {
+        createDbFromSqlStatements(getContext(), DB_NAME, 1, statement);
     }
 
     @Override
