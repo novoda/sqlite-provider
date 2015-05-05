@@ -14,9 +14,6 @@ import novoda.lib.sqliteprovider.util.Constraint;
 
 public class DatabaseAnalyzer {
 
-    private final String PRAGMA_TABLE_INFO = "PRAGMA table_info(\"%1$s\");";
-    private final String ID_COLUMN_NAME = "_id";
-
     private final SQLiteDatabase database;
 
     public DatabaseAnalyzer(SQLiteDatabase database) {
@@ -24,36 +21,7 @@ public class DatabaseAnalyzer {
     }
 
     public List<String> getForeignTables(final String table) {
-        final List<String> tables = getTableNames();
-        return getDataForQuery(new Query<String>() {
-            @Override
-            public String getSqlStatement() {
-                return String.format(PRAGMA_TABLE_INFO, table);
-            }
-
-            @Override
-            public String parseRow(Cursor cursor) {
-                String name = getTableName(cursor);
-                if (name.endsWith(ID_COLUMN_NAME)) {
-                    String tableName = name.substring(0, name.lastIndexOf('_'));
-
-                    if (tables.contains(tableName + "s")) {
-                        return tableName + "s";
-                    } else if (tables.contains(tableName)) {
-                        return tableName;
-                    }
-                }
-                return null;
-            }
-
-            private String getTableName(Cursor cursor) {
-                return cursor.getString(cursor.getColumnIndexOrThrow("name"));
-            }
-        });
-    }
-
-    private Cursor executeQuery(String query) {
-        return database.rawQuery(query, null);
+        return getDataForQuery(new ForeignTableQuery(table, getTableNames()));
     }
 
     /**
@@ -106,6 +74,10 @@ public class DatabaseAnalyzer {
         cursor.close();
 
         return version;
+    }
+
+    private Cursor executeQuery(String query) {
+        return database.rawQuery(query, null);
     }
 
     public List<Constraint> getUniqueConstraints(final String table) {
@@ -164,4 +136,5 @@ public class DatabaseAnalyzer {
             return cursor.getInt(2) == 1;
         }
     }
+
 }
