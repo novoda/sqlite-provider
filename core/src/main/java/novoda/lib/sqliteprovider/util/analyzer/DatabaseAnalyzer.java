@@ -29,7 +29,7 @@ public class DatabaseAnalyzer {
 
     public List<String> getForeignTables(String table) {
         final Cursor cursor = executeQuery(String.format(PRAGMA_TABLE, table));
-        List<String> foreignTables = new ArrayList<String>(cursor.getCount());
+        List<String> foreignTables = createResultListForCursor(cursor);
         List<String> tables = getTableNames();
 
         while (cursor.moveToNext()) {
@@ -59,7 +59,7 @@ public class DatabaseAnalyzer {
      */
     public List<String> getTableNames() {
         final Cursor cursor = executeQuery(SELECT_TABLES_NAME);
-        List<String> createdTable = new ArrayList<String>(cursor.getCount());
+        List<String> createdTable = createResultListForCursor(cursor);
         while (cursor.moveToNext()) {
             String tableName = cursor.getString(0);
             if (!DEFAULT_TABLES.contains(tableName)) {
@@ -92,7 +92,7 @@ public class DatabaseAnalyzer {
     public List<Column> getColumns(String table) {
         final Cursor cursor = executeQuery(String.format(PRAGMA_TABLE, table));
 
-        List<Column> columns = new ArrayList<>(cursor.getCount());
+        List<Column> columns = createResultListForCursor(cursor);
 
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
@@ -125,7 +125,9 @@ public class DatabaseAnalyzer {
 
     public List<Constraint> getUniqueConstraints(String table) {
         final Cursor indexCursor = executeQuery(String.format(PRAGMA_INDEX_LIST, table));
-        List<Constraint> constraints = new ArrayList<Constraint>(indexCursor.getCount());
+
+        List<Constraint> constraints = createResultListForCursor(indexCursor);
+
         while (indexCursor.moveToNext()) {
             int isUnique = indexCursor.getInt(2);
             if (isUnique == 1) {
@@ -142,12 +144,16 @@ public class DatabaseAnalyzer {
 
     private Constraint getConstraintFromIndex(String indexName) {
         final Cursor columnCursor = executeQuery(String.format(PRAGMA_INDEX_INFO, indexName));
-        List<String> columns = new ArrayList<>(columnCursor.getCount());
+        List<String> columns = createResultListForCursor(columnCursor);
         while (columnCursor.moveToNext()) {
             String columnName = columnCursor.getString(2);
             columns.add(columnName);
         }
         columnCursor.close();
         return new Constraint(columns);
+    }
+
+    private <T> List<T> createResultListForCursor(Cursor cursor) {
+        return new ArrayList<>(cursor.getCount());
     }
 }
