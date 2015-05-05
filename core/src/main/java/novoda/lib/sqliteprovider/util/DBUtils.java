@@ -185,21 +185,33 @@ public final class DBUtils {
             shouldAutoincrement = creator.shouldPKAutoIncrement();
         }
 
-        StringBuilder sql = new StringBuilder();
-        sql.append("CREATE TABLE IF NOT EXISTS ").append("\"" + creator.getTableName() + "\"")
-        .append(" (").append(primaryKey).append(" ").append(primaryKeyType.name())
-        .append(" PRIMARY KEY").append(((shouldAutoincrement) ? " AUTOINCREMENT " : " "));
+
+        StringBuilder sql = new StringBuilder().append("CREATE TABLE IF NOT EXISTS ")
+                .append("\"").append(creator.getTableName()).append("\"")
+                .append(" (").append(primaryKey).append(" ").append(primaryKeyType.name())
+                .append(" PRIMARY KEY ");
+
+        if (shouldAutoincrement) {
+            sql.append("AUTOINCREMENT ");
+        }
 
         for (String f : creator.getTableFields()) {
             if (f.equals(primaryKey)) {
                 continue;
             }
             sql.append(", ").append(f).append(" ").append(creator.getType(f).name());
-            sql.append(creator.isNullAllowed(f) ? "" : " NOT NULL");
 
-            sql.append(creator.isUnique(f) ? " UNIQUE" : "");
-            sql.append((creator.onConflict(f) != null && creator.isUnique(f)) ? " ON CONFLICT "
-                    + creator.onConflict(f) : "");
+            if (!creator.isNullAllowed(f)) {
+                sql.append(" NOT NULL");
+            }
+
+            if (creator.isUnique(f)) {
+                sql.append(" UNIQUE");
+            }
+
+            if (creator.onConflict(f) != null && creator.isUnique(f)) {
+                sql.append(" ON CONFLICT ").append(creator.onConflict(f));
+            }
         }
 
         sql.append(");");
