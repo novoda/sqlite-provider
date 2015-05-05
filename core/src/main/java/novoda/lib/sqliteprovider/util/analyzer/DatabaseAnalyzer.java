@@ -1,5 +1,5 @@
 
-package novoda.lib.sqliteprovider.util;
+package novoda.lib.sqliteprovider.util.analyzer;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
+import novoda.lib.sqliteprovider.util.Constraint;
 import novoda.rest.database.SQLiteTableCreator;
 
 public class DatabaseAnalyzer {
@@ -56,7 +57,6 @@ public class DatabaseAnalyzer {
     }
 
     /**
-     * @param db the database to get meta information from
      * @return a list of tables
      */
     public List<String> getTables() {
@@ -76,34 +76,34 @@ public class DatabaseAnalyzer {
     public Map<String, String> getProjectionMap(String parent, String... foreignTables) {
         Map<String, String> projection = new HashMap<String, String>();
         projection.put("_id", parent + "._id AS _id");
-        for (Entry<String, SQLiteType> entry : getColumns(parent).entrySet()) {
-            projection.put(parent + "_" + entry.getKey(), parent + "." + entry.getKey() + " AS "
-                    + parent + "_" + entry.getKey());
+        for (Column column : getColumns(parent)) {
+            String name = column.getName();
+            projection.put(parent + "_" + name, parent + "." + name + " AS " + parent + "_" + name);
         }
 
-        for (String ft : foreignTables) {
-            for (Entry<String, SQLiteType> entry : getColumns(ft).entrySet()) {
-                projection.put(ft + "_" + entry.getKey(), ft + "." + entry.getKey() + " AS " + ft
-                        + "_" + entry.getKey());
+        for (String foreignTable : foreignTables) {
+            for (Column column : getColumns(foreignTable)) {
+                String name = column.getName();
+                projection.put(foreignTable + "_" + name, foreignTable + "." + name + " AS " + foreignTable + "_" + name);
             }
         }
         return Collections.unmodifiableMap(projection);
     }
 
-    public Map<String, SQLiteType> getColumns(String table) {
+    public List<Column> getColumns(String table) {
         final Cursor cursor = executeQuery(String.format(PRAGMA_TABLE, table));
 
-        Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cursor.getCount());
+        List<Column> columns = new ArrayList<>(cursor.getCount());
 
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
             String type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
-            fields.put(name, SQLiteType.valueOf(type.toUpperCase()));
+            columns.add(new Column(name, SQLiteType.valueOf(type.toUpperCase())));
         }
 
         cursor.close();
 
-        return Collections.unmodifiableMap(fields);
+        return columns;
     }
 
     /**
