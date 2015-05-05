@@ -10,17 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
 import novoda.lib.sqliteprovider.util.Constraint;
 
 public class DatabaseAnalyzer {
 
-    private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
-    private static final String PRAGMA_TABLE_INFO = "PRAGMA table_info(\"%1$s\");";
-    private static final String PRAGMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
-    private static final String PRAGMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
-    private static final List<String> DEFAULT_TABLES = Collections.singletonList("android_metadata");
-    private static final String ID_COLUMN_NAME = "_id";
+    private final String PRAGMA_TABLE_INFO = "PRAGMA table_info(\"%1$s\");";
+    private final String ID_COLUMN_NAME = "_id";
 
     private final SQLiteDatabase database;
 
@@ -28,25 +23,33 @@ public class DatabaseAnalyzer {
         this.database = database;
     }
 
-    public List<String> getForeignTables(String table) {
+    public List<String> getForeignTables(final String table) {
         final List<String> tables = getTableNames();
-        return getDataForQuery(String.format(PRAGMA_TABLE_INFO, table),
-                new RowParser<String>() {
-                    @Override
-                    public String parseRow(Cursor cursor) {
-                        String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                        if (name.endsWith(ID_COLUMN_NAME)) {
-                            String tableName = name.substring(0, name.lastIndexOf('_'));
+        return getDataForQuery(new Query<String>() {
+            @Override
+            public String getSqlStatement() {
+                return String.format(PRAGMA_TABLE_INFO, table);
+            }
 
-                            if (tables.contains(tableName + "s")) {
-                                return tableName + "s";
-                            } else if (tables.contains(tableName)) {
-                                return tableName;
-                            }
-                        }
-                        return null;
+            @Override
+            public String parseRow(Cursor cursor) {
+                String name = getTableName(cursor);
+                if (name.endsWith(ID_COLUMN_NAME)) {
+                    String tableName = name.substring(0, name.lastIndexOf('_'));
+
+                    if (tables.contains(tableName + "s")) {
+                        return tableName + "s";
+                    } else if (tables.contains(tableName)) {
+                        return tableName;
                     }
-                });
+                }
+                return null;
+            }
+
+            private String getTableName(Cursor cursor) {
+                return cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            }
+        });
     }
 
     private Cursor executeQuery(String query) {
@@ -57,17 +60,7 @@ public class DatabaseAnalyzer {
      * @return a list of tables
      */
     public List<String> getTableNames() {
-        return getDataForQuery(SELECT_TABLES_NAME,
-                new RowParser<String>() {
-                    @Override
-                    public String parseRow(Cursor cursor) {
-                        String tableName = cursor.getString(0);
-                        if (DEFAULT_TABLES.contains(tableName)) {
-                            return null;
-                        }
-                        return tableName;
-                    }
-                });
+        return getDataForQuery(new TableNameQuery());
     }
 
     public Map<String, String> getProjectionMap(String parent, String... foreignTables) {
@@ -93,17 +86,8 @@ public class DatabaseAnalyzer {
         return projection.put(table + "_" + column, table + "." + column + " AS " + table + "_" + column);
     }
 
-    public List<Column> getColumns(String table) {
-
-        return getDataForQuery(String.format(PRAGMA_TABLE_INFO, table),
-                new RowParser<Column>() {
-                    @Override
-                    public Column parseRow(Cursor cursor) {
-                        String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                        String type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
-                        return new Column(name, SQLiteType.valueOf(type.toUpperCase()));
-                    }
-                });
+    public List<Column> getColumns(final String table) {
+        return getDataForQuery(new TableColumnQuery(table));
     }
 
     /**
@@ -124,41 +108,23 @@ public class DatabaseAnalyzer {
         return version;
     }
 
-    public List<Constraint> getUniqueConstraints(String table) {
-        return getDataForQuery(String.format(PRAGMA_INDEX_LIST, table),
-                new RowParser<Constraint>() {
-                    @Override
-                    public Constraint parseRow(Cursor cursor) {
-                        int isUnique = cursor.getInt(2);
-                        if (isUnique == 1) {
-                            String indexName = cursor.getString(1);
-                            return getConstraintFromIndex(indexName);
-                        }
-                        return null;
-                    }
-                });
+    public List<Constraint> getUniqueConstraints(final String table) {
+        return getDataForQuery(new TableConstraintQuery(table));
     }
 
     private Constraint getConstraintFromIndex(String indexName) {
-        List<String> columns = getDataForQuery(String.format(PRAGMA_INDEX_INFO, indexName),
-                new RowParser<String>() {
-                    @Override
-                    public String parseRow(Cursor cursor) {
-                        String columnName = cursor.getString(2);
-                        return columnName;
-                    }
-                });
+        List<String> columns = getDataForQuery(new IndexColumnQuery(indexName));
 
         return new Constraint(columns);
     }
 
-    private <T> List<T> getDataForQuery(String query, RowParser<T> parser) {
-        final Cursor cursor = executeQuery(query);
+    private <T> List<T> getDataForQuery(Query<T> query) {
+        final Cursor cursor = executeQuery(query.getSqlStatement());
 
         List<T> items = new ArrayList<>(cursor.getCount());
 
         while (cursor.moveToNext()) {
-            final T item = parser.parseRow(cursor);
+            final T item = query.parseRow(cursor);
             if (item != null) {
                 items.add(item);
             }
@@ -169,7 +135,33 @@ public class DatabaseAnalyzer {
         return Collections.unmodifiableList(items);
     }
 
-    private interface RowParser<T> {
-        T parseRow(Cursor cursor);
+    private class TableConstraintQuery implements Query<Constraint> {
+        private final String table;
+
+        public TableConstraintQuery(String table) {
+            this.table = table;
+        }
+
+        @Override
+        public String getSqlStatement() {
+            return String.format("PRAGMA index_list('%1$s');", table);
+        }
+
+        @Override
+        public Constraint parseRow(Cursor cursor) {
+            if (isUniqueConstraint(cursor)) {
+                String indexName = getIndexName(cursor);
+                return getConstraintFromIndex(indexName);
+            }
+            return null;
+        }
+
+        private String getIndexName(Cursor cursor) {
+            return cursor.getString(1);
+        }
+
+        private boolean isUniqueConstraint(Cursor cursor) {
+            return cursor.getInt(2) == 1;
+        }
     }
 }
