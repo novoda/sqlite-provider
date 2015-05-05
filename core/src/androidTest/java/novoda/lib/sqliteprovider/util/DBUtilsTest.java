@@ -11,6 +11,8 @@ import java.util.Map;
 
 import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
 
+import static android.database.DatabaseUtils.*;
+
 public class DBUtilsTest extends AndroidTestCase {
 
     private static final String DB_NAME = "testing.db";
@@ -26,63 +28,73 @@ public class DBUtilsTest extends AndroidTestCase {
         setContext(new RenamingDelegatingContext(getContext(), "_test_"));
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        for (String db : getContext().databaseList()) {
-            getContext().deleteDatabase(db);
-        }
-    }
-
     public void testGetDBName() throws Exception {
-        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_2_TABLES);
-        SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
+        SQLiteDatabase db = createDatabaseWithStatement(CREATE_2_TABLES);
+
         List<String> tables = DBUtils.getTables(db);
+
         MoreAsserts.assertContentsInAnyOrder(tables, "T", "T2");
     }
 
     public void testGetForeignKey() throws Exception {
-        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_2_TABLES_WITH_FOREIGN_KEY);
-        SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
-        List<String> ft = DBUtils.getForeignTables(db, "t2");
-        MoreAsserts.assertContentsInAnyOrder(ft, "t");
+        SQLiteDatabase db = createDatabaseWithStatement(CREATE_2_TABLES_WITH_FOREIGN_KEY);
+
+        List<String> foreignTables = DBUtils.getForeignTables(db, "t2");
+
+        MoreAsserts.assertContentsInAnyOrder(foreignTables, "t");
     }
 
     public void testGettingFieldsMap() throws Exception {
-        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLES);
-        SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
+        SQLiteDatabase db = createDatabaseWithStatement(CREATE_TABLES);
+
         Map<String, SQLiteType> ft = DBUtils.getFields(db, "t1");
+
         MoreAsserts.assertContentsInAnyOrder(ft.keySet(), "id", "name", "r");
     }
 
     public void testGettingProjectionMap() throws Exception {
-        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_2_TABLES_WITH_FOREIGN_KEY);
-        SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
+        SQLiteDatabase db = createDatabaseWithStatement(CREATE_2_TABLES_WITH_FOREIGN_KEY);
+
         Map<String, String> ft = DBUtils.getProjectionMap(db, "t", "t2");
+
         assertEquals("t.id AS t_id", ft.get("t_id"));
         assertEquals("t2.id AS t2_id", ft.get("t2_id"));
     }
 
     public void testGettingUniqueConstraints() throws Exception {
-        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLE_WITH_CONSTRAINT);
+        SQLiteDatabase db = createDatabaseWithStatement(CREATE_TABLE_WITH_CONSTRAINT);
 
-        SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
         List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
+
         MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("const")));
     }
 
     public void testGettingMultiColumnUniqueConstraints() throws Exception {
-        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLE_WITH_MULTI_COLUMN_CONSTRAINT);
+        SQLiteDatabase db = createDatabaseWithStatement(CREATE_TABLE_WITH_MULTI_COLUMN_CONSTRAINT);
 
-        SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
         List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
+
         MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("name", "desc")));
     }
 
     public void testGettingUniqueConstraintsIsEmpty() throws Exception {
-        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLES);
-        SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
-        List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
-        MoreAsserts.assertEmpty(constrains);
+        SQLiteDatabase db = createDatabaseWithStatement(CREATE_TABLES);
+
+        List<Constraint> uniqueConstraints = DBUtils.getUniqueConstraints(db, "t");
+
+        MoreAsserts.assertEmpty(uniqueConstraints);
+    }
+
+    private SQLiteDatabase createDatabaseWithStatement(String statement) {
+        createDbFromSqlStatements(getContext(), DB_NAME, 1, statement);
+        return getContext().openOrCreateDatabase(DB_NAME, 0, null);
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        for (String databaseName : getContext().databaseList()) {
+            getContext().deleteDatabase(databaseName);
+        }
     }
 }
