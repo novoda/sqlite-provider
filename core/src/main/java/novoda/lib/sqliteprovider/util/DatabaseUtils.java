@@ -4,6 +4,11 @@ import android.content.ContentValues;
 
 import novoda.rest.database.SQLiteTableCreator;
 
+/**
+ * @deprecated
+ * Use {@link DBUtils} instead
+ */
+@Deprecated
 public class DatabaseUtils extends android.database.DatabaseUtils {
 
     /**
