@@ -93,6 +93,10 @@ public class DBUtilsTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+        deleteAllDatabases();
+    }
+
+    private void deleteAllDatabases() {
         for (String databaseName : getContext().databaseList()) {
             getContext().deleteDatabase(databaseName);
         }
