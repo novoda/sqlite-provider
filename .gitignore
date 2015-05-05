@@ -38,3 +38,4 @@ proguard/
 # Google play publishing plugin
 core/src/main/play/
 
+tmp
