@@ -20,6 +20,7 @@ public class DatabaseAnalyzer {
     private static final String PRAGMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
     private static final String PRAGMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
     private static final List<String> DEFAULT_TABLES = Collections.singletonList("android_metadata");
+    private static final String ID_COLUMN_NAME = "_id";
 
     private final SQLiteDatabase database;
 
@@ -30,11 +31,11 @@ public class DatabaseAnalyzer {
     public List<String> getForeignTables(String table) {
         final List<String> tables = getTableNames();
         return getDataForQuery(String.format(PRAGMA_TABLE, table),
-                new CursorParser<String>() {
+                new RowParser<String>() {
                     @Override
                     public String parseRow(Cursor cursor) {
                         String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                        if (name.endsWith("_id")) {
+                        if (name.endsWith(ID_COLUMN_NAME)) {
                             String tableName = name.substring(0, name.lastIndexOf('_'));
 
                             if (tables.contains(tableName + "s")) {
@@ -57,7 +58,7 @@ public class DatabaseAnalyzer {
      */
     public List<String> getTableNames() {
         return getDataForQuery(SELECT_TABLES_NAME,
-                new CursorParser<String>() {
+                new RowParser<String>() {
                     @Override
                     public String parseRow(Cursor cursor) {
                         String tableName = cursor.getString(0);
@@ -91,7 +92,7 @@ public class DatabaseAnalyzer {
     public List<Column> getColumns(String table) {
 
         return getDataForQuery(String.format(PRAGMA_TABLE, table),
-                new CursorParser<Column>() {
+                new RowParser<Column>() {
                     @Override
                     public Column parseRow(Cursor cursor) {
                         String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
@@ -121,7 +122,7 @@ public class DatabaseAnalyzer {
 
     public List<Constraint> getUniqueConstraints(String table) {
         return getDataForQuery(String.format(PRAGMA_INDEX_LIST, table),
-                new CursorParser<Constraint>() {
+                new RowParser<Constraint>() {
                     @Override
                     public Constraint parseRow(Cursor cursor) {
                         int isUnique = cursor.getInt(2);
@@ -136,7 +137,7 @@ public class DatabaseAnalyzer {
 
     private Constraint getConstraintFromIndex(String indexName) {
         List<String> columns = getDataForQuery(String.format(PRAGMA_INDEX_INFO, indexName),
-                new CursorParser<String>() {
+                new RowParser<String>() {
                     @Override
                     public String parseRow(Cursor cursor) {
                         String columnName = cursor.getString(2);
@@ -147,7 +148,7 @@ public class DatabaseAnalyzer {
         return new Constraint(columns);
     }
 
-    private <T> List<T> getDataForQuery(String query, CursorParser<T> parser) {
+    private <T> List<T> getDataForQuery(String query, RowParser<T> parser) {
         final Cursor cursor = executeQuery(query);
 
         List<T> items = new ArrayList<>(cursor.getCount());
@@ -164,7 +165,7 @@ public class DatabaseAnalyzer {
         return Collections.unmodifiableList(items);
     }
 
-    private interface CursorParser<T> {
+    private interface RowParser<T> {
         T parseRow(Cursor cursor);
     }
 }
