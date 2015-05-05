@@ -173,44 +173,44 @@ public final class DBUtils {
 
     public static String getCreateStatement(SQLiteTableCreator creator) {
 
-        String primaryKey = creator.getPrimaryKey();
-        novoda.rest.database.SQLiteType primaryKeyType;
+        String primaryKeyColumnName = creator.getPrimaryKey();
+        novoda.rest.database.SQLiteType primaryKeyColumnType;
         boolean shouldAutoincrement;
-        if (primaryKey == null) {
-            primaryKey = "_id";
-            primaryKeyType = novoda.rest.database.SQLiteType.INTEGER;
+        if (primaryKeyColumnName == null) {
+            primaryKeyColumnName = "_id";
+            primaryKeyColumnType = novoda.rest.database.SQLiteType.INTEGER;
             shouldAutoincrement = true;
         } else {
-            primaryKeyType = creator.getType(primaryKey);
+            primaryKeyColumnType = creator.getType(primaryKeyColumnName);
             shouldAutoincrement = creator.shouldPKAutoIncrement();
         }
 
 
         StringBuilder sql = new StringBuilder().append("CREATE TABLE IF NOT EXISTS ")
                 .append("\"").append(creator.getTableName()).append("\"")
-                .append(" (").append(primaryKey).append(" ").append(primaryKeyType.name())
+                .append(" (").append(primaryKeyColumnName).append(" ").append(primaryKeyColumnType.name())
                 .append(" PRIMARY KEY ");
 
         if (shouldAutoincrement) {
             sql.append("AUTOINCREMENT ");
         }
 
-        for (String f : creator.getTableFields()) {
-            if (f.equals(primaryKey)) {
+        for (String columnName : creator.getTableFields()) {
+            if (columnName.equals(primaryKeyColumnName)) {
                 continue;
             }
-            sql.append(", ").append(f).append(" ").append(creator.getType(f).name());
+            sql.append(", ").append(columnName).append(" ").append(creator.getType(columnName).name());
 
-            if (!creator.isNullAllowed(f)) {
+            if (!creator.isNullAllowed(columnName)) {
                 sql.append(" NOT NULL");
             }
 
-            if (creator.isUnique(f)) {
+            if (creator.isUnique(columnName)) {
                 sql.append(" UNIQUE");
             }
 
-            if (creator.onConflict(f) != null && creator.isUnique(f)) {
-                sql.append(" ON CONFLICT ").append(creator.onConflict(f));
+            if (creator.onConflict(columnName) != null && creator.isUnique(columnName)) {
+                sql.append(" ON CONFLICT ").append(creator.onConflict(columnName));
             }
         }
 
