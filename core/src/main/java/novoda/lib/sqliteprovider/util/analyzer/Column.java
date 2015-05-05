@@ -18,4 +18,20 @@ class Column {
     public IDatabaseMetaInfo.SQLiteType getType() {
         return type;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Column column = (Column) o;
+
+        return name.equals(column.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

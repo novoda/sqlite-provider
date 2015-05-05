@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
 import novoda.lib.sqliteprovider.util.Constraint;
 
 import static android.database.DatabaseUtils.createDbFromSqlStatements;
@@ -52,9 +51,13 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
         createDatabaseWithStatement(CREATE_TABLES);
         SQLiteDatabase db = getDatabase();
 
-        Map<String, SQLiteType> ft = new DatabaseAnalyzer(db).getColumns("t1");
+        List<Column> columns = new DatabaseAnalyzer(db).getColumns("t1");
 
-        MoreAsserts.assertContentsInAnyOrder(ft.keySet(), "id", "name", "r");
+        MoreAsserts.assertContentsInAnyOrder(columns,
+                new Column("id", null),
+                new Column("name", null),
+                new Column("r", null)
+        );
     }
 
     public void testGettingProjectionMap() throws Exception {
