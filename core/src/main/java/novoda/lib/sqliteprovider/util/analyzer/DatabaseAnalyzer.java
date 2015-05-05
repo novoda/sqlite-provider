@@ -29,8 +29,9 @@ public class DatabaseAnalyzer {
 
     public List<String> getForeignTables(String table) {
         final Cursor cursor = executeQuery(String.format(PRAGMA_TABLE, table));
+        List<String> foreignTables = new ArrayList<String>(cursor.getCount());
         List<String> tables = getTableNames();
-        List<String> foreignTables = new ArrayList<String>(5);
+
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
             if (name.endsWith("_id")) {
