@@ -19,12 +19,9 @@ import novoda.rest.database.SQLiteTableCreator;
 public final class DBUtils {
 
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
-
     private static final String PRAGMA_TABLE = "PRAGMA table_info(\"%1$s\");";
-
-    private static final String PRGAMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
-
-    private static final String PRGAMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
+    private static final String PRAGMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
+    private static final String PRAGMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
 
     private static List<String> defaultTables = Arrays.asList("android_metadata");
 
@@ -124,12 +121,12 @@ public final class DBUtils {
     @Deprecated
     public static List<String> getUniqueConstrains(SQLiteDatabase db, String table) {
         List<String> constrains = new ArrayList<String>();
-        final Cursor pragmas = db.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
+        final Cursor pragmas = db.rawQuery(String.format(PRAGMA_INDEX_LIST, table), null);
         while (pragmas.moveToNext()) {
             int isUnique = pragmas.getInt(2);
             if (isUnique == 1) {
                 String name = pragmas.getString(1);
-                final Cursor pragmaInfo = db.rawQuery(String.format(PRGAMA_INDEX_INFO, name), null);
+                final Cursor pragmaInfo = db.rawQuery(String.format(PRAGMA_INDEX_INFO, name), null);
                 if (pragmaInfo.moveToFirst()) {
                     constrains.add(pragmaInfo.getString(2));
                 }
@@ -142,12 +139,12 @@ public final class DBUtils {
 
     public static List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
         List<Constraint> constraints = new ArrayList<Constraint>();
-        final Cursor indexCursor = db.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
+        final Cursor indexCursor = db.rawQuery(String.format(PRAGMA_INDEX_LIST, table), null);
         while (indexCursor.moveToNext()) {
             int isUnique = indexCursor.getInt(2);
             if (isUnique == 1) {
                 String indexName = indexCursor.getString(1);
-                final Cursor columnCursor = db.rawQuery(String.format(PRGAMA_INDEX_INFO, indexName), null);
+                final Cursor columnCursor = db.rawQuery(String.format(PRAGMA_INDEX_INFO, indexName), null);
                 List<String> columns = new ArrayList<>(columnCursor.getCount());
                 while (columnCursor.moveToNext()) {
                     String columnName = columnCursor.getString(2);
