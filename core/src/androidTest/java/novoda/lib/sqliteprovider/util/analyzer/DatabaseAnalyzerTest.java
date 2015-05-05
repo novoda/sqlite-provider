@@ -71,7 +71,7 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
         createDatabaseWithStatement(CREATE_TABLE_WITH_CONSTRAINT);
         SQLiteDatabase db = getDatabase();
 
-        List<Constraint> constrains = new DatabaseAnalyzer(db).getUniqueConstraints(db, "t");
+        List<Constraint> constrains = new DatabaseAnalyzer(db).getUniqueConstraints("t");
 
         MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("const")));
     }
@@ -80,7 +80,7 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
         createDatabaseWithStatement(CREATE_TABLE_WITH_MULTI_COLUMN_CONSTRAINT);
         SQLiteDatabase db = getDatabase();
 
-        List<Constraint> constrains = new DatabaseAnalyzer(db).getUniqueConstraints(db, "t");
+        List<Constraint> constrains = new DatabaseAnalyzer(db).getUniqueConstraints("t");
 
         MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("name", "desc")));
     }
@@ -89,7 +89,7 @@ public class DatabaseAnalyzerTest extends AndroidTestCase {
         createDatabaseWithStatement(CREATE_TABLES);
         SQLiteDatabase db = getDatabase();
 
-        List<Constraint> uniqueConstraints = new DatabaseAnalyzer(db).getUniqueConstraints(db, "t");
+        List<Constraint> uniqueConstraints = new DatabaseAnalyzer(db).getUniqueConstraints("t");
 
         MoreAsserts.assertEmpty(uniqueConstraints);
     }
