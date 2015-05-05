@@ -16,7 +16,7 @@ import novoda.lib.sqliteprovider.util.Constraint;
 public class DatabaseAnalyzer {
 
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
-    private static final String PRAGMA_TABLE = "PRAGMA table_info(\"%1$s\");";
+    private static final String PRAGMA_TABLE_INFO = "PRAGMA table_info(\"%1$s\");";
     private static final String PRAGMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
     private static final String PRAGMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
     private static final List<String> DEFAULT_TABLES = Collections.singletonList("android_metadata");
@@ -30,7 +30,7 @@ public class DatabaseAnalyzer {
 
     public List<String> getForeignTables(String table) {
         final List<String> tables = getTableNames();
-        return getDataForQuery(String.format(PRAGMA_TABLE, table),
+        return getDataForQuery(String.format(PRAGMA_TABLE_INFO, table),
                 new RowParser<String>() {
                     @Override
                     public String parseRow(Cursor cursor) {
@@ -82,16 +82,20 @@ public class DatabaseAnalyzer {
         return Collections.unmodifiableMap(projection);
     }
 
-    private void addProjectionForTable(Map<String, String> projection, String foreignTable) {
-        for (Column column : getColumns(foreignTable)) {
-            String name = column.getName();
-            projection.put(foreignTable + "_" + name, foreignTable + "." + name + " AS " + foreignTable + "_" + name);
+    private void addProjectionForTable(Map<String, String> projection, String table) {
+        for (Column column : getColumns(table)) {
+            String columnName = column.getName();
+            addProjection(projection, table, columnName);
         }
+    }
+
+    private String addProjection(Map<String, String> projection, String table, String column) {
+        return projection.put(table + "_" + column, table + "." + column + " AS " + table + "_" + column);
     }
 
     public List<Column> getColumns(String table) {
 
-        return getDataForQuery(String.format(PRAGMA_TABLE, table),
+        return getDataForQuery(String.format(PRAGMA_TABLE_INFO, table),
                 new RowParser<Column>() {
                     @Override
                     public Column parseRow(Cursor cursor) {
