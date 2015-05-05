@@ -118,19 +118,6 @@ public final class DBUtils {
         return sqliteVersion.toString();
     }
 
-
-    public static String getSQLiteVersion2() {
-        final Cursor cursor = SQLiteDatabase.openOrCreateDatabase(":memory:", null).rawQuery(
-                "select sqlite_version() AS sqlite_version", null);
-        StringBuilder sqliteVersion = new StringBuilder();
-        while (cursor.moveToNext()) {
-            sqliteVersion.append(cursor.getString(0));
-        }
-        cursor.close();
-        return sqliteVersion.toString();
-    }
-
-
     /**
      * Use {@link #getUniqueConstraints(SQLiteDatabase, String)}
      */
