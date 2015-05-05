@@ -28,26 +28,24 @@ public class DatabaseAnalyzer {
     }
 
     public List<String> getForeignTables(String table) {
-        final Cursor cursor = executeQuery(String.format(PRAGMA_TABLE, table));
-        List<String> foreignTables = createResultListForCursor(cursor);
-        List<String> tables = getTableNames();
+        final List<String> tables = getTableNames();
+        return getDataForQuery(String.format(PRAGMA_TABLE, table),
+                new CursorParser<String>() {
+                    @Override
+                    public String parseRow(Cursor cursor) {
+                        String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                        if (name.endsWith("_id")) {
+                            String tableName = name.substring(0, name.lastIndexOf('_'));
 
-        while (cursor.moveToNext()) {
-            String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-            if (name.endsWith("_id")) {
-                String tableName = name.substring(0, name.lastIndexOf('_'));
-
-                if (tables.contains(tableName + "s")) {
-                    foreignTables.add(tableName + "s");
-                } else if (tables.contains(tableName)) {
-                    foreignTables.add(tableName);
-                }
-            }
-        }
-
-        cursor.close();
-
-        return Collections.unmodifiableList(foreignTables);
+                            if (tables.contains(tableName + "s")) {
+                                return tableName + "s";
+                            } else if (tables.contains(tableName)) {
+                                return tableName;
+                            }
+                            return null;
+                        }
+                    }
+                });
     }
 
     private Cursor executeQuery(String query) {
@@ -58,16 +56,17 @@ public class DatabaseAnalyzer {
      * @return a list of tables
      */
     public List<String> getTableNames() {
-        final Cursor cursor = executeQuery(SELECT_TABLES_NAME);
-        List<String> createdTable = createResultListForCursor(cursor);
-        while (cursor.moveToNext()) {
-            String tableName = cursor.getString(0);
-            if (!DEFAULT_TABLES.contains(tableName)) {
-                createdTable.add(tableName);
-            }
-        }
-        cursor.close();
-        return Collections.unmodifiableList(createdTable);
+        return getDataForQuery(SELECT_TABLES_NAME,
+                new CursorParser<String>() {
+                    @Override
+                    public String parseRow(Cursor cursor) {
+                        String tableName = cursor.getString(0);
+                        if (DEFAULT_TABLES.contains(tableName)) {
+                            return null;
+                        }
+                        return tableName;
+                    }
+                });
     }
 
     public Map<String, String> getProjectionMap(String parent, String... foreignTables) {
@@ -90,19 +89,16 @@ public class DatabaseAnalyzer {
     }
 
     public List<Column> getColumns(String table) {
-        final Cursor cursor = executeQuery(String.format(PRAGMA_TABLE, table));
 
-        List<Column> columns = createResultListForCursor(cursor);
-
-        while (cursor.moveToNext()) {
-            String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-            String type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
-            columns.add(new Column(name, SQLiteType.valueOf(type.toUpperCase())));
-        }
-
-        cursor.close();
-
-        return columns;
+        return getDataForQuery(String.format(PRAGMA_TABLE, table),
+                new CursorParser<Column>() {
+                    @Override
+                    public Column parseRow(Cursor cursor) {
+                        String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                        String type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
+                        return new Column(name, SQLiteType.valueOf(type.toUpperCase()));
+                    }
+                });
     }
 
     /**
@@ -124,36 +120,50 @@ public class DatabaseAnalyzer {
     }
 
     public List<Constraint> getUniqueConstraints(String table) {
-        final Cursor indexCursor = executeQuery(String.format(PRAGMA_INDEX_LIST, table));
-
-        List<Constraint> constraints = createResultListForCursor(indexCursor);
-
-        while (indexCursor.moveToNext()) {
-            int isUnique = indexCursor.getInt(2);
-            if (isUnique == 1) {
-                String indexName = indexCursor.getString(1);
-                Constraint constraint = getConstraintFromIndex(indexName);
-                constraints.add(constraint);
-            }
-        }
-
-        indexCursor.close();
-
-        return constraints;
+        return getDataForQuery(String.format(PRAGMA_INDEX_LIST, table),
+                new CursorParser<Constraint>() {
+                    @Override
+                    public Constraint parseRow(Cursor cursor) {
+                        int isUnique = cursor.getInt(2);
+                        if (isUnique == 1) {
+                            String indexName = cursor.getString(1);
+                            return getConstraintFromIndex(indexName);
+                        }
+                    }
+                });
     }
 
     private Constraint getConstraintFromIndex(String indexName) {
-        final Cursor columnCursor = executeQuery(String.format(PRAGMA_INDEX_INFO, indexName));
-        List<String> columns = createResultListForCursor(columnCursor);
-        while (columnCursor.moveToNext()) {
-            String columnName = columnCursor.getString(2);
-            columns.add(columnName);
-        }
-        columnCursor.close();
+        List<String> columns = getDataForQuery(String.format(PRAGMA_INDEX_INFO, indexName),
+                new CursorParser<String>() {
+                    @Override
+                    public String parseRow(Cursor cursor) {
+                        String columnName = cursor.getString(2);
+                        return columnName;
+                    }
+                });
+
         return new Constraint(columns);
     }
 
-    private <T> List<T> createResultListForCursor(Cursor cursor) {
-        return new ArrayList<>(cursor.getCount());
+    private <T> List<T> getDataForQuery(String query, CursorParser<T> parser) {
+        final Cursor cursor = executeQuery(query);
+
+        List<T> items = new ArrayList<>(cursor.getCount());
+
+        while (cursor.moveToNext()) {
+            final T item = parser.parseRow(cursor);
+            if (item != null) {
+                items.add(item);
+            }
+        }
+
+        cursor.close();
+
+        return Collections.unmodifiableList(items);
+    }
+
+    private interface CursorParser<T> {
+        T parseRow(Cursor cursor);
     }
 }
