@@ -124,25 +124,30 @@ public class DatabaseAnalyzer {
     }
 
     public List<Constraint> getUniqueConstraints(String table) {
-        List<Constraint> constraints = new ArrayList<Constraint>();
         final Cursor indexCursor = executeQuery(String.format(PRAGMA_INDEX_LIST, table));
+        List<Constraint> constraints = new ArrayList<Constraint>(indexCursor.getCount());
         while (indexCursor.moveToNext()) {
             int isUnique = indexCursor.getInt(2);
             if (isUnique == 1) {
                 String indexName = indexCursor.getString(1);
-                final Cursor columnCursor = executeQuery(String.format(PRAGMA_INDEX_INFO, indexName));
-                List<String> columns = new ArrayList<>(columnCursor.getCount());
-                while (columnCursor.moveToNext()) {
-                    String columnName = columnCursor.getString(2);
-                    columns.add(columnName);
-                }
-                columnCursor.close();
-                constraints.add(new Constraint(columns));
+                Constraint constraint = getConstraintFromIndex(indexName);
+                constraints.add(constraint);
             }
         }
 
         indexCursor.close();
 
         return constraints;
+    }
+
+    private Constraint getConstraintFromIndex(String indexName) {
+        final Cursor columnCursor = executeQuery(String.format(PRAGMA_INDEX_INFO, indexName));
+        List<String> columns = new ArrayList<>(columnCursor.getCount());
+        while (columnCursor.moveToNext()) {
+            String columnName = columnCursor.getString(2);
+            columns.add(columnName);
+        }
+        columnCursor.close();
+        return new Constraint(columns);
     }
 }
