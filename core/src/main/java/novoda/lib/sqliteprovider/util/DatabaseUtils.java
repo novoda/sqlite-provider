@@ -6,7 +6,6 @@ import novoda.rest.database.SQLiteTableCreator;
 
 public class DatabaseUtils extends android.database.DatabaseUtils {
 
-
     /**
      * @deprecated
      * Use {@link DBUtils#contentValuestoTableCreate(ContentValues, String)} instead
