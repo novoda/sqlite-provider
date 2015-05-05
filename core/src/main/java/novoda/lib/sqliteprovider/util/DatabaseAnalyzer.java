@@ -142,13 +142,18 @@ public final class DatabaseAnalyzer {
     }
 
     public String contentValuestoTableCreate(ContentValues values, String table) {
-        StringBuffer buf = new StringBuffer("CREATE TABLE ").append(table).append(" (");
+        StringBuilder string = new StringBuilder("CREATE TABLE ")
+                .append(table)
+                .append(" (");
+
         for (Entry<String, Object> entry : values.valueSet()) {
-            buf.append(entry.getKey()).append(" TEXT").append(", ");
+            string.append(entry.getKey())
+                    .append(" TEXT, ");
         }
-        buf.delete(buf.length() - 2, buf.length());
-        buf.append(");");
-        return buf.toString();
+
+        return string.delete(string.length() - 2, string.length())
+                .append(");")
+                .toString();
     }
 
     public String getCreateStatement(SQLiteTableCreator creator) {
