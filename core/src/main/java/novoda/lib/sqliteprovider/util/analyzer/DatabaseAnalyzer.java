@@ -42,8 +42,8 @@ public class DatabaseAnalyzer {
                             } else if (tables.contains(tableName)) {
                                 return tableName;
                             }
-                            return null;
                         }
+                        return null;
                     }
                 });
     }
@@ -129,6 +129,7 @@ public class DatabaseAnalyzer {
                             String indexName = cursor.getString(1);
                             return getConstraintFromIndex(indexName);
                         }
+                        return null;
                     }
                 });
     }
