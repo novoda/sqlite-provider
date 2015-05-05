@@ -23,7 +23,7 @@ import org.robolectric.shadows.ShadowContentUris;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
-import novoda.lib.sqliteprovider.util.RoboRunner;
+import novoda.lib.sqliteprovider.RoboRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

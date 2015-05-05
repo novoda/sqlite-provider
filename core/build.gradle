@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.2'
-        classpath 'com.novoda:bintray-release:0.2.4'
+        classpath 'com.novoda:bintray-release:0.2.10'
     }
 }
 
@@ -17,6 +17,7 @@ android {
 
     defaultConfig {
         minSdkVersion 8
+        targetSdkVersion 22
     }
 }
 
@@ -26,17 +27,15 @@ repositories {
 
 dependencies {
     testCompile "junit:junit:4.12"
-    testCompile "org.robolectric:robolectric:2.4"
-    testCompile "org.mockito:mockito-core:1.9.5"
-    // make Robolectric work on Gradle 2.3
-    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
+    testCompile "org.robolectric:robolectric:2.2"
+    testCompile "org.mockito:mockito-core:1.10.19"
 }
 
 publish {
     userOrg = 'novoda'
     groupId = 'com.novoda'
     artifactId = 'sqlite-provider'
-    version = '1.0.6'
+    version = '1.1.0'
     description = 'Extended SQLite functionality for Android'
     website = 'https://github.com/novoda/sqlite-provider'
 }
