@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -16,14 +15,13 @@ import java.util.Map.Entry;
 import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
 import novoda.rest.database.SQLiteTableCreator;
 
-public final class DatabaseAnalyzer {
+public class DatabaseAnalyzer {
 
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
     private static final String PRAGMA_TABLE = "PRAGMA table_info(\"%1$s\");";
     private static final String PRAGMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
     private static final String PRAGMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
-
-    private static List<String> defaultTables = Arrays.asList("android_metadata");
+    private static final List<String> DEFAULT_TABLES = Collections.singletonList("android_metadata");
 
     private final SQLiteDatabase database;
 
@@ -32,15 +30,14 @@ public final class DatabaseAnalyzer {
     }
 
     public List<String> getForeignTables(String table) {
-        final Cursor cur = executeQuery(String.format(PRAGMA_TABLE, table));
+        final Cursor cursor = executeQuery(String.format(PRAGMA_TABLE, table));
         List<String> tables = getTables();
         List<String> foreignTables = new ArrayList<String>(5);
-        String name;
-        String tableName;
-        while (cur.moveToNext()) {
-            name = cur.getString(cur.getColumnIndexOrThrow("name"));
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
             if (name.endsWith("_id")) {
-                tableName = name.substring(0, name.lastIndexOf('_'));
+                String tableName = name.substring(0, name.lastIndexOf('_'));
+
                 if (tables.contains(tableName + "s")) {
                     foreignTables.add(tableName + "s");
                 } else if (tables.contains(tableName)) {
@@ -48,8 +45,14 @@ public final class DatabaseAnalyzer {
                 }
             }
         }
-        cur.close();
+
+        cursor.close();
+
         return Collections.unmodifiableList(foreignTables);
+    }
+
+    private Cursor executeQuery(String query) {
+        return database.rawQuery(query, null);
     }
 
     /**
@@ -57,16 +60,16 @@ public final class DatabaseAnalyzer {
      * @return a list of tables
      */
     public List<String> getTables() {
-        final Cursor cur = executeQuery(SELECT_TABLES_NAME);
-        List<String> createdTable = new ArrayList<String>(cur.getCount());
+        final Cursor cursor = executeQuery(SELECT_TABLES_NAME);
+        List<String> createdTable = new ArrayList<String>(cursor.getCount());
         String tableName;
-        while (cur.moveToNext()) {
-            tableName = cur.getString(0);
-            if (!defaultTables.contains(tableName)) {
+        while (cursor.moveToNext()) {
+            tableName = cursor.getString(0);
+            if (!DEFAULT_TABLES.contains(tableName)) {
                 createdTable.add(tableName);
             }
         }
-        cur.close();
+        cursor.close();
         return Collections.unmodifiableList(createdTable);
     }
 
@@ -88,20 +91,19 @@ public final class DatabaseAnalyzer {
     }
 
     public Map<String, SQLiteType> getColumns(String table) {
-        final Cursor cur = executeQuery(String.format(PRAGMA_TABLE, table));
-        Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cur.getCount());
+        final Cursor cursor = executeQuery(String.format(PRAGMA_TABLE, table));
 
-        while (cur.moveToNext()) {
-            String name = cur.getString(cur.getColumnIndexOrThrow("name"));
-            String type = cur.getString(cur.getColumnIndexOrThrow("type"));
+        Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cursor.getCount());
+
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            String type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
             fields.put(name, SQLiteType.valueOf(type.toUpperCase()));
         }
-        cur.close();
-        return Collections.unmodifiableMap(fields);
-    }
 
-    private Cursor executeQuery(String query) {
-        return database.rawQuery(query, null);
+        cursor.close();
+
+        return Collections.unmodifiableMap(fields);
     }
 
     /**
@@ -110,14 +112,17 @@ public final class DatabaseAnalyzer {
      * @return the SQLite version
      */
     public String getSQLiteVersion() {
-        final Cursor cursor = SQLiteDatabase.openOrCreateDatabase(":memory:", null).rawQuery(
-                "select sqlite_version() AS sqlite_version", null);
-        StringBuilder sqliteVersion = new StringBuilder();
+        final Cursor cursor = executeQuery("SELECT sqlite_version() AS sqlite_version");
+
+        StringBuilder versionString = new StringBuilder();
+
         while (cursor.moveToNext()) {
-            sqliteVersion.append(cursor.getString(0));
+            versionString.append(cursor.getString(0));
         }
+
         cursor.close();
-        return sqliteVersion.toString();
+
+        return versionString.toString();
     }
 
     public List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
