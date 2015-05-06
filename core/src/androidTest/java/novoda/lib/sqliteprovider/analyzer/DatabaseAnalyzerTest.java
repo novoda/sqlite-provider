@@ -1,4 +1,4 @@
-package novoda.lib.sqliteprovider.util.analyzer;
+package novoda.lib.sqliteprovider.analyzer;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
@@ -9,8 +9,6 @@ import android.text.TextUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import novoda.lib.sqliteprovider.util.Constraint;
 
 import static android.database.DatabaseUtils.createDbFromSqlStatements;
 

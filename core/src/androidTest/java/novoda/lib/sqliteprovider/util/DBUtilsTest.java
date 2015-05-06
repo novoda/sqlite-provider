@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
+import novoda.lib.sqliteprovider.analyzer.Constraint;
 
 import static android.database.DatabaseUtils.createDbFromSqlStatements;
 

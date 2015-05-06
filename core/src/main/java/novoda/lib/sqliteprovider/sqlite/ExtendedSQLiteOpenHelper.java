@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import novoda.lib.sqliteprovider.migration.Migrations;
-import novoda.lib.sqliteprovider.util.Constraint;
+import novoda.lib.sqliteprovider.analyzer.Constraint;
 import novoda.lib.sqliteprovider.util.DBUtils;
 import novoda.lib.sqliteprovider.util.Log;
 

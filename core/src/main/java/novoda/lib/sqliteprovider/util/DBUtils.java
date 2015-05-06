@@ -12,8 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
-import novoda.lib.sqliteprovider.util.analyzer.DatabaseAnalyzer;
-import novoda.lib.sqliteprovider.util.analyzer.StatementGenerator;
+import novoda.lib.sqliteprovider.analyzer.Constraint;
+import novoda.lib.sqliteprovider.analyzer.DatabaseAnalyzer;
+import novoda.lib.sqliteprovider.analyzer.StatementGenerator;
 import novoda.rest.database.SQLiteTableCreator;
 
 @Deprecated

@@ -1,5 +1,5 @@
 
-package novoda.lib.sqliteprovider.util.analyzer;
+package novoda.lib.sqliteprovider.analyzer;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,8 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import novoda.lib.sqliteprovider.util.Constraint;
 
 public class DatabaseAnalyzer {
 

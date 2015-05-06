@@ -1,4 +1,4 @@
-package novoda.lib.sqliteprovider.util.analyzer;
+package novoda.lib.sqliteprovider.analyzer;
 
 import android.database.Cursor;
 

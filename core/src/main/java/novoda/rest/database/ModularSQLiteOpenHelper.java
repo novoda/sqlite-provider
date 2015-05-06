@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import novoda.lib.sqliteprovider.util.analyzer.StatementGenerator;
+import novoda.lib.sqliteprovider.analyzer.StatementGenerator;
 
 public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
 

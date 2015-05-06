@@ -4,7 +4,7 @@ package novoda.lib.sqliteprovider.sqlite;
 import java.util.List;
 import java.util.Map;
 
-import novoda.lib.sqliteprovider.util.Constraint;
+import novoda.lib.sqliteprovider.analyzer.Constraint;
 
 public interface IDatabaseMetaInfo {
 
