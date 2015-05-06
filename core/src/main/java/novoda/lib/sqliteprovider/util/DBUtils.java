@@ -16,6 +16,7 @@ import novoda.lib.sqliteprovider.util.analyzer.DatabaseAnalyzer;
 import novoda.lib.sqliteprovider.util.analyzer.StatementGenerator;
 import novoda.rest.database.SQLiteTableCreator;
 
+@Deprecated
 public final class DBUtils {
 
     private static final String PRAGMA_TABLE = "PRAGMA table_info(\"%1$s\");";
@@ -26,6 +27,10 @@ public final class DBUtils {
         // Util class
     }
 
+    /**
+     * @deprecated Use {@link DatabaseAnalyzer#getForeignTables(String)}   instead
+     */
+    @Deprecated
     public static List<String> getForeignTables(SQLiteDatabase db, String table) {
         return new DatabaseAnalyzer(db).getForeignTables(table);
     }
@@ -33,15 +38,25 @@ public final class DBUtils {
     /**
      * @param db the database to get meta information from
      * @return a list of tables
+     * @deprecated Use {@link DatabaseAnalyzer#getTableNames()}
      */
+    @Deprecated
     public static List<String> getTables(SQLiteDatabase db) {
         return new DatabaseAnalyzer(db).getTableNames();
     }
 
+    /**
+     * @deprecated Use {@link DatabaseAnalyzer#getProjectionMap(String, String...)}  instead
+     */
+    @Deprecated
     public static Map<String, String> getProjectionMap(SQLiteDatabase db, String parent, String... foreignTables) {
         return new DatabaseAnalyzer(db).getProjectionMap(parent, foreignTables);
     }
 
+    /**
+     * @deprecated Use {@link DatabaseAnalyzer#getColumns(String)} instead
+     */
+    @Deprecated
     public static Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
         final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
         Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cur.getCount());
@@ -60,14 +75,16 @@ public final class DBUtils {
      * Gets the version of SQLite used by Android.
      *
      * @return the SQLite version
+     * @deprecated Use {@link DatabaseAnalyzer#getSQLiteVersion()} instead
      */
+    @Deprecated
     public static String getSQLiteVersion() {
         final SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(":memory:", null);
         return new DatabaseAnalyzer(sqLiteDatabase).getSQLiteVersion();
     }
 
     /**
-     * Use {@link #getUniqueConstraints(SQLiteDatabase, String)}
+     * @deprecated Use {@link DatabaseAnalyzer#getUniqueConstraints(String)} )} instead
      */
     @Deprecated
     public static List<String> getUniqueConstrains(SQLiteDatabase db, String table) {
@@ -88,14 +105,26 @@ public final class DBUtils {
         return constrains;
     }
 
+    /**
+     * @deprecated Use {@link DatabaseAnalyzer#getUniqueConstraints(String)} instead
+     */
+    @Deprecated
     public static List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
         return new DatabaseAnalyzer(db).getUniqueConstraints(table);
     }
 
+    /**
+     * @deprecated Use {@link StatementGenerator#contentValuestoTableCreate(ContentValues, String)} instead
+     */
+    @Deprecated
     public static String contentValuestoTableCreate(ContentValues values, String table) {
         return new StatementGenerator().contentValuestoTableCreate(values, table);
     }
 
+    /**
+     * @deprecated Use {@link StatementGenerator#getCreateStatement(SQLiteTableCreator)} instead
+     */
+    @Deprecated
     public static String getCreateStatement(SQLiteTableCreator creator) {
         return new StatementGenerator().getCreateStatement(creator);
     }
