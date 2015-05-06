@@ -2,7 +2,7 @@ package novoda.lib.sqliteprovider.analyzer;
 
 import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo;
 
-class Column {
+public class Column {
     private final String name;
     private final IDatabaseMetaInfo.SQLiteType type;
 
