@@ -12,8 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import novoda.lib.sqliteprovider.migration.Migrations;
+import novoda.lib.sqliteprovider.analyzer.Column;
 import novoda.lib.sqliteprovider.analyzer.Constraint;
+import novoda.lib.sqliteprovider.analyzer.DatabaseAnalyzer;
+import novoda.lib.sqliteprovider.migration.Migrations;
 import novoda.lib.sqliteprovider.util.DBUtils;
 import novoda.lib.sqliteprovider.util.Log;
 
@@ -47,17 +49,23 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
 
     @Override
     public Map<String, SQLiteType> getColumns(String table) {
-        return DBUtils.getFields(getReadableDatabase(), table);
+        final List<Column> columnList = new DatabaseAnalyzer(getReadableDatabase()).getColumns(table);
+        Map<String, SQLiteType> columnMap = new HashMap<>(columnList.size());
+        for (Column column : columnList) {
+            columnMap.put(column.getName(), column.getType());
+        }
+        return columnMap;
     }
 
     @Override
     public List<String> getTables() {
-        return DBUtils.getTables(getReadableDatabase());
+        return new DatabaseAnalyzer(getReadableDatabase()).getTableNames();
     }
 
     @Override
     public List<String> getForeignTables(String table) {
-        return DBUtils.getForeignTables(getReadableDatabase(), table);
+        return new DatabaseAnalyzer(getReadableDatabase()).getForeignTables(table);
+
     }
 
     @Override
@@ -86,7 +94,7 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
 
     @Override
     public Map<String, String> getProjectionMap(String parent, String... foreignTables) {
-        return DBUtils.getProjectionMap(getReadableDatabase(), parent, foreignTables);
+        return new DatabaseAnalyzer(getReadableDatabase()).getProjectionMap(parent, foreignTables);
     }
 
     /**
@@ -104,7 +112,8 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
     @Override
     public List<Constraint> getUniqueConstraints(String table) {
         if (!constraints.containsKey(table)) {
-            constraints.put(table, DBUtils.getUniqueConstraints(getReadableDatabase(), table));
+            List<Constraint> constraints = new DatabaseAnalyzer(getReadableDatabase()).getUniqueConstraints(table);
+            this.constraints.put(table, constraints);
         }
         return constraints.get(table);
     }
