@@ -9,9 +9,9 @@ import novoda.rest.database.SQLiteType;
 
 public class StatementGenerator {
 
-    public String contentValuestoTableCreate(ContentValues values, String table) {
+    public String contentValuestoTableCreate(ContentValues values, String tableName) {
         StringBuilder statement = new StringBuilder("CREATE TABLE ")
-                .append(table)
+                .append(tableName)
                 .append(" (");
 
         for (Map.Entry<String, Object> entry : values.valueSet()) {

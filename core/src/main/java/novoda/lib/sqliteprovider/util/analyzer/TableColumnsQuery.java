@@ -13,7 +13,7 @@ class TableColumnsQuery implements Query<Column> {
 
     @Override
     public String getSqlStatement() {
-        return String.format("PRAGMA table_info(\"%1$s\");", table);
+        return "PRAGMA table_info(\"" + table + "\");";
     }
 
     @Override

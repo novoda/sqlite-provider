@@ -7,11 +7,11 @@ import java.util.List;
 class ForeignTablesQuery implements Query<String> {
 
     private final String table;
-    private final List<String> tables;
+    private final List<String> allDatabaseTables;
 
-    public ForeignTablesQuery(String table, List<String> tables) {
+    public ForeignTablesQuery(String table, List<String> allDatabaseTables) {
         this.table = table;
-        this.tables = tables;
+        this.allDatabaseTables = allDatabaseTables;
     }
 
     @Override
@@ -26,9 +26,9 @@ class ForeignTablesQuery implements Query<String> {
         if (name.endsWith(idColumnName)) {
             String tableName = name.substring(0, name.lastIndexOf('_'));
 
-            if (tables.contains(tableName + "s")) {
+            if (allDatabaseTables.contains(tableName + "s")) {
                 return tableName + "s";
-            } else if (tables.contains(tableName)) {
+            } else if (allDatabaseTables.contains(tableName)) {
                 return tableName;
             }
         }
