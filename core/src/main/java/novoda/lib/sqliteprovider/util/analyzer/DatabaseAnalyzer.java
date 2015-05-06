@@ -64,20 +64,8 @@ public class DatabaseAnalyzer {
      * @return the SQLite version
      */
     public String getSQLiteVersion() {
-        final Cursor cursor = executeQuery("SELECT sqlite_version() AS sqlite_version");
-        String version = "";
-
-        if (cursor.moveToFirst()) {
-            version = cursor.getString(0);
-        }
-
-        cursor.close();
-
-        return version;
-    }
-
-    private Cursor executeQuery(String query) {
-        return database.rawQuery(query, null);
+        List<String> data = getDataForQuery(new SqliteVersionQuery());
+        return data.get(0);
     }
 
     public List<Constraint> getUniqueConstraints(final String table) {
@@ -111,6 +99,10 @@ public class DatabaseAnalyzer {
         cursor.close();
 
         return Collections.unmodifiableList(items);
+    }
+
+    private Cursor executeQuery(String query) {
+        return database.rawQuery(query, null);
     }
 
 }
