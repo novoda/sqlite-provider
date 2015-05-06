@@ -25,6 +25,10 @@ public class DatabaseAnalyzer {
         return executeQuery(new ForeignTablesQuery(table, getTableNames()));
     }
 
+    private <T> List<T> executeQuery(Query<T> query) {
+        return queryExecutor.getDataForQuery(query);
+    }
+
     /**
      * @return a list of tables
      */
@@ -81,10 +85,6 @@ public class DatabaseAnalyzer {
 
     private List<String> getColumnsInIndex(String indexName) {
         return executeQuery(new IndexColumnsQuery(indexName));
-    }
-
-    private <T> List<T> executeQuery(Query<T> query) {
-        return queryExecutor.getDataForQuery(query);
     }
 
 }
