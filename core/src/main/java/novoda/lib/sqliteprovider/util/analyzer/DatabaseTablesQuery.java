@@ -5,7 +5,7 @@ import android.database.Cursor;
 import java.util.Collections;
 import java.util.List;
 
-class TableNameQuery implements Query<String> {
+class DatabaseTablesQuery implements Query<String> {
     private static final List<String> DEFAULT_TABLES = Collections.singletonList("android_metadata");
 
     @Override

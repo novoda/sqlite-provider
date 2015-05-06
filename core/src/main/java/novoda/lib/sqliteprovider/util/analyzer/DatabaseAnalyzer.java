@@ -21,14 +21,14 @@ public class DatabaseAnalyzer {
     }
 
     public List<String> getForeignTables(final String table) {
-        return getDataForQuery(new ForeignTableQuery(table, getTableNames()));
+        return getDataForQuery(new ForeignTablesQuery(table, getTableNames()));
     }
 
     /**
      * @return a list of tables
      */
     public List<String> getTableNames() {
-        return getDataForQuery(new TableNameQuery());
+        return getDataForQuery(new DatabaseTablesQuery());
     }
 
     public Map<String, String> getProjectionMap(String parent, String... foreignTables) {
@@ -55,7 +55,7 @@ public class DatabaseAnalyzer {
     }
 
     public List<Column> getColumns(final String table) {
-        return getDataForQuery(new TableColumnQuery(table));
+        return getDataForQuery(new TableColumnsQuery(table));
     }
 
     /**
@@ -81,11 +81,17 @@ public class DatabaseAnalyzer {
     }
 
     public List<Constraint> getUniqueConstraints(final String table) {
-        return getDataForQuery(new TableConstraintQuery(table));
+        final List<String> constraintNames = getDataForQuery(new TableUniqueConstraintsQuery(table));
+
+        List<Constraint> constraints = new ArrayList<>(constraintNames.size());
+        for (String constraintName : constraintNames) {
+            constraints.add(getConstraintFromIndex(constraintName));
+        }
+        return constraints;
     }
 
     private Constraint getConstraintFromIndex(String indexName) {
-        List<String> columns = getDataForQuery(new IndexColumnQuery(indexName));
+        List<String> columns = getDataForQuery(new IndexColumnsQuery(indexName));
 
         return new Constraint(columns);
     }
@@ -105,36 +111,6 @@ public class DatabaseAnalyzer {
         cursor.close();
 
         return Collections.unmodifiableList(items);
-    }
-
-    private class TableConstraintQuery implements Query<Constraint> {
-        private final String table;
-
-        public TableConstraintQuery(String table) {
-            this.table = table;
-        }
-
-        @Override
-        public String getSqlStatement() {
-            return String.format("PRAGMA index_list('%1$s');", table);
-        }
-
-        @Override
-        public Constraint parseRow(Cursor cursor) {
-            if (isUniqueConstraint(cursor)) {
-                String indexName = getIndexName(cursor);
-                return getConstraintFromIndex(indexName);
-            }
-            return null;
-        }
-
-        private String getIndexName(Cursor cursor) {
-            return cursor.getString(1);
-        }
-
-        private boolean isUniqueConstraint(Cursor cursor) {
-            return cursor.getInt(2) == 1;
-        }
     }
 
 }

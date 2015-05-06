@@ -2,11 +2,11 @@ package novoda.lib.sqliteprovider.util.analyzer;
 
 import android.database.Cursor;
 
-class IndexColumnQuery implements Query<String> {
+class IndexColumnsQuery implements Query<String> {
 
     private final String indexName;
 
-    public IndexColumnQuery(String indexName) {
+    public IndexColumnsQuery(String indexName) {
         this.indexName = indexName;
     }
 

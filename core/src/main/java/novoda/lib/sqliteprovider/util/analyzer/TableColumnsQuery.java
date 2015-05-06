@@ -4,10 +4,10 @@ import android.database.Cursor;
 
 import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo;
 
-class TableColumnQuery implements Query<Column> {
+class TableColumnsQuery implements Query<Column> {
     private final String table;
 
-    public TableColumnQuery(String table) {
+    public TableColumnsQuery(String table) {
         this.table = table;
     }
 
