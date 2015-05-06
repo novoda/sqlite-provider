@@ -1,7 +1,6 @@
 
 package novoda.lib.sqliteprovider.analyzer;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -12,21 +11,25 @@ import java.util.Map;
 
 public class DatabaseAnalyzer {
 
-    private final SQLiteDatabase database;
+    private final QueryExecutor queryExecutor;
 
     public DatabaseAnalyzer(SQLiteDatabase database) {
-        this.database = database;
+        this(new QueryExecutor(database));
+    }
+
+    DatabaseAnalyzer(QueryExecutor queryExecutor) {
+        this.queryExecutor = queryExecutor;
     }
 
     public List<String> getForeignTables(final String table) {
-        return getDataForQuery(new ForeignTablesQuery(table, getTableNames()));
+        return executeQuery(new ForeignTablesQuery(table, getTableNames()));
     }
 
     /**
      * @return a list of tables
      */
     public List<String> getTableNames() {
-        return getDataForQuery(new DatabaseTablesQuery());
+        return executeQuery(new DatabaseTablesQuery());
     }
 
     public Map<String, String> getProjectionMap(String parent, String... foreignTables) {
@@ -43,8 +46,7 @@ public class DatabaseAnalyzer {
 
     private void addProjectionForTable(Map<String, String> projection, String table) {
         for (Column column : getColumns(table)) {
-            String columnName = column.getName();
-            addProjection(projection, table, columnName);
+            addProjection(projection, table, column.getName());
         }
     }
 
@@ -53,7 +55,7 @@ public class DatabaseAnalyzer {
     }
 
     public List<Column> getColumns(final String table) {
-        return getDataForQuery(new TableColumnsQuery(table));
+        return executeQuery(new TableColumnsQuery(table));
     }
 
     /**
@@ -62,12 +64,12 @@ public class DatabaseAnalyzer {
      * @return the SQLite version
      */
     public String getSQLiteVersion() {
-        List<String> data = getDataForQuery(new SqliteVersionQuery());
+        List<String> data = executeQuery(new SqliteVersionQuery());
         return data.get(0);
     }
 
     public List<Constraint> getUniqueConstraints(final String table) {
-        final List<String> constraintNames = getDataForQuery(new TableUniqueConstraintsQuery(table));
+        final List<String> constraintNames = executeQuery(new TableUniqueConstraintsQuery(table));
 
         List<Constraint> constraints = new ArrayList<>(constraintNames.size());
         for (String constraintName : constraintNames) {
@@ -77,30 +79,13 @@ public class DatabaseAnalyzer {
     }
 
     private Constraint getConstraintFromIndex(String indexName) {
-        List<String> columns = getDataForQuery(new IndexColumnsQuery(indexName));
+        List<String> columns = executeQuery(new IndexColumnsQuery(indexName));
 
         return new Constraint(columns);
     }
 
-    private <T> List<T> getDataForQuery(Query<T> query) {
-        final Cursor cursor = executeQuery(query.getSqlStatement());
-
-        List<T> items = new ArrayList<>(cursor.getCount());
-
-        while (cursor.moveToNext()) {
-            final T item = query.parseRow(cursor);
-            if (item != null) {
-                items.add(item);
-            }
-        }
-
-        cursor.close();
-
-        return Collections.unmodifiableList(items);
-    }
-
-    private Cursor executeQuery(String query) {
-        return database.rawQuery(query, null);
+    private <T> List<T> executeQuery(Query<T> query) {
+        return queryExecutor.getDataForQuery(query);
     }
 
 }
