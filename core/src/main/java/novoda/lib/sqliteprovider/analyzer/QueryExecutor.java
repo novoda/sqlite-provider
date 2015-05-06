@@ -33,12 +33,12 @@ class QueryExecutor {
         return Collections.unmodifiableList(items);
     }
 
-    private <T> ArrayList<T> createResultListForCursor(Cursor cursor) {
-        return new ArrayList<>(cursor.getCount());
-    }
-
     private Cursor executeQuery(String query) {
         return database.rawQuery(query, null);
+    }
+
+    private <T> ArrayList<T> createResultListForCursor(Cursor cursor) {
+        return new ArrayList<>(cursor.getCount());
     }
 
 }
