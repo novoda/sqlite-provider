@@ -73,15 +73,14 @@ public class DatabaseAnalyzer {
 
         List<Constraint> constraints = new ArrayList<>(constraintNames.size());
         for (String constraintName : constraintNames) {
-            constraints.add(getConstraintFromIndex(constraintName));
+            final List<String> indexColumns = getColumnsInIndex(constraintName);
+            constraints.add(new Constraint(indexColumns));
         }
         return constraints;
     }
 
-    private Constraint getConstraintFromIndex(String indexName) {
-        List<String> columns = executeQuery(new IndexColumnsQuery(indexName));
-
-        return new Constraint(columns);
+    private List<String> getColumnsInIndex(String indexName) {
+        return executeQuery(new IndexColumnsQuery(indexName));
     }
 
     private <T> List<T> executeQuery(Query<T> query) {
