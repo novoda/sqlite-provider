@@ -26,12 +26,13 @@ public class Column {
 
         Column column = (Column) o;
 
-        return name.equals(column.name);
-
+        return name.equals(column.name) && type == column.type;
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        int result = name.hashCode();
+        result = 31 * result + type.hashCode();
+        return result;
     }
 }
