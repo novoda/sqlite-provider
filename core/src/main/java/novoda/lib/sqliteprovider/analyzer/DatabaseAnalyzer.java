@@ -29,9 +29,6 @@ public class DatabaseAnalyzer {
         return queryExecutor.getDataForQuery(query);
     }
 
-    /**
-     * @return a list of tables
-     */
     public List<String> getTableNames() {
         return executeQuery(new DatabaseTablesQuery());
     }
