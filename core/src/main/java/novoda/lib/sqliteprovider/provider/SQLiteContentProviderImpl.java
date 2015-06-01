@@ -76,7 +76,6 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
             if (insertUri != null) {
                 rowsCreated++;
             }
-            getWritableDatabase().yieldIfContendedSafely();
         }
         notifyUriChange(uri);
         return rowsCreated;
