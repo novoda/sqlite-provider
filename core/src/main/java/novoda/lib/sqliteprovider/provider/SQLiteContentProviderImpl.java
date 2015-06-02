@@ -28,6 +28,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     private static final String LIMIT = "limit";
     private static final String EXPAND = "expand";
     private static final String DISTINCT = "distinct";
+    private static final String ALLOW_YIELD = "allowYield";
 
     private InsertHelper helper;
     private final ImplLogger logger;
@@ -70,13 +71,17 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
     @Override
     protected int bulkInsertInTransaction(Uri uri, ContentValues[] values) {
+        String allowYield = uri.getQueryParameter(ALLOW_YIELD);
+        boolean shouldYield = allowYield == null || Boolean.parseBoolean(allowYield);
         int rowsCreated = 0;
         for (ContentValues value : values) {
             Uri insertUri = insertSilently(uri, value);
             if (insertUri != null) {
                 rowsCreated++;
             }
-            getWritableDatabase().yieldIfContendedSafely();
+            if (shouldYield) {
+                getWritableDatabase().yieldIfContendedSafely();
+            }
         }
         notifyUriChange(uri);
         return rowsCreated;
