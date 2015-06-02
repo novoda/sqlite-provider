@@ -38,6 +38,12 @@ public class MainActivity extends NovodaActivity implements DemoMenu {
 
     @Override
     @FromXML
+    public void onBulkAddYieldFireworksClick(View view) {
+        startActivity(AddBulkYieldFireworksActivity.class);
+    }
+
+    @Override
+    @FromXML
     public void onFindFireworkWithPrimaryKeyClick(View button) {
         startActivity(FindFireworkWithPkActivity.class);
     }

@@ -9,7 +9,6 @@ import android.widget.Toast;
 import com.novoda.sqliteprovider.demo.R;
 import com.novoda.sqliteprovider.demo.domain.Firework;
 import com.novoda.sqliteprovider.demo.domain.UseCaseFactory;
-import com.novoda.sqliteprovider.demo.loader.FireworkSaver;
 import com.novoda.sqliteprovider.demo.loader.FireworksBulkSaver;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseConstants;
 import com.novoda.sqliteprovider.demo.ui.base.NovodaActivity;
@@ -40,7 +39,7 @@ public class AddBulkFireworksActivity extends NovodaActivity implements AddBulkF
     @Override
     public void onBulkAddClick(List<Firework> fireworks) {
         this.fireworks = fireworks;
-        getSupportLoaderManager().initLoader(FireworkSaver.LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(FireworksBulkSaver.LOADER_ID, null, this);
     }
 
     @Override

@@ -20,16 +20,16 @@ public class DatabaseWriter {
     }
 
     public void bulkSaveDataToFireworksTable(ContentValues[] values) {
-        bulkSaveDataToTable(DatabaseConstants.TBL_FIREWORKS, values);
+        bulkSaveDataToTable(DatabaseConstants.TBL_FIREWORKS, values, "true");
     }
 
-    private void bulkSaveDataToTable(String table, ContentValues[] values) {
-        Uri uri = createUriWithoutYieldFor(table);
+    public void bulkSaveDataToFireworksTableWithoutYield(ContentValues[] values) {
+        bulkSaveDataToTable(DatabaseConstants.TBL_FIREWORKS, values, "false");
+    }
+
+    private void bulkSaveDataToTable(String table, ContentValues[] values, String allowYield) {
+        Uri uri = createUri(table).buildUpon().appendQueryParameter(KEY_ALLOW_YIELD, allowYield).build();
         contentResolver.bulkInsert(uri, values);
-    }
-
-    private Uri createUriWithoutYieldFor(String table) {
-        return createUri(table).buildUpon().appendQueryParameter(KEY_ALLOW_YIELD, "false").build();
     }
 
     private void saveDataToTable(String table, ContentValues values) {

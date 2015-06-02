@@ -2,17 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.novoda.sqliteprovider.demo"
   android:versionCode="1"
-  android:versionName="1.0" >
+  android:versionName="1.0">
 
   <application
     android:name=".NovodaApplication"
     android:allowBackup="true"
     android:icon="@drawable/ic_launcher"
     android:label="@string/app_name"
-    android:theme="@style/AppTheme" >
+    android:theme="@style/AppTheme">
     <activity
       android:name=".ui.MainActivity"
-      android:label="@string/app_name" >
+      android:label="@string/app_name">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
@@ -28,6 +28,9 @@
     <activity
       android:name=".ui.AddBulkFireworksActivity"
       android:label="@string/activity_label_add_bulk_fireworks" />
+    <activity
+      android:name=".ui.AddBulkYieldFireworksActivity"
+      android:label="@string/activity_label_add_bulk_yield_fireworks" />
     <activity
       android:name=".ui.FindFireworkWithPkActivity"
       android:label="@string/activity_label_find_firework" />
