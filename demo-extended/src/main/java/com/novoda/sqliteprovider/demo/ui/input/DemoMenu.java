@@ -20,4 +20,6 @@ public interface DemoMenu {
 
     void onFindUniqueFireworksClick(View button);
 
+    void onBulkAddYieldFireworksClick(View button);
+
 }

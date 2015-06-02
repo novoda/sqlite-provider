@@ -5,6 +5,7 @@
   <string name="button_main_view_all_fireworks">View all Fireworks</string>
   <string name="button_main_add_firework">Add a new Firework</string>
   <string name="button_main_bulk_add_fireworks">Add bulk Fireworks</string>
+  <string name="button_main_bulk_add_yield_fireworks">Add bulk Yield Fireworks</string>
   <string name="activity_add_firework_text">Add a firework to the firework table in your database</string>
   <string name="activity_add_firework_input_title_name">Name:</string>
   <string name="activity_add_firework_input_title_color">Color:</string>
@@ -29,6 +30,7 @@
   <string name="activity_label_all_fireworks">All Fireworks</string>
   <string name="activity_label_add_new_firework">Add New Firework</string>
   <string name="activity_label_add_bulk_fireworks">Add bulk Fireworks</string>
+  <string name="activity_label_add_bulk_yield_fireworks">Add bulk yield Fireworks</string>
   <string name="activity_label_find_firework">Find Firework</string>
   <string name="activity_find_firework_with_pk_firework_primary_key_input_title">Firework Primary Key:</string>
   <string name="activity_find_firework_with_pk_firework_primary_key_input_hint">Primary Key</string>
@@ -43,5 +45,7 @@
   <string name="activity_label_find_firework_from_shop">Find Fireworks with shop PK</string>
   <string name="activity_add_bulk_fireworks_text">Bulk add random fireworks in the firework table</string>
   <string name="activity_add_bulk_fireworks_input_number">Number of random fireworks</string>
+  <string name="activity_add_bulk_yield_fireworks_threads">Number of parallel threads</string>
+  <string name="allow_yield">Allow yield</string>
 
 </resources>

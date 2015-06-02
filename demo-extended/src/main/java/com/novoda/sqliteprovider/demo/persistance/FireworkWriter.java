@@ -32,6 +32,16 @@ public class FireworkWriter {
         databaseWriter.bulkSaveDataToFireworksTable(valuesArray.toArray(new ContentValues[fireworks.size()]));
     }
 
+    public void saveFireworksWithoutYield(List<Firework> fireworks) {
+        List<ContentValues> valuesArray = new ArrayList<>();
+        for (Firework firework : fireworks) {
+            ContentValues values = createContentValuesFrom(firework);
+            valuesArray.add(values);
+        }
+
+        databaseWriter.bulkSaveDataToFireworksTableWithoutYield(valuesArray.toArray(new ContentValues[fireworks.size()]));
+    }
+
     private ContentValues createContentValuesFrom(Firework firework) {
         ContentValues values = new ContentValues();
         values.put(COL_NAME, firework.getName());

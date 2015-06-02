@@ -10,7 +10,7 @@ public final class UseCaseFactory {
     }
 
     public enum UseCase {
-        ADD, BULK_ADD, ONE_TO_MANY, PRIMARY_KEY_LOOKUP, SELECT_ALL, DISTINCT, LIMIT, GROUP_HAVING;
+        ADD, BULK_ADD, BULK_YIELD_ADD, BULK_WIHOUT_YIELD, ONE_TO_MANY, PRIMARY_KEY_LOOKUP, SELECT_ALL, DISTINCT, LIMIT, GROUP_HAVING;
     }
 
     public static UseCaseInfo getInfo(UseCase useCase) {
@@ -19,6 +19,10 @@ public final class UseCaseFactory {
                 return createUseCaseInfo(FireworkUriConstants.ADD_FIREWORK, RawSql.INSERT_FIREWORK);
             case BULK_ADD:
                 return createUseCaseInfo(FireworkUriConstants.ADD_FIREWORK, RawSql.BULK_INSERT_FIREWORKS);
+            case BULK_YIELD_ADD:
+                return createUseCaseInfo(FireworkUriConstants.ADD_FIREWORK_YIELD, RawSql.BULK_INSERT_FIREWORKS);
+            case BULK_WIHOUT_YIELD:
+                return createUseCaseInfo(FireworkUriConstants.ADD_FIREWORK_WITHOUT_YIELD, RawSql.BULK_INSERT_FIREWORKS);
             case ONE_TO_MANY:
                 return createUseCaseInfo(FireworkUriConstants.ONE_TO_MANY_SEARCH, RawSql.SELECT_USING_SHOP_FOREIGN_KEY);
             case PRIMARY_KEY_LOOKUP:

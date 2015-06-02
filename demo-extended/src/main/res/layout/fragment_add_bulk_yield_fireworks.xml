@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+
+  <TextView
+    style="@style/wrap_w_wrap_h"
+    android:padding="@dimen/norm_spacing"
+    android:text="@string/activity_add_bulk_fireworks_text" />
+
+  <EditText
+    android:id="@+id/add_bulk_yield_fireworks_number"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/activity_add_bulk_fireworks_input_number"
+    android:imeOptions="actionNext"
+    android:inputType="number"
+    android:maxLines="1" />
+
+  <EditText
+    android:id="@+id/add_bulk_yield_fireworks_threads"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/activity_add_bulk_yield_fireworks_threads"
+    android:imeOptions="actionNext"
+    android:inputType="number"
+    android:maxLines="1" />
+
+  <CheckBox
+    android:id="@+id/add_bulk_yield_fireworks_yield"
+    android:checked="true"
+    android:text="@string/allow_yield"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+  <Button
+    android:id="@+id/add_bulk_yield_fireworks_add_button"
+    style="@style/match_w_wrap_h"
+    android:layout_margin="@dimen/norm_spacing"
+    android:hint="@string/button_add_fireworks" />
+
+  <TextView
+    android:id="@+id/add_bulk_yield_logs"
+    style="@style/match_w_wrap_h" />
+
+</LinearLayout>

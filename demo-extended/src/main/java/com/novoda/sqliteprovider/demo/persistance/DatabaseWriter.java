@@ -8,6 +8,7 @@ import com.novoda.sqliteprovider.demo.provider.FireworkProvider;
 
 public class DatabaseWriter {
 
+    private static final String KEY_ALLOW_YIELD = "allowYield";
     private final ContentResolver contentResolver;
 
     public DatabaseWriter(ContentResolver contentResolver) {
@@ -19,11 +20,15 @@ public class DatabaseWriter {
     }
 
     public void bulkSaveDataToFireworksTable(ContentValues[] values) {
-        bulkSaveDataToTable(DatabaseConstants.TBL_FIREWORKS, values);
+        bulkSaveDataToTable(DatabaseConstants.TBL_FIREWORKS, values, "true");
     }
 
-    private void bulkSaveDataToTable(String table, ContentValues[] values) {
-        Uri uri = createUri(table);
+    public void bulkSaveDataToFireworksTableWithoutYield(ContentValues[] values) {
+        bulkSaveDataToTable(DatabaseConstants.TBL_FIREWORKS, values, "false");
+    }
+
+    private void bulkSaveDataToTable(String table, ContentValues[] values, String allowYield) {
+        Uri uri = createUri(table).buildUpon().appendQueryParameter(KEY_ALLOW_YIELD, allowYield).build();
         contentResolver.bulkInsert(uri, values);
     }
 

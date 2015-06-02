@@ -1,9 +1,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-  style="@style/wrap_w_wrap_h" >
+  style="@style/wrap_w_wrap_h">
 
   <LinearLayout
     style="@style/match_w_wrap_h"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <Button
       style="@style/match_w_wrap_h"
@@ -22,6 +22,12 @@
       android:layout_margin="@dimen/norm_spacing"
       android:onClick="onBulkAddFireworksClick"
       android:text="@string/button_main_bulk_add_fireworks" />
+
+    <Button
+      style="@style/match_w_wrap_h"
+      android:layout_margin="@dimen/norm_spacing"
+      android:onClick="onBulkAddYieldFireworksClick"
+      android:text="@string/button_main_bulk_add_yield_fireworks" />
 
     <Button
       style="@style/match_w_wrap_h"
