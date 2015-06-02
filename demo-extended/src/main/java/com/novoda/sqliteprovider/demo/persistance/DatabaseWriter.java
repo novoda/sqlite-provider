@@ -8,6 +8,7 @@ import com.novoda.sqliteprovider.demo.provider.FireworkProvider;
 
 public class DatabaseWriter {
 
+    private static final String KEY_ALLOW_YIELD = "allowYield";
     private final ContentResolver contentResolver;
 
     public DatabaseWriter(ContentResolver contentResolver) {
@@ -23,8 +24,12 @@ public class DatabaseWriter {
     }
 
     private void bulkSaveDataToTable(String table, ContentValues[] values) {
-        Uri uri = createUri(table);
+        Uri uri = createUriWithoutYieldFor(table);
         contentResolver.bulkInsert(uri, values);
+    }
+
+    private Uri createUriWithoutYieldFor(String table) {
+        return createUri(table).buildUpon().appendQueryParameter(KEY_ALLOW_YIELD, "false").build();
     }
 
     private void saveDataToTable(String table, ContentValues values) {
