@@ -21,9 +21,9 @@ import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.shadows.ShadowContentUris;
 
+import novoda.lib.sqliteprovider.RoboRunner;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
-import novoda.lib.sqliteprovider.RoboRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -257,6 +257,39 @@ public class SQLiteProviderLocalTest {
 
         assertThat(notifyChangeCounter, is(deleteSize));
 
+    }
+
+    @Test
+    public void testBulkInsertDoesYieldByDefault() {
+        when(db.insert(anyString(), anyString(), (ContentValues) anyObject())).thenReturn(2L);
+        int bulkSize = 100;
+        ContentValues[] bulkToInsert = createContentValuesArray(bulkSize);
+
+        bulkInsert("test.com/table1", bulkToInsert);
+
+        verify(db, times(bulkSize)).yieldIfContendedSafely();
+    }
+
+    @Test
+    public void testWhenSpecifyingAllowYieldQueryParameterAsTrueThanBulkInsertDoesYield() {
+        when(db.insert(anyString(), anyString(), (ContentValues) anyObject())).thenReturn(2L);
+        int bulkSize = 100;
+        ContentValues[] bulkToInsert = createContentValuesArray(bulkSize);
+
+        bulkInsert("test.com/table1?allowYield=true", bulkToInsert);
+
+        verify(db, times(bulkSize)).yieldIfContendedSafely();
+    }
+
+    @Test
+    public void testWhenSpecifyingAllowYieldQueryParameterAsFalseThanBulkInsertDoesNotYield() {
+        when(db.insert(anyString(), anyString(), (ContentValues) anyObject())).thenReturn(2L);
+        int bulkSize = 100;
+        ContentValues[] bulkToInsert = createContentValuesArray(bulkSize);
+
+        bulkInsert("test.com/table1?allowYield=false", bulkToInsert);
+
+        verify(db, never()).yieldIfContendedSafely();
     }
 
     @Implements(ContentUris.class)
