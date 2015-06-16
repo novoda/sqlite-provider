@@ -171,7 +171,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
         logger.logEnd(projection, selection, selectionArgs, sortOrder, builder, groupBy, having, limit, autoproj);
 
         Cursor cursor = builder.query(getReadableDatabase(), projection, selection, selectionArgs, groupBy, having, sortOrder, limit);
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        cursor.setNotificationUri(getContext().getContentResolver(), getNotificationUri(uri));
         return cursor;
     }
 
@@ -182,5 +182,9 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     @Override
     protected SQLiteDatabase.CursorFactory getCursorFactory() {
         return null;
+    }
+
+    protected Uri getNotificationUri(Uri uri){
+        return uri;
     }
 }

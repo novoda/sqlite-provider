@@ -1,5 +1,6 @@
 package novoda.lib.sqliteprovider.provider;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -292,6 +293,12 @@ public class SQLiteProviderLocalTest {
         verify(db, never()).yieldIfContendedSafely();
     }
 
+    @Test
+    public void testProvidedNotificationUriSetCorrectly() {
+        query("test.com/view1");
+        verify(mockCursor).setNotificationUri((ContentResolver) anyObject(), eq(Uri.parse("content://test.com/table1")));
+    }
+
     @Implements(ContentUris.class)
     static class ShadowContentUris {
 
@@ -376,6 +383,11 @@ public class SQLiteProviderLocalTest {
         @Override
         public void notifyUriChange(Uri uri) {
             notifyChangeCounter++;
+        }
+
+        @Override
+        protected Uri getNotificationUri(Uri uri) {
+            return Uri.parse("content://test.com/table1");
         }
     }
 }
