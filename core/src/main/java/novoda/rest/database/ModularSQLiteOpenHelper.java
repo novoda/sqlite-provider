@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import novoda.lib.sqliteprovider.util.DatabaseUtils;
+import novoda.lib.sqliteprovider.analyzer.StatementGenerator;
 
 public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
 
@@ -58,7 +58,7 @@ public class ModularSQLiteOpenHelper extends SQLiteOpenHelper {
             } else {
                 Log.v(TAG, "Creating table: " + entry.getKey());
                 SQLiteTableCreator creator = entry.getValue();
-                db.execSQL(DatabaseUtils.getCreateStatement(creator));
+                db.execSQL(new StatementGenerator().getCreateStatement(creator));
                 if (creator.isOneToMany()) {
                     for (String trigger : creator.getTriggers()) {
                         db.execSQL(trigger);

@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
-import novoda.lib.sqliteprovider.util.Constraint;
+import novoda.lib.sqliteprovider.analyzer.Constraint;
 import novoda.lib.sqliteprovider.util.Log;
 import novoda.lib.sqliteprovider.util.UriUtils;
 

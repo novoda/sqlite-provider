@@ -1,4 +1,4 @@
-package novoda.lib.sqliteprovider.util;
+package novoda.lib.sqliteprovider.analyzer;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
@@ -10,12 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
-import novoda.lib.sqliteprovider.analyzer.Constraint;
-
 import static android.database.DatabaseUtils.createDbFromSqlStatements;
 
-public class DBUtilsTest extends AndroidTestCase {
+public class DatabaseAnalyzerTest extends AndroidTestCase {
 
     private static final String DB_NAME = "testing.db";
     private static final String CREATE_TABLES = "CREATE TABLE t1(id INTEGER, name TEXT, r REAL);\n";
@@ -30,11 +27,11 @@ public class DBUtilsTest extends AndroidTestCase {
         setContext(new RenamingDelegatingContext(getContext(), "_test_"));
     }
 
-    public void testGetDBName() throws Exception {
+    public void testGetTables() throws Exception {
         createDatabaseWithStatement(CREATE_2_TABLES);
         SQLiteDatabase db = getDatabase();
 
-        List<String> tables = DBUtils.getTables(db);
+        List<String> tables = new DatabaseAnalyzer(db).getTableNames();
 
         MoreAsserts.assertContentsInAnyOrder(tables, "T", "T2");
     }
@@ -43,25 +40,29 @@ public class DBUtilsTest extends AndroidTestCase {
         createDatabaseWithStatement(CREATE_2_TABLES_WITH_FOREIGN_KEY);
         SQLiteDatabase db = getDatabase();
 
-        List<String> foreignTables = DBUtils.getForeignTables(db, "t2");
+        List<String> foreignTables = new DatabaseAnalyzer(db).getForeignTables("t2");
 
         MoreAsserts.assertContentsInAnyOrder(foreignTables, "t");
     }
 
-    public void testGettingFieldsMap() throws Exception {
+    public void testGettingColumns() throws Exception {
         createDatabaseWithStatement(CREATE_TABLES);
         SQLiteDatabase db = getDatabase();
 
-        Map<String, SQLiteType> ft = DBUtils.getFields(db, "t1");
+        List<Column> columns = new DatabaseAnalyzer(db).getColumns("t1");
 
-        MoreAsserts.assertContentsInAnyOrder(ft.keySet(), "id", "name", "r");
+        MoreAsserts.assertContentsInAnyOrder(columns,
+                new Column("id", null),
+                new Column("name", null),
+                new Column("r", null)
+        );
     }
 
     public void testGettingProjectionMap() throws Exception {
         createDatabaseWithStatement(CREATE_2_TABLES_WITH_FOREIGN_KEY);
         SQLiteDatabase db = getDatabase();
 
-        Map<String, String> ft = DBUtils.getProjectionMap(db, "t", "t2");
+        Map<String, String> ft = new DatabaseAnalyzer(db).getProjectionMap("t", "t2");
 
         assertEquals("t.id AS t_id", ft.get("t_id"));
         assertEquals("t2.id AS t2_id", ft.get("t2_id"));
@@ -71,7 +72,7 @@ public class DBUtilsTest extends AndroidTestCase {
         createDatabaseWithStatement(CREATE_TABLE_WITH_CONSTRAINT);
         SQLiteDatabase db = getDatabase();
 
-        List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
+        List<Constraint> constrains = new DatabaseAnalyzer(db).getUniqueConstraints("t");
 
         MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("const")));
     }
@@ -80,7 +81,7 @@ public class DBUtilsTest extends AndroidTestCase {
         createDatabaseWithStatement(CREATE_TABLE_WITH_MULTI_COLUMN_CONSTRAINT);
         SQLiteDatabase db = getDatabase();
 
-        List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
+        List<Constraint> constrains = new DatabaseAnalyzer(db).getUniqueConstraints("t");
 
         MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("name", "desc")));
     }
@@ -89,13 +90,16 @@ public class DBUtilsTest extends AndroidTestCase {
         createDatabaseWithStatement(CREATE_TABLES);
         SQLiteDatabase db = getDatabase();
 
-        List<Constraint> uniqueConstraints = DBUtils.getUniqueConstraints(db, "t");
+        List<Constraint> uniqueConstraints = new DatabaseAnalyzer(db).getUniqueConstraints("t");
 
         MoreAsserts.assertEmpty(uniqueConstraints);
     }
 
     public void testGettingVersion() throws Exception {
-        String version = DBUtils.getSQLiteVersion();
+        createDatabaseWithStatement("");
+        SQLiteDatabase db = getDatabase();
+
+        String version = new DatabaseAnalyzer(db).getSQLiteVersion();
 
         assertFalse(TextUtils.isEmpty(version));
     }

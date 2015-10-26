@@ -1,4 +1,4 @@
-package novoda.lib.sqliteprovider.util;
+package novoda.lib.sqliteprovider.analyzer;
 
 import java.util.List;
 
