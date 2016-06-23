@@ -23,6 +23,10 @@ dependencies {
 }
 ```
 
+## Upgrading from < 1.0.4
+
+Please note the name change from `sqliteprovider-core` to `sqlite-provider` when the version went beyond 1.0.4 (all the way back in 2014!). If you're upgrading from a version that old, don't forget to change the name too!
+
 
 ## Simple usage
 
