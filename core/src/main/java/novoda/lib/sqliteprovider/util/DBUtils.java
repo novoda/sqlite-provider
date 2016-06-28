@@ -39,7 +39,7 @@ public final class DBUtils {
     }
 
     public static List<String> getForeignTables(SQLiteDatabase db, String table) {
-        final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE_INFO, table), null);
+        final Cursor cur = queryTableColumnsFor(table, db);
         List<String> tables = getTables(db);
         List<String> foreignTables = new ArrayList<String>(5);
         String name;
@@ -95,16 +95,16 @@ public final class DBUtils {
     }
 
     public static Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
-        final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE_INFO, table), null);
-        Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cur.getCount());
+        final Cursor cursor = queryTableColumnsFor(table, db);
+        Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cursor.getCount());
         String name;
         String type;
-        while (cur.moveToNext()) {
-            name = cur.getString(cur.getColumnIndexOrThrow("name"));
-            type = cur.getString(cur.getColumnIndexOrThrow("type"));
+        while (cursor.moveToNext()) {
+            name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
             fields.put(name, SQLiteType.fromName(type));
         }
-        cur.close();
+        cursor.close();
         return Collections.unmodifiableMap(fields);
     }
 
@@ -131,19 +131,19 @@ public final class DBUtils {
     @Deprecated
     public static List<String> getUniqueConstrains(SQLiteDatabase db, String table) {
         List<String> constrains = new ArrayList<String>();
-        final Cursor pragmas = db.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
-        while (pragmas.moveToNext()) {
-            int isUnique = pragmas.getInt(2);
+        final Cursor indices = queryIndexListForTable(table, db);
+        while (indices.moveToNext()) {
+            int isUnique = indices.getInt(2);
             if (isUnique == 1) {
-                String name = pragmas.getString(1);
-                final Cursor pragmaInfo = db.rawQuery(String.format(PRGAMA_INDEX_INFO, name), null);
+                String indexName = indices.getString(1);
+                final Cursor pragmaInfo = queryIndexInfo(indexName, db);
                 if (pragmaInfo.moveToFirst()) {
                     constrains.add(pragmaInfo.getString(2));
                 }
                 pragmaInfo.close();
             }
         }
-        pragmas.close();
+        indices.close();
         return constrains;
     }
 
@@ -152,17 +152,17 @@ public final class DBUtils {
         List<Constraint> constraints = new ArrayList<Constraint>();
 
         // This is an implicit unique index, and won't show up querying the other indexes
-        Constraint integerPrimaryKeyConstraint = getIntegerPrimaryKeyConstraint(db, table);
+        Constraint integerPrimaryKeyConstraint = findIntegerPrimaryKeyConstraint(db, table);
         if (integerPrimaryKeyConstraint != null) {
             constraints.add(integerPrimaryKeyConstraint);
         }
 
-        final Cursor indexCursor = db.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
+        final Cursor indexCursor = queryIndexListForTable(table, db);
         while (indexCursor.moveToNext()) {
             int isUnique = indexCursor.getInt(2);
             if (isUnique == 1) {
                 String indexName = indexCursor.getString(1);
-                final Cursor columnCursor = db.rawQuery(String.format(PRGAMA_INDEX_INFO, indexName), null);
+                final Cursor columnCursor = queryIndexInfo(indexName, db);
                 List<String> columns = new ArrayList<>(columnCursor.getCount());
                 while (columnCursor.moveToNext()) {
                     String columnName = columnCursor.getString(2);
@@ -176,7 +176,7 @@ public final class DBUtils {
         return constraints;
     }
 
-    private static Constraint getIntegerPrimaryKeyConstraint(SQLiteDatabase database, String table) {
+    private static Constraint findIntegerPrimaryKeyConstraint(SQLiteDatabase database, String table) {
         final Cursor cursor = queryTableColumnsFor(table, database);
         try {
             while (cursor.moveToNext()) {
@@ -193,6 +193,14 @@ public final class DBUtils {
 
     private static Cursor queryTableColumnsFor(String table, SQLiteDatabase database) {
         return database.rawQuery(String.format(PRAGMA_TABLE_INFO, table), null);
+    }
+
+    private static Cursor queryIndexListForTable(String table, SQLiteDatabase database) {
+        return database.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
+    }
+
+    private static Cursor queryIndexInfo(String index, SQLiteDatabase database) {
+        return database.rawQuery(String.format(PRGAMA_INDEX_INFO, index), null);
     }
 
     private static boolean isCurrentColumnAnIntegerPrimaryKey(Cursor cursor) {
