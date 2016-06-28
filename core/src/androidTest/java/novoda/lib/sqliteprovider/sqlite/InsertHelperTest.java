@@ -10,6 +10,7 @@ import novoda.lib.sqliteprovider.provider.action.InsertHelper;
 public class InsertHelperTest extends AndroidTestCase {
 
     private static final String A_NAME_VALUE = "a name";
+    private static final String DIFFERENT_NAME_VALUE = "another name, not the same";
     private static final String A_DESCRIPTION_VALUE = "a description";
     private static final String DIFFERENT_DESCRIPTION_VALUE = "a different description";
     private static final String ID_COLUMN = "_id";
@@ -20,10 +21,17 @@ public class InsertHelperTest extends AndroidTestCase {
         static final String DESCRIPTION = "description";
     }
 
+    private class IntegerPrimaryKeyTableColumns {
+        static final String ID = ID_COLUMN;
+        static final String NAME = "name";
+    }
+
     private static final String PARENTS_TABLE = "parents";
+    private static final String INTEGER_PRIMARY_KEY_TABLE = "integer_primary_key_table";
 
     private static final String BASE_URI_STRING = "content://novoda.lib.sqliteprovider.test/";
     private static final Uri PARENTS_URI = Uri.parse(BASE_URI_STRING + PARENTS_TABLE);
+    private static final Uri INTEGER_PRIMARY_KEY_TABLE_URI = Uri.parse(BASE_URI_STRING + INTEGER_PRIMARY_KEY_TABLE);
 
     private InsertHelper helper;
     private ExtendedSQLiteOpenHelper openHelper;
@@ -67,6 +75,21 @@ public class InsertHelperTest extends AndroidTestCase {
         });
     }
 
+    public void testInsertWithIntegerPrimaryKeyConflictShouldUpdate() {
+        helper.insert(INTEGER_PRIMARY_KEY_TABLE_URI, integerPrimaryKeyTableContentValues(null, A_NAME_VALUE));
+        final int existingRowId = idOfFirstRowIn(queryOf(INTEGER_PRIMARY_KEY_TABLE));
+
+        helper.insert(INTEGER_PRIMARY_KEY_TABLE_URI, integerPrimaryKeyTableContentValues(existingRowId, DIFFERENT_NAME_VALUE));
+
+        onQueryOf(INTEGER_PRIMARY_KEY_TABLE, new CursorOperations() {
+            @Override
+            public void doOperationsOn(Cursor cursor) {
+                assertEquals(1, cursor.getCount());
+                assertEquals(existingRowId, intFrom(cursor, ParentsColumns.ID));
+                assertEquals(DIFFERENT_NAME_VALUE, stringFrom(cursor, ParentsColumns.NAME));
+            }
+        });
+    }
 
     private String stringFrom(Cursor cursor, String columnName) {
         return cursor.getString(cursor.getColumnIndex(columnName));
@@ -94,6 +117,15 @@ public class InsertHelperTest extends AndroidTestCase {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ParentsColumns.NAME, name);
         contentValues.put(ParentsColumns.DESCRIPTION, description);
+        return contentValues;
+    }
+
+    private ContentValues integerPrimaryKeyTableContentValues(Integer existingRowId, String name) {
+        ContentValues contentValues = new ContentValues();
+        if (existingRowId != null) {
+            contentValues.put(IntegerPrimaryKeyTableColumns.ID, existingRowId);
+        }
+        contentValues.put(IntegerPrimaryKeyTableColumns.NAME, name);
         return contentValues;
     }
 
