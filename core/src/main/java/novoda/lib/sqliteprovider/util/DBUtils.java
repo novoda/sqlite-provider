@@ -180,7 +180,7 @@ public final class DBUtils {
         final Cursor cursor = queryTableColumnsFor(table, database);
         try {
             while (cursor.moveToNext()) {
-                if (isCurrentColumnAnIntegerPrimaryKey(cursor)) {
+                if (isTableInfoItemAnIntegerPrimaryKey(cursor)) {
                     String columnName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
                     return new Constraint(Collections.singletonList(columnName));
                 }
@@ -203,7 +203,7 @@ public final class DBUtils {
         return database.rawQuery(String.format(PRGAMA_INDEX_INFO, index), null);
     }
 
-    private static boolean isCurrentColumnAnIntegerPrimaryKey(Cursor cursor) {
+    private static boolean isTableInfoItemAnIntegerPrimaryKey(Cursor cursor) {
         int pkInt = cursor.getInt(cursor.getColumnIndex(COLUMN_PRIMARY_KEY));
         String columnType = cursor.getString(cursor.getColumnIndex(COLUMN_TYPE));
 
