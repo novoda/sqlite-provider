@@ -45,7 +45,7 @@ public final class DBUtils {
         String name;
         String tableName;
         while (cur.moveToNext()) {
-            name = cur.getString(cur.getColumnIndexOrThrow("name"));
+            name = cur.getString(cur.getColumnIndexOrThrow(COLUMN_NAME));
             if (name.endsWith("_id")) {
                 tableName = name.substring(0, name.lastIndexOf('_'));
                 if (tables.contains(tableName + "s")) {
@@ -100,8 +100,8 @@ public final class DBUtils {
         String name;
         String type;
         while (cursor.moveToNext()) {
-            name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-            type = cursor.getString(cursor.getColumnIndexOrThrow("type"));
+            name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME));
+            type = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TYPE));
             fields.put(name, SQLiteType.fromName(type));
         }
         cursor.close();
