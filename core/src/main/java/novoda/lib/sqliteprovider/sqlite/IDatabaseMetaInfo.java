@@ -12,6 +12,10 @@ public interface IDatabaseMetaInfo {
 
     public enum SQLiteType {
         NULL, INTEGER, REAL, TEXT, BLOB, NUMERIC;
+
+        public static SQLiteType fromName(String columnType) {
+            return valueOf(columnType.toUpperCase());
+        }
     }
     Map<String, SQLiteType> getColumns(String table);
 

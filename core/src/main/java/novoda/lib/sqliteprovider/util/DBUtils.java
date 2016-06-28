@@ -18,11 +18,17 @@ public final class DBUtils {
 
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
 
-    private static final String PRAGMA_TABLE = "PRAGMA table_info(\"%1$s\");";
+    private static final String PRAGMA_TABLE_INFO = "PRAGMA table_info('%1$s');";
 
     private static final String PRGAMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
 
     private static final String PRGAMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
+
+    private static final String COLUMN_PRIMARY_KEY = "pk";
+
+    private static final String COLUMN_NAME = "name";
+
+    private static final String COLUMN_TYPE = "type";
 
     private static List<String> defaultTables = Arrays.asList(new String[]{
             "android_metadata"
@@ -33,7 +39,7 @@ public final class DBUtils {
     }
 
     public static List<String> getForeignTables(SQLiteDatabase db, String table) {
-        final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
+        final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE_INFO, table), null);
         List<String> tables = getTables(db);
         List<String> foreignTables = new ArrayList<String>(5);
         String name;
@@ -89,14 +95,14 @@ public final class DBUtils {
     }
 
     public static Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
-        final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
+        final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE_INFO, table), null);
         Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cur.getCount());
         String name;
         String type;
         while (cur.moveToNext()) {
             name = cur.getString(cur.getColumnIndexOrThrow("name"));
             type = cur.getString(cur.getColumnIndexOrThrow("type"));
-            fields.put(name, SQLiteType.valueOf(type.toUpperCase()));
+            fields.put(name, SQLiteType.fromName(type));
         }
         cur.close();
         return Collections.unmodifiableMap(fields);
@@ -144,6 +150,13 @@ public final class DBUtils {
 
     public static List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
         List<Constraint> constraints = new ArrayList<Constraint>();
+
+        // This is an implicit unique index, and won't show up querying the other indexes
+        Constraint integerPrimaryKeyConstraint = getIntegerPrimaryKeyConstraint(db, table);
+        if (integerPrimaryKeyConstraint != null) {
+            constraints.add(integerPrimaryKeyConstraint);
+        }
+
         final Cursor indexCursor = db.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
         while (indexCursor.moveToNext()) {
             int isUnique = indexCursor.getInt(2);
@@ -162,4 +175,34 @@ public final class DBUtils {
         indexCursor.close();
         return constraints;
     }
+
+    private static Constraint getIntegerPrimaryKeyConstraint(SQLiteDatabase database, String table) {
+        final Cursor cursor = queryTableColumnsFor(table, database);
+        try {
+            while (cursor.moveToNext()) {
+                if (isCurrentColumnAnIntegerPrimaryKey(cursor)) {
+                    String columnName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
+                    return new Constraint(Collections.singletonList(columnName));
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+        return null;
+    }
+
+    private static Cursor queryTableColumnsFor(String table, SQLiteDatabase database) {
+        return database.rawQuery(String.format(PRAGMA_TABLE_INFO, table), null);
+    }
+
+    private static boolean isCurrentColumnAnIntegerPrimaryKey(Cursor cursor) {
+        int pkInt = cursor.getInt(cursor.getColumnIndex(COLUMN_PRIMARY_KEY));
+        String columnType = cursor.getString(cursor.getColumnIndex(COLUMN_TYPE));
+
+        boolean isPrimaryKey = pkInt == 1;
+        boolean isInteger = SQLiteType.fromName(columnType) == SQLiteType.INTEGER;
+
+        return isPrimaryKey && isInteger;
+    }
+
 }
