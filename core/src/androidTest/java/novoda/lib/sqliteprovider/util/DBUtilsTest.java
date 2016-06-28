@@ -19,6 +19,7 @@ public class DBUtilsTest extends AndroidTestCase {
     private static final String CREATE_2_TABLES_WITH_FOREIGN_KEY = "CREATE TABLE t(id INTEGER);\nCREATE TABLE t2(id INTEGER, t_id INTEGER);\n";
     private static final String CREATE_TABLE_WITH_CONSTRAINT = "CREATE TABLE t(id INTEGER, const TEXT UNIQUE NOT NULL);";
     private static final String CREATE_TABLE_WITH_MULTI_COLUMN_CONSTRAINT = "CREATE TABLE t(id INTEGER, name TEXT, desc TEXT NOT NULL, UNIQUE(name, desc) ON CONFLICT REPLACE);";
+    private static final String CREATE_TABLE_WITH_INTEGER_PRIMARY_KEY = "CREATE TABLE t(_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);";
 
     @Override
     protected void setUp() throws Exception {
@@ -69,6 +70,14 @@ public class DBUtilsTest extends AndroidTestCase {
         SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
         List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
         MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("const")));
+    }
+
+    public void testGettingUniqueConstraintForIntegerPrimaryKey() throws Exception {
+        android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLE_WITH_INTEGER_PRIMARY_KEY);
+
+        SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
+        List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
+        MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("_id")));
     }
 
     public void testGettingMultiColumnUniqueConstraints() throws Exception {
