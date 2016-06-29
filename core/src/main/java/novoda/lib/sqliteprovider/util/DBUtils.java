@@ -207,7 +207,8 @@ public final class DBUtils {
         int pkInt = cursor.getInt(cursor.getColumnIndex(COLUMN_PRIMARY_KEY));
         String columnType = cursor.getString(cursor.getColumnIndex(COLUMN_TYPE));
 
-        boolean isPrimaryKey = pkInt == 1;
+        // NOT A BOOLEAN AS INTEGER: 0 if not part of PK, otherwise index of column in key: https://www.sqlite.org/pragma.html#pragma_table_info
+        boolean isPrimaryKey = pkInt != 0;
         boolean isInteger = SQLiteType.fromName(columnType) == SQLiteType.INTEGER;
 
         return isPrimaryKey && isInteger;
