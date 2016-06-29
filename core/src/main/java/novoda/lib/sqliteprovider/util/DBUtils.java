@@ -18,11 +18,17 @@ public final class DBUtils {
 
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
 
-    private static final String PRAGMA_TABLE = "PRAGMA table_info(\"%1$s\");";
+    private static final String PRAGMA_TABLE_INFO = "PRAGMA table_info('%1$s');";
 
     private static final String PRGAMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
 
     private static final String PRGAMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
+
+    private static final String COLUMN_PRIMARY_KEY = "pk";
+
+    private static final String COLUMN_NAME = "name";
+
+    private static final String COLUMN_TYPE = "type";
 
     private static List<String> defaultTables = Arrays.asList(new String[]{
             "android_metadata"
@@ -33,13 +39,13 @@ public final class DBUtils {
     }
 
     public static List<String> getForeignTables(SQLiteDatabase db, String table) {
-        final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
+        final Cursor cur = queryTableColumnsFor(table, db);
         List<String> tables = getTables(db);
         List<String> foreignTables = new ArrayList<String>(5);
         String name;
         String tableName;
         while (cur.moveToNext()) {
-            name = cur.getString(cur.getColumnIndexOrThrow("name"));
+            name = cur.getString(cur.getColumnIndexOrThrow(COLUMN_NAME));
             if (name.endsWith("_id")) {
                 tableName = name.substring(0, name.lastIndexOf('_'));
                 if (tables.contains(tableName + "s")) {
@@ -89,16 +95,16 @@ public final class DBUtils {
     }
 
     public static Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
-        final Cursor cur = db.rawQuery(String.format(PRAGMA_TABLE, table), null);
-        Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cur.getCount());
+        final Cursor cursor = queryTableColumnsFor(table, db);
+        Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cursor.getCount());
         String name;
         String type;
-        while (cur.moveToNext()) {
-            name = cur.getString(cur.getColumnIndexOrThrow("name"));
-            type = cur.getString(cur.getColumnIndexOrThrow("type"));
-            fields.put(name, SQLiteType.valueOf(type.toUpperCase()));
+        while (cursor.moveToNext()) {
+            name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME));
+            type = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TYPE));
+            fields.put(name, SQLiteType.fromName(type));
         }
-        cur.close();
+        cursor.close();
         return Collections.unmodifiableMap(fields);
     }
 
@@ -125,31 +131,38 @@ public final class DBUtils {
     @Deprecated
     public static List<String> getUniqueConstrains(SQLiteDatabase db, String table) {
         List<String> constrains = new ArrayList<String>();
-        final Cursor pragmas = db.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
-        while (pragmas.moveToNext()) {
-            int isUnique = pragmas.getInt(2);
+        final Cursor indices = queryIndexListForTable(table, db);
+        while (indices.moveToNext()) {
+            int isUnique = indices.getInt(2);
             if (isUnique == 1) {
-                String name = pragmas.getString(1);
-                final Cursor pragmaInfo = db.rawQuery(String.format(PRGAMA_INDEX_INFO, name), null);
+                String indexName = indices.getString(1);
+                final Cursor pragmaInfo = queryIndexInfo(indexName, db);
                 if (pragmaInfo.moveToFirst()) {
                     constrains.add(pragmaInfo.getString(2));
                 }
                 pragmaInfo.close();
             }
         }
-        pragmas.close();
+        indices.close();
         return constrains;
     }
 
 
     public static List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
         List<Constraint> constraints = new ArrayList<Constraint>();
-        final Cursor indexCursor = db.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
+
+        // This is an implicit unique index, and won't show up querying the other indexes
+        Constraint integerPrimaryKeyConstraint = findIntegerPrimaryKeyConstraint(db, table);
+        if (integerPrimaryKeyConstraint != null) {
+            constraints.add(integerPrimaryKeyConstraint);
+        }
+
+        final Cursor indexCursor = queryIndexListForTable(table, db);
         while (indexCursor.moveToNext()) {
             int isUnique = indexCursor.getInt(2);
             if (isUnique == 1) {
                 String indexName = indexCursor.getString(1);
-                final Cursor columnCursor = db.rawQuery(String.format(PRGAMA_INDEX_INFO, indexName), null);
+                final Cursor columnCursor = queryIndexInfo(indexName, db);
                 List<String> columns = new ArrayList<>(columnCursor.getCount());
                 while (columnCursor.moveToNext()) {
                     String columnName = columnCursor.getString(2);
@@ -162,4 +175,43 @@ public final class DBUtils {
         indexCursor.close();
         return constraints;
     }
+
+    private static Constraint findIntegerPrimaryKeyConstraint(SQLiteDatabase database, String table) {
+        final Cursor cursor = queryTableColumnsFor(table, database);
+        try {
+            while (cursor.moveToNext()) {
+                if (isTableInfoItemAnIntegerPrimaryKey(cursor)) {
+                    String columnName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
+                    return new Constraint(Collections.singletonList(columnName));
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+        return null;
+    }
+
+    private static Cursor queryTableColumnsFor(String table, SQLiteDatabase database) {
+        return database.rawQuery(String.format(PRAGMA_TABLE_INFO, table), null);
+    }
+
+    private static Cursor queryIndexListForTable(String table, SQLiteDatabase database) {
+        return database.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
+    }
+
+    private static Cursor queryIndexInfo(String index, SQLiteDatabase database) {
+        return database.rawQuery(String.format(PRGAMA_INDEX_INFO, index), null);
+    }
+
+    private static boolean isTableInfoItemAnIntegerPrimaryKey(Cursor cursor) {
+        int pkInt = cursor.getInt(cursor.getColumnIndex(COLUMN_PRIMARY_KEY));
+        String columnType = cursor.getString(cursor.getColumnIndex(COLUMN_TYPE));
+
+        // NOT A BOOLEAN AS INTEGER: 0 if not part of PK, otherwise index of column in key: https://www.sqlite.org/pragma.html#pragma_table_info
+        boolean isPrimaryKey = pkInt != 0;
+        boolean isInteger = SQLiteType.fromName(columnType) == SQLiteType.INTEGER;
+
+        return isPrimaryKey && isInteger;
+    }
+
 }
