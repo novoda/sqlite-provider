@@ -68,30 +68,30 @@ public class DBUtilsTest extends AndroidTestCase {
         android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLE_WITH_CONSTRAINT);
 
         SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
-        List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
-        MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("const")));
+        List<Constraint> constraints = DBUtils.getUniqueConstraints(db, "t");
+        MoreAsserts.assertContentsInAnyOrder(constraints, new Constraint(Arrays.asList("const")));
     }
 
     public void testGettingUniqueConstraintForIntegerPrimaryKey() throws Exception {
         android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLE_WITH_INTEGER_PRIMARY_KEY);
 
         SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
-        List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
-        MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("_id")));
+        List<Constraint> constraints = DBUtils.getUniqueConstraints(db, "t");
+        MoreAsserts.assertContentsInAnyOrder(constraints, new Constraint(Arrays.asList("_id")));
     }
 
     public void testGettingMultiColumnUniqueConstraints() throws Exception {
         android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLE_WITH_MULTI_COLUMN_CONSTRAINT);
 
         SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
-        List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
-        MoreAsserts.assertContentsInAnyOrder(constrains, new Constraint(Arrays.asList("name", "desc")));
+        List<Constraint> constraints = DBUtils.getUniqueConstraints(db, "t");
+        MoreAsserts.assertContentsInAnyOrder(constraints, new Constraint(Arrays.asList("name", "desc")));
     }
 
     public void testGettingUniqueConstraintsIsEmpty() throws Exception {
         android.database.DatabaseUtils.createDbFromSqlStatements(getContext(), DB_NAME, 1, CREATE_TABLES);
         SQLiteDatabase db = getContext().openOrCreateDatabase(DB_NAME, 0, null);
-        List<Constraint> constrains = DBUtils.getUniqueConstraints(db, "t");
-        MoreAsserts.assertEmpty(constrains);
+        List<Constraint> constraints = DBUtils.getUniqueConstraints(db, "t");
+        MoreAsserts.assertEmpty(constraints);
     }
 }
