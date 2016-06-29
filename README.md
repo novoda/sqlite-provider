@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.novoda:sqlite-provider:1.2.0'
+    compile 'com.novoda:sqlite-provider:1.2.1'
 }
 ```
 
