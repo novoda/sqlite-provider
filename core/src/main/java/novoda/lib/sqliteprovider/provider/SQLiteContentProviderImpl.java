@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
@@ -96,14 +95,12 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     protected int updateInTransaction(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         ContentValues insertValues = (values != null) ? new ContentValues(values) : new ContentValues();
 
-        int rowId = getWritableDatabase().update(UriUtils.getItemDirID(uri), insertValues, selection, selectionArgs);
+        int rowsAffected = getWritableDatabase().update(UriUtils.getItemDirID(uri), insertValues, selection, selectionArgs);
 
-        if (rowId > 0) {
-            Uri insertUri = ContentUris.withAppendedId(uri, rowId);
-            notifyUriChange(insertUri);
-            return rowId;
+        if (rowsAffected > 0) {
+            notifyUriChange(uri);
         }
-        throw new SQLException("Failed to update row into " + uri + " because it does not exists.");
+        return rowsAffected;
     }
 
     @Override

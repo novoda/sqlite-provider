@@ -143,7 +143,7 @@ public class InsertHelperTest extends AndroidTestCase {
         }
     }
 
-    private static interface CursorOperations {
+    private interface CursorOperations {
         void doOperationsOn(Cursor cursor);
     }
 }
