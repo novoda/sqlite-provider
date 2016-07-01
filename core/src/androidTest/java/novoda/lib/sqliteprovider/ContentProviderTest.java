@@ -65,7 +65,6 @@ public class ContentProviderTest extends AndroidTestCase {
 
     @Override
     protected void tearDown() throws Exception {
-        super.tearDown();
         ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(getContext());
         SQLiteDatabase db = helper.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS `" + TABLE_NAME + "`");
