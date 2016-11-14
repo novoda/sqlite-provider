@@ -1,4 +1,4 @@
-# sqlite-provider [![](https://ci.novoda.com/buildStatus/icon?job=sqlite-provider)](https://ci.novoda.com/job/sqlite-provider/lastBuild/console) [![](https://raw.githubusercontent.com/novoda/novoda/master/assets/btn_apache_lisence.png)](LICENSE.txt)
+# sqlite-provider [![](https://ci.novoda.com/buildStatus/icon?job=sqlite-provider)](https://ci.novoda.com/job/sqlite-provider/lastBuild/console) [![Download](https://api.bintray.com/packages/novoda/maven/sqlite-provider/images/download.svg) ](https://bintray.com/novoda/maven/sqlite-provider/_latestVersion) [![](https://raw.githubusercontent.com/novoda/novoda/master/assets/btn_apache_lisence.png)](LICENSE.txt)
 
 A simplification of database access for Android.
 
