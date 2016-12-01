@@ -356,7 +356,7 @@ public class SQLiteProviderLocalTest {
         }
 
         @Override
-        protected SQLiteOpenHelper getDatabaseHelper(Context context) {
+        protected ExtendedSQLiteOpenHelper getDatabaseHelper(Context context) {
             try {
                 return new ExtendedSQLiteOpenHelper(getContext()) {
                     @Override
