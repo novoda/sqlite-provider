@@ -6,14 +6,16 @@ import android.database.sqlite.SQLiteException;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.Suppress;
 
-public class ExtendedSQLiteOpenHelperTest extends AndroidTestCase {
+public class MigratingSQLiteOpenHelperTest extends AndroidTestCase {
 
-    private ExtendedSQLiteOpenHelper helper;
+    private MigratingSQLiteOpenHelper helper;
+    private SQLiteDatabaseMetaInfo metaInfo;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        helper = new ExtendedSQLiteOpenHelper(getContext());
+        helper = new MigratingSQLiteOpenHelper(getContext());
+        metaInfo = new SQLiteDatabaseMetaInfo(helper);
     }
 
     @Override
@@ -27,7 +29,7 @@ public class ExtendedSQLiteOpenHelperTest extends AndroidTestCase {
     public void testGetTableNames() throws Exception {
         helper.getWritableDatabase().execSQL("CREATE TABLE 'test'(id integer);");
 
-        assertTrue("Table 'test' was not returned from getTables()", helper.getTables().contains("test"));
+        assertTrue("Table 'test' was not returned from getTables()", metaInfo.getTables().contains("test"));
     }
 
     @Suppress

@@ -4,12 +4,14 @@ package novoda.lib.sqliteprovider.provider.action;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 import java.util.Arrays;
 import java.util.List;
 
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
+import novoda.lib.sqliteprovider.sqlite.MigratingSQLiteOpenHelper;
+import novoda.lib.sqliteprovider.sqlite.SQLiteDatabaseMetaInfo;
 import novoda.lib.sqliteprovider.util.Constraint;
 import novoda.lib.sqliteprovider.util.Log;
 import novoda.lib.sqliteprovider.util.UriUtils;
@@ -22,16 +24,18 @@ import novoda.lib.sqliteprovider.util.UriUtils;
  */
 public class InsertHelper {
 
-    private final ExtendedSQLiteOpenHelper dbHelper;
+    private final SQLiteOpenHelper dbHelper;
+    private final SQLiteDatabaseMetaInfo metaInfo;
 
-    public InsertHelper(ExtendedSQLiteOpenHelper helper) {
-        this.dbHelper = helper;
+    public InsertHelper(SQLiteOpenHelper databaseHelper, SQLiteDatabaseMetaInfo metaInfo) {
+        this.dbHelper = databaseHelper;
+        this.metaInfo = metaInfo;
     }
 
     public long insert(Uri uri, ContentValues values) {
         ContentValues insertValues = (values != null) ? new ContentValues(values) : new ContentValues();
         final String table = UriUtils.getItemDirID(uri);
-        final Constraint constraint = dbHelper.getFirstConstraint(table, insertValues);
+        final Constraint constraint = metaInfo.getFirstConstraint(table, insertValues);
         appendParentReference(uri, insertValues);
         long rowId = -1;
         if (constraint != null) {
