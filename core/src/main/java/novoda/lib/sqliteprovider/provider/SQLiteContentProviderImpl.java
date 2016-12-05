@@ -39,7 +39,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     @Override
     public boolean onCreate() {
         super.onCreate();
-        helper = new InsertHelper((ExtendedSQLiteOpenHelper) getDatabaseHelper());
+        helper = new InsertHelper(getDatabaseHelper());
         return true;
     }
 
@@ -52,13 +52,18 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     }
 
     @Override
-    protected SQLiteOpenHelper getDatabaseHelper(Context context) {
+    protected ExtendedSQLiteOpenHelper getDatabaseHelper(Context context) {
         try {
             return new ExtendedSQLiteOpenHelper(context, getCursorFactory());
         } catch (IOException e) {
             Log.Provider.e(e);
             throw new IllegalStateException(e.getMessage());
         }
+    }
+
+    @Override
+    protected ExtendedSQLiteOpenHelper getDatabaseHelper() {
+        return (ExtendedSQLiteOpenHelper) super.getDatabaseHelper();
     }
 
     @Override
@@ -148,7 +153,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
         if (expands.size() > 0) {
             builder.addInnerJoin(expands.toArray(new String[]{}));
-            ExtendedSQLiteOpenHelper extendedHelper = (ExtendedSQLiteOpenHelper) getDatabaseHelper();
+            ExtendedSQLiteOpenHelper extendedHelper = getDatabaseHelper();
             autoproj = extendedHelper.getProjectionMap(tableName.toString(), expands.toArray(new String[]{}));
             builder.setProjectionMap(autoproj);
         }
