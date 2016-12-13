@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -30,9 +29,7 @@ public final class DBUtils {
 
     private static final String COLUMN_TYPE = "type";
 
-    private static List<String> defaultTables = Arrays.asList(new String[]{
-            "android_metadata"
-    });
+    private static final List<String> DEFAULT_TABLES = Collections.singletonList("android_metadata");
 
     private DBUtils() {
         // Util class
@@ -41,7 +38,7 @@ public final class DBUtils {
     public static List<String> getForeignTables(SQLiteDatabase db, String table) {
         final Cursor cur = queryTableColumnsFor(table, db);
         List<String> tables = getTables(db);
-        List<String> foreignTables = new ArrayList<String>(5);
+        List<String> foreignTables = new ArrayList<>(5);
         String name;
         String tableName;
         while (cur.moveToNext()) {
@@ -65,11 +62,11 @@ public final class DBUtils {
      */
     public static List<String> getTables(SQLiteDatabase db) {
         final Cursor cur = db.rawQuery(SELECT_TABLES_NAME, null);
-        List<String> createdTable = new ArrayList<String>(cur.getCount());
+        List<String> createdTable = new ArrayList<>(cur.getCount());
         String tableName;
         while (cur.moveToNext()) {
             tableName = cur.getString(0);
-            if (!defaultTables.contains(tableName)) {
+            if (!DEFAULT_TABLES.contains(tableName)) {
                 createdTable.add(tableName);
             }
         }
@@ -78,7 +75,7 @@ public final class DBUtils {
     }
 
     public static Map<String, String> getProjectionMap(SQLiteDatabase db, String parent, String... foreignTables) {
-        Map<String, String> projection = new HashMap<String, String>();
+        Map<String, String> projection = new HashMap<>();
         projection.put("_id", parent + "._id AS _id");
         for (Entry<String, SQLiteType> entry : getFields(db, parent).entrySet()) {
             projection.put(parent + "_" + entry.getKey(), parent + "." + entry.getKey() + " AS "
@@ -96,7 +93,7 @@ public final class DBUtils {
 
     public static Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
         final Cursor cursor = queryTableColumnsFor(table, db);
-        Map<String, SQLiteType> fields = new HashMap<String, SQLiteType>(cursor.getCount());
+        Map<String, SQLiteType> fields = new HashMap<>(cursor.getCount());
         String name;
         String type;
         while (cursor.moveToNext()) {
@@ -130,7 +127,7 @@ public final class DBUtils {
      */
     @Deprecated
     public static List<String> getUniqueConstrains(SQLiteDatabase db, String table) {
-        List<String> constrains = new ArrayList<String>();
+        List<String> constrains = new ArrayList<>();
         final Cursor indices = queryIndexListForTable(table, db);
         while (indices.moveToNext()) {
             int isUnique = indices.getInt(2);
@@ -149,7 +146,7 @@ public final class DBUtils {
 
 
     public static List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
-        List<Constraint> constraints = new ArrayList<Constraint>();
+        List<Constraint> constraints = new ArrayList<>();
 
         // This is an implicit unique index, and won't show up querying the other indexes
         Constraint integerPrimaryKeyConstraint = findIntegerPrimaryKeyConstraint(db, table);
