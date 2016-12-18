@@ -4,16 +4,12 @@ package novoda.lib.sqliteprovider.util;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
 
 public final class DBUtils {
-
-    private static final String PRGAMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
-    private static final String PRGAMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
 
     private DBUtils() {
         // Util class
@@ -66,43 +62,12 @@ public final class DBUtils {
         return sqliteVersion.toString();
     }
 
-
-    /**
-     * Use {@link #getUniqueConstraints(SQLiteDatabase, String)}
-     */
-    @Deprecated
-    public static List<String> getUniqueConstrains(SQLiteDatabase db, String table) {
-        List<String> constrains = new ArrayList<>();
-        final Cursor indices = queryIndexListForTable(table, db);
-        while (indices.moveToNext()) {
-            int isUnique = indices.getInt(2);
-            if (isUnique == 1) {
-                String indexName = indices.getString(1);
-                final Cursor pragmaInfo = queryIndexInfo(indexName, db);
-                if (pragmaInfo.moveToFirst()) {
-                    constrains.add(pragmaInfo.getString(2));
-                }
-                pragmaInfo.close();
-            }
-        }
-        indices.close();
-        return constrains;
-    }
-
     /**
      * Deprecated. Use {@link DatabaseStructure} instead
      */
     @Deprecated
     public static List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
         return new DatabaseStructure(db).getUniqueConstraints(table);
-    }
-
-    private static Cursor queryIndexListForTable(String table, SQLiteDatabase database) {
-        return database.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
-    }
-
-    private static Cursor queryIndexInfo(String index, SQLiteDatabase database) {
-        return database.rawQuery(String.format(PRGAMA_INDEX_INFO, index), null);
     }
 
 }

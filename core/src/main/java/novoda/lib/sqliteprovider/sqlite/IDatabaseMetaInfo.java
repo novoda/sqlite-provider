@@ -8,9 +8,7 @@ import novoda.lib.sqliteprovider.util.Constraint;
 
 public interface IDatabaseMetaInfo {
 
-
-
-    public enum SQLiteType {
+    enum SQLiteType {
         NULL, INTEGER, REAL, TEXT, BLOB, NUMERIC;
 
         public static SQLiteType fromName(String columnType) {
@@ -22,12 +20,6 @@ public interface IDatabaseMetaInfo {
     List<String> getTables();
 
     List<String> getForeignTables(String table);
-
-    /**
-     * Use {@link #getUniqueConstraints(String)}
-     */
-    @Deprecated
-    List<String> getUniqueConstrains(String table);
 
     List<Constraint> getUniqueConstraints(String table);
 

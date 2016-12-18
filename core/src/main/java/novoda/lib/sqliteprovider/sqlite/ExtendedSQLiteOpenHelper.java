@@ -27,10 +27,7 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
     /*
      * We cache the constrains.
      */
-    @Deprecated
-    private final Map<String, List<String>> constrains = new HashMap<String, List<String>>();
-
-    private final Map<String, List<Constraint>> constraints = new HashMap<String, List<Constraint>>();
+    private final Map<String, List<Constraint>> constraints = new HashMap<>();
 
     public ExtendedSQLiteOpenHelper(Context context) throws IOException {
         this(context, null);
@@ -89,41 +86,12 @@ public class ExtendedSQLiteOpenHelper extends SQLiteOpenHelper implements IDatab
         return DBUtils.getProjectionMap(getReadableDatabase(), parent, foreignTables);
     }
 
-    /**
-     * Use {@link #getUniqueConstraints(String)}
-     */
-    @Deprecated
-    @Override
-    public List<String> getUniqueConstrains(String table) {
-        if (!constrains.containsKey(table)) {
-            constrains.put(table, DBUtils.getUniqueConstrains(getReadableDatabase(), table));
-        }
-        return constrains.get(table);
-    }
-
     @Override
     public List<Constraint> getUniqueConstraints(String table) {
         if (!constraints.containsKey(table)) {
             constraints.put(table, DBUtils.getUniqueConstraints(getReadableDatabase(), table));
         }
         return constraints.get(table);
-    }
-
-    /**
-     * Use {@link #getFirstConstraint(String, ContentValues)}
-     */
-    @Deprecated
-    public String getFirstConstrain(String table, ContentValues values) {
-        List<String> localConstrains = getUniqueConstrains(table);
-        if (localConstrains == null) {
-            return null;
-        }
-        for (String c : localConstrains) {
-            if (values.containsKey(c)) {
-                return c;
-            }
-        }
-        return null;
     }
 
     public Constraint getFirstConstraint(String table, ContentValues values) {
