@@ -57,6 +57,7 @@ public class MainFragment extends Fragment {
                     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
                         if (!cursor.moveToFirst()) {
                             Log.d("demo", "Nothing in DB, returning early");
+                            return;
                         }
 
                         do {
