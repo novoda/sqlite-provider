@@ -15,35 +15,38 @@ public final class DBUtils {
         // Util class
     }
 
+    /**
+     * Deprecated. Use {@link DatabaseStructure#foreignTables(String)} instead
+     */
     public static List<String> getForeignTables(SQLiteDatabase db, String table) {
-        return new DatabaseStructure(db).getForeignTables(table);
+        return new DatabaseStructure(db).foreignTables(table);
     }
 
     /**
-     * Deprecated. Use {@link DatabaseStructure} instead
+     * Deprecated. Use {@link DatabaseStructure#tables()} instead
      *
      * @param db the database to get meta information from
      * @return a list of tables
      */
     @Deprecated
     public static List<String> getTables(SQLiteDatabase db) {
-        return new DatabaseStructure(db).getTables();
+        return new DatabaseStructure(db).tables();
     }
 
     /**
-     * Deprecated. Use {@link DatabaseStructure} instead
+     * Deprecated. Use {@link DatabaseStructure#projectionMap(String, String...)} instead
      */
     @Deprecated
     public static Map<String, String> getProjectionMap(SQLiteDatabase db, String parent, String... foreignTables) {
-        return new DatabaseStructure(db).getProjectionMap(parent, foreignTables);
+        return new DatabaseStructure(db).projectionMap(parent, foreignTables);
     }
 
     /**
-     * Deprecated. Use {@link DatabaseStructure} instead
+     * Deprecated. Use {@link DatabaseStructure#columns(String)} instead
      */
     @Deprecated
     public static Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
-        return new DatabaseStructure(db).getFields(table);
+        return new DatabaseStructure(db).columns(table);
     }
 
     /**
@@ -63,11 +66,11 @@ public final class DBUtils {
     }
 
     /**
-     * Deprecated. Use {@link DatabaseStructure} instead
+     * Deprecated. Use {@link DatabaseStructure#uniqueConstraints(String)} instead
      */
     @Deprecated
     public static List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
-        return new DatabaseStructure(db).getUniqueConstraints(table);
+        return new DatabaseStructure(db).uniqueConstraints(table);
     }
 
 }
