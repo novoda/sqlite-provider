@@ -4,10 +4,9 @@ import android.net.Uri;
 
 import java.util.*;
 
-public class UriUtils {
+public final class UriUtils {
 
-    private UriUtils() throws IllegalAccessException {
-        throw new IllegalAccessException("Utils class shouldn't be instantiated");
+    private UriUtils() {
     }
 
     public static Map<String, String> mapIds(Uri uri) {
