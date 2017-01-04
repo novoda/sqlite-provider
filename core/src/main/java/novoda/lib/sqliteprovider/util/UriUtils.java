@@ -19,10 +19,7 @@ public class UriUtils {
         for (int i = 0; i < segs.size(); i++) {
             String currentSeg = segs.get(i);
             if (isNumeric(currentSeg)) {
-                final int children = Integer.parseInt(currentSeg);
-                for (int l = 0; l < children; l++) {
-                    mappedIds.put(parent, currentSeg);
-                }
+                mappedIds.put(parent, currentSeg);
             } else {
                 parent = currentSeg;
             }
