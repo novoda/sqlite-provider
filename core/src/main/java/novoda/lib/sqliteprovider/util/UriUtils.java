@@ -6,10 +6,12 @@ import java.util.*;
 
 public class UriUtils {
 
-    private static Map<String, String> mappedIds = new HashMap<String, String>();
+    private UriUtils() throws IllegalAccessException {
+        throw new IllegalAccessException("Utils class shouldn't be instantiated");
+    }
 
-    public static UriUtils from(Uri uri) {
-        UriUtils utils = new UriUtils();
+    public static Map<String, String> mapIds(Uri uri) {
+        Map<String, String> mappedIds = new HashMap<>();
 
         final List<String> segs = uri.getPathSegments();
         String parent = "";
@@ -25,10 +27,10 @@ public class UriUtils {
                 parent = currentSeg;
             }
         }
-        return utils;
+        return mappedIds;
     }
 
-    public static boolean isNumeric(String numericChar) {
+    private static boolean isNumeric(String numericChar) {
         try {
             Integer.parseInt(numericChar);
         } catch (NumberFormatException nfe) {
@@ -98,9 +100,5 @@ public class UriUtils {
             return uri.getPathSegments().get((uri.getPathSegments().size() - 1) - 2);
         }
         return "";
-    }
-
-    public Map<String, String> getMappedIds() {
-        return mappedIds;
     }
 }

@@ -5,11 +5,11 @@ import android.net.Uri;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
-import novoda.lib.sqliteprovider.RoboRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import junit.framework.TestCase;
+import novoda.lib.sqliteprovider.RoboRunner;
 
 @RunWith(RoboRunner.class)
 public class UriUtilsLocalTest extends TestCase {
@@ -34,30 +34,37 @@ public class UriUtilsLocalTest extends TestCase {
     @Test
     public void testGettingRowIds() {
         Uri uri = Uri.parse("content://test.com");
-        Map<String, String> result = UriUtils.from(uri).getMappedIds();
+        Map<String, String> result = UriUtils.mapIds(uri);
         assertTrue(result.size() == 0);
 
         uri = Uri.parse("content://test.com/parent");
-        result = UriUtils.from(uri).getMappedIds();
+        result = UriUtils.mapIds(uri);
         assertTrue(result.size() == 0);
 
         uri = Uri.parse("content://test.com/parent/1");
-        result = UriUtils.from(uri).getMappedIds();
+        result = UriUtils.mapIds(uri);
         assertEquals(result.size(),1);
         assertTrue(result.containsKey("parent"));
         assertEquals("1", result.get("parent"));
 
         uri = Uri.parse("content://test.com/parent/1/child");
-        result = UriUtils.from(uri).getMappedIds();
+        result = UriUtils.mapIds(uri);
         assertTrue(result.size() == 1);
         assertTrue(result.containsKey("parent"));
         assertEquals("1", result.get("parent"));
 
         uri = Uri.parse("content://test.com/parent/1/child/6");
-        result = UriUtils.from(uri).getMappedIds();
+        result = UriUtils.mapIds(uri);
         assertTrue(result.size() == 2);
         assertTrue(result.containsKey("parent") && result.containsKey("child"));
         assertEquals("1", result.get("parent"));
+        assertEquals("6", result.get("child"));
+
+        uri = Uri.parse("content://test.com/parent/0/child/6");
+        result = UriUtils.mapIds(uri);
+        assertTrue(result.size() == 2);
+        assertTrue(result.containsKey("parent") && result.containsKey("child"));
+        assertEquals("0", result.get("parent"));
         assertEquals("6", result.get("child"));
     }
 
