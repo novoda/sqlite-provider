@@ -10,10 +10,6 @@ import java.util.Map;
 import novoda.lib.sqliteprovider.util.Constraint;
 import novoda.lib.sqliteprovider.util.DBUtils;
 
-/**
- * Created by friedger on 05.12.16.
- */
-
 public class SQLiteDatabaseMetaInfo implements IDatabaseMetaInfo {
 
     private final Map<String, List<Constraint>> constraints = new HashMap<String, List<Constraint>>();
