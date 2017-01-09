@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.List;
 import java.util.Map;
 
-import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
+import novoda.lib.sqliteprovider.sqlite.DatabaseMetaInfo.SQLiteType;
 
 public final class DBUtils {
 

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import novoda.lib.sqliteprovider.util.Constraint;
 
-public interface IDatabaseMetaInfo {
+public interface DatabaseMetaInfo {
 
     enum SQLiteType {
         NULL, INTEGER, REAL, TEXT, BLOB, NUMERIC;
@@ -15,6 +15,7 @@ public interface IDatabaseMetaInfo {
             return valueOf(columnType.toUpperCase());
         }
     }
+
     Map<String, SQLiteType> getColumns(String table);
 
     List<String> getTables();

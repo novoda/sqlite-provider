@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import novoda.lib.sqliteprovider.sqlite.IDatabaseMetaInfo.SQLiteType;
+import novoda.lib.sqliteprovider.sqlite.DatabaseMetaInfo.SQLiteType;
 
 import static android.database.DatabaseUtils.createDbFromSqlStatements;
 import static android.test.MoreAsserts.assertContentsInAnyOrder;
