@@ -21,8 +21,7 @@ public class DatabaseStructure {
     private static final String COLUMN_PRIMARY_KEY_INDEX = "pk";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_TYPE = "type";
-
-    private static final List<String> DEFAULT_TABLES = Collections.singletonList("android_metadata");
+    private static final String ANDROID_METADATA_TABLE_NAME = "android_metadata";
 
     private final SQLiteDatabase database;
 
@@ -49,7 +48,7 @@ public class DatabaseStructure {
     }
 
     private void addCreatedTableIfNotDefault(String tableName) {
-        if (!DEFAULT_TABLES.contains(tableName)) {
+        if (!ANDROID_METADATA_TABLE_NAME.equals(tableName)) {
             createdTables.add(tableName);
         }
     }
