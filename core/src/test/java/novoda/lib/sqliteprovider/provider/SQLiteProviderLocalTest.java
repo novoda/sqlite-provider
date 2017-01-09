@@ -9,9 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +19,12 @@ import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.shadows.ShadowContentUris;
 
+import java.io.IOException;
+import java.util.List;
+
 import novoda.lib.sqliteprovider.RoboRunner;
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
+import novoda.lib.sqliteprovider.sqlite.MigratingSQLiteOpenHelper;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -33,7 +33,11 @@ import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(RoboRunner.class)
 @Config(shadows = {ShadowContentUris.class}, manifest = "src/test/resources/AndroidManifest.xml")
@@ -299,16 +303,6 @@ public class SQLiteProviderLocalTest {
         verify(mockCursor).setNotificationUri((ContentResolver) anyObject(), eq(Uri.parse("content://test.com/table1")));
     }
 
-    @Implements(ContentUris.class)
-    static class ShadowContentUris {
-
-        @SuppressWarnings("unused")
-        @Implementation
-        public static Uri withAppendedId(Uri uri, long id) {
-            return Uri.parse("content://test.com");
-        }
-    }
-
     private void update(String uri, ContentValues initialValues, String selection, String[] selectionArgs) {
         provider.update(Uri.parse("content://" + uri), initialValues, selection, selectionArgs);
     }
@@ -339,6 +333,16 @@ public class SQLiteProviderLocalTest {
         return bulkToInsert;
     }
 
+    @Implements(ContentUris.class)
+    static class ShadowContentUris {
+
+        @SuppressWarnings("unused")
+        @Implementation
+        public static Uri withAppendedId(Uri uri, long id) {
+            return Uri.parse("content://test.com");
+        }
+    }
+
     public class SQLiteProviderImpl extends SQLiteContentProviderImpl {
         @Override
         protected SQLiteDatabase getReadableDatabase() {
@@ -358,7 +362,7 @@ public class SQLiteProviderLocalTest {
         @Override
         protected SQLiteOpenHelper getDatabaseHelper(Context context) {
             try {
-                return new ExtendedSQLiteOpenHelper(getContext()) {
+                return new MigratingSQLiteOpenHelper(getContext()) {
                     @Override
                     public void onCreate(SQLiteDatabase db) {
                         // dont do a migrate

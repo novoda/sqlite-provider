@@ -14,8 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 import novoda.lib.sqliteprovider.provider.action.InsertHelper;
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
+import novoda.lib.sqliteprovider.sqlite.MigratingSQLiteOpenHelper;
 import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteQueryBuilder;
+import novoda.lib.sqliteprovider.sqlite.SQLiteDatabaseMetaInfo;
 import novoda.lib.sqliteprovider.util.Log;
 import novoda.lib.sqliteprovider.util.UriUtils;
 
@@ -31,6 +32,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
     private InsertHelper helper;
     private final ImplLogger logger;
+    private SQLiteDatabaseMetaInfo metaInfo;
 
     public SQLiteContentProviderImpl() {
         logger = new ImplLogger();
@@ -39,7 +41,9 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     @Override
     public boolean onCreate() {
         super.onCreate();
-        helper = new InsertHelper((ExtendedSQLiteOpenHelper) getDatabaseHelper());
+        SQLiteOpenHelper databaseHelper = getDatabaseHelper();
+        metaInfo = new SQLiteDatabaseMetaInfo(databaseHelper);
+        helper = new InsertHelper(databaseHelper, metaInfo);
         return true;
     }
 
@@ -54,7 +58,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
     @Override
     protected SQLiteOpenHelper getDatabaseHelper(Context context) {
         try {
-            return new ExtendedSQLiteOpenHelper(context, getCursorFactory());
+            return new MigratingSQLiteOpenHelper(context, getCursorFactory());
         } catch (IOException e) {
             Log.Provider.e(e);
             throw new IllegalStateException(e.getMessage());
@@ -148,8 +152,7 @@ public class SQLiteContentProviderImpl extends SQLiteContentProvider {
 
         if (expands.size() > 0) {
             builder.addInnerJoin(expands.toArray(new String[]{}));
-            ExtendedSQLiteOpenHelper extendedHelper = (ExtendedSQLiteOpenHelper) getDatabaseHelper();
-            autoproj = extendedHelper.getProjectionMap(tableName.toString(), expands.toArray(new String[]{}));
+            autoproj = metaInfo.getProjectionMap(tableName.toString(), expands.toArray(new String[]{}));
             builder.setProjectionMap(autoproj);
         }
 

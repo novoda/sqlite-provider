@@ -34,13 +34,15 @@ public class InsertHelperTest extends AndroidTestCase {
     private static final Uri INTEGER_PRIMARY_KEY_TABLE_URI = Uri.parse(BASE_URI_STRING + INTEGER_PRIMARY_KEY_TABLE);
 
     private InsertHelper helper;
-    private ExtendedSQLiteOpenHelper openHelper;
+    private MigratingSQLiteOpenHelper openHelper;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        openHelper = new ExtendedSQLiteOpenHelper(getContext());
-        helper = new InsertHelper(openHelper);
+        openHelper = new MigratingSQLiteOpenHelper(getContext());
+
+        SQLiteDatabaseMetaInfo metaInfo = new SQLiteDatabaseMetaInfo(openHelper);
+        helper = new InsertHelper(openHelper, metaInfo);
 
         clearParentsTable();
     }
