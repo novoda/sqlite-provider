@@ -34,7 +34,7 @@ public class DatabaseStructure {
     }
 
     public List<String> tables() {
-        final Cursor tablesCursor = database.rawQuery(SELECT_TABLES_NAME, null);
+        Cursor tablesCursor = database.rawQuery(SELECT_TABLES_NAME, null);
         createdTables = new ArrayList<>(tablesCursor.getCount());
         parseTables(tablesCursor);
         tablesCursor.close();
@@ -80,7 +80,7 @@ public class DatabaseStructure {
 
     public List<String> foreignTables(String table) {
         foreignTables.put(table, new ArrayList<String>(5));
-        final Cursor columnsCursor = queryTableColumnsFor(table);
+        Cursor columnsCursor = queryTableColumnsFor(table);
         List<String> allTables = tables();
         parseForeignTablesFor(table, columnsCursor, allTables);
         columnsCursor.close();
@@ -111,7 +111,7 @@ public class DatabaseStructure {
     }
 
     public Map<String, SQLiteType> columns(String table) {
-        final Cursor columnsCursor = queryTableColumnsFor(table);
+        Cursor columnsCursor = queryTableColumnsFor(table);
         Map<String, SQLiteType> columns = parseColumns(columnsCursor);
         columnsCursor.close();
         return Collections.unmodifiableMap(columns);
@@ -134,7 +134,7 @@ public class DatabaseStructure {
     public List<Constraint> uniqueConstraints(String table) {
         uniqueConstraints.put(table, new ArrayList<Constraint>());
         lookForImplicitUniqueIndex(table);
-        final Cursor indexCursor = queryIndexListForTable(table);
+        Cursor indexCursor = queryIndexListForTable(table);
         parseUniqueConstraints(indexCursor, table);
         indexCursor.close();
         return Collections.unmodifiableList(uniqueConstraints.get(table));
@@ -159,7 +159,7 @@ public class DatabaseStructure {
             return;
         }
         String indexName = indexCursor.getString(1);
-        final Cursor indexInfoCursor = queryIndexInfo(indexName);
+        Cursor indexInfoCursor = queryIndexInfo(indexName);
         List<String> columns = parseIndexColumns(indexInfoCursor);
         indexInfoCursor.close();
         uniqueConstraints.get(forTable).add(new Constraint(columns));
@@ -179,7 +179,7 @@ public class DatabaseStructure {
     }
 
     private Constraint findIntegerPrimaryKeyConstraint(String table) {
-        final Cursor columnsCursor = queryTableColumnsFor(table);
+        Cursor columnsCursor = queryTableColumnsFor(table);
         try {
             return parseColumnsForIntegerPrimaryKeyConstraint(columnsCursor);
         } finally {
