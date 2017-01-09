@@ -70,6 +70,27 @@ public class DatabaseStructure {
         return projection;
     }
 
+    public Map<String, SQLiteType> columnsFor(String table) {
+        Cursor columnsCursor = queryTableColumnsFor(table);
+        Map<String, SQLiteType> columns = parseColumnsFrom(columnsCursor);
+        columnsCursor.close();
+        return Collections.unmodifiableMap(columns);
+    }
+
+    private Cursor queryTableColumnsFor(String table) {
+        return database.rawQuery(String.format(PRAGMA_TABLE_INFO, table), null);
+    }
+
+    private Map<String, SQLiteType> parseColumnsFrom(Cursor columnsCursor) {
+        Map<String, SQLiteType> columns = new HashMap<>(columnsCursor.getCount());
+        while (columnsCursor.moveToNext()) {
+            String name = columnsCursor.getString(columnsCursor.getColumnIndexOrThrow(COLUMN_NAME));
+            String type = columnsCursor.getString(columnsCursor.getColumnIndexOrThrow(COLUMN_TYPE));
+            columns.put(name, SQLiteType.fromName(type));
+        }
+        return columns;
+    }
+
     private Map<String, String> projectionFor(String... foreignTables) {
         Map<String, String> projection = new TreeMap<>();
         for (String ft : foreignTables) {
@@ -110,27 +131,6 @@ public class DatabaseStructure {
         return columnName.endsWith("_id");
     }
 
-    public Map<String, SQLiteType> columnsFor(String table) {
-        Cursor columnsCursor = queryTableColumnsFor(table);
-        Map<String, SQLiteType> columns = parseColumnsFrom(columnsCursor);
-        columnsCursor.close();
-        return Collections.unmodifiableMap(columns);
-    }
-
-    private Map<String, SQLiteType> parseColumnsFrom(Cursor columnsCursor) {
-        Map<String, SQLiteType> columns = new HashMap<>(columnsCursor.getCount());
-        while (columnsCursor.moveToNext()) {
-            String name = columnsCursor.getString(columnsCursor.getColumnIndexOrThrow(COLUMN_NAME));
-            String type = columnsCursor.getString(columnsCursor.getColumnIndexOrThrow(COLUMN_TYPE));
-            columns.put(name, SQLiteType.fromName(type));
-        }
-        return columns;
-    }
-
-    private Cursor queryTableColumnsFor(String table) {
-        return database.rawQuery(String.format(PRAGMA_TABLE_INFO, table), null);
-    }
-
     public List<Constraint> uniqueConstraintsFor(String table) {
         uniqueConstraints.put(table, new ArrayList<Constraint>());
         lookForImplicitUniqueIndexFor(table);
@@ -146,36 +146,6 @@ public class DatabaseStructure {
         if (integerPrimaryKeyConstraint != null) {
             uniqueConstraints.get(table).add(integerPrimaryKeyConstraint);
         }
-    }
-
-    private void parseUniqueConstraintsFrom(Cursor indexCursor, String forTable) {
-        while (indexCursor.moveToNext()) {
-            addUniqueIndexConstraintFrom(indexCursor, forTable);
-        }
-    }
-
-    private void addUniqueIndexConstraintFrom(Cursor indexCursor, String forTable) {
-        if (!isIndexUnique(indexCursor)) {
-            return;
-        }
-        String indexName = indexCursor.getString(1);
-        Cursor indexInfoCursor = queryInfoFor(indexName);
-        List<String> columns = parseIndexColumnsFrom(indexInfoCursor);
-        indexInfoCursor.close();
-        uniqueConstraints.get(forTable).add(new Constraint(columns));
-    }
-
-    private boolean isIndexUnique(Cursor indexCursor) {
-        return indexCursor.getInt(2) == 1;
-    }
-
-    private List<String> parseIndexColumnsFrom(Cursor indexInfoCursor) {
-        List<String> columns = new ArrayList<>(indexInfoCursor.getCount());
-        while (indexInfoCursor.moveToNext()) {
-            String columnName = indexInfoCursor.getString(2);
-            columns.add(columnName);
-        }
-        return columns;
     }
 
     private Constraint findIntegerPrimaryKeyConstraintFor(String table) {
@@ -218,8 +188,38 @@ public class DatabaseStructure {
         return database.rawQuery(String.format(PRAGMA_INDEX_LIST, table), null);
     }
 
+    private void parseUniqueConstraintsFrom(Cursor indexCursor, String forTable) {
+        while (indexCursor.moveToNext()) {
+            addUniqueIndexConstraintFrom(indexCursor, forTable);
+        }
+    }
+
+    private void addUniqueIndexConstraintFrom(Cursor indexCursor, String forTable) {
+        if (!isIndexUnique(indexCursor)) {
+            return;
+        }
+        String indexName = indexCursor.getString(1);
+        Cursor indexInfoCursor = queryInfoFor(indexName);
+        List<String> columns = parseIndexColumnsFrom(indexInfoCursor);
+        indexInfoCursor.close();
+        uniqueConstraints.get(forTable).add(new Constraint(columns));
+    }
+
+    private boolean isIndexUnique(Cursor indexCursor) {
+        return indexCursor.getInt(2) == 1;
+    }
+
     private Cursor queryInfoFor(String index) {
         return database.rawQuery(String.format(PRAGMA_INDEX_INFO, index), null);
+    }
+
+    private List<String> parseIndexColumnsFrom(Cursor indexInfoCursor) {
+        List<String> columns = new ArrayList<>(indexInfoCursor.getCount());
+        while (indexInfoCursor.moveToNext()) {
+            String columnName = indexInfoCursor.getString(2);
+            columns.add(columnName);
+        }
+        return columns;
     }
 
 }
