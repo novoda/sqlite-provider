@@ -16,14 +16,14 @@ public final class DBUtils {
     }
 
     /**
-     * Deprecated. Use {@link DatabaseStructure#foreignTables(String)} instead
+     * @deprecated Use {@link DatabaseStructure#foreignTables(String)} instead, since it provides a cleaner API
      */
     public static List<String> getForeignTables(SQLiteDatabase db, String table) {
         return new DatabaseStructure(db).foreignTables(table);
     }
 
     /**
-     * Deprecated. Use {@link DatabaseStructure#tables()} instead
+     * @deprecated Use {@link DatabaseStructure#tables()} instead
      *
      * @param db the database to get meta information from
      * @return a list of tables
@@ -34,7 +34,7 @@ public final class DBUtils {
     }
 
     /**
-     * Deprecated. Use {@link DatabaseStructure#projectionMap(String, String...)} instead
+     * @deprecated Use {@link DatabaseStructure#projectionMap(String, String...)} instead, since it provides a cleaner API
      */
     @Deprecated
     public static Map<String, String> getProjectionMap(SQLiteDatabase db, String parent, String... foreignTables) {
@@ -42,7 +42,7 @@ public final class DBUtils {
     }
 
     /**
-     * Deprecated. Use {@link DatabaseStructure#columns(String)} instead
+     * @deprecated Use {@link DatabaseStructure#columns(String)} instead, since it provides a cleaner API
      */
     @Deprecated
     public static Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
@@ -66,7 +66,7 @@ public final class DBUtils {
     }
 
     /**
-     * Deprecated. Use {@link DatabaseStructure#uniqueConstraints(String)} instead
+     * @deprecated Use {@link DatabaseStructure#uniqueConstraints(String)} instead, since it provides a cleaner API
      */
     @Deprecated
     public static List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
