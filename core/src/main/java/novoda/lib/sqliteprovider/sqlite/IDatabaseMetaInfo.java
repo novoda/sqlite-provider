@@ -23,12 +23,6 @@ public interface IDatabaseMetaInfo {
 
     List<String> getForeignTables(String table);
 
-    /**
-     * Use {@link #getUniqueConstraints(String)}
-     */
-    @Deprecated
-    List<String> getUniqueConstrains(String table);
-
     List<Constraint> getUniqueConstraints(String table);
 
     Map<String, String> getProjectionMap(String parent, String... foreignTables);
