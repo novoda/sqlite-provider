@@ -16,8 +16,8 @@ public class DatabaseStructure {
 
     private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
     private static final String PRAGMA_TABLE_INFO = "PRAGMA table_info('%1$s');";
-    private static final String PRGAMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
-    private static final String PRGAMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
+    private static final String PRAGMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
+    private static final String PRAGMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
     private static final String COLUMN_PRIMARY_KEY_INDEX = "pk";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_TYPE = "type";
@@ -216,11 +216,11 @@ public class DatabaseStructure {
     }
 
     private Cursor queryIndexListForTable(String table) {
-        return database.rawQuery(String.format(PRGAMA_INDEX_LIST, table), null);
+        return database.rawQuery(String.format(PRAGMA_INDEX_LIST, table), null);
     }
 
     private Cursor queryIndexInfo(String index) {
-        return database.rawQuery(String.format(PRGAMA_INDEX_INFO, index), null);
+        return database.rawQuery(String.format(PRAGMA_INDEX_INFO, index), null);
     }
 
 }
