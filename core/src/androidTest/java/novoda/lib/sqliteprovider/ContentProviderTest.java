@@ -9,7 +9,7 @@ import android.test.AndroidTestCase;
 
 import java.io.IOException;
 
-import novoda.lib.sqliteprovider.sqlite.ExtendedSQLiteOpenHelper;
+import novoda.lib.sqliteprovider.sqlite.MigratingSQLiteOpenHelper;
 
 public class ContentProviderTest extends AndroidTestCase {
 
@@ -35,7 +35,7 @@ public class ContentProviderTest extends AndroidTestCase {
         ContentValues values = new ContentValues(1);
         values.put(ANY_COLUMN, 1);
 
-        int numRows = new ExtendedSQLiteOpenHelper(getContext())
+        int numRows = new MigratingSQLiteOpenHelper(getContext())
                 .getWritableDatabase()
                 .update(TABLE_NAME, values, COLUMN_PRIMARY_KEY + "=?", new String[]{"2"});
 
@@ -51,7 +51,7 @@ public class ContentProviderTest extends AndroidTestCase {
     }
 
     private void givenATableWithData() throws IOException {
-        ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(getContext());
+        MigratingSQLiteOpenHelper helper = new MigratingSQLiteOpenHelper(getContext());
         SQLiteDatabase db = helper.getWritableDatabase();
         db.execSQL("CREATE TABLE IF NOT EXISTS `" + TABLE_NAME + "` (" +
                            "`" + COLUMN_PRIMARY_KEY + "` INTEGER PRIMARY KEY," +
@@ -65,7 +65,7 @@ public class ContentProviderTest extends AndroidTestCase {
 
     @Override
     protected void tearDown() throws Exception {
-        ExtendedSQLiteOpenHelper helper = new ExtendedSQLiteOpenHelper(getContext());
+        MigratingSQLiteOpenHelper helper = new MigratingSQLiteOpenHelper(getContext());
         SQLiteDatabase db = helper.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS `" + TABLE_NAME + "`");
     }
