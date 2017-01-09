@@ -16,10 +16,10 @@ public final class DBUtils {
     }
 
     /**
-     * @deprecated Use {@link DatabaseStructure#foreignTables(String)} instead, since it provides a cleaner API
+     * @deprecated Use {@link DatabaseStructure#foreignTablesFor(String)} instead, since it provides a cleaner API
      */
     public static List<String> getForeignTables(SQLiteDatabase db, String table) {
-        return new DatabaseStructure(db).foreignTables(table);
+        return new DatabaseStructure(db).foreignTablesFor(table);
     }
 
     /**
@@ -42,11 +42,11 @@ public final class DBUtils {
     }
 
     /**
-     * @deprecated Use {@link DatabaseStructure#columns(String)} instead, since it provides a cleaner API
+     * @deprecated Use {@link DatabaseStructure#columnsFor(String)} instead, since it provides a cleaner API
      */
     @Deprecated
     public static Map<String, SQLiteType> getFields(SQLiteDatabase db, String table) {
-        return new DatabaseStructure(db).columns(table);
+        return new DatabaseStructure(db).columnsFor(table);
     }
 
     /**
@@ -66,11 +66,11 @@ public final class DBUtils {
     }
 
     /**
-     * @deprecated Use {@link DatabaseStructure#uniqueConstraints(String)} instead, since it provides a cleaner API
+     * @deprecated Use {@link DatabaseStructure#uniqueConstraintsFor(String)} instead, since it provides a cleaner API
      */
     @Deprecated
     public static List<Constraint> getUniqueConstraints(SQLiteDatabase db, String table) {
-        return new DatabaseStructure(db).uniqueConstraints(table);
+        return new DatabaseStructure(db).uniqueConstraintsFor(table);
     }
 
 }

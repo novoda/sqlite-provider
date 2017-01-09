@@ -49,13 +49,13 @@ public class DatabaseStructureTest extends AndroidTestCase {
 
     public void testForeignTable() {
         createDatabase(CREATE_2_TABLES_WITH_FOREIGN_KEY);
-        List<String> foreignTables = databaseStructure.foreignTables("t2");
+        List<String> foreignTables = databaseStructure.foreignTablesFor("t2");
         assertContentsInAnyOrder(foreignTables, "t");
     }
 
     public void testColumns() {
         createDatabase(CREATE_TABLES);
-        Map<String, SQLiteType> columns = databaseStructure.columns("t1");
+        Map<String, SQLiteType> columns = databaseStructure.columnsFor("t1");
         assertContentsInAnyOrder(columns.keySet(), "id", "name", "r");
     }
 
@@ -68,25 +68,25 @@ public class DatabaseStructureTest extends AndroidTestCase {
 
     public void testUniqueConstraints() {
         createDatabase(CREATE_TABLE_WITH_CONSTRAINT);
-        List<Constraint> constraints = databaseStructure.uniqueConstraints("t");
+        List<Constraint> constraints = databaseStructure.uniqueConstraintsFor("t");
         assertContentsInAnyOrder(constraints, new Constraint(Collections.singletonList("const")));
     }
 
     public void testUniqueConstraintsForIntegerPrimaryKey() {
         createDatabase(CREATE_TABLE_WITH_INTEGER_PRIMARY_KEY);
-        List<Constraint> constraints = databaseStructure.uniqueConstraints("t");
+        List<Constraint> constraints = databaseStructure.uniqueConstraintsFor("t");
         assertContentsInAnyOrder(constraints, new Constraint(Collections.singletonList("_id")));
     }
 
     public void testMultiColumnUniqueConstraints() {
         createDatabase(CREATE_TABLE_WITH_MULTI_COLUMN_CONSTRAINT);
-        List<Constraint> constraints = databaseStructure.uniqueConstraints("t");
+        List<Constraint> constraints = databaseStructure.uniqueConstraintsFor("t");
         assertContentsInAnyOrder(constraints, new Constraint(Arrays.asList("name", "desc")));
     }
 
     public void testEmptyUniqueConstraints() {
         createDatabase(CREATE_TABLES);
-        List<Constraint> constraints = databaseStructure.uniqueConstraints("t");
+        List<Constraint> constraints = databaseStructure.uniqueConstraintsFor("t");
         assertEmpty(constraints);
     }
 
