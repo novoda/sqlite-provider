@@ -26,7 +26,6 @@ public class DatabaseStructure {
 
     private final SQLiteDatabase database;
 
-    private List<String> createdTables;
     private Map<String, List<String>> foreignTables = new TreeMap<>();
     private Map<String, List<Constraint>> uniqueConstraints = new TreeMap<>();
 
@@ -36,22 +35,19 @@ public class DatabaseStructure {
 
     public List<String> tables() {
         Cursor tablesCursor = database.query(SQLITE_MASTER_TABLE_NAME, new String[]{COLUMN_NAME}, SELECTION_TYPE_TABLE, null, null, null, null);
-        createdTables = new ArrayList<>(tablesCursor.getCount());
-        parseTablesFrom(tablesCursor);
+        List<String> tables = parseTablesFrom(tablesCursor);
         tablesCursor.close();
-        return Collections.unmodifiableList(createdTables);
+        return Collections.unmodifiableList(tables);
     }
 
-    private void parseTablesFrom(Cursor tablesCursor) {
+    private List<String> parseTablesFrom(Cursor tablesCursor) {
+        List<String> createdTables = new ArrayList<>(tablesCursor.getCount());
         while (tablesCursor.moveToNext()) {
-            addCreatedTableIfNotDefault(tablesCursor.getString(0));
-        }
-    }
-
-    private void addCreatedTableIfNotDefault(String tableName) {
-        if (!ANDROID_METADATA_TABLE_NAME.equals(tableName)) {
+            String tableName = tablesCursor.getString(0);
             createdTables.add(tableName);
         }
+        createdTables.remove(ANDROID_METADATA_TABLE_NAME);
+        return createdTables;
     }
 
     public Map<String, String> projectionMap(String parent, String... foreignTables) {
