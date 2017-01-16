@@ -14,7 +14,8 @@ import novoda.lib.sqliteprovider.sqlite.DatabaseMetaInfo.SQLiteType;
 
 public class DatabaseStructure {
 
-    private static final String SELECT_TABLES_NAME = "SELECT name FROM sqlite_master WHERE type='table';";
+    private static final String SQLITE_MASTER_TABLE_NAME = "sqlite_master";
+    private static final String SELECTION_TYPE_TABLE = "type='table'";
     private static final String PRAGMA_TABLE_INFO = "PRAGMA table_info('%1$s');";
     private static final String PRAGMA_INDEX_LIST = "PRAGMA index_list('%1$s');";
     private static final String PRAGMA_INDEX_INFO = "PRAGMA index_info('%1$s');";
@@ -34,7 +35,7 @@ public class DatabaseStructure {
     }
 
     public List<String> tables() {
-        Cursor tablesCursor = database.rawQuery(SELECT_TABLES_NAME, null);
+        Cursor tablesCursor = database.query(SQLITE_MASTER_TABLE_NAME, new String[]{COLUMN_NAME}, SELECTION_TYPE_TABLE, null, null, null, null);
         createdTables = new ArrayList<>(tablesCursor.getCount());
         parseTablesFrom(tablesCursor);
         tablesCursor.close();
