@@ -26,7 +26,6 @@ public class DatabaseStructure {
 
     private final SQLiteDatabase database;
 
-    private Map<String, List<String>> foreignTables = new TreeMap<>();
     private Map<String, List<Constraint>> uniqueConstraints = new TreeMap<>();
 
     public DatabaseStructure(SQLiteDatabase database) {
@@ -97,31 +96,36 @@ public class DatabaseStructure {
     }
 
     public List<String> foreignTablesFor(String table) {
-        foreignTables.put(table, new ArrayList<String>(5));
         Cursor columnsCursor = queryTableColumnsFor(table);
         List<String> allTables = tables();
-        parseForeignTablesFor(table, columnsCursor, allTables);
+        List<String> foreignTables = parseForeignTablesFor(columnsCursor, allTables);
         columnsCursor.close();
-        return Collections.unmodifiableList(foreignTables.get(table));
+        return Collections.unmodifiableList(foreignTables);
     }
 
-    private void parseForeignTablesFor(String table, Cursor columnsCursor, List<String> allTables) {
+    private List<String> parseForeignTablesFor(Cursor columnsCursor, List<String> allTables) {
+        List<String> foreignTables = new ArrayList<>();
         while (columnsCursor.moveToNext()) {
             String columnName = columnsCursor.getString(columnsCursor.getColumnIndexOrThrow(COLUMN_NAME));
-            addForeignTableIfExists(table, columnName, allTables);
+            String foreignTable = foreignTableFor(columnName, allTables);
+            if (foreignTable != null) {
+                foreignTables.add(foreignTable);
+            }
         }
+        return foreignTables;
     }
 
-    private void addForeignTableIfExists(String forTable, String columnName, List<String> tables) {
+    private String foreignTableFor(String columnName, List<String> tables) {
         if (!isForeignKey(columnName)) {
-            return;
+            return null;
         }
         String tableName = columnName.substring(0, columnName.lastIndexOf('_'));
         if (tables.contains(tableName + "s")) {
-            foreignTables.get(forTable).add(tableName + "s");
+            return (tableName + "s");
         } else if (tables.contains(tableName)) {
-            foreignTables.get(forTable).add(tableName);
+            return (tableName);
         }
+        return null;
     }
 
     private boolean isForeignKey(String columnName) {
