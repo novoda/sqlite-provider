@@ -51,7 +51,7 @@ public class DatabaseStructure {
         Map<String, String> projection = new TreeMap<>();
         projection.put("_id", parent + "._id AS _id");
         projection.putAll(projectionFor(parent, columnsFor(parent)));
-        projection.putAll(projectionFor(foreignTables));
+        projection.putAll(projectionForEach(foreignTables));
         return Collections.unmodifiableMap(projection);
     }
 
@@ -85,7 +85,7 @@ public class DatabaseStructure {
         return columns;
     }
 
-    private Map<String, String> projectionFor(String... foreignTables) {
+    private Map<String, String> projectionForEach(String... foreignTables) {
         Map<String, String> projection = new TreeMap<>();
         for (String ft : foreignTables) {
             projection.putAll(projectionFor(ft, columnsFor(ft)));
