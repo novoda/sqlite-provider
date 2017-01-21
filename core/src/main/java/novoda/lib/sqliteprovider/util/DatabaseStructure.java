@@ -26,8 +26,6 @@ public class DatabaseStructure {
 
     private final SQLiteDatabase database;
 
-    private Map<String, List<Constraint>> uniqueConstraints = new TreeMap<>();
-
     public DatabaseStructure(SQLiteDatabase database) {
         this.database = database;
     }
@@ -133,23 +131,19 @@ public class DatabaseStructure {
     }
 
     public List<Constraint> uniqueConstraintsFor(String table) {
-        uniqueConstraints.put(table, new ArrayList<Constraint>());
-        lookForImplicitUniqueIndexFor(table);
-        Cursor indexCursor = queryIndexListFor(table);
-        parseUniqueConstraintsFrom(indexCursor, table);
-        indexCursor.close();
-        return Collections.unmodifiableList(uniqueConstraints.get(table));
-    }
-
-    private void lookForImplicitUniqueIndexFor(String table) {
-        // This is an implicit unique index, and won't show up querying the other indexes
-        Constraint integerPrimaryKeyConstraint = findIntegerPrimaryKeyConstraintFor(table);
-        if (integerPrimaryKeyConstraint != null) {
-            uniqueConstraints.get(table).add(integerPrimaryKeyConstraint);
+        List<Constraint> uniqueConstraints = new ArrayList<>();
+        Constraint implicitIntegerPrimaryKeyConstraint = implicitIntegerPrimaryKeyConstraint(table);
+        if (implicitIntegerPrimaryKeyConstraint != null) {
+            uniqueConstraints.add(implicitIntegerPrimaryKeyConstraint);
         }
+        Cursor indexCursor = queryIndexListFor(table);
+        uniqueConstraints.addAll(parseUniqueConstraintsFrom(indexCursor));
+        indexCursor.close();
+        return Collections.unmodifiableList(uniqueConstraints);
     }
 
-    private Constraint findIntegerPrimaryKeyConstraintFor(String table) {
+    private Constraint implicitIntegerPrimaryKeyConstraint(String table) {
+        // This is an implicit unique index, and won't show up querying the other indexes
         Cursor columnsCursor = queryTableColumnsFor(table);
         try {
             return parseIntegerPrimaryKeyConstraintFrom(columnsCursor);
@@ -189,21 +183,26 @@ public class DatabaseStructure {
         return database.rawQuery(String.format(PRAGMA_INDEX_LIST, table), null);
     }
 
-    private void parseUniqueConstraintsFrom(Cursor indexCursor, String forTable) {
+    private List<Constraint> parseUniqueConstraintsFrom(Cursor indexCursor) {
+        List<Constraint> constraints = new ArrayList<>();
         while (indexCursor.moveToNext()) {
-            addUniqueIndexConstraintFrom(indexCursor, forTable);
+            Constraint constraint = uniqueIndexConstraintFrom(indexCursor);
+            if (constraint != null) {
+                constraints.add(constraint);
+            }
         }
+        return constraints;
     }
 
-    private void addUniqueIndexConstraintFrom(Cursor indexCursor, String forTable) {
+    private Constraint uniqueIndexConstraintFrom(Cursor indexCursor) {
         if (!isIndexUnique(indexCursor)) {
-            return;
+            return null;
         }
         String indexName = indexCursor.getString(1);
         Cursor indexInfoCursor = queryInfoFor(indexName);
         List<String> columns = parseIndexColumnsFrom(indexInfoCursor);
         indexInfoCursor.close();
-        uniqueConstraints.get(forTable).add(new Constraint(columns));
+        return new Constraint(columns);
     }
 
     private boolean isIndexUnique(Cursor indexCursor) {
