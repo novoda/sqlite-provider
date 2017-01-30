@@ -10,7 +10,7 @@ import java.util.Map;
 import novoda.lib.sqliteprovider.util.Constraint;
 import novoda.lib.sqliteprovider.util.DBUtils;
 
-public class SQLiteDatabaseMetaInfo implements IDatabaseMetaInfo {
+public class SQLiteDatabaseMetaInfo implements DatabaseMetaInfo {
 
     private final Map<String, List<Constraint>> constraints = new HashMap<String, List<Constraint>>();
     private final SQLiteOpenHelper helper;
