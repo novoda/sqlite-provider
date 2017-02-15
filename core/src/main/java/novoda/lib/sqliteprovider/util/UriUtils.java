@@ -4,12 +4,13 @@ import android.net.Uri;
 
 import java.util.*;
 
-public class UriUtils {
+public final class UriUtils {
 
-    private static Map<String, String> mappedIds = new HashMap<String, String>();
+    private UriUtils() {
+    }
 
-    public static UriUtils from(Uri uri) {
-        UriUtils utils = new UriUtils();
+    public static Map<String, String> mapIds(Uri uri) {
+        Map<String, String> mappedIds = new HashMap<>();
 
         final List<String> segs = uri.getPathSegments();
         String parent = "";
@@ -17,18 +18,15 @@ public class UriUtils {
         for (int i = 0; i < segs.size(); i++) {
             String currentSeg = segs.get(i);
             if (isNumeric(currentSeg)) {
-                final int children = Integer.parseInt(currentSeg);
-                for (int l = 0; l < children; l++) {
-                    mappedIds.put(parent, currentSeg);
-                }
+                mappedIds.put(parent, currentSeg);
             } else {
                 parent = currentSeg;
             }
         }
-        return utils;
+        return mappedIds;
     }
 
-    public static boolean isNumeric(String numericChar) {
+    private static boolean isNumeric(String numericChar) {
         try {
             Integer.parseInt(numericChar);
         } catch (NumberFormatException nfe) {
@@ -98,9 +96,5 @@ public class UriUtils {
             return uri.getPathSegments().get((uri.getPathSegments().size() - 1) - 2);
         }
         return "";
-    }
-
-    public Map<String, String> getMappedIds() {
-        return mappedIds;
     }
 }
