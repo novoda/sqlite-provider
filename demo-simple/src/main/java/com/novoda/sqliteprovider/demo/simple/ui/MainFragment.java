@@ -33,7 +33,8 @@ public class MainFragment extends Fragment {
         /**
          * You can retrieve from the database multiple ways - this is just an example of using Uri's
          */
-        retrieveShopsFromDatabase();
+        retrieveFromDatabase(FireworkProvider.SHOPS, R.id.loader_shop);
+        retrieveFromDatabase(FireworkProvider.CITIES, R.id.loader_city);
     }
 
     private void saveNewShopToDatabase() {
@@ -45,13 +46,13 @@ public class MainFragment extends Fragment {
         getActivity().getContentResolver().insert(table, values);
     }
 
-    private void retrieveShopsFromDatabase() {
+    private void retrieveFromDatabase(final Uri uri, int id) {
         getActivity().getSupportLoaderManager()
-                .initLoader(R.id.loader_shop, null, new LoaderManager.LoaderCallbacks<Cursor>() {
+                .initLoader(id, null, new LoaderManager.LoaderCallbacks<Cursor>() {
 
                     @Override
                     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-                        return new ShopCursorLoader(getActivity());
+                        return new DemoCursorLoader(getActivity(), uri);
                     }
 
                     @Override
@@ -61,13 +62,22 @@ public class MainFragment extends Fragment {
                             return;
                         }
 
-                        do {
-                            String shopName = cursor.getString(cursor.getColumnIndex("name"));
-                            String shopPostcode = cursor.getString(cursor.getColumnIndex("postcode"));
+                        if (uri.equals(FireworkProvider.SHOPS)) {
+                            do {
+                                String shopName = cursor.getString(cursor.getColumnIndex("name"));
+                                String shopPostcode = cursor.getString(cursor.getColumnIndex("postcode"));
+                                String shopCityId = cursor.getString(cursor.getColumnIndex("city_id"));
 
-                            Log.d("demo", "Found shop: " + shopName);
-                            Log.d("demo", "Found postcode: " + shopPostcode);
-                        } while (cursor.moveToNext());
+                                Log.d("demo", "Found shop: " + shopName + " with postcode: " + shopPostcode + " and city_id: " + shopCityId);
+                            } while (cursor.moveToNext());
+                        } else {
+                            do {
+                                String cityName = cursor.getString(cursor.getColumnIndex("name"));
+                                String cityId = cursor.getString(cursor.getColumnIndex("city_id"));
+
+                                Log.d("demo", "Found city: " + cityName + " with city_id: " + cityId);
+                            } while (cursor.moveToNext());
+                        }
 
                     }
 
@@ -80,13 +90,23 @@ public class MainFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_main, container, false);
+        inflate.findViewById(R.id.delete_city).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri table = FireworkProvider.CITIES;
+                getActivity().getContentResolver().delete(table, "city_id=1", null);
+                retrieveFromDatabase(FireworkProvider.SHOPS, R.id.loader_shop);
+                retrieveFromDatabase(FireworkProvider.CITIES, R.id.loader_city);
+            }
+        });
+        return inflate;
     }
 
-    private static class ShopCursorLoader extends CursorLoader {
+    private static class DemoCursorLoader extends CursorLoader {
 
-        public ShopCursorLoader(Context context) {
-            super(context, FireworkProvider.SHOPS, null, null, null, null);
+        public DemoCursorLoader(Context context, Uri uri) {
+            super(context, uri, null, null, null, null);
         }
     }
 }
