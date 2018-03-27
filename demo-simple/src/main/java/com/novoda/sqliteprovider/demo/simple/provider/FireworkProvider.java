@@ -8,8 +8,11 @@ public class FireworkProvider extends SQLiteContentProviderImpl {
 
     private static final String AUTHORITY = "content://com.novoda.demo.simple/";
     private static final String TABLE_SHOP = "shop";
+    private static final String TABLE_CITY = "city";
     public static final String COL_SHOP_NAME = "name";
     public static final String COL_SHOP_POSTCODE = "postcode";
+    public static final String COL_SHOP_CITY_ID = "city_id";
 
     public static final Uri SHOPS = Uri.parse(AUTHORITY).buildUpon().appendPath(TABLE_SHOP).build();
+    public static final Uri CITIES = Uri.parse(AUTHORITY).buildUpon().appendPath(TABLE_CITY).build();
 }

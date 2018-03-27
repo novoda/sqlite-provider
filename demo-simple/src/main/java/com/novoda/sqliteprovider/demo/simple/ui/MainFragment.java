@@ -41,6 +41,7 @@ public class MainFragment extends Fragment {
         ContentValues values = new ContentValues(1);
         values.put(FireworkProvider.COL_SHOP_NAME, "MyNewShop" + System.currentTimeMillis());
         values.put(FireworkProvider.COL_SHOP_POSTCODE, "LN11YA");
+        values.put(FireworkProvider.COL_SHOP_CITY_ID, 2);
         getActivity().getContentResolver().insert(table, values);
     }
 
