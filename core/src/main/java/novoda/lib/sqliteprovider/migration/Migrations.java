@@ -1,17 +1,23 @@
 package novoda.lib.sqliteprovider.migration;
 
-import static novoda.lib.sqliteprovider.util.Log.Migration.*;
-
 import android.content.res.AssetManager;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.text.TextUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.Comparator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import novoda.lib.sqliteprovider.util.Log;
 import novoda.lib.sqliteprovider.util.SQLFile;
 
-import java.io.*;
-import java.util.*;
+import static novoda.lib.sqliteprovider.util.Log.Migration.*;
 
 public class Migrations {
 
@@ -63,7 +69,6 @@ public class Migrations {
     };
 
     public static void migrate(SQLiteDatabase db, AssetManager manager, String assetLocation) throws IOException {
-
         if (infoLoggingEnabled()) {
             i("current DB version is: " + db.getVersion());
         }
@@ -74,7 +79,7 @@ public class Migrations {
             w("No SQL file found in asset folder");
             return;
         }
-
+        foreignKeySupport(db, false);
         Migrations migrations = new Migrations(db.getVersion());
         Reader reader;
 
@@ -113,6 +118,15 @@ public class Migrations {
             if (infoLoggingEnabled()) {
                 i("setting version of DB to: " + v);
             }
+        }
+        foreignKeySupport(db, true);
+    }
+
+    private static void foreignKeySupport(SQLiteDatabase db, boolean support) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            db.setForeignKeyConstraintsEnabled(false);
+        } else {
+            db.execSQL("PRAGMA foreign_keys=OFF");
         }
     }
 
