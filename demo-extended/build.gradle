@@ -14,7 +14,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        minSdkVersion 8
+        minSdkVersion 9
     }
 }
 
@@ -25,4 +25,5 @@ repositories {
 dependencies {
     compile project(':core')
     compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.facebook.stetho:stetho:1.5.0'
 }

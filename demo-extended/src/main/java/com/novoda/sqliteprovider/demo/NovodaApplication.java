@@ -2,6 +2,7 @@ package com.novoda.sqliteprovider.demo;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseReader;
 import com.novoda.sqliteprovider.demo.persistance.DatabaseWriter;
 import com.novoda.sqliteprovider.demo.persistance.FireworkReader;
@@ -13,6 +14,12 @@ public class NovodaApplication extends Application {
     private DatabaseWriter databaseWriter;
     private FireworkReader fireworkReader;
     private FireworkWriter fireworkWriter;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Stetho.initializeWithDefaults(this);
+    }
 
     private DatabaseReader getDatabaseReader() {
         if (databaseReader == null) {
