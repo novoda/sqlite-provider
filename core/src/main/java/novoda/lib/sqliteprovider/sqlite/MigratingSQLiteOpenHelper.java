@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 
 import java.io.IOException;
 
@@ -36,6 +37,16 @@ public class MigratingSQLiteOpenHelper extends SQLiteOpenHelper {
             Migrations.migrate(db, context.getAssets(), MIGRATIONS_PATH);
         } catch (IOException e) {
             Log.Migration.e(e);
+        }
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            db.setForeignKeyConstraintsEnabled(true);
+        } else {
+            db.execSQL("PRAGMA foreign_keys=ON");
         }
     }
 
